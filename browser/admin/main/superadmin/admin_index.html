@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>企业信息</title>
+		<link rel="stylesheet" href="../../css/layui.css">
+		<link rel="stylesheet" href="../../css/style.css">
+		<script type="text/javascript" charset="UTF-8" src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../layui.js" charset="utf-8"></script>
+	</head>
+
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item page-title" id="page-title" style="font-size: 20px;">企业管理</li>
+					<span class="layui-nav-bar" style="left: 20px; top: 55px; width: 188px; opacity: 1;"></span>
+				</ul>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<span id="enterprise_name">Super Admin</span>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="../login.html">安全退出</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="layui-body" style="left: 20px; margin: 25px; background-color: #FFFFFF;">
+				<!-- 内容主体区域 -->
+				<div class="layui-row">
+					<div class="layui-col-md2">&nbsp;</div>
+					<div class="layui-col-md4">
+						<h2>企业信息表</h2> </div>
+					<div class="layui-col-md4" align="right">
+						<h4><a href="" style="color: #007DDB;">+添加企业</a></h4></div>
+					<div class="layui-col-md2">&nbsp;</div>
+				</div>
+
+				<div class="layui-row">
+					<div class="layui-col-md2">&nbsp;</div>
+					<div class="layui-col-md8">
+						<table class="layui-hide" id="test" lay-filter="demo"></table>
+					</div>
+					<div class="layui-col-md2">&nbsp;</div>
+				</div>
+
+			</div>
+
+			<div class="layui-footer" style="left: 0px;">
+				<!-- 底部固定区域 -->
+				<div id="footer"></div>
+				<script>
+					$('#footer').load('../footer.html');
+				</script>
+			</div>
+		</div>
+
+		<script>
+			//JavaScript代码区域
+			layui.use('element', function() {
+				var element = layui.element;
+
+			});
+		</script>
+
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+
+				table.render({
+					elem: '#test',
+					url: '../../json/admin.json',
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+							field: 'id',
+							align: 'center',
+							title: 'ID',
+							sort: true
+						}, {
+							field: 'admin',
+							align: 'center',
+							title: '企业账号',
+							sort: true
+						}, {
+							field: 'enterprise',
+							align: 'center',
+							title: '企业名称'
+						}, {
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			});
+		</script>
+
+		<script id="barDemo" type="text/html">
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+				//监听表格复选框选择
+				table.on('checkbox(demo)', function(obj) {
+					console.log(obj)
+				});
+				//监听工具条
+				table.on('tool(demo)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'detail') {
+						//layer.msg('ID：'+ data.id + ' 的查看操作');//在这里跳入查看界面
+						window.location.href = 'branch_view.html';
+					} else if(obj.event === 'del') {
+						layer.confirm('真的删除行么', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if(obj.event === 'edit') {
+						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+					}
+				});
+
+				var $ = layui.$,
+					active = {
+						getCheckData: function() { //获取选中数据
+							var checkStatus = table.checkStatus('idTest'),
+								data = checkStatus.data;
+							layer.alert(JSON.stringify(data));
+						},
+						getCheckLength: function() { //获取选中数目
+							var checkStatus = table.checkStatus('idTest'),
+								data = checkStatus.data;
+							layer.msg('选中了：' + data.length + ' 个');
+						},
+						isAll: function() { //验证是否全选
+							var checkStatus = table.checkStatus('idTest');
+							layer.msg(checkStatus.isAll ? '全选' : '未全选')
+						}
+					};
+
+				$('.demoTable .layui-btn').on('click', function() {
+					var type = $(this).data('type');
+					active[type] ? active[type].call(this) : '';
+				});
+			});
+		</script>
+
+	</body>
+
+</html>
