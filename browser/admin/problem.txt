@@ -1,0 +1,35 @@
+1. 整个网站风格
+2. 分页的风格			Z
+3. 所有的table			Z
+4. 上传图片的时候			
+	--老师照片  对图片的处理  让用户去选择裁剪的范围		Z
+	--其他照片  设置样式	---L
+	--朋友圈照片  裁剪		---Z
+/superadmin/admin_index.html			Z
+	表格往中间
+
+首页  统计数据信息的页面					Z
+
+enterprise/enterprise_basic_info.html	L		DONE
+	喧宾夺主
+	
+80% 有点不好								L
+
+friend/friend_new_message.html			L
+	图片上传都设置拖拽上传样式
+	
+输入的风格统一							L
+图片预览 风格统一						L			
+
+图片大小风格统一  明确要求					L
+
+朋友圈放在评论管理一页上					L			DONE
+
+单页应用的整合							L
+
+单页应用整合思路
+1. 页面由三部分组成
+--头部
+
+--侧边
+--内容区域

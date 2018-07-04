@@ -1,0 +1,78 @@
+<style type="text/css">
+	body,
+	html {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		font-family: "微软雅黑";
+	}
+	
+	#allmap {
+		height: 500px;
+		width: 100%;
+	}
+	
+	#r-result {
+		width: 100%;
+		font-size: 14px;
+	}
+</style>
+<div class="body-in" style="padding: 10px; background-color: #F2F2F2;" id="top">
+	<div class="layui-card-body">
+		<form class="layui-form" name="branch-info" lay-filter="branch-info" action="" method="post">
+			<p class="form-label_sm">分部名称</p>
+			<input type="text" id="enter-name" name="branch-name" lay-verify="title required" autocomplete="off" placeholder="请输入分部名称" class="layui-input" />
+			<p class="form-label_sm">企业地址</p>
+			<!--
+                            	作者：820602086@qq.com
+                            	时间：2018-06-28
+                            	描述：TODO 地图添加位置信息
+                            -->
+			<div id="allmap"></div>
+			<p class="form-label_sm">分部联系电话</p>
+			<input type="text" id="enter-des" name="branch-tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
+			<p class="form-label_sm"></p>
+			<button class="layui-btn layui-btn-primary">提交</button>
+		</form>
+	</div>
+</div>
+
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+	$(function() {
+		layui.use('form', function() {
+			var form = layui.form;
+			form.val('branch-info', {
+				'branch-name': "实训中心",
+				'branch-tel': "13376273888"
+			});
+		});
+	});
+</script>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	// 用经纬度设置地图中心点
+	//经纬度应当从数据库中读出
+	map.centerAndZoom(new BMap.Point(123.445992, 41.711578), 12);
+	map.enableScrollWheelZoom(true);
+	var marker = new BMap.Marker(new BMap.Point(123.445992, 41.711578)); // 创建点
+	map.addOverlay(marker); //增加点
+
+	function add_point(e) {
+		var point = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat)); // 创建点
+		map.addOverlay(point); //增加点
+	}
+
+	function remove_point() {
+		map.clearOverlays(); //清除覆盖物         
+	};
+	map.addEventListener("click", remove_point);
+	map.addEventListener("click", add_point);
+</script>

@@ -1,0 +1,102 @@
+<div class="body-in" style="padding: 10px" id="top">
+	<div class="layui-card-body">
+		<form class="layui-form" name="enter-basic-info" lay-filter="enter-basic-info" action="" method="post">
+			<p class="form-label_sm">企业名称</p>
+			<input type="text" id="enter-name" name="enter-name" lay-verify="title required" autocomplete="off" placeholder="请输入企业名称" class="layui-input" />
+			<p class="form-label_sm">企业图片</p>
+			<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+				现有的轮播图：
+				<div id="current_pics"></div>
+			</blockquote>
+			<script>
+				$(function() {
+					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
+					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
+					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
+				});
+			</script>
+			<div class="layui-upload">
+				<div class="layui-upload-drag" id="uploadpic">
+					<i class="layui-icon">&#xe681;</i>
+					<p>点击上传，或将图片拖拽到此处</p>
+				</div>
+				<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+					预览图：
+					<div id="pics"></div>
+					<p id="demoText"></p>
+				</blockquote>
+			</div>
+			<p class="form-label_sm">企业简介</p>
+			<input type="text" id="enter-des" name="enter-des" lay-verify="required" autocomplete="off" placeholder="请输入企业简介" class="layui-input" />
+			<p class="form-label_sm">企业视频</p>
+			<div class="layui-upload">
+				<button type="button" class="layui-btn layui-upload-button" id="upload-video">上传视频</button>
+			</div>
+			<p class="form-label_sm">企业精彩展示</p>
+			<script type="text/plain" id="myEditor" style="height:240px;"></script>
+			<p class="form-label_sm"></p>
+			<button type="submit" class="layui-btn">确定</button>
+			<script type="text/javascript">
+				$(function() {
+					//实例化编辑器
+					var um_free = UM.getEditor('myEditor');
+					um_free.setWidth("100%");
+					$(".edui-body-container").css("width", "98%");
+					$(".edui-body-container").css("z-index", "1");
+				});
+			</script>
+		</form>
+	</div>
+</div>
+
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+	$(function() {
+		layui.use('form', function() {
+			var form = layui.form;
+			form.val('enter-basic-info', {
+				'enter-name': "东软睿道",
+				'enter-des': "最好的教育企业"
+			});
+			var um = UM.getEditor('myEditor');
+			um.setContent('<h3 align="center">我们的企业是最好的企业</h3><img height="100px" src="../../img/sherry3.jpg"><img height="100px" src="../../img/sherry2.jpg"><br>hahah ');
+		});
+	});
+
+	layui.use('upload', function() {
+		var upload = layui.upload;
+		upload.render({
+			elem: '#uploadpic',
+			url: '/upload/',
+			multiple: true,
+			acceptMime: 'image/*',
+			number: 3,
+			size: 1000 //限制文件大小，单位 KB
+				,
+			before: function(obj) {
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result) {
+					$('#pics').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 120px; width: 200px">')
+				});
+			},
+			done: function(res) {
+				//上传完毕
+			}
+		});
+		upload.render({
+			elem: '#upload-video',
+			url: '/upload/',
+			accept: 'video',
+			//					acceptMime: 'video', //video/* not include mp4
+			size: 100000 //限制文件大小，单位 KB
+				,
+			done: function(res) {
+
+			}
+		});
+	});
+</script>

@@ -1,0 +1,110 @@
+<div class="body-in" id="top">
+	<div class="layui-container">
+		<div class="layui-row">
+			<div class="layui-col-md9" align="right">
+				<h4><a href="#16" style="color: #0066CC;">+添加分部</a></h4></div>
+		</div>
+	</div>
+	<div class="body-in" style="width: 100%;">
+		<table class="layui-hide" id="test" lay-filter="demo"></table>
+	</div>
+</div>
+
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+</script>
+<script>
+	layui.use('table', function() {
+		var table = layui.table;
+
+				table.render({
+					elem: '#test',
+					url: '../../json/branch.json',
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+							field: 'branchname',
+							width: '24%',
+							align: 'center',
+							title: '分部名字'
+						}, {
+							field: 'branchaddr',
+							width: '25%',
+							align: 'center',
+							title: '分部地址'
+						}, {
+							field: 'branchtel',
+							width: '25%',
+							align: 'center',
+							title: '分部电话'
+						}, {
+							width: '26%',
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			});
+		</script>
+
+<script id="barDemo" type="text/html">
+	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+	layui.use('table', function() {
+		var table = layui.table;
+		//监听表格复选框选择
+		table.on('checkbox(demo)', function(obj) {
+			console.log(obj)
+		});
+		//监听工具条
+		table.on('tool(demo)', function(obj) {
+			var data = obj.data;
+			if(obj.event === 'detail') {
+				//layer.msg('ID：'+ data.id + ' 的查看操作');//在这里跳入查看界面
+				window.location.href = '#14';
+			} else if(obj.event === 'del') {
+				layer.confirm('真的删除行么', function(index) {
+					obj.del();
+					layer.close(index);
+				});
+			} else if(obj.event === 'edit') {
+				//						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+				window.location.href = '#15';
+			}
+		});
+
+		var $ = layui.$,
+			active = {
+				getCheckData: function() { //获取选中数据
+					var checkStatus = table.checkStatus('idTest'),
+						data = checkStatus.data;
+					layer.alert(JSON.stringify(data));
+				},
+				getCheckLength: function() { //获取选中数目
+					var checkStatus = table.checkStatus('idTest'),
+						data = checkStatus.data;
+					layer.msg('选中了：' + data.length + ' 个');
+				},
+				isAll: function() { //验证是否全选
+					var checkStatus = table.checkStatus('idTest');
+					layer.msg(checkStatus.isAll ? '全选' : '未全选')
+				}
+			};
+
+		$('.demoTable .layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+	});
+</script>

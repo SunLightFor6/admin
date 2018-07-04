@@ -1,0 +1,54 @@
+<div class="body-in" id="top">
+	<div class="layui-card-body">
+		<form class="layui-form" name="message_form" action="" method="post">
+			<p class="form-label">朋友圈个性签名</p>
+			<input type="text" name="title" lay-verify="title required" autocomplete="off" placeholder="请输入个性签名" class="layui-input">
+			<p class="form-label">朋友圈首页图片</p>
+			<div class="layui-upload">
+				<button type="button" class="layui-btn layui-btn-primary" id="uploadpic">选择图片</button>
+				<div class="layui-upload-list">
+					<img class="layui-upload-img" style="height: 180px; width: 250px;" id="pic">
+					<p id="demoText"></p>
+				</div>
+			</div>
+			<button type="submit" class="layui-btn">发表</button>
+		</form>
+	</div>
+</div>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+
+	layui.use('upload', function() {
+		var $ = layui.jquery,
+			upload = layui.upload;
+		var uploadInst = upload.render({
+			elem: '#uploadpic',
+			url: '/upload/',
+			before: function(obj) {
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result) {
+					$('#pic').attr('src', result); //图片链接（base64）
+				});
+			},
+			done: function(res) {
+				//如果上传失败
+				if(res.code > 0) {
+					return layer.msg('上传失败');
+				}
+				//上传成功
+			},
+			error: function() {
+				//演示失败状态，并实现重传
+				var demoText = $('#demoText');
+				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-danger layui-btn-mini demo-reload">重试</a>');
+				demoText.find('.demo-reload').on('click', function() {
+					uploadInst.upload();
+				});
+			}
+		});
+	});
+</script>

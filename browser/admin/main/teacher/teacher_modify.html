@@ -1,0 +1,82 @@
+<div class="body-in" id="top">
+	<div class="layui-card-body">
+		<form class="layui-form" name="teacher_form" lay-filter="teacher_form" action="" method="post">
+			<p class="form-label">讲师姓名</p>
+			<input type="text" name="name" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+			<p class="form-label">讲师图片</p>
+			<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+				目前的讲师图片
+				<div id="current_pic"></div>
+			</blockquote>
+			<script>
+				$(function() {
+					$('#current_pic').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
+				});
+			</script>
+			<div class="layui-upload">
+				<div class="layui-upload-drag" id="uploadpic">
+					<i class="layui-icon">&#xe681;</i>
+					<p>点击上传，或将图片拖拽到此处</p>
+				</div>
+				<div class="layui-upload-list" id="pic-div" style="display: none;">
+					<img class="layui-upload-img" style="height: 250px; width: 150px;" id="pic">
+					<p id="demoText"></p>
+				</div>
+			</div>
+			<p class="form-label">讲师简介</p>
+			<textarea name="des" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
+			<div style="margin: 10px;">
+				<button type="submit" class="layui-btn">提交讲师信息</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+	});
+	layui.use('form', function() {
+		var form = layui.form;
+		form.val('teacher_form', {
+			'name': "Teacher",
+			'des': "我是老师我是老师我是最好的老师我是老师我是老师我是最好的老师我是老师我是老师我是最好的老师"
+		});
+	});
+</script>
+<script>
+	layui.use('upload', function() {
+		var $ = layui.jquery,
+			upload = layui.upload;
+
+		upload.render({
+			elem: '#uploadpic',
+			url: '/upload/',
+			acceptMime: 'image/*',
+			size: 1000 //限制文件大小，单位 KB
+				,
+			before: function(obj) {
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result) {
+					$('#pic-div').show();
+					$('#pic').attr('src', result); //图片链接（base64）
+				});
+			},
+			done: function(res) {
+				//如果上传失败
+				if(res.code > 0) {
+					return layer.msg('上传失败');
+				}
+				//上传成功
+			},
+			error: function() {
+				//演示失败状态，并实现重传
+				var demoText = $('#demoText');
+				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-danger layui-btn-mini demo-reload">重试</a>');
+				demoText.find('.demo-reload').on('click', function() {
+					uploadInst.upload();
+				});
+			},
+		});
+	});
+</script>
