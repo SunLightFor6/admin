@@ -20,7 +20,7 @@
 			<h4><a href="#22" class="lz-font-color-blue">+添加课程</a></h4></div>
 	</div>
 	<div class="body-in" style="width: 95%;">
-		<table class="layui-hide" id="test" lay-filter="demo"></table>
+		<table class="layui-hide" id="test" lay-filter="demo" lay-data="{id: 'imgs_col'}"></table>
 	</div>
 </div>
 
@@ -35,73 +35,62 @@
 	layui.use('table', function() {
 		var table = layui.table;
 
-				table.render({
-					elem: '#test',
-					url: '../../json/course.json',
-					dataType: 'jsonp',
-					skin: 'nob',
-					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,
-					cols: [
-						[{
-							field: 'courseid',
-							width: '11%',
-							title: '课程编号',
-							sort: true
-						}, {
-							field: 'coursename',
-							width: '21%',
-							title: '课程名称'
-						}, {
-							width: '16%',
-							field: 'courseimg',
-							title: '课程图片',
-							templet: '#imgTpl'
-						}, {
-							field: 'courseprice',
-							width: '11%',
-							title: '课程价钱',
-							sort: true
-						}, {
-							field: 'coursecategory',
-							width: '11%',
-							title: '课程类别',
-							sort: true
-						}, {
-							field: 'branch',
-							width: '11%',
-							title: '所在分部'
-						}, {
-							width: '19%',
-							align: 'center',
-							toolbar: '#barDemo'
-						}]
-					],
-					page: true
-				});
-			});
-
-	//			layui.use('layer', function(){
-	// 				 var layer = layui.layer;
-	//				 layer.photos({
-	//				  photos: '#test'
-	//				  ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-	//				}); 
-	//			}); 
-	$(function() {
-		//				$("img").click(function(){
-		//					var _this = $(this);//将当前的pimg元素作为_this传入函数
-		//					imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
-		//				});
-		layui.use('layer', function() {
-			var layer = layui.layer;
-			// 	layer.msg("hhh");
-			layer.photos({
-				photos: '#test',
-				anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-			});
+		table.render({
+			elem: '#test',
+			url: '../../json/course.json',
+			dataType: 'jsonp',
+			skin: 'nob',
+			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,
+			id: 'table-content',
+			cols: [
+				[{
+					field: 'courseid',
+					width: '11%',
+					title: '课程编号',
+					sort: true
+				}, {
+					field: 'coursename',
+					width: '21%',
+					title: '课程名称'
+				}, {
+					width: '16%',
+					field: 'courseimg',
+					title: '课程图片',
+					templet: '#imgTpl'
+				}, {
+					field: 'courseprice',
+					width: '11%',
+					title: '课程价钱',
+					sort: true
+				}, {
+					field: 'coursecategory',
+					width: '11%',
+					title: '课程类别',
+					sort: true
+				}, {
+					field: 'branch',
+					width: '11%',
+					title: '所在分部'
+				}, {
+					width: '19%',
+					align: 'center',
+					toolbar: '#barDemo'
+				}]
+			],
+			page: true
+//			success: function() {
+//				layui.use('layer', function() {
+//					var layer = layui.layer;
+//					layer.photos({
+//						photos: '#imgs',
+//						anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+//					});
+//				});
+//			}
 		});
 	});
+
 </script>
 
 <script id="barDemo" type="text/html">
@@ -110,7 +99,7 @@
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script id="imgTpl" type="text/html">
-	<div><img src="{{ d.courseimg }}"></div>
+	<div id="img_course"><img src="{{ d.courseimg }}"></div>
 </script>
 <script>
 	layui.use('table', function() {
@@ -138,15 +127,14 @@
 			} else if(obj.event === 'edit') {
 				//						layer.msg('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
 				if(data.courseprice == "-") {
-					window.location.href = "#23.html";
+					window.location.href = "#23";
 				} else {
 					window.location.href = "#24";
 				}
 			}
 		});
 
-		var $ = layui.$,
-			active = {
+		var active = {
 				getCheckData: function() { //获取选中数据
 					var checkStatus = table.checkStatus('idTest'),
 						data = checkStatus.data;
@@ -166,6 +154,21 @@
 		$('.demoTable .layui-btn').on('click', function() {
 			var type = $(this).data('type');
 			active[type] ? active[type].call(this) : '';
+		});
+	});
+	$(function() {
+		//				$("img").click(function(){
+		//					var _this = $(this);//将当前的pimg元素作为_this传入函数
+		//					imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+		//				});
+		layui.use('layer', function() {
+			var layer = layui.layer;
+//			// 	layer.msg("hhh");
+			layer.photos({
+				photos: '#img_course',
+				anim: 2 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+			});
+//
 		});
 	});
 </script>
