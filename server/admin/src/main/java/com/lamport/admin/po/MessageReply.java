@@ -5,16 +5,24 @@ package com.lamport.admin.po;
  */
 public class MessageReply {
 	private int mid;//朋友圈外键
+	private int uid;//用户表外键
 	private int id;			//朋友圈评论主键
 	private String content;	//评论内容
-	private String nickname;//评论者昵称		？仅存昵称是否合适
-	private String stime;		//评论时间
+	private String stime;	//评论时间
+	
+	private User user;//用户
 	
 	public int getMid() {
 		return mid;
 	}
 	public void setMid(int mid) {
 		this.mid = mid;
+	}
+	public int getUid() {
+		return uid;
+	}
+	public void setUid(int uid) {
+		this.uid = uid;
 	}
 	public int getId() {
 		return id;
@@ -27,12 +35,6 @@ public class MessageReply {
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 	public String getStime() {
 		return stime;
