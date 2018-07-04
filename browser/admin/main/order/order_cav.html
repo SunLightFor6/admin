@@ -1,0 +1,163 @@
+<div class="body-in" style="margin-left: 30px; width: 95%;" id="top">
+	<form class="layui-form" action="">
+		<div class="layui-form-item" style="margin-bottom: 0px;">
+			<div class="layui-inline">
+				<label class="layui-lz-form-label">关键字：</label>
+				<div class="layui-lz-input-inline">
+					<input name="keyword" class="layui-input" type="text" autocomplete="off" placeholder="请输入订单编号">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-lz-form-label">下单时间：</label>
+				<div class="layui-lz-input-inline">
+					<input name="startdate" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
+				</div>
+				<div class="layui-form-mid">-</div>
+				<div class="layui-lz-input-inline">
+					<input name="enddate" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<button class="layui-btn" lay-filter="query" lay-submit="">查询</button>
+			</div>
+		</div>
+	</form>
+	<table class="layui-hide" id="test" lay-filter="demo" style="word-wrap:break-word; word-break:break-all;"></table>
+</div>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+			});
+		</script>
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+		
+				table.render({
+					elem: '#test',
+					url: '../../json/cav.json',
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+							field: 'orderid',
+							width: '9%',
+							title: '订单id',
+							sort: true
+						}, {
+							field: 'courseid',
+							width: '9%',
+							title: '课程id',
+							sort: true
+						}, {
+							field: 'usernickname',
+							width: '9%',
+							title: '用户昵称'
+						}, {
+							field: 'usertel',
+							width: '14%',
+							title: '用户电话'
+						}, {
+							field: 'total',
+							width: '10%',
+							title: '订单金额'
+						}, {
+							field: 'actual',
+							width: '10%',
+							title: '实付金额'
+						}, {
+							field: 'orderstatus',
+							width: '10%',
+							title: '预约状态'
+						}, {
+							field: 'ordertime',
+							width: '16%',
+							title: '下单时间'
+						}, {
+							width: '13%',
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			});
+		</script>
+		
+		<script id="barDemo" type="text/html">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">订单核销</a>
+		</script>
+		<script id="imgTpl" type="text/html">
+			<div><img src="{{ d.teacherimg }}"></div>
+		</script>
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+				//监听表格复选框选择
+				table.on('checkbox(demo)', function(obj) {
+					console.log(obj)
+				});
+				//监听工具条
+				table.on('tool(demo)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'detail') {
+						layer.msg('ID：' + data.id + ' 的查看操作'); //在这里跳入查看界面
+					} else if(obj.event === 'del') {
+						layer.confirm('真的删除行么', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if(obj.event === 'edit') {
+						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+					}
+				});
+		
+				var $ = layui.$,
+					active = {
+						getCheckData: function() { //获取选中数据
+							var checkStatus = table.checkStatus('idTest'),
+								data = checkStatus.data;
+							layer.alert(JSON.stringify(data));
+						},
+						getCheckLength: function() { //获取选中数目
+							var checkStatus = table.checkStatus('idTest'),
+								data = checkStatus.data;
+							layer.msg('选中了：' + data.length + ' 个');
+						},
+						isAll: function() { //验证是否全选
+							var checkStatus = table.checkStatus('idTest');
+							layer.msg(checkStatus.isAll ? '全选' : '未全选')
+						}
+					};
+		
+				$('.demoTable .layui-btn').on('click', function() {
+					var type = $(this).data('type');
+					active[type] ? active[type].call(this) : '';
+				});
+			});
+			layui.use(['form', 'layedit', 'laydate'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+					laydate = layui.laydate;
+
+		//日期
+		laydate.render({
+			elem: '#startdate'
+		});
+		laydate.render({
+			elem: '#enddate'
+		});
+
+		//监听提交
+		form.on('submit(query)', function(data) {
+			layer.alert(JSON.stringify(data.field), {
+				title: '最终的提交信息'
+			})
+			return false;
+		});
+	});
+</script>
