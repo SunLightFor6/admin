@@ -170,14 +170,15 @@
 	function afterload() {
 //		console.log("loading ... count = " + count);
 //		for(var i = 0; i < count; i++) {
-			var id_img = '#' + count + '_img';
+			var id_img = count + '_img';
 			console.log("loading ... i = " + count + " " + id_img);
 			layui.use('layer', function() {
 				var layer = layui.layer;
 				layer.photos({
-					photos: id_img,
+					photos: '#' + id_img,
 					anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 				});
+				console.log("layer.photos(): " + id_img);
 			});
 //		}
 	};
