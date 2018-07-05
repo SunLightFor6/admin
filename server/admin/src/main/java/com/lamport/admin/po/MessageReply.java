@@ -42,4 +42,10 @@ public class MessageReply {
 	public void setStime(String stime) {
 		this.stime = stime;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

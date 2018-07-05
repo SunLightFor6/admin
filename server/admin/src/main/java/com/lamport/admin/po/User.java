@@ -6,6 +6,7 @@ import java.util.List;
  * 用户类
  */
 public class User {
+	private int qid;//企业表外键
 	private int uid;			//用户主键
 	private String tel;			//用户手机号，登陆用
 	private String nickname;	//用户昵称
@@ -15,6 +16,12 @@ public class User {
 	List<Sorder> sorders;//用户订单
 	List<FreeListenBook> freeListenBooks;//用户预约
 	
+	public int getQid() {
+		return qid;
+	}
+	public void setQid(int qid) {
+		this.qid = qid;
+	}
 	public int getUid() {
 		return uid;
 	}

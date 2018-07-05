@@ -18,7 +18,7 @@ public interface EnterpriseService {
 	 */
 	public int saveEnterprise(Enterprise enterprise) throws Exception;
 	/**
-	 * 通过企业id删除企业
+	 * 通过qid删除企业
 	 * @return 1 保存成功 0 保存失败 
 	 * @throws Exception
 	 */
@@ -29,4 +29,23 @@ public interface EnterpriseService {
 	 * @throws Exception
 	 */
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception;
+	/**
+	 * 通过qid查询企业信息
+	 * @return Enterprise
+	 * @throws Exception
+	 */
+	public Enterprise selectEnterpriseByQID(int qid) throws Exception;
+	/**
+	 * 通过qid更新企业信息
+	 * @return 1 更新成功 0 更新失败
+	 * @throws Exception
+	 */
+	public int updateEnterpriseByQID(Enterprise enterprise) throws Exception;
+	/**
+	 * 通过qid查询企业视频存放路径
+	 * @param qid
+	 * @return String
+	 * @throws Exception
+	 */
+	public String selectEnterpriseVideoByQID(String qid) throws Exception;
 }

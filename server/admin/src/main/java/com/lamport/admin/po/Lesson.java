@@ -17,6 +17,7 @@ public class Lesson {
 	private String pubtime;	//课程发布时间
 	
 	private List<Address> branches;//分部
+	private List<Swiper> swipers;//轮播图
 
 	public int getQid() {
 		return qid;
@@ -77,5 +78,11 @@ public class Lesson {
 	}
 	public void setBranches(List<Address> branches) {
 		this.branches = branches;
+	}
+	public List<Swiper> getSwipers() {
+		return swipers;
+	}
+	public void setSwipers(List<Swiper> swipers) {
+		this.swipers = swipers;
 	}
 }

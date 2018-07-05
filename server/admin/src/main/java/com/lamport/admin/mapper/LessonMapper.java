@@ -7,9 +7,9 @@ package com.lamport.admin.mapper;
  */
 public interface LessonMapper {
 	/**
-	 * 查询Lesson的总数
+	 * 根据qid查询Lesson的总数
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectCountLesson() throws Exception;
+	public int selectCountLessonByQID() throws Exception;
 }

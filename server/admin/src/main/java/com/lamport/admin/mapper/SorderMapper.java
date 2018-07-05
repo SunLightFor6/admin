@@ -7,15 +7,15 @@ package com.lamport.admin.mapper;
  */
 public interface SorderMapper {
 	/**
-	 * 查询Sorder的总数
+	 * 根据qid查询Sorder的总数
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectCountSorder() throws Exception;
+	public int selectCountSorderByQID() throws Exception;
 	/**
-	 * 查询Sorder的订单总额
+	 * 根据qid查询Sorder的订单总额
 	 * @return double
 	 * @throws Exception
 	 */
-	public double selectCountSorderActual() throws Exception;
+	public double selectCountSorderActualByQID() throws Exception;
 }

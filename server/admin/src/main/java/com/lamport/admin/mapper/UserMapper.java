@@ -7,9 +7,9 @@ package com.lamport.admin.mapper;
  */
 public interface UserMapper {
 	/**
-	 * 查询User的总数
+	 * 根据qid查询User的总数
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectCountUser() throws Exception;
+	public int selectCountUserByQID() throws Exception;
 }

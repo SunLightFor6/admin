@@ -1,5 +1,7 @@
 package com.lamport.admin.po;
 
+import java.util.List;
+
 /*
  * 企业教师类
  */
@@ -9,6 +11,8 @@ public class Teacher {
 	private String tname;		//教师姓名
 	private String tphone;		//教师联系电话
 	private String introduction;//教师简介
+	
+	private List<Swiper> swipers;//轮播图
 	
 	public int getQid() {
 		return qid;
@@ -39,5 +43,11 @@ public class Teacher {
 	}
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
+	}
+	public List<Swiper> getSwipers() {
+		return swipers;
+	}
+	public void setSwipers(List<Swiper> swipers) {
+		this.swipers = swipers;
 	}
 }

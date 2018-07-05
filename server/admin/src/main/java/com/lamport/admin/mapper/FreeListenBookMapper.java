@@ -7,9 +7,9 @@ package com.lamport.admin.mapper;
  */
 public interface FreeListenBookMapper {
 	/**
-	 * 查询FreeListenBook的总数
+	 * 根据qid查询FreeListenBook的总数
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectCountFreeListenBook() throws Exception;
+	public int selectCountFreeListenBookByQID() throws Exception;
 }

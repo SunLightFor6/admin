@@ -16,7 +16,7 @@ public class Enterprise {
 	private List<Address> branches;//分部
 	private List<Teacher> teachers;//教师
 	private List<Message> messages;//朋友圈
-	private List<Swiper> swipers;//轮播图	?是否需要按类别分开
+	private List<Swiper> swipers;//轮播图
 	
 	public int getQid() {
 		return qid;

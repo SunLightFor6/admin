@@ -7,9 +7,9 @@ package com.lamport.admin.service;
  */
 public interface TeacherService {
 	/**
-	 * 查询Teacher的总数
+	 * 根据qid查询Teacher的总数
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectCountTeacher() throws Exception;
+	public int selectCountTeacherByQID() throws Exception;
 }
