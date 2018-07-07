@@ -67,8 +67,8 @@
 				var innerHtml = "";
 				//						console.log(data);	
 				for(var d in data) {
-					console.log("--------------------------");
-					console.log(data[d]);
+//					console.log("--------------------------");
+//					console.log(data[d]);
 					var imgs_content = '<div id="friendpics' + d + '">';
 					var imgurls = data[d].imgurls;
 					var img_class = 'messagelist-imgs' + imgurls.length;
@@ -79,10 +79,10 @@
 						//								imgs_content += '<div style="background-image: url(' + imgurls[i] + ');"></div>';
 						if((i + 1) % num == 0) {
 							imgs_content += '<br>';
-							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
+//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
 
 						} else {
-							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
+//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
 						}
 					};
 					imgs_content += '</div>';
@@ -126,15 +126,18 @@
 		return false;
 	});
 	layui.use('layer', function() {
+		console.log(" * * * * * *  layui.use('layer') * * *");
 			var layer = layui.layer;
 			// 				layer.msg("hhh");
 			$(function() {
 				for(var i=0; i<=n; i++) {
 					var id_ = '#friendpics' + i;
+					console.log("photos 方法启动 & id = " + id_);
 					layer.photos({
 						photos: id_,
 						anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 					});
+					console.log("photos 方法执行完毕 & id = " + id_);
 				}
 			});
 		});

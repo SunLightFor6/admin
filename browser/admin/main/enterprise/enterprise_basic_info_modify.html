@@ -33,10 +33,15 @@
 				<button type="button" class="layui-btn layui-upload-button" id="upload-video">上传视频</button>
 			</div>
 			<p class="form-label_sm">企业精彩展示</p>
-			<script type="text/plain" id="myEditor" style="height:240px;"></script>
+			<script type="text/plain" id="myEditor" style="height:240px;">
+				var um_free = UM.getEditor('myEditor');
+					um_free.setWidth("100%");
+					$(".edui-body-container").css("width", "98%");
+					$(".edui-body-container").css("z-index", "1");
+			</script>
 			<p class="form-label_sm"></p>
 			<button type="submit" class="layui-btn">确定</button>
-			<script type="text/javascript">
+			<!--<script type="text/javascript">
 				$(function() {
 					//实例化编辑器
 					var um_free = UM.getEditor('myEditor');
@@ -44,7 +49,11 @@
 					$(".edui-body-container").css("width", "98%");
 					$(".edui-body-container").css("z-index", "1");
 				});
-			</script>
+				var um_free = UM.getEditor('myEditor');
+				um_free.setWidth("100%");
+				$(".edui-body-container").css("width", "98%");
+				$(".edui-body-container").css("z-index", "1");
+			</script>-->
 		</form>
 	</div>
 </div>
@@ -62,6 +71,12 @@
 				'enter-name': "东软睿道",
 				'enter-des': "最好的教育企业"
 			});
+			var um_free = UM.getEditor('myEditor');
+			console.log("--------UM 初始化 -------- ： ");
+			console.log(um_free);
+			um_free.setWidth("100%");
+			$(".edui-body-container").css("width", "98%");
+			$(".edui-body-container").css("z-index", "1");
 			var um = UM.getEditor('myEditor');
 			um.setContent('<h3 align="center">我们的企业是最好的企业</h3><img height="100px" src="../../img/sherry3.jpg"><img height="100px" src="../../img/sherry2.jpg"><br>hahah ');
 		});

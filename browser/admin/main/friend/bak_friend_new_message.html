@@ -34,21 +34,50 @@
 				,
 			number: 9,
 			before: function(obj) {
-				var fileLength = obj.fileLength_();		//获取本次上传的图片数量
-				pics_num_amount = pics_num_load + fileLength;	//目前一共加载了的图片的数量
+				var fileLength = obj.fileLength_();
+				pics_num_amount = pics_num_load + fileLength;
 				console.log("pics_num_amount = " + pics_num_amount + "， fileLength = " + fileLength);
-				$('#blockquote_pics').show();			//显示这div
+//				pics_num = obj.fileLength_() + $('#pics').length;
+//				console.log("pics_num = pics_num_load + pics_num_loaded; " + pics_num + " " + obj.fileLength_() + " " + $('#pics').length);
+				$('#blockquote_pics').show();
+				//				pics_num = obj.file.config.elem.length;
+				//				pics_num = obj.file.elemFile.length;
 				
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
 					$('#pics').append('<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
-					pics_cur ++;						//加载中  实时更新的已经加载了的图片总数
+					pics_cur ++;
 					console.log("pics_num_amount = " + pics_num_amount + " pics_cur = " + pics_cur);
 					if(pics_cur == pics_num_amount) {		//都加载完毕了
-						layerphotos_dynamic('pics');					//调用layer.photos() 此时调用能保证div中的图片加载完全了
+						layerphotos();
 					}
+					//					pics_num++;
+					//					$('#img_o_' + index).click(function() {
+					//						layerphotos();
+					//					});
+
+					//					layerphotos();
+
+					//					console.log("element.render(null, 'pics');");
+					//					element.render(null, 'pics');
+					//					console.log("element.render(null, 'pics');");
 				});
 				pics_num_load += fileLength;
+
+				//				element.render(null, 'pics');
+				//upload.render();
+				//				console.log("element.render(null, 'pics');");
+				//				layerphotos();
+				//				element.render(null, 'pics');
+				//				console.log("element.render(null, 'pics');");
+				//				layer.photos({
+				//					photos: '#pics',
+				//					anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+				//						,
+				//					tab: function(pic, layero) {
+				//						console.log("choosed.." + layero);
+				//					}
+				//				});
 			},
 			error: function(index) {
 				//				pics_cur++;

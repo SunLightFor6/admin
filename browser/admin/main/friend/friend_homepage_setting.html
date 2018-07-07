@@ -6,23 +6,26 @@
 			<p class="form-label">朋友圈首页图片</p>
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-btn-primary" id="uploadpic">选择图片</button>
-				<div class="layui-upload-list">
+				<div class="layui-upload-list" id="pic_open" style="display: none;" lay-filter="pic_open">
 					<img class="layui-upload-img" style="height: 180px; width: 250px;" id="pic">
 					<p id="demoText"></p>
 				</div>
 			</div>
+			<p class="form-label"></p>
 			<button type="submit" class="layui-btn">发表</button>
 		</form>
 	</div>
 </div>
 <script>
 	//JavaScript代码区域
-	layui.use('element', function() {
+	//	layui.use('element', function() {
+	//		var element = layui.element;
+	//
+	//	});
+
+	layui.use(['upload', 'element', 'layer'], function() {
 		var element = layui.element;
-
-	});
-
-	layui.use('upload', function() {
+		var layer = layui.layer;
 		var $ = layui.jquery,
 			upload = layui.upload;
 		var uploadInst = upload.render({
@@ -30,8 +33,15 @@
 			url: '/upload/',
 			before: function(obj) {
 				//预读本地文件示例，不支持ie8
+				$('#pic_open').show();
 				obj.preview(function(index, file, result) {
 					$('#pic').attr('src', result); //图片链接（base64）
+					console.log('element.render(null, "pic_open");');
+//					element.render(null, "pic_open");
+					layer.photos({
+						photos: '#pic_open',
+						anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+					});
 				});
 			},
 			done: function(res) {
@@ -40,6 +50,7 @@
 					return layer.msg('上传失败');
 				}
 				//上传成功
+
 			},
 			error: function() {
 				//演示失败状态，并实现重传
