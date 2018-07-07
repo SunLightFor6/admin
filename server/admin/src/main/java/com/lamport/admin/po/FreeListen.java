@@ -2,19 +2,22 @@ package com.lamport.admin.po;
 
 import java.util.List;
 
-/*
+/**
  * 免费试听课类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class FreeListen {
 	private int qid;//企业表外键
 	private int branchid;//分部表外键
-	private int id;			//课程主键
-	private String title;	//试听课标题
-	private String imgurl;	//课程图片存放路径
-	private String fdesc;	//课程描述	？在数据库中的存放格式是否也应该为text
-	private String status;	//课程状态
-	private String category;//课程类别
-	private String pubtime;	//试听课发布时间
+	private int id;				//课程主键
+	private String title;		//试听课标题
+	private String imgurl;		//课程图片存放路径
+	private String fdesc;		//课程描述
+	private String status;		//课程状态
+	private String category;	//课程类别
+	private String pubtime;		//试听课发布时间
+	private int deletekey;		//删除键
 	
 	private List<FreeListenBook> freeListenBooks;//试听课预约
 	
@@ -77,5 +80,11 @@ public class FreeListen {
 	}
 	public void setFreeListenBooks(List<FreeListenBook> freeListenBooks) {
 		this.freeListenBooks = freeListenBooks;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
 	}
 }

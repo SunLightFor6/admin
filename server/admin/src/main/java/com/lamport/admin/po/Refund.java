@@ -1,13 +1,17 @@
 package com.lamport.admin.po;
 
-/*
+/**
  * 订单退款类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class Refund {
 	private int oid; 				//主键，订单表外键
 	private String refundreason;	//退款原因
 	private String status;			//退款状态
 	private String refundtime;		//退款时间
+	private int deletekey;			//删除键
+	private int userdeletekey;		//用户删除键
 	
 	public int getOid() {
 		return oid;
@@ -32,5 +36,17 @@ public class Refund {
 	}
 	public void setRefundtime(String refundtime) {
 		this.refundtime = refundtime;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
+	}
+	public int getUserdeletekey() {
+		return userdeletekey;
+	}
+	public void setUserdeletekey(int userdeletekey) {
+		this.userdeletekey = userdeletekey;
 	}
 }

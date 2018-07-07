@@ -2,21 +2,24 @@ package com.lamport.admin.po;
 
 import java.util.List;
 
-/*
+/**
  * 企业类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class Enterprise {
 	private int qid;			//企业主键
 	private String name;		//企业名称
 	private String videopath;	//企业视频存放路径
 	private String introduction;//企业简介
+	private int deletekey;		//删除键
 	private String jczs;		//企业精彩展示，数据库中为text类型
 	
 	private Admin administer;//管理员
 	private List<Address> branches;//分部
 	private List<Teacher> teachers;//教师
 	private List<Message> messages;//朋友圈
-	private List<Swiper> swipers;//轮播图	?是否需要按类别分开
+	private List<Swiper> swipers;//轮播图
 	
 	public int getQid() {
 		return qid;
@@ -77,5 +80,11 @@ public class Enterprise {
 	}
 	public void setSwipers(List<Swiper> swipers) {
 		this.swipers = swipers;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
 	}
 }

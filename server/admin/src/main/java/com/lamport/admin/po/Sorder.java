@@ -1,7 +1,9 @@
 package com.lamport.admin.po;
 
-/*
+/**
  * 精品课订单类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class Sorder {
 	private int qid;//企业表外键
@@ -17,6 +19,8 @@ public class Sorder {
 	private String transactionid;	//订单流水号
 	private String username;		//下单的用户名字
 	private String tel;				//客户联系方式
+	private int deletekey;			//删除键
+	private int userdeletekey;		//用户删除键
 	
 	public int getQid() {
 		return qid;
@@ -95,5 +99,17 @@ public class Sorder {
 	}
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
+	}
+	public int getUserdeletekey() {
+		return userdeletekey;
+	}
+	public void setUserdeletekey(int userdeletekey) {
+		this.userdeletekey = userdeletekey;
 	}
 }

@@ -1,7 +1,9 @@
 package com.lamport.admin.po;
 
-/*
+/**
  * 微信类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class WeiXin {
 	private int qid;//企业表外键
@@ -10,6 +12,7 @@ public class WeiXin {
 	private String partner;
 	private String partnerkey;
 	private String weixinpaycallback;
+	private int deletekey;				//删除键
 	
 	public int getQid() {
 		return qid;
@@ -46,5 +49,11 @@ public class WeiXin {
 	}
 	public void setWeixinpaycallback(String weixinpaycallback) {
 		this.weixinpaycallback = weixinpaycallback;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
 	}
 }

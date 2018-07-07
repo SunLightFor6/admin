@@ -1,17 +1,21 @@
 package com.lamport.admin.po;
 
-/*
+/**
  * 免费试听课预约类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class FreeListenBook {
 	private int fid;//免费试听课表外键
 	private int uid;//用户表外键
-	private int id;			//预约主键
-	private String username;//预约的用户名字
-	private String tel;		//用户联系方式
-	private String status;	//预约状态
-	private String comment;	//留言
+	private int id;				//预约主键
+	private String username;	//预约的用户名字
+	private String tel;			//用户联系方式
+	private String status;		//预约状态
+	private String comment;		//留言
 	private String booktime;	//预约时间
+	private int deletekey;		//删除键
+	private int userdeletekey;	//用户删除键
 	
 	public int getFid() {
 		return fid;
@@ -60,5 +64,17 @@ public class FreeListenBook {
 	}
 	public void setBooktime(String booktime) {
 		this.booktime = booktime;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
+	}
+	public int getUserdeletekey() {
+		return userdeletekey;
+	}
+	public void setUserdeletekey(int userdeletekey) {
+		this.userdeletekey = userdeletekey;
 	}
 }

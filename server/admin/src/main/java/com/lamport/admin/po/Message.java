@@ -2,14 +2,17 @@ package com.lamport.admin.po;
 
 import java.util.List;
 
-/*
+/**
  * 朋友圈类
+ * @author Lin Zhao, protector of Sherry
+ *
  */
 public class Message {
 	private int qid;//企业表主键
 	private int mid;		//朋友圈主键
 	private String mtitle;	//朋友圈标题
-	private String mtime;		//朋友圈发布时间
+	private String mtime;	//朋友圈发布时间
+	private int deletekey;	//删除键
 	
 	private List<MessageImg> imgs;//朋友圈图片
 	private List<MessageLike> likes;//朋友圈点赞
@@ -56,5 +59,11 @@ public class Message {
 	}
 	public void setReplies(List<MessageReply> replies) {
 		this.replies = replies;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
 	}
 }
