@@ -12,8 +12,8 @@ public class Enterprise {
 	private String name;		//企业名称
 	private String videopath;	//企业视频存放路径
 	private String introduction;//企业简介
+	private String jczs;		//企业精彩展示
 	private int deletekey;		//删除键
-	private String jczs;		//企业精彩展示，数据库中为text类型
 	
 	private Admin administer;//管理员
 	private List<Address> branches;//分部
