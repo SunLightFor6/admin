@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.TestMapper">
+
+	<!-- 配置 (1对多) 关系的映射类型 
+	<resultMap type="com.neusoft.po.Dept" id="dept_emp_map">
+		<id property="deptno" column="deptno" />
+		<result property="dname" column="dname" />
+		<result property="loc" column="loc" />
+		<collection property="empList" ofType="com.neusoft.po.Emp">
+			<id property="empno" column="empno" />
+			<result property="ename" column="ename" />
+			<result property="comm" column="comm" />
+			<result property="hiredate" column="hiredate" />
+			<result property="job" column="job" />
+			<result property="mgr" column="mgr" />
+			<result property="sal" column="sal" />
+			<result property="deptno" column="deptno" />
+		</collection>
+	</resultMap>
+-->
+
+	<select id="selectAddressAll" resultType="com.lamport.admin.po.Address">
+		select * from Address
+	</select>
+	<select id="selectAdminAll" resultType="com.lamport.admin.po.Admin">
+		select * from Admin
+	</select>
+	<select id="selectEnterpriseAll" resultType="com.lamport.admin.po.Enterprise">
+		select * from Enterprise
+	</select>
+	<select id="selectFreeListenAll" resultType="com.lamport.admin.po.FreeListen">
+		select * from Freelisten
+	</select>
+	<select id="selectFreeListenBookAll" resultType="com.lamport.admin.po.FreeListenBook">
+		select * from FreelistenBook
+	</select>
+	<select id="selectLessonAll" resultType="com.lamport.admin.po.Lesson">
+		select * from Lesson
+	</select>
+	<select id="selectMessageAll" resultType="com.lamport.admin.po.Message">
+		select * from Message
+	</select>
+	<select id="selectMessageImgAll" resultType="com.lamport.admin.po.MessageImg">
+		select * from MessageImg
+	</select>
+	<select id="selectMessageLikeAll" resultType="com.lamport.admin.po.MessageLike">
+		select * from MessageLike
+	</select>
+	<select id="selectMessageReplyAll" resultType="com.lamport.admin.po.MessageReply">
+		select * from MessageReply
+	</select>
+	<select id="selectRefundAll" resultType="com.lamport.admin.po.Refund">
+		select * from Refund
+	</select>
+	<select id="selectSorderAll" resultType="com.lamport.admin.po.Sorder">
+		select * from sorder
+	</select>
+	<select id="selectSwiperAll" resultType="com.lamport.admin.po.Swiper">
+		select * from Swiper
+	</select>
+	<select id="selectTeacherAll" resultType="com.lamport.admin.po.Teacher">
+		select * from Teacher
+	</select>
+	<select id="selectUserAll" resultType="com.lamport.admin.po.User">
+		select * from User
+	</select>
+	
+</mapper>
