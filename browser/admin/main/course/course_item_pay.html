@@ -1,0 +1,82 @@
+<style>
+	.layui-form-checked span {
+		color: #009688;
+	}
+</style>
+<div class="body-in" id="top">
+	<div class="layui-card-body">
+		<fieldset class="layui-elem-field">
+			<legend>课程名称</legend>
+			<div class="layui-field-box" id="coursename"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>课程状态</legend>
+			<div class="layui-field-box" id="coursestatus"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>课程类别</legend>
+			<div class="layui-field-box" id="courseclass"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>课程图片</legend>
+			<div class="layui-field-box" id="pic"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>课程定价</legend>
+			<div class="layui-field-box" id="courseprice"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>开本课程的分部</legend>
+			<div class="layui-field-box" id="courseclass">
+				<form class="layui-form">
+					<div class="layui-input-inline">
+						<input disabled="true" style="color: #209978;" type="checkbox" name="fenbu1" id="fenbu1" title="实训中心">
+						<input disabled="true" type="checkbox" name="fenbu2" id="fenbu2" title="世纪路">
+						<input disabled="true" type="checkbox" name="fenbu3" id="fenbu3" title="万达广场">
+					</div>
+				</form>
+			</div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+			<legend>课程描述</legend>
+			<div class="layui-field-box" id="coursedescription"></div>
+		</fieldset>
+	</div>
+</div>
+
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+	layui.use('form', function() {
+		var form = layui.form;
+	});
+</script>
+<script>
+	//				form.val('course_form_formal', {
+	//					'coursename': "大数据入门基础班",
+	//					'coursestatus': 2,
+	//					'coursecategory': 3,
+	//					'courseprice': 488,
+	//					'fenbu2': true,
+	//					'fenbu3': true
+	//				});
+	//				$('#pic-div').show();
+	//				$('#pic').attr('src', '../../img/113.jpg');
+	//				var um = UM.getEditor('myEditor');
+	//				um.setContent('<h3>这是一个很重要的课</h3><h1>Attention</h1>heiheiheia', true);
+	$('#fenbu1').attr("disabled", "true");
+	$('#fenbu2').attr("disabled", "true");
+	$('#fenbu3').attr("disabled", "true");
+
+	$('#coursename').text("大数据入门基础班");
+	$('#coursestatus').text("进行中");
+	$('#courseclass').text("大数据");
+	$('#courseprice').text("988");
+	$('#fenbu1').attr("checked", "true");
+	$('#fenbu3').attr("checked", "true");
+	$('#pic').html('<img src="../../img/111.jpg" style="height: 120px; width: 200px;" />')
+	$('#coursedescription').html('<h3>这是一个很重要的课</h3><h1>Attention</h1>heiheiheia<br><img src="../../img/111.jpg" style="height: 180px; width: 300px;" />');
+</script>
