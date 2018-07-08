@@ -12,12 +12,19 @@ import com.lamport.admin.vo.QIDAndPage;
  */
 public interface TeacherService {
 	/**
-	 * 通过id删除Teacher信息
+	 * 创建Teacher信息
+	 * @param teacher
+	 * @return 1 保存成功 0 保存失败
+	 * @throws Exception
+	 */
+	public int saveTeacher(Teacher teacher) throws Exception;
+	/**
+	 * 通过id逻辑删除Teacher信息
 	 * @param id
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteTeacherByID(int id) throws Exception;
+	public int deleteTeacherLogicallyByID(int id) throws Exception;
 	/**
 	 * 通过qid和页码查询Teacher信息
 	 * @return List

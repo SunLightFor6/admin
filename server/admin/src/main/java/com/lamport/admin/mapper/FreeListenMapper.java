@@ -19,12 +19,24 @@ public interface FreeListenMapper {
 	 */
 	public int saveFreeListen(FreeListen freeListen) throws Exception;
 	/**
-	 * 通过id删除FreeListen信息
+	 * 通过id逻辑删除FreeListen信息
 	 * @param id
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteFreeListenByID(int id) throws Exception;
+	public int deleteFreeListenLogicallyByID(int id) throws Exception;
+	/**
+	 * 通过branchid逻辑删除FreeListen的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteFreeListenLogicallyByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过qid逻辑删除FreeListen的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteFreeListenLogicallyByQID(int qid) throws Exception;
 	/**
 	 * 通过id更新FreeListen信息
 	 * @param freeListen

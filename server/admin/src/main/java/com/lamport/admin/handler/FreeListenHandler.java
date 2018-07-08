@@ -21,12 +21,12 @@ public class FreeListenHandler {
 		return"";
 	}
 	/**
-	 * 通过id删除FreeListen信息
+	 * 通过id逻辑删除FreeListen信息
 	 * @return
 	 */
-	@RequestMapping(value="/admin/deleteFreeListenByID")
-	public String deleteFreeListenByID(){
-		System.out.println("..........FreeListenHandler..........deleteFreeListenByID()..........");
+	@RequestMapping(value="/admin/deleteFreeListenLogicallyByID")
+	public String deleteFreeListenLogicallyByID(){
+		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........");
 		//TODO
 		return"";
 	}

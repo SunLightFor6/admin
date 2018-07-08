@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-public class LoginHandler {
-
+public class LogInAndOutHandler {
 	/**
 	 * 进行admin的登录
 	 * @return String
@@ -21,7 +20,16 @@ public class LoginHandler {
 		//TODO
 		return"";
 	}
-	
+	/**
+	 * 进行admin的退出
+	 * @return String
+	 */
+	@RequestMapping(value="/login/adminLogout")
+	public String adminLogout(){
+		System.out.println("..........LoginHandler..........adminLogout()..........");
+		//TODO
+		return"";
+	}
 	/**
 	 * 进行superAdmin的登录
 	 * @return String
@@ -29,6 +37,16 @@ public class LoginHandler {
 	@RequestMapping(value="/login/superAdminLogin")
 	public String superAdminLogin(){
 		System.out.println("..........LoginHandler..........superAdminLogin()..........");
+		//TODO
+		return"";
+	}
+	/**
+	 * 进行superAdmin的退出
+	 * @return String
+	 */
+	@RequestMapping(value="/login/superAdminLogout")
+	public String superAdminLogout(){
+		System.out.println("..........LoginHandler..........superAdminLogout()..........");
 		//TODO
 		return"";
 	}

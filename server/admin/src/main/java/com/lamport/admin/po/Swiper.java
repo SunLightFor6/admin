@@ -7,9 +7,9 @@ package com.lamport.admin.po;
  */
 public class Swiper {
 	private int qid;//企业表外键
-	private int id;				//图片主键
+	private int id;				//轮播图主键
 	private String imgurl;		//图片存放路径
-	private String category;	//图片类型（企业的、教师的）
+	private String category;	//轮播图类型（企业E、教师T）
 	private int deletekey;		//删除键
 	
 	public int getQid() {

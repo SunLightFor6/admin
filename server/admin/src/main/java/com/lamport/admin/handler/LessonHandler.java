@@ -21,12 +21,12 @@ public class LessonHandler {
 		return"";
 	}
 	/**
-	 * 通过id删除Lesson
+	 * 通过id逻辑删除Lesson
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteLessonByID")
-	public String deleteLessonByID(){
-		System.out.println("..........LessonHandler..........saveLesson()..........");
+	public String deleteLessonLogicallyByID(){
+		System.out.println("..........LessonHandler..........deleteLessonLogicallyByID()..........");
 		//TODO
 		return"";
 	}

@@ -11,12 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TeacherHandler {
 	/**
-	 * 通过id删除Teacher信息
+	 * 创建Teacher信息
 	 * @return
 	 */
-	@RequestMapping(value="/admin/deleteTeacherByID")
-	public String deleteTeacherByID(){
-		System.out.println("..........TeacherHandler..........deleteTeacherByID()..........");
+	@RequestMapping(value="/admin/saveTeacher")
+	public String saveTeacher(){
+		System.out.println("..........TeacherHandler..........saveTeacher()..........");
+		//TODO
+		return"";
+	}
+	/**
+	 * 通过id逻辑删除Teacher信息
+	 * @return
+	 */
+	@RequestMapping(value="/admin/deleteTeacherLogicallyByID")
+	public String deleteTeacherLogicallyByID(){
+		System.out.println("..........TeacherHandler..........deleteTeacherLogicallyByID()..........");
+		//TODO
+		return"";
+	}
+	/**
+	 * 通过qid修改TeacherSwiper(教师轮播图)信息
+	 * @return
+	 */
+	@RequestMapping(value="/admin/updateTeacherSwiperByQID")
+	public String updateTeacherSwiperByQID(){
+		System.out.println("..........TeacherHandler..........updateTeacherSwiperByQID()..........");
 		//TODO
 		return"";
 	}

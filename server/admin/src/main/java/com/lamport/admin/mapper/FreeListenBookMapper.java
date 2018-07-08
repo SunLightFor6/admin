@@ -7,6 +7,13 @@ package com.lamport.admin.mapper;
  */
 public interface FreeListenBookMapper {
 	/**
+	 * 通过fid逻辑删除FreeListenBook信息
+	 * @param id
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteFreeListenBookLogicallyByFID(int fid) throws Exception;
+	/**
 	 * 根据qid查询FreeListenBook的总数
 	 * @return int
 	 * @throws Exception

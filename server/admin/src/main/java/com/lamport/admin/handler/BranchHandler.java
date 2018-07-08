@@ -14,17 +14,19 @@ public class BranchHandler {
 	 * 创建分部
 	 * @return
 	 */
+	@RequestMapping(value="/admin/saveBranch")
 	public String saveBranch(){
 		System.out.println("..........BranchHandler..........saveBranch()..........");
 		//TODO
 		return"";
 	}
 	/**
-	 * 通过id删除Address信息
+	 * 通过id逻辑删除Address信息
 	 * @return
 	 */
-	public String deleteBranchByID(){
-		System.out.println("..........BranchHandler..........deleteBranchByID()..........");
+	@RequestMapping(value="/admin/deleteBranchLogicallyByID")
+	public String deleteBranchLogicallyByID(){
+		System.out.println("..........BranchHandler..........deleteBranchLogicallyByID()..........");
 		//TODO
 		return"";
 	}
@@ -32,6 +34,7 @@ public class BranchHandler {
 	 * 通过id更新Address信息
 	 * @return
 	 */
+	@RequestMapping(value="/admin/updateBranchByID")
 	public String updateBranchByID(){
 		System.out.println("..........BranchHandler..........updateBranchByID()..........");
 		//TODO

@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EnterpriseBasicInfoHandler {
 	/**
-	 * 根据qid更新企业基本信息 
+	 * 根据id更新企业基本信息 
 	 * @return String
 	 */
-	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByQID")
-	public String updateEnterpriseBasicInfoByQID(){
-		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByQID()..........");
+	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByID")
+	public String updateEnterpriseBasicInfoByID(){
+		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........");
 		//TODO
 		return"";
 	}
 	/**
-	 * 根据qid查询企业基本信息 
+	 * 根据id查询企业基本信息 
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicInfoByQID")
