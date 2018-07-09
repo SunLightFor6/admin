@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
@@ -29,8 +30,10 @@ public class TestHandler {
 	private TestService testService;
 	
 	@RequestMapping(value="/test/TestHandler_selectSorderAll")
+	@ResponseBody
 	public String selectSorderAll() throws Exception{
 		System.out.println("........TestHandler...........selectSorderAll()........");
+		String result = null;
 		
 		List<Address> addresses = null;
 		List<Admin> admins = null;
@@ -67,6 +70,7 @@ public class TestHandler {
 
 		
 		System.out.println("Yean! Everything is OK!");
-		return "/test_show.jsp";
+		result = "/test_show.jsp";
+		return result;
 	}
 }
