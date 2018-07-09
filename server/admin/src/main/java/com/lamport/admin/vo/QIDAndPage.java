@@ -22,6 +22,5 @@ public class QIDAndPage {
 	}
 	public void setPageTool(PageTool pageTool) {
 		this.pageTool = pageTool;
-	}
-	
+	}	
 }

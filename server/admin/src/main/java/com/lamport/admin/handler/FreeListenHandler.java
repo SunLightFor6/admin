@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Controller, 进行FreeListen(精品课)信息的增加、删除、修改、查询
+ * Controller, 进行FreeListen(免费试听课)信息的增加、删除、修改、查询
  * @author Lin Zhao, protector of Sherry
  *
  */

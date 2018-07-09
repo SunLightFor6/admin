@@ -19,7 +19,7 @@ public interface LessonService {
 	 * @return 1 保存成功 0 保存失败
 	 * @throws Exception
 	 */
-	public int saveLesson(Lesson lesson, MultipartFile upload) throws Exception;
+	public int saveLesson(Lesson lesson, MultipartFile img) throws Exception;
 	/**
 	 * 通过id逻辑删除Lesson信息
 	 * @param id
@@ -33,7 +33,7 @@ public interface LessonService {
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateLessonByID(Lesson lesson, MultipartFile upload) throws Exception;
+	public int updateLessonByID(Lesson lesson, MultipartFile img) throws Exception;
 	/**
 	 * 通过qid和页码查询Lesson信息
 	 * @return List

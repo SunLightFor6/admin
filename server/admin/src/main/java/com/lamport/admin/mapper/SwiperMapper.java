@@ -18,11 +18,11 @@ public interface SwiperMapper {
 	 */
 	public int saveSwiper(Swiper swiper) throws Exception;
 	/**
-	 * 通过qid和category删除Swiper(轮播图)信息
+	 * 通过qid和category逻辑删除Swiper(轮播图)信息
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteSwiperByQIDAndCategory(QIDAndCategory qidAndCategory) throws Exception;
+	public int deleteSwiperLogicallyByQIDAndCategory(QIDAndCategory qidAndCategory) throws Exception;
 	/**
 	 * 通过qid逻辑删除Swiper(轮播图)信息
 	 * @return 1 删除成功 0 删除失败

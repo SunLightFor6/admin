@@ -31,6 +31,16 @@ public class TeacherHandler {
 		return"";
 	}
 	/**
+	 * 通过id修改Teacher信息
+	 * @return
+	 */
+	@RequestMapping(value="/admin/updateTeacherByID")
+	public String updateTeacherByID(){
+		System.out.println("..........TeacherHandler..........updateTeacherByID()..........");
+		//TODO
+		return"";
+	}
+	/**
 	 * 通过qid修改TeacherSwiper(教师轮播图)信息
 	 * @return
 	 */
@@ -47,6 +57,16 @@ public class TeacherHandler {
 	@RequestMapping(value="/admin/selectTeacherByQIDAndPage")
 	public String selectTeacherByQIDAndPage(){
 		System.out.println("..........TeacherHandler..........selectTeacherByQIDAndPage()..........");
+		//TODO
+		return"";
+	}
+	/**
+	 * 通过qid查询TeacherSwiper(教师轮播图)信息
+	 * @return
+	 */
+	@RequestMapping(value="/admin/selectTeacherSwiperByQID")
+	public String selectTeacherSwiperByQID(){
+		System.out.println("..........TeacherHandler..........selectTeacherSwiperByQID()..........");
 		//TODO
 		return"";
 	}

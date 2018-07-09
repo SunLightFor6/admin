@@ -30,12 +30,6 @@ public interface AddressService {
 	 */
 	public int updateAddressByID(Address address) throws Exception;
 	/**
-	 * 通过id查询Address的信息，弃用
-	 * @return Address
-	 * @throws Exception
-	 */
-	public Address selectAddressByID(int id) throws Exception;
-	/**
 	 * 通过qid和页码查询Address的信息
 	 * @return List
 	 * @throws Exception

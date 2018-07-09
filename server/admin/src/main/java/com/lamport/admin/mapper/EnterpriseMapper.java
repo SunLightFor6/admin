@@ -41,11 +41,4 @@ public interface EnterpriseMapper {
 	 * @throws Exception
 	 */
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception;
-	/**
-	 * 通过qid查询企业视频存放路径
-	 * @param qid
-	 * @return String
-	 * @throws Exception
-	 */
-	public String selectEnterpriseVideoByQID(String qid) throws Exception;
 }

@@ -1,5 +1,10 @@
 package com.lamport.admin.mapper;
 
+import java.util.List;
+
+import com.lamport.admin.po.Sorder;
+import com.lamport.admin.vo.SorderQueryCondition;
+
 /**
  * Mapper, 提供Sorder信息的删除、更新、查询功能
  * @author Lin Zhao， protector of Sherry
@@ -24,6 +29,27 @@ public interface SorderMapper {
 	 * @throws Exception
 	 */
 	public int deleteSorderLogicallyByQID(int qid) throws Exception;
+	/**
+	 * 通过id修改Sorder信息
+	 * @param sorder
+	 * @return 1 更新成功 0 更新失败
+	 * @throws Exception
+	 */
+	public int updateSorderByID(Sorder sorder) throws Exception;
+	/**
+	 * 通过id修改Refund和相应的Sorder信息
+	 * @param sorder
+	 * @return 1 更新成功 0 更新失败
+	 * @throws Exception
+	 */
+	public int updateRefundByID(Sorder sorder) throws Exception;
+	/**
+	 * 通过SorderQueryCondition查询Sorder信息
+	 * @param sorderQueryCondition
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
 	/**
 	 * 根据qid查询Sorder的总数
 	 * @return int
