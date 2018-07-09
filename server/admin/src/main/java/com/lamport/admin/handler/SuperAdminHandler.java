@@ -21,12 +21,12 @@ public class SuperAdminHandler {
 		return "";
 	}
 	/**
-	 * 通过企业id删除企业
+	 * 通过id逻辑删除企业
 	 * @return String
 	 */
-	@RequestMapping(value="/superadmin/deleteEnterpriseByID")
-	public String deleteEnterpriseByID(){
-		System.out.println("..........SuperAdminHandler..........deleteEnterpriseByID()..........");
+	@RequestMapping(value="/superadmin/deleteEnterpriseLogicallyByID")
+	public String deleteEnterpriseLogicallyByID(){
+		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........");
 		//TODO
 		return "";
 	}

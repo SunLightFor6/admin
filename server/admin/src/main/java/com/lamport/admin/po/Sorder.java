@@ -22,6 +22,8 @@ public class Sorder {
 	private int deletekey;			//删除键
 	private int userdeletekey;		//用户删除键
 	
+	private Refund refund;//退款订单
+	
 	public int getQid() {
 		return qid;
 	}
@@ -111,5 +113,11 @@ public class Sorder {
 	}
 	public void setUserdeletekey(int userdeletekey) {
 		this.userdeletekey = userdeletekey;
+	}
+	public Refund getRefund() {
+		return refund;
+	}
+	public void setRefund(Refund refund) {
+		this.refund = refund;
 	}
 }

@@ -2,6 +2,8 @@ package com.lamport.admin.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.tool.PageTool;
 
@@ -18,17 +20,17 @@ public interface EnterpriseService {
 	 */
 	public int saveEnterprise(Enterprise enterprise) throws Exception;
 	/**
-	 * 通过qid删除企业
+	 * 通过id逻辑删除企业信息
 	 * @return 1 保存成功 0 保存失败 
 	 * @throws Exception
 	 */
-	public int deleteEnterpriseByID(int qid) throws Exception;
+	public int deleteEnterpriseLogicallyByID(int id) throws Exception;
 	/**
-	 * 通过qid更新企业信息
+	 * 通过id更新企业信息
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateEnterpriseByQID(Enterprise enterprise) throws Exception;
+	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] uploads) throws Exception;
 	/**
 	 * 通过qid查询企业信息
 	 * @return Enterprise
@@ -41,11 +43,4 @@ public interface EnterpriseService {
 	 * @throws Exception
 	 */
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception;
-	/**
-	 * 通过qid查询企业视频存放路径
-	 * @param qid
-	 * @return String
-	 * @throws Exception
-	 */
-	public String selectEnterpriseVideoByQID(String qid) throws Exception;
 }

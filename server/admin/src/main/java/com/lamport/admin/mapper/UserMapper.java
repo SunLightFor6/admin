@@ -7,6 +7,12 @@ package com.lamport.admin.mapper;
  */
 public interface UserMapper {
 	/**
+	 * 通过qid逻辑删除User信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteUserLogicallyByQID(int qid) throws Exception;
+	/**
 	 * 根据qid查询User的总数
 	 * @return int
 	 * @throws Exception

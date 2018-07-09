@@ -19,10 +19,21 @@ public interface LessonBranchMapper {
 	 */
 	public int saveLessonBranch(LessonBranch lessonBranch) throws Exception;
 	/**
-	 * 通过lid删除LessonBranch
-	 * @param lid
-	 * @return int 删除的LessonBranch的总条数
+	 * 通过lid删除LessonBranch的信息
+	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
 	public int deleteLessonBranchByLID(int lid) throws Exception;
+	/**
+	 * 通过lid逻辑删除LessonBranch的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteLessonBranchLogicallyByLID(int lid) throws Exception;
+	/**
+	 * 通过branchid逻辑删除LessonBranch的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteLessonBranchLogicallyByBranchID(int branchid) throws Exception;
 }

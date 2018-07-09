@@ -2,6 +2,8 @@ package com.lamport.admin.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -17,21 +19,21 @@ public interface FreeListenService {
 	 * @return 1 保存成功 0 保存失败
 	 * @throws Exception
 	 */
-	public int saveFreeListen(FreeListen freeListen) throws Exception;
+	public int saveFreeListen(FreeListen freeListen, MultipartFile upload) throws Exception;
 	/**
-	 * 通过id删除FreeListen信息
+	 * 通过id逻辑删除FreeListen信息
 	 * @param id
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteFreeListenByID(int id) throws Exception;
+	public int deleteFreeListenLogicallyByID(int id) throws Exception;
 	/**
 	 * 通过id更新FreeListen信息
 	 * @param freeListen
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateFreeListenByID(FreeListen freeListen) throws Exception;
+	public int updateFreeListenByID(FreeListen freeListen, MultipartFile upload) throws Exception;
 	/**
 	 * 通过qid和页码查询FreeListen信息
 	 * @return
@@ -44,11 +46,4 @@ public interface FreeListenService {
 	 * @throws Exception
 	 */
 	public int selectCountFreeListenByQID(int qid) throws Exception;
-	/**
-	 * 通过id查询FreeListen图片存放路径
-	 * @param id
-	 * @return String imgurl
-	 * @throws Exception
-	 */
-	public String selectFreeListenImgurlByID(int id) throws Exception;
 }

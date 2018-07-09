@@ -18,11 +18,17 @@ public interface AddressMapper {
 	 */
 	public int saveAddress(Address address) throws Exception;
 	/**
-	 * 通过id删除Address的信息
+	 * 通过id逻辑删除Address的信息
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteAddressByID(int id) throws Exception;
+	public int deleteAddressLogicallyByID(int id) throws Exception;
+	/**
+	 * 通过qid逻辑删除Address的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteAddressLogicallyByQID(int qid) throws Exception;
 	/**
 	 * 通过id更新Address的信息
 	 * @return 1 更新成功 0 更新失败

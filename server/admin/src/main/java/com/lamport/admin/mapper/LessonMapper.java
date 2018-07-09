@@ -19,12 +19,18 @@ public interface LessonMapper {
 	 */
 	public int saveLesson(Lesson lesson) throws Exception;
 	/**
-	 * 通过id删除Lesson信息
+	 * 通过id逻辑删除Lesson信息
 	 * @param id
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteLessonByID(int id) throws Exception;
+	public int deleteLessonLogicallyByID(int id) throws Exception;
+	/**
+	 * 通过qid逻辑删除Lesson的信息
+	 * @return 1 删除成功 0 删除失败
+	 * @throws Exception
+	 */
+	public int deleteLessonLogicallyByQID(int qid) throws Exception;
 	/**
 	 * 通过id更新Lesson信息
 	 * @param lesson

@@ -9,7 +9,7 @@ public class Admin {
 	private int qid;//企业表外键
 	private int id;				//管理员主键
 	private String adminname;	//管理员登陆账号
-	private String password;//管理员登陆密码
+	private String password;	//管理员登陆密码
 	private String jurisdiction;//权限，管理员或超级管理员
 	private int deletekey;		//删除键
 	

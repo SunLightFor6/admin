@@ -9,6 +9,13 @@ import com.lamport.admin.po.Admin;
  */
 public interface AdminService {
 	/**
+	 * 通过id修改Admin的password
+	 * @param admin
+	 * @return
+	 * @throws Exception
+	 */
+	public int updatePasswordByID(Admin admin) throws Exception;
+	/**
 	 * 根据adminname查询Admin(SuperAdmin)的信息
 	 * @param adminname
 	 * @return Admin
