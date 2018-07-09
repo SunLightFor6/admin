@@ -12,7 +12,7 @@
 					<li>新增免费课程</li>
 				</ul>
 				<div class="layui-tab-content" style="height: 100px;">
-					<div class="layui-tab-item layui-show" onload="loadPay()">
+					<div class="layui-tab-item layui-show">
 						<form class="layui-form" name="new_course_form_formal" action="" method="post">
 							<p class="form-label_sm">课程名称</p>
 							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
@@ -43,18 +43,9 @@
 									<div><img id="pic" /></div>
 									<p id="demoText"></p>
 								</blockquote>
-								<!--<div class="layui-upload-list" id="pic-div" style="display: none;">
-													<img class="layui-upload-img" style="height: 120px; width: 200px;" id="pic">
-													<p id="demoText"></p>
-												</div>-->
 							</div>
 							<p class="form-label_sm">课程定价</p>
 							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">
-							<!--
-                                            	作者：820602086@qq.com
-                                            	时间：2018-06-26
-                                            	描述：接下来下的是   多选选择分部  富文本编辑器
-                                            -->
 							<p class="form-label_sm">开本课程的分部</p>
 							<div class="layui-input-inline">
 								<input type="checkbox" name="fenbu1" title="实训中心">
@@ -62,20 +53,18 @@
 								<input type="checkbox" name="fenbu3" title="大连软件园">
 							</div>
 							<p class="form-label_sm">课程描述</p>
-							<script type="text/plain" id="myEditor" style="height:240px;"></script>
+							<script type="text/plain" id="myEditor_formal" style="height:240px;"></script>
 							<p class="form-label_sm"></p>
 							<button type="submit" class="layui-btn">发表</button>
-							<script type="text/javascript" defer="true">
-//								function loadPay() {
-//								var um = UM.getEditor('myEditor');
-//								um.setWidth("100%");
-//								$(".edui-body-container").css("width", "98%");
+							<script type="text/javascript" defer="defer">
+								var um = UM.createEditor('myEditor_formal');
+								um.setWidth("100%");
+								$(".edui-body-container").css("width", "98%");
 								//实例化编辑器
-//								}
 							</script>
 						</form>
 					</div>
-					<div class="layui-tab-item" onload="loadFree()">
+					<div class="layui-tab-item">
 						<form class="layui-form" name="new_course_form_exp" action="" method="post">
 							<p class="form-label_sm">课程名称</p>
 							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
@@ -86,14 +75,6 @@
 								<option value="2">已结束</option>
 								<option value="3">即将开始</option>
 							</select>
-							<!--<p class="form-label_sm">课程类别</p>
-											<select id="categories_s" lay-filter="categories-select" lay-verify="required" lay-search="">
-												<option value="">直接选择或搜索选择</option>
-												<option value="1">前端</option>
-												<option value="2">Java</option>
-												<option value="3">Java Web</option>
-												<option value="0">自定义</option>
-											</select>-->
 							<p id="categories_p"></p>
 							<p class="form-label_sm">课程图片</p>
 							<div class="layui-upload">
@@ -107,8 +88,6 @@
 									<p id="demoText"></p>
 								</blockquote>
 							</div>
-							<!--<p class="form-label_sm">课程定价</p>
-											<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">-->
 							<p class="form-label_sm">开本课程的分部</p>
 							<select id="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
@@ -118,22 +97,15 @@
 								<option value="3">世纪路</option>
 								<option value="4">学校基地</option>
 							</select>
-							<!--<div class="layui-input-inline">
-                                            	<input type="checkbox" name="like[write]" title="1">
-                                            	<input type="checkbox" name="like[read]" title="2" checked="">
-                                            	<input type="checkbox" name="like[game]" title="3">
-                                            </div>-->
 							<p class="form-label_sm">课程描述</p>
 							<script type="text/plain" id="myEditor_free" style="height:240px;"></script>
 							<p class="form-label_sm"></p>
 							<button type="submit" class="layui-btn">发表</button>
-							<script type="text/javascript" defer="true">
-//								function loadFree() {
+							<script type="text/javascript" defer="defer">
 									//实例化编辑器
-//									var um_free = UM.getEditor('myEditor_free');
-//									um_free.setWidth("100%");
-//									$(".edui-body-container").css("width", "98%");
-//								}
+									var um_free = UM.createEditor('myEditor_free');
+									um_free.setWidth("100%");
+									$(".edui-body-container").css("width", "98%");
 							</script>
 						</form>
 					</div>
@@ -147,8 +119,6 @@
 		layui.use('element', function() {
 			var element = layui.element;
 		});
-	</script>
-	<script>
 		layui.use('upload', function() {
 			var $ = layui.jquery,
 				upload = layui.upload;

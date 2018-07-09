@@ -15,11 +15,12 @@
 			<p class="form-label">上传轮播图</p>
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-btn-primary" id="uploadpics">选择图片</button>
-				<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+				<blockquote id="teacher_pic" class="layui-elem-quote layui-quote-nm" style="display: none; margin-top: 10px;">
 					预览图：
 					<div class="layui-upload-list" id="pics"></div>
 				</blockquote>
 			</div>
+			<p class="form-label"></p>
 			<button type="submit" class="layui-btn">确定更新轮播图</button>
 		</form>
 	</div>
@@ -46,6 +47,7 @@
 			size: 1000 //限制文件大小，单位 KB
 				,
 			before: function(obj) {
+				$('#teacher_pic').show();
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
 					$('#pics').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 150px; width: 240px">')

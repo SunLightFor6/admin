@@ -491,3 +491,11 @@ div.layui-card-header {
 .layui-table-page{
 	text-align: center
 } 
+
+/*首页设置的css*/
+.layui-field-box {
+	margin: 3px 20px;
+}
+.layui-elem-field legend {
+	margin-left: 15px;
+}

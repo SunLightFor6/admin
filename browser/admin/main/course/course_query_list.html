@@ -2,22 +2,22 @@
 	<div class="layui-row body-head-in">
 		<div class="layui-col-md-offset8">
 			<div class="layui-col-lg6">
-			<form class="layui-form" action="">
-				<div class="layui-inline">
-					<div class="layui-input-inline">
-						<select name="modules" lay-verify="required" lay-search="">
-							<option value="1">实训中心</option>
-							<option value="2">艺术中心</option>
-							<option value="3">恒大名都</option>
-						</select>
+				<form class="layui-form" action="">
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<select name="modules" lay-verify="required" lay-search="">
+								<option value="1">实训中心</option>
+								<option value="2">艺术中心</option>
+								<option value="3">恒大名都</option>
+							</select>
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
 			</div>
 			<div class="layui-col-lg6" align="center">
 				<h4 style="margin-top: 20px;"><a href="#22" class="lz-font-color-blue">+添加课程</a></h4></div>
-			</div>
 		</div>
+	</div>
 	<div class="body-in" style="width: 95%; margin-top: 1px;">
 		<table class="layui-hide" id="test" lay-filter="demo" lay-data="{id: 'imgs_col'}"></table>
 	</div>
@@ -89,11 +89,7 @@
 </script>
 <script id="imgTpl" type="text/html">
 	<div id="{{d.LAY_INDEX}}_img"><img src="{{ d.courseimg }}"></div>
-	{{#
-		count ++;
-		console.log("count = " + count);
-		afterload();
-	}}
+	{{# count ++; console.log("count = " + count); afterload(); }}
 </script>
 <script>
 	layui.use('table', function() {
@@ -129,56 +125,56 @@
 		});
 
 		var active = {
-				getCheckData: function() { //获取选中数据
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-				},
-				getCheckLength: function() { //获取选中数目
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.msg('选中了：' + data.length + ' 个');
-				},
-				isAll: function() { //验证是否全选
-					var checkStatus = table.checkStatus('idTest');
-					layer.msg(checkStatus.isAll ? '全选' : '未全选')
-				}
-			};
+			getCheckData: function() { //获取选中数据
+				var checkStatus = table.checkStatus('idTest'),
+					data = checkStatus.data;
+				layer.alert(JSON.stringify(data));
+			},
+			getCheckLength: function() { //获取选中数目
+				var checkStatus = table.checkStatus('idTest'),
+					data = checkStatus.data;
+				layer.msg('选中了：' + data.length + ' 个');
+			},
+			isAll: function() { //验证是否全选
+				var checkStatus = table.checkStatus('idTest');
+				layer.msg(checkStatus.isAll ? '全选' : '未全选')
+			}
+		};
 
 		$('.demoTable .layui-btn').on('click', function() {
 			var type = $(this).data('type');
 			active[type] ? active[type].call(this) : '';
 		});
 	});
-//	$(function() {
-//		//				$("img").click(function(){
-//		//					var _this = $(this);//将当前的pimg元素作为_this传入函数
-//		//					imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
-//		//				});
-//		layui.use('layer', function() {
-//			var layer = layui.layer;
-////			// 	layer.msg("hhh");
-//			layer.photos({
-//				photos: '.layui-table-hover',
-////				photos: '#img_course',
-//				anim: 2 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-//			});
-////
-//		});
-//	});
+	//	$(function() {
+	//		//				$("img").click(function(){
+	//		//					var _this = $(this);//将当前的pimg元素作为_this传入函数
+	//		//					imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+	//		//				});
+	//		layui.use('layer', function() {
+	//			var layer = layui.layer;
+	////			// 	layer.msg("hhh");
+	//			layer.photos({
+	//				photos: '.layui-table-hover',
+	////				photos: '#img_course',
+	//				anim: 2 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+	//			});
+	////
+	//		});
+	//	});
 	function afterload() {
-//		console.log("loading ... count = " + count);
-//		for(var i = 0; i < count; i++) {
-			var id_img = count + '_img';
-			console.log("loading ... i = " + count + " " + id_img);
-			layui.use('layer', function() {
-				var layer = layui.layer;
-				layer.photos({
-					photos: '#' + id_img,
-					anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-				});
-				console.log("layer.photos(): " + id_img);
+		//		console.log("loading ... count = " + count);
+		//		for(var i = 0; i < count; i++) {
+		var id_img = count + '_img';
+		console.log("loading ... i = " + count + " " + id_img);
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			layer.photos({
+				photos: '#' + id_img,
+				anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 			});
-//		}
+			console.log("layer.photos(): " + id_img);
+		});
+		//		}
 	};
 </script>
