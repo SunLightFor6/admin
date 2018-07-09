@@ -41,16 +41,6 @@ public class BranchHandler {
 		return"";
 	}
 	/**
-	 * 通过id查询Address信息，弃用
-	 * @return
-	 */
-	@RequestMapping(value="/admin/selectBranchByID")
-	public String selectBranchByID(){
-		System.out.println("..........BranchHandler..........selectBranchByID()..........");
-		//TODO
-		return"";
-	}
-	/**
 	 * 通过qid和页码查询Address信息
 	 * @return
 	 */

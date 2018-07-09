@@ -19,12 +19,6 @@ public interface LessonBranchMapper {
 	 */
 	public int saveLessonBranch(LessonBranch lessonBranch) throws Exception;
 	/**
-	 * 通过lid删除LessonBranch的信息
-	 * @return 1 删除成功 0 删除失败
-	 * @throws Exception
-	 */
-	public int deleteLessonBranchByLID(int lid) throws Exception;
-	/**
 	 * 通过lid逻辑删除LessonBranch的信息
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception

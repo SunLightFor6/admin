@@ -30,7 +30,7 @@ public interface EnterpriseService {
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] uploads) throws Exception;
+	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] imgs, MultipartFile video) throws Exception;
 	/**
 	 * 通过qid查询企业信息
 	 * @return Enterprise
