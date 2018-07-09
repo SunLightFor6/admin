@@ -6,7 +6,7 @@ import com.lamport.admin.po.Teacher;
 import com.lamport.admin.vo.QIDAndPage;
 
 /**
- * Mapper, 提供Teacher信息的增加、删除、更新、查询功能
+ * Mapper, 提供Teacher信息的增加、删除、修改、查询功能
  * @author Lin Zhao， protector of Sherry
  *
  */

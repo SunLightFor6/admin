@@ -26,7 +26,7 @@ public interface MessageMapper {
 	 */
 	public int deleteMessageLogicallyByID(int id) throws Exception;
 	/**
-	 * 通过qid逻辑删除Message的信息
+	 * 通过qid逻辑删除Message信息
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */

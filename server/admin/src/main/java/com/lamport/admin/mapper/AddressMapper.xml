@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.AddressMapper">
+
+	<!-- 创建Address(分部) -->
+	<insert id="saveAddress" parameterType="com.lamport.admin.po.Address">
+	</insert>
+
+	<!-- 通过id逻辑删除Address信息 -->
+	<update id="deleteAddressLogicallyByID" parameterType="int">
+	</update>
+
+	<!-- 通过qid逻辑删除Address信息 -->
+	<update id="deleteAddressLogicallyByQID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改Address信息 -->
+	<update id="updateAddressByID" parameterType="com.lamport.admin.po.Address">
+	</update>
+
+	<!-- 通过qid和页码查询Address信息 -->
+	<select id="selectAddressByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage" 
+			resultType="com.lamport.admin.po.Address">
+	</select>
+	
+</mapper>

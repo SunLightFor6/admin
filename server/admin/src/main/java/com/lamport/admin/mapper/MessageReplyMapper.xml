@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.MessageReplyMapper">
+
+	<!-- 通过id逻辑删除MessageReply信息 -->
+	<update id="deleteMessageReplyLogicallyByID" parameterType="int">
+	</update>
+
+	<!-- 通过mid逻辑删除MessageReply信息 -->
+	<update id="deleteMessageReplyLogicallyByMID" parameterType="int">
+	</update>
+
+</mapper>

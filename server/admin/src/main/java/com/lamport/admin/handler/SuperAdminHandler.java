@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SuperAdminHandler {
 	/**
-	 * 增加企业
+	 * 创建企业
 	 * @return String
 	 */
 	@RequestMapping(value="/superadmin/saveEnterprise")
-	public String saveEnterprise(){
+	public String saveEnterprise() throws Exception{
 		System.out.println("..........SuperAdminHandler..........saveEnterprise()..........");
 		//TODO
 		return "";
@@ -25,7 +25,7 @@ public class SuperAdminHandler {
 	 * @return String
 	 */
 	@RequestMapping(value="/superadmin/deleteEnterpriseLogicallyByID")
-	public String deleteEnterpriseLogicallyByID(){
+	public String deleteEnterpriseLogicallyByID() throws Exception{
 		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........");
 		//TODO
 		return "";
@@ -35,7 +35,7 @@ public class SuperAdminHandler {
 	 * @return String
 	 */
 	@RequestMapping(value="/superadmin/selectEnterpriseByPage")
-	public String selectEnterpriseByPage(){
+	public String selectEnterpriseByPage() throws Exception{
 		System.out.println("..........SuperAdminHandler..........selectEnterpriseByPage()..........");
 		//TODO
 		return "";

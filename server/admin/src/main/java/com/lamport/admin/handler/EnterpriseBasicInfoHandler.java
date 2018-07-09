@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EnterpriseBasicInfoHandler {
 	/**
-	 * 根据id更新企业基本信息 
+	 * 根据id修改企业基本信息 
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByID")
-	public String updateEnterpriseBasicInfoByID(){
+	public String updateEnterpriseBasicInfoByID() throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........");
 		//TODO
 		return"";
@@ -25,7 +25,7 @@ public class EnterpriseBasicInfoHandler {
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicInfoByQID")
-	public String selectEnterpriseBasicInfoByQID(){
+	public String selectEnterpriseBasicInfoByQID() throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........selectEnterpriseBasicInfoByQID()..........");
 		//TODO
 		return"";

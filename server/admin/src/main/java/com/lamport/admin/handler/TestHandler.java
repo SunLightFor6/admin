@@ -29,7 +29,7 @@ public class TestHandler {
 	private TestService testService;
 	
 	@RequestMapping(value="/test/TestHandler_selectSorderAll")
-	public String selectSorderAll(){
+	public String selectSorderAll() throws Exception{
 		System.out.println("........TestHandler...........selectSorderAll()........");
 		
 		List<Address> addresses = null;
@@ -48,25 +48,23 @@ public class TestHandler {
 		List<Teacher> teachers = null;
 		List<User> users = null;
 		
-		try {
-			addresses = testService.selectAddressAll();
-			admins = testService.selectAdminAll();
-			enterprises = testService.selectEnterpriseAll();
-			freeListens = testService.selectFreeListenAll();
-			freeListenBooks = testService.selectFreeListenBookAll();
-			lessons = testService.selectLessonAll();
-			messages = testService.selectMessageAll();
-			messageImgs = testService.selectMessageImgAll();
-			messageLikes = testService.selectMessageLikeAll();
-			messageReplies = testService.selectMessageReplyAll();
-			refunds = testService.selectRefundAll();
-			sorders  = testService.selectSorderAll();
-			swipers = testService.selectSwiperAll();
-			teachers = testService.selectTeacherAll();
-			users = testService.selectUserAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		addresses = testService.selectAddressAll();
+		admins = testService.selectAdminAll();
+		enterprises = testService.selectEnterpriseAll();
+		freeListens = testService.selectFreeListenAll();
+		freeListenBooks = testService.selectFreeListenBookAll();
+		lessons = testService.selectLessonAll();
+		messages = testService.selectMessageAll();
+		messageImgs = testService.selectMessageImgAll();
+		messageLikes = testService.selectMessageLikeAll();
+		messageReplies = testService.selectMessageReplyAll();
+		refunds = testService.selectRefundAll();
+		sorders  = testService.selectSorderAll();
+		swipers = testService.selectSwiperAll();
+		teachers = testService.selectTeacherAll();
+		users = testService.selectUserAll();
+
 		
 		System.out.println("Yean! Everything is OK!");
 		return "/test_show.jsp";

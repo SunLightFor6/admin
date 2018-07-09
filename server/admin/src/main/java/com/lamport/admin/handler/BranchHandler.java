@@ -15,7 +15,7 @@ public class BranchHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/saveBranch")
-	public String saveBranch(){
+	public String saveBranch() throws Exception{
 		System.out.println("..........BranchHandler..........saveBranch()..........");
 		//TODO
 		return"";
@@ -25,17 +25,17 @@ public class BranchHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteBranchLogicallyByID")
-	public String deleteBranchLogicallyByID(){
+	public String deleteBranchLogicallyByID() throws Exception{
 		System.out.println("..........BranchHandler..........deleteBranchLogicallyByID()..........");
 		//TODO
 		return"";
 	}
 	/**
-	 * 通过id更新Address信息
+	 * 通过id修改Address信息
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updateBranchByID")
-	public String updateBranchByID(){
+	public String updateBranchByID() throws Exception{
 		System.out.println("..........BranchHandler..........updateBranchByID()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class BranchHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectBranchByQIDAndPage")
-	public String selectBranchByQIDAndPage(){
+	public String selectBranchByQIDAndPage() throws Exception{
 		System.out.println("..........BranchHandler..........selectBranchByQIDAndPage()..........");
 		//TODO
 		return"";

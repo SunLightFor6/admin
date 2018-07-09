@@ -32,7 +32,7 @@ public interface LessonMapper {
 	 */
 	public int deleteLessonLogicallyByQID(int qid) throws Exception;
 	/**
-	 * 通过id更新Lesson信息
+	 * 通过id修改Lesson信息
 	 * @param lesson
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception

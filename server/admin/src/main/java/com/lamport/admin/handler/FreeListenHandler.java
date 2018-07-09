@@ -15,7 +15,7 @@ public class FreeListenHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/saveFreeListen")
-	public String saveFreeListen(){
+	public String saveFreeListen() throws Exception{
 		System.out.println("..........FreeListenHandler..........saveFreeListen()..........");
 		//TODO
 		return"";
@@ -25,17 +25,17 @@ public class FreeListenHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteFreeListenLogicallyByID")
-	public String deleteFreeListenLogicallyByID(){
+	public String deleteFreeListenLogicallyByID() throws Exception{
 		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........");
 		//TODO
 		return"";
 	}
 	/**
-	 * 通过id更新FreeListen信息
+	 * 通过id修改FreeListen信息
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updateFreeListenByID")
-	public String updateFreeListenByID(){
+	public String updateFreeListenByID() throws Exception{
 		System.out.println("..........FreeListenHandler..........updateFreeListenByID()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class FreeListenHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectFreeListenByQIDAndPage")
-	public String selectFreeListenByQIDAndPage(){
+	public String selectFreeListenByQIDAndPage() throws Exception{
 		System.out.println("..........FreeListenHandler..........selectFreeListenByQIDAndPage()..........");
 		//TODO
 		return"";

@@ -3,7 +3,7 @@ package com.lamport.admin.service;
 import com.lamport.admin.po.Admin;
 
 /**
- * Service, 提供Admin信息的增加、删除、更新、查询功能
+ * Service, 提供Admin信息的更新、查询功能
  * @author Lin Zhao， protector of Sherry
  *
  */

@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lamport.admin.vo.QIDAndCategory;
 
 /**
- * Service, 提供Swiper信息的增加功能
+ * Service, 提供Swiper信息的修改、查询功能
  * @author Lin Zhao, protector of Sherry
  *
  */

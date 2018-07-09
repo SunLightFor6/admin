@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.LessonMapper">
+
+	<!-- 创建Lesson -->
+	<insert id="saveLesson" parameterType="com.lamport.admin.po.Lesson">
+	</insert>
+	
+	<!-- 通过id逻辑删除Lesson信息 -->
+	<update id="deleteLessonLogicallyByID" parameterType="int">
+	</update>
+
+	<!-- 通过qid逻辑删除Lesson的信息 -->
+	<update id="deleteLessonLogicallyByQID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改Lesson信息 -->
+	<update id="updateLessonByID" parameterType="com.lamport.admin.po.Lesson">
+	</update>
+
+	<!-- 通过qid和页码查询Lesson信息 -->
+	<select id="selectLessonByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.po.Lesson">
+	</select>
+
+	<!-- 通过qid查询Lesson的总数 -->
+	<select id="selectCountLessonByQID" parameterType="int"
+			resultType="int"> 
+	</select>
+
+	<!-- 通过id查询Lesson图片存放路径 -->
+	<select id="selectLessonImgurlByID" parameterType="int"
+			resultType="java.lang.String">
+	</select>
+
+</mapper>

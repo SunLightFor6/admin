@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.AdminMapper">
+
+	<!-- 创建Admin -->
+	<insert id="saveAdmin" parameterType="com.lamport.admin.po.Admin">
+	</insert>
+
+	<!-- 通过qid逻辑删除Admin信息 -->
+	<update id="deleteAdminLogicallyByQID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改Admin的password -->
+	<update id="updatePasswordByID" parameterType="com.lamport.admin.po.Admin">
+	</update>
+
+	<!-- 根据adminname查询Admin(SuperAdmin)信息 -->
+	<select id="selectAdminByAdminname" parameterType="java.lang.String"
+			resultType="com.lamport.admin.po.Admin">
+	</select>
+
+	<!-- 通过adminname查询Admin的password -->
+	<select id="selectPasswordByAdminname" parameterType="java.lang.String"
+			resultType="java.lang.String">
+	</select>
+
+	<!-- 通过adminname查询admin的jurisdiction -->
+	<select id="selectJurisdictionByAdminname" parameterType="java.lang.String"
+			resultType="java.lang.String">
+	</select>
+	
+</mapper>

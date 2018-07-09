@@ -15,7 +15,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/saveTeacher")
-	public String saveTeacher(){
+	public String saveTeacher() throws Exception{
 		System.out.println("..........TeacherHandler..........saveTeacher()..........");
 		//TODO
 		return"";
@@ -25,7 +25,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteTeacherLogicallyByID")
-	public String deleteTeacherLogicallyByID(){
+	public String deleteTeacherLogicallyByID() throws Exception{
 		System.out.println("..........TeacherHandler..........deleteTeacherLogicallyByID()..........");
 		//TODO
 		return"";
@@ -35,7 +35,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updateTeacherByID")
-	public String updateTeacherByID(){
+	public String updateTeacherByID() throws Exception{
 		System.out.println("..........TeacherHandler..........updateTeacherByID()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updateTeacherSwiperByQID")
-	public String updateTeacherSwiperByQID(){
+	public String updateTeacherSwiperByQID() throws Exception{
 		System.out.println("..........TeacherHandler..........updateTeacherSwiperByQID()..........");
 		//TODO
 		return"";
@@ -55,7 +55,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectTeacherByQIDAndPage")
-	public String selectTeacherByQIDAndPage(){
+	public String selectTeacherByQIDAndPage() throws Exception{
 		System.out.println("..........TeacherHandler..........selectTeacherByQIDAndPage()..........");
 		//TODO
 		return"";
@@ -65,7 +65,7 @@ public class TeacherHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectTeacherSwiperByQID")
-	public String selectTeacherSwiperByQID(){
+	public String selectTeacherSwiperByQID() throws Exception{
 		System.out.println("..........TeacherHandler..........selectTeacherSwiperByQID()..........");
 		//TODO
 		return"";

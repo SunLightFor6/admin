@@ -15,7 +15,7 @@ public class SorderHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/verifySorderByID")
-	public String verifySorderByID(){
+	public String verifySorderByID() throws Exception{
 		System.out.println("..........SorderHandler..........verifySorderByID()..........");
 		//TODO
 		return"";
@@ -25,7 +25,7 @@ public class SorderHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/processRefundByID")
-	public String processRefundByID(){
+	public String processRefundByID() throws Exception{
 		System.out.println("..........SorderHandler..........processRefundByID()..........");
 		//TODO
 		return"";
@@ -35,7 +35,7 @@ public class SorderHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectSorderBySorderQueryCondition")
-	public String selectSorderBySorderQueryCondition(){
+	public String selectSorderBySorderQueryCondition() throws Exception{
 		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class SorderHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectRefundBySorderQueryCondition")
-	public String selectselectRefundBySorderQueryCondition(){
+	public String selectselectRefundBySorderQueryCondition() throws Exception{
 		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition()..........");
 		//TODO
 		return"";
@@ -55,7 +55,7 @@ public class SorderHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectSorderUnverifiedBySorderQueryCondition")
-	public String selectSorderUnverifiedBySorderQueryCondition(){
+	public String selectSorderUnverifiedBySorderQueryCondition() throws Exception{
 		System.out.println("..........SorderHandler..........selectSorderUnverifiedBySorderQueryCondition()..........");
 		//TODO
 		return"";

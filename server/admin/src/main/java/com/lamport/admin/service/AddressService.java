@@ -18,19 +18,19 @@ public interface AddressService {
 	 */
 	public int saveAddress(Address address) throws Exception;
 	/**
-	 * 通过id逻辑删除Address的信息
+	 * 通过id逻辑删除Address信息
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
 	public int deleteAddressLogicallyByID(int id) throws Exception;
 	/**
-	 * 通过id更新Address的信息
+	 * 通过id更新Address信息
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
 	public int updateAddressByID(Address address) throws Exception;
 	/**
-	 * 通过qid和页码查询Address的信息
+	 * 通过qid和页码查询Address信息
 	 * @return List
 	 * @throws Exception
 	 */

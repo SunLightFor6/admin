@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.MessageMapper">
+
+	<!-- 创建Message信息 -->
+	<insert id="saveMessage" parameterType="com.lamport.admin.po.Message">
+	</insert>
+
+	<!-- 通过id逻辑删除Message信息 -->
+	<update id="deleteMessageLogicallyByID" parameterType="int">
+	</update>
+
+	<!-- 通过qid逻辑删除Message信息 -->
+	<update id="deleteMessageLogicallyByQID" parameterType="int">
+	</update>
+
+	<!-- 通过id和页码查询Message信息 -->
+	<select id="selectMessageByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.po.Message">
+	</select>
+
+</mapper>

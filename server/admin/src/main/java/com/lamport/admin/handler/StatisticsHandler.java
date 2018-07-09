@@ -16,7 +16,7 @@ public class StatisticsHandler {
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/statistics")
-	public String Statistics(){
+	public String Statistics() throws Exception{
 		System.out.println("..........StatisticsHandler..........Statistics()..........");
 		//TODO
 		return"";

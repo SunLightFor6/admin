@@ -15,7 +15,7 @@ public class LessonHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/saveLesson")
-	public String saveLesson(){
+	public String saveLesson() throws Exception{
 		System.out.println("..........LessonHandler..........saveLesson()..........");
 		//TODO
 		return"";
@@ -25,17 +25,17 @@ public class LessonHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteLessonByID")
-	public String deleteLessonLogicallyByID(){
+	public String deleteLessonLogicallyByID() throws Exception{
 		System.out.println("..........LessonHandler..........deleteLessonLogicallyByID()..........");
 		//TODO
 		return"";
 	}
 	/**
-	 * 通过id更新Lesson信息
+	 * 通过id修改Lesson信息
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updateLessonByID")
-	public String updateLessonByID(){
+	public String updateLessonByID() throws Exception{
 		System.out.println("..........LessonHandler..........updateLessonByID()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class LessonHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectLessonByQIDAndPage")
-	public String selectLessonByQIDAndPage(){
+	public String selectLessonByQIDAndPage() throws Exception{
 		System.out.println("..........LessonHandler..........selectLessonByQIDAndPage()..........");
 		//TODO
 		return"";

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Controller, 进行Admin的修改、查询查询
+ * Controller, 进行Admin的修改、查询
  * @author Lin Zhao, protector of Sherry
  *
  */
@@ -15,7 +15,7 @@ public class AdminHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/updatePasswordByID")
-	public String updatePasswordByID(){
+	public String updatePasswordByID() throws Exception{
 		System.out.println("..........AdminHandler..........updatePasswordByID()..........");
 		//TODO
 		return "";
@@ -25,7 +25,7 @@ public class AdminHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicDataByQID")
-	public String selectEnterpriseBasicDataByQID(){
+	public String selectEnterpriseBasicDataByQID() throws Exception{
 		System.out.println("..........AdminHandler..........selectEnterpriseBasicDataByQID()..........");
 		//TODO
 		return "";

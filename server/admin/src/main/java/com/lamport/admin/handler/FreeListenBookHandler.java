@@ -15,7 +15,7 @@ public class FreeListenBookHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/processFreeListenBookByID")
-	public String processFreeListenBookByID(){
+	public String processFreeListenBookByID() throws Exception{
 		System.out.println("..........FreeListenBookHandler..........processFreeListenBookByID()..........");
 		//TODO
 		return"";
@@ -25,7 +25,7 @@ public class FreeListenBookHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectFreeListenBookByBookQueryCondition")
-	public String selectFreeListenBookByBookQueryCondition(){
+	public String selectFreeListenBookByBookQueryCondition() throws Exception{
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookByBookQueryCondition()..........");
 		//TODO
 		return"";
@@ -35,7 +35,7 @@ public class FreeListenBookHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectFreeListenBookUnprocessedByBookQueryCondition")
-	public String selectFreeListenBookUnprocessedByBookQueryCondition(){
+	public String selectFreeListenBookUnprocessedByBookQueryCondition() throws Exception{
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookUnprocessedByBookQueryCondition()..........");
 		//TODO
 		return"";

@@ -15,7 +15,7 @@ public class MessageHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/saveMessage")
-	public String saveMessage(){
+	public String saveMessage() throws Exception{
 		System.out.println("..........MessageHandler..........saveMessage()..........");
 		//TODO
 		return"";
@@ -25,7 +25,7 @@ public class MessageHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteMessageLogicallyByID")
-	public String deleteMessageLogicallyByID(){
+	public String deleteMessageLogicallyByID() throws Exception{
 		System.out.println("..........MessageHandler..........deleteMessageLogicallyByID()..........");
 		//TODO
 		return"";
@@ -35,7 +35,7 @@ public class MessageHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/deleteMessageReplyLogicallyByID")
-	public String deleteMessageReplyLogicallyByID(){
+	public String deleteMessageReplyLogicallyByID() throws Exception{
 		System.out.println("..........MessageHandler..........deleteMessageReplyLogicallyByID()..........");
 		//TODO
 		return"";
@@ -45,7 +45,7 @@ public class MessageHandler {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/selectMessageByQIDAndPage")
-	public String selectMessageByQIDAndPage(){
+	public String selectMessageByQIDAndPage() throws Exception{
 		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........");
 		//TODO
 		return"";
