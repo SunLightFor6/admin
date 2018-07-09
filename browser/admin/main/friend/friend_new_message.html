@@ -83,7 +83,7 @@
 		//表单提交的方法
 		$('#message_submit').click(function() {
 			var formData = new FormData();
-			formData.append("title", $('#title')[0]);
+			formData.append("mtitle", $('#title')[0]);
 			formData.append("message_pics", message_pics);
 			$.ajax({
 				type: "post",
