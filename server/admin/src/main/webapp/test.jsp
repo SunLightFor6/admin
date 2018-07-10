@@ -7,9 +7,17 @@
 <title>Test</title>
 </head>
 <body>
-<h1 align="center">
+
+<h1 align="left">
 	<a href="test/TestAdminLogin">TestAdminLogin</a>
 </h1>
+<hr>
+
+<h1 align="left">
+	<a href="test/TestSelectEnterpriseByPage">TestSelectEnterpriseByPage</a>
+</h1>
+<hr>
+
 
 <h1 align="center">
 	<a href="test/TestHandler_selectSorderAll">TestHandler_selectSorderAll</a>

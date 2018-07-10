@@ -41,4 +41,10 @@ public interface EnterpriseMapper {
 	 * @throws Exception
 	 */
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception;
+	/**
+	 * 查询Enterprise的总条数
+	 * @return int Enterprise的总条数
+	 * @throws Exception
+	 */
+	public int selectCountEnterprise() throws Exception;
 }

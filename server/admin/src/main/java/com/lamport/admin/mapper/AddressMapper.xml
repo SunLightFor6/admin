@@ -25,5 +25,11 @@
 	<select id="selectAddressByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage" 
 			resultType="com.lamport.admin.po.Address">
 	</select>
+
+	<!-- 通过qid查询Address的总数 -->
+	<select id="selectCountAddressByQID" parameterType="int"
+			resultType="int">
+		select count(*) from address where qid = #{qid}
+	</select>
 	
 </mapper>

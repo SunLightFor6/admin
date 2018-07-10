@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.service.AdminService;
 import com.lamport.admin.service.LoginService;
@@ -35,15 +36,15 @@ public class LogInAndOutHandler {
 		System.out.println("..........LoginHandler..........adminLogin()..........");
 		String result = null;
 		
+		JsonObject jsonObject = new JsonObject();
 		int isAdminLoginSuccessful = loginService.isAdminLoginSuccessful(admin);
 		if(isAdminLoginSuccessful == 1){
 			admin = adminService.selectAdminByAdminname(admin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", admin);
-			result = "{\"response\":\"1\"}";
-		}else{
-			result = "{\"response\":\""	+ isAdminLoginSuccessful + "\"}";
 		}
+		jsonObject.addProperty("response", isAdminLoginSuccessful);
+		result=jsonObject.toString();
 		
 		return result;
 	}
@@ -56,9 +57,13 @@ public class LogInAndOutHandler {
 	public String adminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........adminLogout()..........");
 		String result = null;
+		
+		JsonObject jsonObject = new JsonObject();
 		HttpSession session = request.getSession();
 		session.removeAttribute("admin");
-		result = "{\"response\":\"1\"}";
+		jsonObject.addProperty("response", 1);
+		result=jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -71,15 +76,15 @@ public class LogInAndOutHandler {
 		System.out.println("..........LoginHandler..........superAdminLogin()..........");
 		String result = null;
 
+		JsonObject jsonObject = new JsonObject();
 		int isAdminLoginSuccessful = loginService.isAdminLoginSuccessful(superAdmin);
 		if(isAdminLoginSuccessful == 1){
 			superAdmin = adminService.selectAdminByAdminname(superAdmin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("superAdmin", superAdmin);
-			result = "{\"response\":\"1\"}";
-		}else{
-			result = "{\"response\":\""	+ isAdminLoginSuccessful + "\"}";
 		}
+		jsonObject.addProperty("response", isAdminLoginSuccessful);
+		result=jsonObject.toString();
 		
 		return result;
 	}
@@ -92,9 +97,13 @@ public class LogInAndOutHandler {
 	public String superAdminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........superAdminLogout()..........");
 		String result = null;
+		
+		JsonObject jsonObject = new JsonObject();
 		HttpSession session = request.getSession();
 		session.removeAttribute("superAdmin");
-		result = "{\"response\":\"1\"}";
+		jsonObject.addProperty("response", 1);
+		result=jsonObject.toString();
+		
 		return result;
 	}
 }

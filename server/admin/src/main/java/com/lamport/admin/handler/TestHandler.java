@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
@@ -22,26 +24,145 @@ import com.lamport.admin.po.Sorder;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.po.User;
+import com.lamport.admin.service.EnterpriseService;
 import com.lamport.admin.service.LoginService;
 import com.lamport.admin.service.TestService;
+import com.lamport.admin.tool.PageTool;
 
 @Controller
 public class TestHandler {
 	@Autowired
 	private TestService testService;
-	@Autowired LoginService loginService;
+	@Autowired 
+	private LoginService loginService;
+	@Autowired 
+	private EnterpriseService enterpriseService;
 	
+	/********************************LogInAndOutHandler********************************/
 	@RequestMapping(value="/test/TestAdminLogin")
 	public String testAdminLogin() throws Exception{
 		System.out.println("........TestHandler...........testAdminLogin()........");
+		
+		JsonObject jsonObject = new JsonObject();
 		Admin admin = new Admin();
 		admin.setAdminname("feiyy");
 		admin.setPassword("123456");
 		int result = loginService.isAdminLoginSuccessful(admin);
+		jsonObject.addProperty("response", result);
+		System.out.println("\n" + jsonObject.toString() + "\n");
 		
-		System.out.println("\n" + "Login result = " + result + "\n");
 		return "/test_show.jsp";
 	}
+	/********************************LogInAndOutHandler********************************/
+	
+	
+	/********************************SuperAdminHandler********************************/
+	@RequestMapping(value="/test/TestSelectEnterpriseByPage")
+	public String testSelectEnterpriseByPage() throws Exception{
+		System.out.println("........TestHandler...........testSelectEnterpriseByPage()........");
+		
+		PageTool pageTool = new PageTool(1, 10);
+		List<Enterprise> enterprises = enterpriseService.selectEnterpriseByPage(pageTool);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", pageTool.getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(Enterprise enterprise : enterprises){
+			JsonObject object = new JsonObject();
+			object.addProperty("id", enterprise.getQid());
+			object.addProperty("admin", enterprise.getAdminister().getAdminname());
+			object.addProperty("enterprise", enterprise.getName());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		System.out.println("\n" + jsonObject.toString() + "\n");
+		
+		return "/test_show.jsp";
+	}
+	/********************************SuperAdminHandler********************************/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="/test/TestHandler_selectSorderAll")
 	@ResponseBody

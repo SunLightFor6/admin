@@ -17,6 +17,7 @@ import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.mapper.UserMapper;
 import com.lamport.admin.po.Address;
+import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.po.Message;
@@ -54,8 +55,18 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public int saveEnterprise(Enterprise enterprise) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		int saveEnterpriseResult = enterpriseMapper.saveEnterprise(enterprise);
+		Admin admin = new Admin();
+		long time = System.currentTimeMillis();
+		admin.setQid(enterprise.getQid());
+		int saveAminResult = adminMapper.saveAdmin(admin);
+		if(saveEnterpriseResult==1 && saveAminResult==1){
+			result = 1;
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -78,8 +89,13 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Enterprise> enterprises = null;
+		
+		int count = enterpriseMapper.selectCountEnterprise();
+		pageTool.setCount(count);
+		enterprises = enterpriseMapper.selectEnterpriseByPage(pageTool);
+		
+		return enterprises;
 	}
 
 }
