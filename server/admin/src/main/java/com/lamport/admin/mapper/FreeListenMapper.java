@@ -3,7 +3,7 @@ package com.lamport.admin.mapper;
 import java.util.List;
 
 import com.lamport.admin.po.FreeListen;
-import com.lamport.admin.vo.QIDAndPage;
+import com.lamport.admin.vo.FreeListenQueryCondition;
 
 /**
  * Mapper, 提供FreeListen信息的增加、删除、修改、查询功能
@@ -38,18 +38,18 @@ public interface FreeListenMapper {
 	 */
 	public int deleteFreeListenLogicallyByQID(int qid) throws Exception;
 	/**
-	 * 通过id更新FreeListen信息
+	 * 通过id修改FreeListen信息
 	 * @param freeListen
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
 	public int updateFreeListenByID(FreeListen freeListen) throws Exception;
 	/**
-	 * 通过qid和页码查询FreeListen信息
+	 * 通过多条件查询FreeListen信息
 	 * @return
 	 * @throws Exception
 	 */
-	public List<FreeListen> selectFreeListenByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
+	public List<FreeListen> selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition) throws Exception;
 	/**
 	 * 通过qid查询FreeListen的总数
 	 * @return int

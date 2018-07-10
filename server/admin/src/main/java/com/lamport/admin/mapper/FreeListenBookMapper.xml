@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.FreeListenBookMapper">
+
+	<!-- 通过fid逻辑删除FreeListenBook信息 -->
+	<update id="deleteFreeListenBookLogicallyByFID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改FreeListenBook信息 -->
+	<update id="updateFreeListenBookByID" parameterType="com.lamport.admin.po.FreeListenBook">
+	</update>
+
+	<!-- 通过BookQueryCondition查询FreeListenBook信息 -->
+	<select id="selectFreeListenBookByBookQueryCondition" parameterType="com.lamport.admin.vo.BookQueryCondition"
+			resultType="com.lamport.admin.po.FreeListenBook">
+	</select>
+	
+	<!-- 根据qid查询FreeListenBook的总数 -->
+	<select id="selectCountFreeListenBookByQID" parameterType="int"
+			resultType="int">
+	</select>
+
+</mapper>

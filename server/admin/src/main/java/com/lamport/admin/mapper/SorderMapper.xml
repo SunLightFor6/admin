@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.SorderMapper">
+
+	<!-- 通过lid逻辑删除Sorder信息 -->
+	<update id="deleteSorderLogicallyByLID" parameterType="int">
+	</update>
+
+	<!-- 通过branchid逻辑删除Sorder信息 -->
+	<update id="deleteSorderLogicallyByBranchID" parameterType="int">
+	</update>
+
+	<!-- 通过qid逻辑删除Sorder信息 -->
+	<update id="deleteSorderLogicallyByQID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改Sorder信息 -->
+	<update id="updateSorderByID" parameterType="com.lamport.admin.po.Sorder">
+	</update>
+
+	<!-- 通过id修改Refund和相应的Sorder信息 -->
+	<update id="updateRefundByID" parameterType="com.lamport.admin.po.Sorder">
+	</update>
+
+	<!-- 通过SorderQueryCondition查询Sorder信息 -->
+	<select id="selectSorderBySorderQueryCondition" parameterType="com.lamport.admin.vo.SorderQueryCondition"
+			resultType="com.lamport.admin.po.Sorder">
+	</select>
+
+	<!-- 根据qid查询Sorder的总数 -->
+	<select id="selectCountSorderByQID" parameterType="int"
+			resultType="int">
+	</select>
+
+	<!-- 根据qid查询Sorder的订单总额 -->
+	<select id="selectCountSorderActualByQID" parameterType="int"
+			resultType="double">
+	</select>
+
+</mapper>

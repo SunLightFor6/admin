@@ -3,7 +3,7 @@ package com.lamport.admin.mapper;
 import com.lamport.admin.po.MessageImg;
 
 /**
- * Mapper, 提供MessageImg信息的增加、删除、查询功能
+ * Mapper, 提供MessageImg信息的增加、删除功能
  * @author Lin Zhao， protector of Sherry
  *
  */

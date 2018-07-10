@@ -8,6 +8,17 @@
 </head>
 <body>
 
+<h1 align="left">
+	<a href="test/TestAdminLogin">TestAdminLogin</a>
+</h1>
+<hr>
+
+<h1 align="left">
+	<a href="test/TestSelectEnterpriseByPage">TestSelectEnterpriseByPage</a>
+</h1>
+<hr>
+
+
 <h1 align="center">
 	<a href="test/TestHandler_selectSorderAll">TestHandler_selectSorderAll</a>
 </h1>

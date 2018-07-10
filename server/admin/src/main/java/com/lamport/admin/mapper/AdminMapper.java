@@ -3,7 +3,7 @@ package com.lamport.admin.mapper;
 import com.lamport.admin.po.Admin;
 
 /**
- * Mapper, 提供Admin(SuperAdmin)信息的增加、删除、更新、查询功能
+ * Mapper, 提供Admin(SuperAdmin)信息的增加、删除、修改、查询功能
  * @author Lin Zhao, protector of Sherry
  *
  */
@@ -29,7 +29,7 @@ public interface AdminMapper {
 	 */
 	public int updatePasswordByID(Admin admin) throws Exception;
 	/**
-	 * 根据adminname查询Admin(SuperAdmin)的信息
+	 * 根据adminname查询Admin(SuperAdmin)信息
 	 * @param adminname
 	 * @return Admin
 	 * @throws Exception

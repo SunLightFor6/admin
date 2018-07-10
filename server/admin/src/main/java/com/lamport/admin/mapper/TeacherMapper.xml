@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.TeacherMapper">
+
+	<!-- 创建Teacher信息 -->
+	<insert id="saveTeacher" parameterType="com.lamport.admin.po.Teacher">
+	</insert>
+
+	<!-- 通过id逻辑删除Teacher信息 -->
+	<update id="deleteTeacherLogicallyByID" parameterType="int">
+	</update>
+
+	<!-- 通过id修改Teacher信息 -->
+	<update id="updateTeacherByID" parameterType="com.lamport.admin.po.Teacher">
+	</update>
+
+	<!-- 通过qid和页码查询Teacher信息 -->
+	<select id="selectTeacherByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.po.Teacher">
+	</select>
+
+	<!-- 通过qid查询Teacher的总数 -->
+	<select id="selectCountTeacherByQID" parameterType="int"
+			resultType="int">
+	</select>
+
+	<!-- 通过id查询Teacher图片存放路径 -->
+	<select id="selectTeacherTphotoByID" parameterType="int"
+			resultType="java.lang.String">
+	</select>
+
+</mapper>

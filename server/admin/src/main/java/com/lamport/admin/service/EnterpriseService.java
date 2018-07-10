@@ -8,7 +8,7 @@ import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.tool.PageTool;
 
 /**
- * Service, 提供Enterprise信息的增加、删除、更新、查询功能
+ * Service, 提供Enterprise信息的增加、删除、修改、查询功能
  * @author Lin Zhao， protector of Sherry
  *
  */
@@ -26,7 +26,7 @@ public interface EnterpriseService {
 	 */
 	public int deleteEnterpriseLogicallyByID(int id) throws Exception;
 	/**
-	 * 通过id更新企业信息
+	 * 通过id修改企业信息
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */

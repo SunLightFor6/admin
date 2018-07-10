@@ -1,7 +1,7 @@
 package com.lamport.admin.service;
 
 /**
- * Service, 提供User信息的增加、删除、更新、查询功能
+ * Service, 提供User信息的查询功能
  * @author Lin Zhao， protector of Sherry
  *
  */

@@ -6,7 +6,7 @@ import com.lamport.admin.po.Sorder;
 import com.lamport.admin.vo.SorderQueryCondition;
 
 /**
- * Service, 提供Sorder信息的更新、查询功能
+ * Service, 提供Sorder信息的修改、查询功能
  * @author Lin Zhao， protector of Sherry
  *
  */

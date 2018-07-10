@@ -2,6 +2,7 @@ package com.lamport.admin.handler;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Controller, 进行Enterprise基本信息的修改、查询
@@ -11,23 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EnterpriseBasicInfoHandler {
 	/**
-	 * 根据id更新企业基本信息 
+	 * 根据id修改企业基本信息 
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByID")
-	public String updateEnterpriseBasicInfoByID(){
+	@ResponseBody
+	public String updateEnterpriseBasicInfoByID() throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........");
+		String result = null;
 		//TODO
-		return"";
+		return result;
 	}
 	/**
 	 * 根据id查询企业基本信息 
 	 * @return String
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicInfoByQID")
-	public String selectEnterpriseBasicInfoByQID(){
+	@ResponseBody
+	public String selectEnterpriseBasicInfoByQID() throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........selectEnterpriseBasicInfoByQID()..........");
+		String result = null;
 		//TODO
-		return"";
+		return result;
 	}
 }
