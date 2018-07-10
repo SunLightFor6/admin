@@ -3,24 +3,19 @@
 		<form class="layui-form" name="enter-basic-info" lay-filter="enter-basic-info" action="" method="post">
 			<p class="form-label_sm">企业名称</p>
 			<input type="text" id="enter-name" name="enter-name" lay-verify="title required" autocomplete="off" placeholder="请输入企业名称" class="layui-input" />
+			<p class="form-label_sm">企业图片</p>
 			<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-				<p class="form-label_sm">企业图片</p>
-				现有的轮播图：
+				现有的图：
 				<div id="current_pics"></div>
 			</blockquote>
-			<script>
-					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
-					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
-					$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
-			</script>
 			<div class="layui-upload">
-				<div class="layui-upload-drag" id="uploadpic">
+				<div class="layui-upload-drag" id="uploadpics">
 					<i class="layui-icon">&#xe681;</i>
 					<p>点击上传，或将图片拖拽到此处</p>
 				</div>
 				<blockquote id="preview_pics" class="layui-elem-quote layui-quote-nm" style="display:none; margin-top: 10px;">
 					预览图：
-					<div id="pics"></div>
+					<div id="pics_now"></div>
 					<p id="demoText"></p>
 				</blockquote>
 			</div>
@@ -34,64 +29,99 @@
 			<p class="form-label_sm">企业精彩展示</p>
 			<script type="text/plain" id="myEditor_enter_modify" style="height:240px;"></script>
 			<p class="form-label_sm"></p>
-			<button type="submit" class="layui-btn">确定</button>
-			<script type="text/javascript" defer="defer">
-//				$(function() {
-//					//实例化编辑器
-//					var um_free = UM.getEditor('myEditor');
-//					um_free.setWidth("100%");
-//					$(".edui-body-container").css("width", "98%");
-//					$(".edui-body-container").css("z-index", "1");
-//				});
-				var um_free = UM.createEditor('myEditor_enter_modify');
-				console.log("--------UM 初始化 -------- ： ");
-//				console.log(um_free);
-				um_free.setWidth("100%");
-				$(".edui-body-container").css("width", "98%");
-				$(".edui-body-container").css("z-index", "1");
-				um_free.setContent('<h3 align="center">我们的企业是最好的企业</h3><img height="100px" src="../../img/sherry3.jpg"><img height="100px" src="../../img/sherry2.jpg"><br>hahah ');
-			</script>
+			<button type="submit" id="enter_modify_submit" class="layui-btn">确定</button>
 		</form>
 	</div>
 </div>
 
 <script>
-	//JavaScript代码区域
-	layui.use('element', function() {
+	var pics_num_amount = 0, //图片总数  先后上传加载的图片总数
+		pics_num_load = 0, //每次加载的图片数量
+		pics_num_loaded = 0, //div中的图片数量
+		pics_cur = 0, //当前已经被加载了的图片数量
+		message_pics = new Array(), //所有要被上传的图片，定义出来以封装到formdata
+		pics_map = new Map(); //所有图片的集合
+
+	layui.use(['element', 'form', 'upload', 'layer'], function() {
+		var layer = layui.layer;
 		var element = layui.element;
-
-	});
-	$(function() {
-		layui.use('form', function() {
-			var form = layui.form;
-			form.val('enter-basic-info', {
-				'enter-name': "东软睿道",
-				'enter-des': "最好的教育企业"
-			});
-		});
-	});
-
-	layui.use('upload', function() {
+		var form = layui.form;
 		var upload = layui.upload;
+		var enterprise_info = sessionStorage.getItem("enterprise_info");
+
+		var um_free = UM.createEditor('myEditor_enter_modify');
+		console.log("--------UM 初始化 -------- ： ");
+		um_free.setWidth("100%");
+		$(".edui-body-container").css("width", "98%");
+		$(".edui-body-container").css("z-index", "1");
+		//		um_free.setContent(enterprise_info.jczs);
+
+		form.render();
+
+		$(function() {
+			//			form.val('enter-basic-info', {
+			//				'enter-name': enterprise_info.name,
+			//				'enter-des': enterprise_info.introduction
+			//			});
+			//			$.each(enterprise_info.imgs, function(name, value) {
+			//	$('#current_pics').append('<img src="' + value + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
+
+			//			});
+		});
+
+		//以下是上传代码
+
 		upload.render({
-			elem: '#uploadpic',
-			url: '/upload/',
+			elem: '#uploadpics',
+			auto: false,
 			multiple: true,
-			acceptMime: 'image/*',
-			number: 3,
-			size: 1000 //限制文件大小，单位 KB
+			size: 5 * 1024 //限制文件大小，单位 KB
 				,
-			before: function(obj) {
-				$("#preview_pics").show();
+			number: 5,
+			choose: function(obj) {
+				var fileLength = obj.fileLength_(); //获取本次上传的图片数量
+				pics_num_amount = pics_num_load + fileLength; //目前一共加载了的图片的数量
+				console.log("pics_num_amount = " + pics_num_amount + "， fileLength = " + fileLength);
+				$('#preview_pics').show(); //显示这div
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
-					$('#pics').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 120px; width: 200px">')
+					$('#pics_now').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img"></div>');
+					pics_cur++; //加载中  实时更新的已经加载了的图片总数
+					console.log("pics_num_amount = " + pics_num_amount + " pics_cur = " + pics_cur);
+					if(pics_cur == pics_num_amount) { //都加载完毕了
+						layerphotos_dynamic('pics_now'); //调用layer.photos() 此时调用能保证div中的图片加载完全了
+					}
+					message_pics.push(file);
+					pics_map.set(index, file);
+					console.log("----------```````````````````````````--------------");
+					console.log(message_pics);
+					console.log(pics_map);
+					console.log("-------``````````````````````````````-----------------");
+					$('#b_' + index).click(function() {
+						$('#img_o_' + index).remove();
+						$('#b_' + index).remove();
+						message_pics.splice(message_pics.indexOf(pics_map.get(index)), 1);
+						console.log(message_pics);
+						console.log(pics_map);
+					});
 				});
+				pics_num_load += fileLength;
+			},
+			error: function(index) {
+				//				pics_cur++;
+				//				console.log(index + "num = " + pics_num + " temp = " + pics_cur);
+				//				if(pics_cur == pics_num) {
+				//					layerphotos();
+				//				}
+
 			},
 			done: function(res) {
 				//上传完毕
+				layerphotos();
 			}
 		});
+
 		upload.render({
 			elem: '#upload-video',
 			url: '/upload/',
@@ -99,15 +129,58 @@
 			//					acceptMime: 'video', //video/* not include mp4
 			size: 100000 //限制文件大小，单位 KB
 				,
-			before: function(obj) {
+			choose: function(obj) {
+				$('#preview_video').show();
 				obj.preview(function(index, file, result) {
 					$('#preview_video').append('<video src="' + result + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
 				});
-				
+
 			},
 			done: function(res) {
 
 			}
+		});
+
+		//表单提交的方法
+		$('#enter_modify_submit').click(function() {
+			var formData = new FormData();
+			formData.append("mtitle", $('#title')[0]);
+			formData.append("message_pics", message_pics);
+			$.ajax({
+				type: "post",
+				url: "",
+				async: true,
+				data: formData,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更改成功！'
+					});
+					window.location.href = "#11";
+				},
+				error: function() {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更改失败，请稍后重试'
+					});
+				}
+			});
+
 		});
 	});
 </script>

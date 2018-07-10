@@ -43,11 +43,22 @@
 
 	});
 	$(function() {
-		$('#enterprise_name_show').html("东软睿道");
-		$('#enterprise_pics').append('<img height="100px" src="../../img/sherry3.jpg" /><img height="100px" src="../../img/sherry2.jpg" />');
-		$('#enterprise_des').html("最好的教育企业");
-		$('#enterprise_video').append('<video src="../../video/sherryvideo.mp4" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
-		$('#enterprise_show').append('<h3 align="center">我们的企业是最好的企业</h3><img height="100px" src="../../img/sherry3.jpg"><img height="100px" src="../../img/sherry2.jpg"><br>hahah ');
+		$.ajax({
+			type: "post",
+			url: "/admin/selectEnterpriseBasicInfoByQID",
+			async: true,
+			success: function(data) {
+				$('#enterprise_name_show').html(data.name);
+				$.each(data.imgs, function(name, value) {
+					$('#enterprise_pics').append('<img alt="' + name + '" src="' + value + '"class="layui-upload-img" style="height: 120px;" />');
+				});
+				//				$('#enterprise_pics').append('<img height="100px" src="../../img/sherry3.jpg" /><img height="100px" src="../../img/sherry2.jpg" />');
+				$('#enterprise_des').html(data.introduction);
+				$('#enterprise_video').append('<video src="' + data.videopath + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
+				$('#enterprise_show').append(data.jczs);
+				sessionStorage.setItem("enterpriser_info", JSON.stringify(data));
+			}
+		});
 
 		layui.use('layer', function() {
 			var layer = layui.layer;

@@ -6,10 +6,23 @@
 		</blockquote>
 		<script>
 			$(function() {
-				$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-				$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-				$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-			});
+						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+						$.ajax({
+									type: "get",
+									url: "/admin/selectTeacherSwiperByQID",
+									async: true,
+									data: formData,
+									processData: false,
+									contentType: false,
+									success: function(data) {
+										$.each(data, function(name, value) {
+												$('#current_pics').append('<img src="' + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+										});
+									}
+									});
+							})
 		</script>
 		<form class="layui-form" name="message_form" action="" method="post">
 			<p class="form-label">上传轮播图</p>
@@ -21,7 +34,7 @@
 				</blockquote>
 			</div>
 			<p class="form-label"></p>
-			<button type="submit" class="layui-btn">确定更新轮播图</button>
+			<button type="button" id="submit_t_pics" class="layui-btn">确定更新轮播图</button>
 		</form>
 	</div>
 </div>
@@ -34,6 +47,8 @@
 	});
 </script>
 <script>
+	var imgs = new Array(),
+		pics_map = new Map(); //所有图片的集合
 	layui.use('upload', function() {
 		var $ = layui.jquery,
 			upload = layui.upload;
@@ -46,15 +61,78 @@
 			number: 3,
 			size: 1000 //限制文件大小，单位 KB
 				,
-			before: function(obj) {
+			choose: function(obj) {
 				$('#teacher_pic').show();
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
-					$('#pics').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 150px; width: 240px">')
+					imgs.push(file);
+					pics_map.set(index, file);
+					$('#pics').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 150px; width: 240px">')
+
+					$('#b_' + index).click(function() {
+						$('#img_o_' + index).remove();
+						$('#b_' + index).remove();
+						message_pics.splice(message_pics.indexOf(pics_map.get(index)), 1);
+						console.log(message_pics);
+						console.log(pics_map);
+					});
 				});
 			},
 			done: function(res) {
 				//上传完毕
+			}
+		});
+	});
+
+	$('#submit_t_pics').click(function() {
+		var formData = new FormData();
+		formData.append("imgs", imgs);
+		$.ajax({
+			type: "post",
+			url: "/admin/updateTeacherSwiperByQID",
+			async: true,
+			data: formData,
+			dataType: "json",
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				if(data.respense == 1) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更新成功！'
+					});
+					window.location.href = "#32";
+				} else {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更新失败，请稍后重试'
+					});
+				}
+			},
+			error: function() {
+				layer.open({
+					type: 0,
+					btn: false,
+					title: false,
+					icon: 5,
+					closeBtn: 0,
+					shadeClose: true,
+					time: 1500,
+					content: '更新失败，请稍后重试'
+				});
 			}
 		});
 	});

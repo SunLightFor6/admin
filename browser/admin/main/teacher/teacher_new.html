@@ -1,8 +1,8 @@
 <div class="body-in" id="top">
 	<div class="layui-card-body">
-		<form class="layui-form" name="message_form" action="" method="post">
+		<form class="layui-form" id="teacher_form" name="teacher_form" lay-filter="teacher_form" action="" method="post">
 			<p class="form-label">讲师姓名</p>
-			<input type="text" name="title" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+			<input type="text" name="tname" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
 			<p class="form-label">讲师图片</p>
 			<div class="layui-upload">
 				<div class="layui-upload-drag" id="uploadpic">
@@ -15,9 +15,9 @@
 				</div>
 			</div>
 			<p class="form-label">讲师简介</p>
-			<textarea placeholder="请输入内容" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
+			<textarea name="introduction" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
 			<div style="margin: 10px;">
-				<button type="submit" class="layui-btn">提交讲师信息</button>
+				<button type="button" id="teacher_modify_btn" class="layui-btn">提交讲师信息</button>
 			</div>
 		</form>
 	</div>
@@ -34,35 +34,74 @@
 	layui.use('upload', function() {
 		var $ = layui.jquery,
 			upload = layui.upload;
-
+		var teacher_img;
 		upload.render({
 			elem: '#uploadpic',
 			url: '/upload/',
+			auto: false,
 			acceptMime: 'image/*',
 			size: 1000 //限制文件大小，单位 KB
 				,
-			before: function(obj) {
+			choose: function(obj) {
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
+					teacher_img = file;
 					$('#pic-div').show();
 					$('#pic').attr('src', result); //图片链接（base64）
 				});
-			},
-			done: function(res) {
-				//如果上传失败
-				if(res.code > 0) {
-					return layer.msg('上传失败');
+			}
+		});
+	});
+
+	$("#teacher_modify_btn").click(function() {
+		var formData = new FormData("teacher_form");
+		formData.append("teacher_img", teacher_img);
+		$.ajax({
+			type: "post",
+			url: "/admin/saveTeacher,
+			async: true,
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				if(data = 1) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '新增成功！'
+					});
+					window.location.href = "#31";
+				} else {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '新增失败，请稍后重试'
+					});
 				}
 				//上传成功
 			},
 			error: function() {
-				//演示失败状态，并实现重传
-				var demoText = $('#demoText');
-				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-danger layui-btn-mini demo-reload">重试</a>');
-				demoText.find('.demo-reload').on('click', function() {
-					uploadInst.upload();
+				layer.open({
+					type: 0,
+					btn: false,
+					title: false,
+					icon: 5,
+					closeBtn: 0,
+					shadeClose: true,
+					time: 1500,
+					content: '新增失败，请稍后重试'
 				});
-			},
+			}
 		});
 	});
 </script>

@@ -1,22 +1,22 @@
 <div class="body-in" id="top" style="width: 100%;">
-	<form class="layui-form" action="">
+	<form class="layui-form" id="book_query_form">
 		<div class="layui-form-item" style="margin-bottom: 0px;">
 			<div class="layui-inline">
-				<label class="layui-lz-form-label" style="width: 60px;">关键字：</label>
+				<label class="layui-lz-form-label" style="width: 60px;">课程id：</label>
 				<div class="layui-lz-input-inline" style="width: 90px;">
-					<input name="keyword" class="layui-input" style="width: 90px;" type="text" autocomplete="off" placeholder="课程编号">
+					<input name="fid" id="fid" class="layui-input" style="width: 90px;" type="text" autocomplete="off" placeholder="课程编号">
 				</div>
 			</div>
 			<div class="layui-inline">
 				<label class="layui-lz-form-label">用户昵称：</label>
 				<div class="layui-lz-input-inline" style="width: 90px;">
-					<input name="nickname" class="layui-input" type="text" autocomplete="off" placeholder="用户昵称">
+					<input name="nickname" id="nickname" class="layui-input" type="text" autocomplete="off" placeholder="用户昵称">
 				</div>
 			</div>
 			<div class="layui-inline">
 				<label class="layui-lz-form-label" style="width: 70px;">预约状态：</label>
 				<div class="layui-lz-select-inline">
-					<select name="modules" lay-verify="required" lay-search="">
+					<select name="status_sel" id="status_sel" lay-verify="required" lay-search="">
 						<option value="1">待处理</option>
 						<option value="2">已处理</option>
 						<option value="3">已结束</option>
@@ -26,20 +26,20 @@
 			<div class="layui-inline">
 				<label class="layui-lz-form-label" style="width: 70px;">预约时间：</label>
 				<div class="layui-lz-input-inline" style="width:100px;">
-					<input name="startdate" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
+					<input name="beginTime" id="beginTime" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
 				</div>
 				<div class="layui-form-mid">-</div>
 				<div class="layui-lz-input-inline" style="width: 100px;">
-					<input name="enddate" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
+					<input name="endTime" id="endTime" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
 				</div>
 			</div>
 			<div class="layui-inline">
-				<button class="layui-btn" lay-filter="query" lay-submit="">查询</button>
+				<button class="layui-btn" type="button" id="book_query_btn">查询</button>
 			</div>
 		</div>
 	</form>
 	<div class="body-in" style="padding-top:4px; width: 90%;">
-		<table class="layui-hide" id="test" lay-filter="demo" style="word-wrap:break-word; word-break:break-all;"></table>
+		<table class="layui-hide" id="book_query_list" lay-filter="book_query_list" style="word-wrap:break-word; word-break:break-all;"></table>
 	</div>
 </div>
 
@@ -51,12 +51,20 @@
 	});
 </script>
 <script>
+	var currentpage = 1;
+	var status = "";
+	var fid = "";
+	var nickname = "";
+	var beginTime = "";
+	var endTime = "";
 	layui.use('table', function() {
 		var table = layui.table;
 
 		table.render({
-			elem: '#test',
-			url: '../../json/book.json',
+			elem: '#book_query_list',
+			//			url: '../../json/book.json',
+			url: '/admin/selectSorderBySorderQueryCondition?fid=' + fid + '&nickname=' + nickname + '&status=' + status + '&beginTime=' + beginTime + '&endTime=' + endTime,
+
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -64,90 +72,68 @@
 			cols: [
 				[{
 					field: 'bookcourseid',
-							width: '11%',
+					width: '11%',
 					title: '课程编号',
 					sort: true
 				}, {
 					field: 'bookcoursename',
-							width: '16%',
-							title: '课程标题'
-						}, {
-							field: 'usernickname',
-							width: '12%',
-							title: '用户昵称',
-							sort: true
-						}, {
-							field: 'usertel',
-							width: '12%',
-							title: '用户电话'
-						}, {
-							field: 'bookstatus',
-							width: '10%',
-							title: '预约状态'
-						}, {
-							field: 'booktime',
-							width: '18%',
-							title: '预约时间',
-							sort: true
-						}, {
-							field: 'message',
-							width: '21%',
-							title: '留言'
-						}]
-					],
-					page: true
-				});
-			});
-		</script>
-		<script>
-			layui.use(['form', 'layedit', 'laydate'], function() {
-				var form = layui.form,
-					layer = layui.layer,
-					layedit = layui.layedit,
-					laydate = layui.laydate;
-		
-				form.render();
-				//日期
-				laydate.render({
-					elem: '#startdate'
-				});
-				laydate.render({
-					elem: '#enddate'
-				});
-		
-				//创建一个编辑器
-				var editIndex = layedit.build('LAY_demo_editor');
-		
-				//自定义验证规则
-				form.verify({
-					title: function(value) {
-						if(value.length < 5) {
-							return '标题至少得5个字符啊';
-						}
-					},
-					pass: [/(.+){6,12}$/, '密码必须6到12位'],
-					content: function(value) {
-						layedit.sync(editIndex);
-					}
-				});
-		
-				//监听指定开关
-				form.on('switch(switchTest)', function(data) {
-					layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-						offset: '6px'
-					});
-					layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-				});
-		
-				//监听提交
-				form.on('submit(demo1)', function(data) {
-					layer.alert(JSON.stringify(data.field), {
-						title: '最终的提交信息'
-					})
-					return false;
-				});
-			});
-		</script>
-	</body>
+					width: '16%',
+					title: '课程标题'
+				}, {
+					field: 'usernickname',
+					width: '12%',
+					title: '用户昵称',
+					sort: true
+				}, {
+					field: 'usertel',
+					width: '12%',
+					title: '用户电话'
+				}, {
+					field: 'bookstatus',
+					width: '10%',
+					title: '预约状态'
+				}, {
+					field: 'booktime',
+					width: '18%',
+					title: '预约时间',
+					sort: true
+				}, {
+					field: 'message',
+					width: '21%',
+					title: '留言'
+				}]
+			],
+			page: true
+		});
+
+		$("#book_query_btn").click(function() {
+			status = $('#status_sel option:selected').text();
+			fid = $('#fid').val();
+			beginTime = $('#beginTime').val();
+			endTime = $('#endTime').val();
+			nickname = $('nickname').val();
+			console.log("fid=" + fid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
+			table.render();
+		});
+
+	});
+</script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form,
+			layer = layui.layer,
+			laydate = layui.laydate;
+
+		form.render();
+		//日期
+		laydate.render({
+			elem: '#beginTime'
+		});
+		laydate.render({
+			elem: '#endTime'
+		});
+	});
+</script>
+</body>
 
 </html>

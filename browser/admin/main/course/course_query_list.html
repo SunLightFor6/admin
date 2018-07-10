@@ -1,85 +1,67 @@
 <div id="top" style="width: 98%;">
-	<div class="layui-row body-head-in">
-		<div class="layui-col-md-offset8">
-			<div class="layui-col-lg6">
-				<form class="layui-form" action="">
+	<form class="layui-form" id="course_query_form" lay-filter="course_query_form">
+		<div class="layui-row body-head-in">
+			<div class="layui-col-md-offset3">
+				<div class="layui-col-lg4">
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<select name="modules" lay-verify="required" lay-search="">
-								<option value="1">实训中心</option>
-								<option value="2">艺术中心</option>
-								<option value="3">恒大名都</option>
+							<select name="course_cat" id="course_cat" lay-filter="course_cat">
+								<option value="免费试听课">免费试听课</option>
+								<option value="正式精品课" selected>正式精品课</option>
+
+							</select>
+						</div>
+					</div>	
+				</div>
+				<div class="layui-col-lg1"></div>
+				<div class="layui-col-lg4">
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<select name="branch_sel" id="branch_sel" lay-filter="branch_sel">
+								<option value="0" selected>所有分部</option>
+								<option value="实训中心">实训中心</option>
+								<option value="艺术中心">艺术中心</option>
+								<option value="恒大名都">恒大名都</option>
 							</select>
 						</div>
 					</div>
-				</form>
+				</div>
+				<div class="layui-col-lg3" align="center">
+					<h4 style="margin-top: 20px;"><a href="#22" class="lz-font-color-blue">+添加课程</a></h4>
+				</div>
 			</div>
-			<div class="layui-col-lg6" align="center">
-				<h4 style="margin-top: 20px;"><a href="#22" class="lz-font-color-blue">+添加课程</a></h4></div>
 		</div>
-	</div>
+	</form>
 	<div class="body-in" style="width: 95%; margin-top: 1px;">
-		<table class="layui-hide" id="test" lay-filter="demo" lay-data="{id: 'imgs_col'}"></table>
+		<table class="layui-hide" id="course_list" lay-filter="course_list" lay-data="{id: 'imgs_col'}"></table>
 	</div>
 </div>
 
 <script>
+	var course_cat = '',
+			branch_sel = '';
 	//JavaScript代码区域
 	layui.use('element', function() {
 		var element = layui.element;
-
 	});
 </script>
 <script>
 	var count = 0;
-	layui.use('table', function() {
-		var table = layui.table;
 
-		table.render({
-			elem: '#test',
-			url: '../../json/course.json',
-			dataType: 'jsonp',
-			skin: 'nob',
-			cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-			id: 'table-content',
-			cols: [
-				[{
-					field: 'courseid',
-					width: '11%',
-					title: '课程编号',
-					sort: true
-				}, {
-					field: 'coursename',
-					width: '21%',
-					title: '课程名称'
-				}, {
-					width: '16%',
-					field: 'courseimg',
-					title: '课程图片',
-					templet: '#imgTpl'
-				}, {
-					field: 'courseprice',
-					width: '11%',
-					title: '课程价钱',
-					sort: true
-				}, {
-					field: 'coursecategory',
-					width: '11%',
-					title: '课程类别',
-					sort: true
-				}, {
-					field: 'branch',
-					width: '11%',
-					title: '所在分部'
-				}, {
-					width: '19%',
-					align: 'center',
-					toolbar: '#barDemo'
-				}]
-			],
-			page: true
+	function afterload() {
+		//		console.log("loading ... count = " + count);
+		//		for(var i = 0; i < count; i++) {
+		var id_img = count + '_img';
+		console.log("loading ... i = " + count + " " + id_img);
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			layer.photos({
+				photos: '#' + id_img,
+				anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+			});
+			console.log("layer.photos(): " + id_img);
 		});
-	});
+	};
 </script>
 
 <script id="barDemo" type="text/html">
@@ -94,21 +76,15 @@
 <script>
 	layui.use('table', function() {
 		var table = layui.table;
-		//监听表格复选框选择
-		table.on('checkbox(demo)', function(obj) {
-			console.log(obj)
-		});
 		//监听工具条
-		table.on('tool(demo)', function(obj) {
+		table.on('tool(course_list)', function(obj) {
 			var data = obj.data;
-			if(obj.event === 'detail') {
-				//						layer.msg('ID：' + data.id + ' 的查看操作'); //在这里跳入查看界面
-				if(data.courseprice == "-") {
-					window.location.href = "#25";
-				} else {
-					window.location.href = "#26";
+			if(obj.event === 'detail') {													//这里根据类型不同跳转到不同的页，传一下id
+				if(course_cat == "免费试听课") {
+					
+				} else if(course_cat == "正式精品课")  {
+					
 				}
-
 			} else if(obj.event === 'del') {
 				layer.confirm('真的删除行么', function(index) {
 					obj.del();
@@ -122,28 +98,6 @@
 					window.location.href = "#24";
 				}
 			}
-		});
-
-		var active = {
-			getCheckData: function() { //获取选中数据
-				var checkStatus = table.checkStatus('idTest'),
-					data = checkStatus.data;
-				layer.alert(JSON.stringify(data));
-			},
-			getCheckLength: function() { //获取选中数目
-				var checkStatus = table.checkStatus('idTest'),
-					data = checkStatus.data;
-				layer.msg('选中了：' + data.length + ' 个');
-			},
-			isAll: function() { //验证是否全选
-				var checkStatus = table.checkStatus('idTest');
-				layer.msg(checkStatus.isAll ? '全选' : '未全选')
-			}
-		};
-
-		$('.demoTable .layui-btn').on('click', function() {
-			var type = $(this).data('type');
-			active[type] ? active[type].call(this) : '';
 		});
 	});
 	//	$(function() {
@@ -162,19 +116,244 @@
 	////
 	//		});
 	//	});
-	function afterload() {
-		//		console.log("loading ... count = " + count);
-		//		for(var i = 0; i < count; i++) {
-		var id_img = count + '_img';
-		console.log("loading ... i = " + count + " " + id_img);
-		layui.use('layer', function() {
-			var layer = layui.layer;
-			layer.photos({
-				photos: '#' + id_img,
-				anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+
+	//		}
+</script>
+<script>
+	layui.use(['form', 'table'], function() {
+		var form = layui.form,
+			table = layui.table;
+		form.render();
+		
+		form.val('course_query_form', {
+				'course_cat': "正式精品课"
 			});
-			console.log("layer.photos(): " + id_img);
+		course_cat = "正式精品课"
+		
+		table.render({
+					elem: '#course_list',
+					url: '../../json/course.json?', //TODO  全部课程
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					id: 'table-content',
+					cols: [
+						[{
+							field: 'courseid',
+							width: '11%',
+							title: '课程编号'
+
+						}, {
+							field: 'coursename',
+							width: '21%',
+							title: '课程名称'
+						}, {
+							width: '16%',
+							field: 'courseimg',
+							title: '课程图片',
+							templet: '#imgTpl'
+
+						}, {
+							field: 'coursecategory',
+							width: '11%',
+							title: '课程类别'
+						}, {
+							field: 'branch',
+							width: '11%',
+							title: '所在分部'
+						}, {
+							
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+
+		//监听课程类别
+		form.on('select(course_cat)', function(data) {
+			console.log(data.elem); //得到select原始DOM对象
+			console.log(data.value); //得到被选中的值
+			console.log(data.othis); //得到美化后的DOM对象
+			course_cat = data.value == 0 ? '' : data.value;
+			branch_sel = '';
+			form.val('course_query_form', {
+				'branch_sel': 0
+			});
+			if(course_cat == "免费试听课") {
+				table.render({
+					elem: '#course_list',
+					url: '../../json/course.json?', //TODO
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					id: 'table-content',
+					cols: [
+						[{
+							field: 'courseid',
+							width: '11%',
+							title: '课程编号'
+
+						}, {
+							field: 'coursename',
+							width: '21%',
+							title: '课程名称'
+						}, {
+							width: '16%',
+							field: 'courseimg',
+							title: '课程图片',
+							templet: '#imgTpl'
+
+						}, {
+							field: 'coursecategory',
+							width: '11%',
+							title: '课程类别'
+						}, {
+							field: 'branch',
+							width: '11%',
+							title: '所在分部'
+						}, {
+							
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			} else if(course_cat == "正式精品课") {
+				table.render({
+					elem: '#course_list',
+					url: '../../json/course.json?', //TODO
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					id: 'table-content',
+					cols: [
+						[{
+							field: 'courseid',
+							width: '11%',
+							title: '课程编号'
+						}, {
+							field: 'coursename',
+							width: '21%',
+							title: '课程名称'
+						}, {
+							width: '16%',
+							field: 'courseimg',
+							title: '课程图片',
+							templet: '#imgTpl'
+						}, {
+							field: 'courseprice',
+							width: '11%',
+							title: '课程价钱'
+						}, {
+							field: 'coursecategory',
+							width: '11%',
+							title: '课程类别'
+						}, {
+							
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			}
+
 		});
-		//		}
-	};
+
+		//监听分部选择
+		form.on('select(branch_sel)', function(data) {
+			console.log(data.elem); //得到select原始DOM对象
+			console.log(data.value); //得到被选中的值
+			console.log(data.othis); //得到美化后的DOM对象
+			branch_sel = data.value == 0 ? '' : data.value;
+			if(course_cat == "0") {
+				form.val('course_query_form', {
+				'course_cat': "正式精品课"
+			});
+			
+			}
+			if(course_cat == "免费试听课") {
+				table.render({
+					elem: '#course_list',
+					url: '../../json/course.json?', //TODO
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					id: 'table-content',
+					cols: [
+						[{
+							field: 'courseid',
+							width: '11%',
+							title: '课程编号'
+
+						}, {
+							field: 'coursename',
+							width: '21%',
+							title: '课程名称'
+						}, {
+							width: '16%',
+							field: 'courseimg',
+							title: '课程图片',
+							templet: '#imgTpl'
+
+						}, {
+							field: 'coursecategory',
+							width: '11%',
+							title: '课程类别'
+						}, {
+							field: 'branch',
+							width: '11%',
+							title: '所在分部'
+						}, {
+						
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			} else if(course_cat == "正式精品课") {
+				table.render({
+					elem: '#course_list',
+					url: '../../json/course.json?', //TODO
+					dataType: 'jsonp',
+					skin: 'nob',
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					id: 'table-content',
+					cols: [
+						[{
+							field: 'courseid',
+							width: '11%',
+							title: '课程编号'
+						}, {
+							field: 'coursename',
+							width: '21%',
+							title: '课程名称'
+						}, {
+							width: '16%',
+							field: 'courseimg',
+							title: '课程图片',
+							templet: '#imgTpl'
+						}, {
+							field: 'courseprice',
+							width: '11%',
+							title: '课程价钱'
+						}, {
+							field: 'coursecategory',
+							width: '11%',
+							title: '课程类别'
+						}, {
+						
+							align: 'center',
+							toolbar: '#barDemo'
+						}]
+					],
+					page: true
+				});
+			}
+
+		});
+	});
 </script>
