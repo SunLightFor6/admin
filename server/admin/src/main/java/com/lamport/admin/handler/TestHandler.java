@@ -57,6 +57,18 @@ public class TestHandler {
 	
 	
 	/********************************SuperAdminHandler********************************/
+	@RequestMapping(value="/test/TestSaveEnterprise")
+	public String testSaveEnterprise() throws Exception{
+		System.out.println("........TestHandler...........testSaveEnterprise()........");
+		
+		Enterprise enterprise = new Enterprise();
+		int saveResult = enterpriseService.saveEnterprise(enterprise);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", saveResult);
+		System.out.println("\n" + jsonObject.toString() + "\n");
+		
+		return "/test_show.jsp";
+	}
 	@RequestMapping(value="/test/TestSelectEnterpriseByPage")
 	public String testSelectEnterpriseByPage() throws Exception{
 		System.out.println("........TestHandler...........testSelectEnterpriseByPage()........");

@@ -22,6 +22,10 @@
 
 	<!-- 创建企业 -->
 	<insert id="saveEnterprise" parameterType="com.lamport.admin.po.Enterprise">
+		insert enterprise(deletekey) value(#{deletekey})
+		<selectKey keyProperty="qid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
 	</insert>
 
 	<!-- 通过id逻辑删除Enterprise信息 -->

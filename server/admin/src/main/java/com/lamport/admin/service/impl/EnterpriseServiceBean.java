@@ -16,12 +16,11 @@ import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.mapper.UserMapper;
-import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
-import com.lamport.admin.po.FreeListen;
-import com.lamport.admin.po.Message;
 import com.lamport.admin.service.EnterpriseService;
+import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.PageTool;
 
 /**
@@ -57,10 +56,14 @@ public class EnterpriseServiceBean implements EnterpriseService {
 	public int saveEnterprise(Enterprise enterprise) throws Exception {
 		int result = 0;
 		
+		enterprise.setDeletekey(0);
 		int saveEnterpriseResult = enterpriseMapper.saveEnterprise(enterprise);
 		Admin admin = new Admin();
-		long time = System.currentTimeMillis();
 		admin.setQid(enterprise.getQid());
+		admin.setAdminname(Creator.createAdminName());
+		admin.setPassword(admin.getAdminname());
+		admin.setJurisdiction(Const.AdminJurisdiction);
+		admin.setDeletekey(0);
 		int saveAminResult = adminMapper.saveAdmin(admin);
 		if(saveEnterpriseResult==1 && saveAminResult==1){
 			result = 1;

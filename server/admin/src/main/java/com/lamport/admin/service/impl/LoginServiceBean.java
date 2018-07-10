@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.lamport.admin.mapper.AdminMapper;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.service.LoginService;
+import com.lamport.admin.tool.Const;
 
 /**
  * implements LoginService
@@ -23,7 +24,7 @@ public class LoginServiceBean implements LoginService {
 		int result = 0;
 		String jurisdiction = adminMapper.selectJurisdictionByAdminname(admin.getAdminname());
 		if(jurisdiction != null){
-			if(AdminJurisdiction.equals(jurisdiction)){
+			if(Const.AdminJurisdiction.equals(jurisdiction)){
 				String password = adminMapper.selectPasswordByAdminname(admin.getAdminname());
 				if(password.equals(admin.getPassword())){
 					result = 1;
@@ -44,7 +45,7 @@ public class LoginServiceBean implements LoginService {
 		int result = 0;
 		String jurisdiction = adminMapper.selectJurisdictionByAdminname(superAdmin.getAdminname());
 		if(jurisdiction != null){
-			if(SuperAdminJurisdiction.equals(jurisdiction)){
+			if(Const.SuperAdminJurisdiction.equals(jurisdiction)){
 				String password = adminMapper.selectPasswordByAdminname(superAdmin.getAdminname());
 				if(password.equals(superAdmin.getPassword())){
 					result = 1;

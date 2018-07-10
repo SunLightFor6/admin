@@ -8,8 +8,6 @@ import com.lamport.admin.po.Admin;
  *
  */
 public interface LoginService {
-	public static final String AdminJurisdiction = "管理员";
-	public static final String SuperAdminJurisdiction = "超级管理员";
 	/**
 	 * 验证Admin登录是否成功
 	 * @return 1 登录成功 0 密码错误 -1用户名不存在 -2权限验证失败
