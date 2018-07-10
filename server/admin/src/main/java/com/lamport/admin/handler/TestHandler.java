@@ -22,12 +22,26 @@ import com.lamport.admin.po.Sorder;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.po.User;
+import com.lamport.admin.service.LoginService;
 import com.lamport.admin.service.TestService;
 
 @Controller
 public class TestHandler {
 	@Autowired
 	private TestService testService;
+	@Autowired LoginService loginService;
+	
+	@RequestMapping(value="/test/TestAdminLogin")
+	public String testAdminLogin() throws Exception{
+		System.out.println("........TestHandler...........testAdminLogin()........");
+		Admin admin = new Admin();
+		admin.setAdminname("feiyy");
+		admin.setPassword("123456");
+		int result = loginService.isAdminLoginSuccessful(admin);
+		
+		System.out.println("\n" + "Login result = " + result + "\n");
+		return "/test_show.jsp";
+	}
 	
 	@RequestMapping(value="/test/TestHandler_selectSorderAll")
 	@ResponseBody
@@ -68,6 +82,12 @@ public class TestHandler {
 		teachers = testService.selectTeacherAll();
 		users = testService.selectUserAll();
 
+		System.out.println();
+		for(Admin admin: admins){
+			System.out.println(admin.getAdminname() + "\t" + admin.getPassword() + "\t" + admin.getJurisdiction());
+		}
+		System.out.println();
+		
 		
 		System.out.println("Yean! Everything is OK!");
 		result = "/test_show.jsp";

@@ -20,16 +20,19 @@
 	<!-- 根据adminname查询Admin(SuperAdmin)信息 -->
 	<select id="selectAdminByAdminname" parameterType="java.lang.String"
 			resultType="com.lamport.admin.po.Admin">
+		select * from admin where adminname = #{adminname}
 	</select>
 
 	<!-- 通过adminname查询Admin的password -->
 	<select id="selectPasswordByAdminname" parameterType="java.lang.String"
 			resultType="java.lang.String">
+		select password from admin where adminname = #{adminname}
 	</select>
 
 	<!-- 通过adminname查询admin的jurisdiction -->
 	<select id="selectJurisdictionByAdminname" parameterType="java.lang.String"
 			resultType="java.lang.String">
+		select jurisdiction from admin where adminname = #{adminname}
 	</select>
 	
 </mapper>

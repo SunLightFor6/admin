@@ -25,16 +25,19 @@
 	<update id="updateFreeListenByID" parameterType="com.lamport.admin.po.FreeListen">
 	</update>
 
-	<!-- 通过qid和页码查询FreeListen信息 -->
-	<select id="selectFreeListenByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage">
+	<!-- 通过多条件查询FreeListen信息 -->
+	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"
+			resultType="com.lamport.admin.po.FreeListen">
 	</select>
 
 	<!-- 通过qid查询FreeListen的总数 -->
-	<select id="selectCountFreeListenByQID" parameterType="int">
+	<select id="selectCountFreeListenByQID" parameterType="int"
+			resultType="int">
 	</select>
 
 	<!-- 通过id查询FreeListen图片存放路径 -->
-	<select id="selectFreeListenImgurlByID" parameterType="java.lang.String">
+	<select id="selectFreeListenImgurlByID" parameterType="java.lang.String"
+			resultType="java.lang.String">
 	</select>
 
 </mapper>

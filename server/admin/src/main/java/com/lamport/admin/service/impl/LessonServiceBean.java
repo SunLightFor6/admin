@@ -11,7 +11,7 @@ import com.lamport.admin.mapper.LessonMapper;
 import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.po.Lesson;
 import com.lamport.admin.service.LessonService;
-import com.lamport.admin.vo.QIDAndPage;
+import com.lamport.admin.vo.LessonQueryCondition;
 
 /**
  * implements LessonService
@@ -47,7 +47,7 @@ public class LessonServiceBean implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> selectLessonByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
+	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

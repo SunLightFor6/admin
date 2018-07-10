@@ -21,8 +21,8 @@
 	<update id="updateLessonByID" parameterType="com.lamport.admin.po.Lesson">
 	</update>
 
-	<!-- 通过qid和页码查询Lesson信息 -->
-	<select id="selectLessonByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+	<!-- 通过多条件查询Lesson信息 -->
+	<select id="selectLessonByQIDAndPage" parameterType="com.lamport.admin.vo.LessonQueryCondition"
 			resultType="com.lamport.admin.po.Lesson">
 	</select>
 

@@ -3,7 +3,7 @@ package com.lamport.admin.mapper;
 import java.util.List;
 
 import com.lamport.admin.po.Lesson;
-import com.lamport.admin.vo.QIDAndPage;
+import com.lamport.admin.vo.LessonQueryCondition;
 
 /**
  * Mapper, 提供Lesson(精品课)信息的增加、删除、修改、查询功能
@@ -39,11 +39,11 @@ public interface LessonMapper {
 	 */
 	public int updateLessonByID(Lesson lesson) throws Exception;
 	/**
-	 * 通过qid和页码查询Lesson信息
+	 * 通过多条件查询Lesson信息
 	 * @return List
 	 * @throws Exception
 	 */
-	public List<Lesson> selectLessonByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
+	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception;
 	/**
 	 * 通过qid查询Lesson的总数
 	 * @return int

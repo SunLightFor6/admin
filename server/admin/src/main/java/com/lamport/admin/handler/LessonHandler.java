@@ -55,13 +55,13 @@ public class LessonHandler {
 		return result;
 	}
 	/**
-	 * 通过qid和页码查询Lesson信息
+	 * 通过多条件查询Lesson信息
 	 * @return
 	 */
-	@RequestMapping(value="/admin/selectLessonByQIDAndPage")
+	@RequestMapping(value="/admin/selectLessonByLessonQueryCondition")
 	@ResponseBody
-	public String selectLessonByQIDAndPage() throws Exception{
-		System.out.println("..........LessonHandler..........selectLessonByQIDAndPage()..........");
+	public String selectLessonByLessonQueryCondition() throws Exception{
+		System.out.println("..........LessonHandler..........selectLessonByLessonQueryCondition()..........");
 		String result = null;
 		//TODO
 		return result;

@@ -10,7 +10,7 @@ import com.lamport.admin.mapper.FreeListenBookMapper;
 import com.lamport.admin.mapper.FreeListenMapper;
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.service.FreeListenService;
-import com.lamport.admin.vo.QIDAndPage;
+import com.lamport.admin.vo.FreeListenQueryCondition;
 
 /**
  * implements FreeListenService
@@ -45,7 +45,7 @@ public class FreeListenServiceBean implements FreeListenService {
 	}
 
 	@Override
-	public List<FreeListen> selectFreeListenByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
+	public List<FreeListen> selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -26,8 +26,8 @@ public class AdminServiceBean implements AdminService {
 
 	@Override
 	public Admin selectAdminByAdminname(String adminname) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Admin admin = adminMapper.selectAdminByAdminname(adminname);
+		return admin;
 	}
 
 }

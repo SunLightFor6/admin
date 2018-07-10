@@ -55,13 +55,13 @@ public class FreeListenHandler {
 		return result;
 	}
 	/**
-	 * 通过qid和页码查询FreeListen信息
+	 * 通过多条件查询FreeListen信息
 	 * @return
 	 */
-	@RequestMapping(value="/admin/selectFreeListenByQIDAndPage")
+	@RequestMapping(value="/admin/selectFreeListenByFreeListenQueryCondition")
 	@ResponseBody
-	public String selectFreeListenByQIDAndPage() throws Exception{
-		System.out.println("..........FreeListenHandler..........selectFreeListenByQIDAndPage()..........");
+	public String selectFreeListenByFreeListenQueryCondition() throws Exception{
+		System.out.println("..........FreeListenHandler..........selectFreeListenByFreeListenQueryCondition()..........");
 		String result = null;
 		//TODO
 		return result;

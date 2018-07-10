@@ -40,9 +40,9 @@ public class LogInAndOutHandler {
 			admin = adminService.selectAdminByAdminname(admin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", admin);
-			result = //TODO;
+			result = "{\"response\":\"1\"}";
 		}else{
-			//TODO
+			result = "{\"response\":\""	+ isAdminLoginSuccessful + "\"}";
 		}
 		
 		return result;
@@ -53,10 +53,12 @@ public class LogInAndOutHandler {
 	 */
 	@RequestMapping(value="/login/adminLogout")
 	@ResponseBody
-	public String adminLogout() throws Exception{
+	public String adminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........adminLogout()..........");
 		String result = null;
-		//TODO
+		HttpSession session = request.getSession();
+		session.removeAttribute("admin");
+		result = "{\"response\":\"1\"}";
 		return result;
 	}
 	/**
@@ -65,10 +67,20 @@ public class LogInAndOutHandler {
 	 */
 	@RequestMapping(value="/login/superAdminLogin")
 	@ResponseBody
-	public String superAdminLogin() throws Exception{
+	public String superAdminLogin(Admin superAdmin, HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........superAdminLogin()..........");
 		String result = null;
-		//TODO
+
+		int isAdminLoginSuccessful = loginService.isAdminLoginSuccessful(superAdmin);
+		if(isAdminLoginSuccessful == 1){
+			superAdmin = adminService.selectAdminByAdminname(superAdmin.getAdminname());
+			HttpSession session = request.getSession();
+			session.setAttribute("superAdmin", superAdmin);
+			result = "{\"response\":\"1\"}";
+		}else{
+			result = "{\"response\":\""	+ isAdminLoginSuccessful + "\"}";
+		}
+		
 		return result;
 	}
 	/**
@@ -77,10 +89,12 @@ public class LogInAndOutHandler {
 	 */
 	@RequestMapping(value="/login/superAdminLogout")
 	@ResponseBody
-	public String superAdminLogout() throws Exception{
+	public String superAdminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........superAdminLogout()..........");
 		String result = null;
-		//TODO
+		HttpSession session = request.getSession();
+		session.removeAttribute("superAdmin");
+		result = "{\"response\":\"1\"}";
 		return result;
 	}
 }

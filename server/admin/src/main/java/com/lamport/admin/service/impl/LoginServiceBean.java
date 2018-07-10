@@ -20,14 +20,44 @@ public class LoginServiceBean implements LoginService {
 	
 	@Override
 	public int isAdminLoginSuccessful(Admin admin) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		String jurisdiction = adminMapper.selectJurisdictionByAdminname(admin.getAdminname());
+		if(jurisdiction != null){
+			if(AdminJurisdiction.equals(jurisdiction)){
+				String password = adminMapper.selectPasswordByAdminname(admin.getAdminname());
+				if(password.equals(admin.getPassword())){
+					result = 1;
+				}else{
+					result = 0;
+				}
+			}else{
+				result = -2;
+			}
+		}else{
+			result = -1;
+		}
+		return result;
 	}
 
 	@Override
-	public int isSuperAdminLoginSuccessful(Admin admin) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int isSuperAdminLoginSuccessful(Admin superAdmin) throws Exception {
+		int result = 0;
+		String jurisdiction = adminMapper.selectJurisdictionByAdminname(superAdmin.getAdminname());
+		if(jurisdiction != null){
+			if(SuperAdminJurisdiction.equals(jurisdiction)){
+				String password = adminMapper.selectPasswordByAdminname(superAdmin.getAdminname());
+				if(password.equals(superAdmin.getPassword())){
+					result = 1;
+				}else{
+					result = 0;
+				}
+			}else{
+				result = -2;
+			}
+		}else{
+			result = -1;
+		}
+		return result;
 	}
 
 }
