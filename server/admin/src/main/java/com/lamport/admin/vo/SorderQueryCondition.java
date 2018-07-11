@@ -11,9 +11,10 @@ public class SorderQueryCondition {
 	private int qid;			//企业表主键
 	private int oid;			//订单表主键
 	private String status;		//订单状态
-	private String begainTime;	//查询起始时间
+	private String beginTime;	//查询起始时间
 	private String endTime;		//查询终止时间
 	private PageTool pageTool;	//页码工具类
+	private int deletekey;
 	
 	public int getQid() {
 		return qid;
@@ -33,11 +34,11 @@ public class SorderQueryCondition {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getBegainTime() {
-		return begainTime;
+	public String getBeginTime() {
+		return beginTime;
 	}
-	public void setBegainTime(String begainTime) {
-		this.begainTime = begainTime;
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
 	}
 	public String getEndTime() {
 		return endTime;
@@ -50,5 +51,11 @@ public class SorderQueryCondition {
 	}
 	public void setPageTool(PageTool pageTool) {
 		this.pageTool = pageTool;
+	}
+	public int getDeletekey() {
+		return deletekey;
+	}
+	public void setDeletekey(int deletekey) {
+		this.deletekey = deletekey;
 	}
 }

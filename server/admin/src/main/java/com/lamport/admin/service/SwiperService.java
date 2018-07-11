@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.po.Swiper;
 import com.lamport.admin.vo.QIDAndCategory;
 
 /**
@@ -18,7 +19,14 @@ public interface SwiperService {
 	 * @return int 更新成功的条数
 	 * @throws Exception
 	 */
-	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs) throws Exception;
+	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception;
+	/**
+	 * 通过qid和category查询Swiper(轮播图)信息
+	 * @param qidAndCategory
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Swiper> selectSwiperByQIDAndCategory(QIDAndCategory qidAndCategory) throws Exception;
 	/**
 	 * 通过qid和category查询Swiper(轮播图)的imgurl信息
 	 * @return List

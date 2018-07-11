@@ -74,8 +74,20 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public int deleteEnterpriseLogicallyByID(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 1;
+		
+		result *= adminMapper.deleteAdminLogicallyByQID(id);
+		sorderMapper.deleteSorderLogicallyByQID(id);
+		lessonMapper.deleteLessonLogicallyByQID(id);
+		freeListenMapper.deleteFreeListenLogicallyByQID(id);
+		addressMapper.deleteAddressLogicallyByQID(id);
+		swiperMapper.deleteSwiperLogicallyByQID(id);
+		teacherMapper.deleteTeacherLogicallyByQID(id);
+		userMapper.deleteUserLogicallyByQID(id);
+		messageMapper.deleteMessageLogicallyByQID(id);
+		result *= enterpriseMapper.deleteEnterpriseLogicallyByID(id);
+		
+		return result;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class BookQueryCondition {
 	private int fid;			//免费试听课表主键
 	private String nickname;	//用户昵称
 	private String status;		//预约状态
-	private String begainTime;	//查询起始时间
+	private String beginTime;	//查询起始时间
 	private String endTime;		//查询终止时间
 	private PageTool pageTool;	//页码工具类
 	
@@ -40,11 +40,11 @@ public class BookQueryCondition {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getBegainTime() {
-		return begainTime;
+	public String getBeginTime() {
+		return beginTime;
 	}
-	public void setBegainTime(String begainTime) {
-		this.begainTime = begainTime;
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
 	}
 	public String getEndTime() {
 		return endTime;

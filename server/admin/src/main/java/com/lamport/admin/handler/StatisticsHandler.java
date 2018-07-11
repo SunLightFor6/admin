@@ -1,12 +1,15 @@
 package com.lamport.admin.handler;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lamport.admin.po.FreeListen;
-import com.lamport.admin.service.AdminService;
+import com.google.gson.JsonObject;
+import com.lamport.admin.po.Admin;
 import com.lamport.admin.service.FreeListenBookService;
 import com.lamport.admin.service.FreeListenService;
 import com.lamport.admin.service.LessonService;
@@ -41,10 +44,28 @@ public class StatisticsHandler {
 	 */
 	@RequestMapping(value="/admin/statistics")
 	@ResponseBody
-	public String Statistics() throws Exception{
+	public String Statistics(HttpServletRequest request) throws Exception{
 		System.out.println("..........StatisticsHandler..........Statistics()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		int qid = admin.getQid();
+		int countUser = userService.selectCountUserByQID(qid);
+		int countCourse = lessonService.selectCountLessonByQID(qid)+freeListenService.selectCountFreeListenByQID(qid);
+		int countTeacher = teacherService.selectCountTeacherByQID(qid);
+		int countSorder = sorderService.selectCountSorderByQID(qid);
+		int countBook = freeListenBookService.selectCountFreeListenBookByQID(qid);
+		double countIncome = sorderService.selectCountSorderActualByQID(qid);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("user_total", countUser);
+		jsonObject.addProperty("course_total", countCourse);
+		jsonObject.addProperty("teacher_total", countTeacher);
+		jsonObject.addProperty("order_total", countSorder);
+		jsonObject.addProperty("book_total", countBook);
+		jsonObject.addProperty("profit_total", countIncome);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 }

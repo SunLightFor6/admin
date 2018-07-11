@@ -4,6 +4,28 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.lamport.admin.mapper.SorderMapper">
+	
+	<resultMap type="com.lamport.admin.po.Sorder" id="_Sorder">
+		<id column="oid" property="oid"/>
+		<result column="qid" property="qid"/>
+		<result column="lid" property="lid"/>
+		<result column="branchid" property="branchid"/>
+		<result column="uid" property="uid"/>
+		<result column="cid" property="cid"/>
+		<result column="total" property="total"/>
+		<result column="actual" property="actual"/>
+		<result column="status" property="status"/>
+		<result column="ordertime" property="ordertime"/>
+		<result column="transactionid" property="transactionid"/>
+		<result column="username" property="username"/>
+		<result column="tel" property="tel"/>
+		<association property="refund" javaType="com.lamport.admin.po.Refund">
+			<id column="oid" property="oid"/>
+			<result column="refundreason" property="refundreason"/>
+			<result column="status" property="status"/>
+			<result column="refundtime" property="refundtime"/>
+		</association>
+	</resultMap>
 
 	<!-- 通过lid逻辑删除Sorder信息 -->
 	<update id="deleteSorderLogicallyByLID" parameterType="int">
@@ -15,29 +37,57 @@
 
 	<!-- 通过qid逻辑删除Sorder信息 -->
 	<update id="deleteSorderLogicallyByQID" parameterType="int">
+		update  sorder s, refund r set s.deletekey=1, r.deletekey=1
+		where s.qid=#{qid} and r.oid in
+		(select s_r.oid from 
+			(select refund.oid from 
+			 refund left join sorder on refund.oid=sorder.oid	
+			 where sorder.qid=#{qid}
+			) s_r
+		)
 	</update>
 
 	<!-- 通过id修改Sorder信息 -->
 	<update id="updateSorderByID" parameterType="com.lamport.admin.po.Sorder">
+		update sorder set status = #{status} where oid=#{oid}
 	</update>
 
 	<!-- 通过id修改Refund和相应的Sorder信息 -->
-	<update id="updateRefundByID" parameterType="com.lamport.admin.po.Sorder">
+	<update id="updateRefundByID" parameterType="com.lamport.admin.po.Refund">
+		update refund set status = #{status} where oid=#{oid}
 	</update>
 
 	<!-- 通过SorderQueryCondition查询Sorder信息 -->
 	<select id="selectSorderBySorderQueryCondition" parameterType="com.lamport.admin.vo.SorderQueryCondition"
-			resultType="com.lamport.admin.po.Sorder">
+			resultMap="_Sorder">
+		select * from sorder s left join refund r on s.oid= r.oid
+		where s.deletekey = 0 and s.qid = #{qid} 
+		<if test="oid != 0">
+			and s.oid = #{oid}
+		</if>
+		<if test="status != null">
+			and s.status = #{status}
+		</if>
+		<if test="beginTime != null">
+			and s.ordertime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="endTime != null">
+			and s.ordertime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		limit #{pageTool.startrow},#{pageTool.limit}
+		<!-- TODO -->
 	</select>
 
 	<!-- 根据qid查询Sorder的总数 -->
 	<select id="selectCountSorderByQID" parameterType="int"
 			resultType="int">
+		select count(*) from sorder where qid = #{qid} and deletekey=0
 	</select>
 
 	<!-- 根据qid查询Sorder的订单总额 -->
 	<select id="selectCountSorderActualByQID" parameterType="int"
 			resultType="double">
+		select ROUND(SUM(actual), 2) from sorder where qid = #{qid} and deletekey=0
 	</select>
 
 </mapper>

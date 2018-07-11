@@ -1,8 +1,12 @@
 package com.lamport.admin.handler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.lamport.admin.po.Enterprise;
+import com.lamport.admin.service.EnterpriseService;
 
 /**
  * Controller, 进行Enterprise基本信息的修改、查询
@@ -11,6 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class EnterpriseBasicInfoHandler {
+	
+	@Autowired
+	private EnterpriseService enterpriseService;
+	
 	/**
 	 * 根据id修改企业基本信息 
 	 * @return String
@@ -29,9 +37,11 @@ public class EnterpriseBasicInfoHandler {
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicInfoByQID")
 	@ResponseBody
-	public String selectEnterpriseBasicInfoByQID() throws Exception{
+	public String selectEnterpriseBasicInfoByQID(int qid) throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........selectEnterpriseBasicInfoByQID()..........");
 		String result = null;
+
+		Enterprise enterprie = enterpriseService.selectEnterpriseByQID(qid);
 		//TODO
 		return result;
 	}

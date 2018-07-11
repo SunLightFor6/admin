@@ -7,29 +7,52 @@
 
 	<!-- 创建Teacher信息 -->
 	<insert id="saveTeacher" parameterType="com.lamport.admin.po.Teacher">
+		insert teacher(qid, tname, tphoto, introduction, deletekey) 
+		values(#{qid}, #{tname}, #{tphoto}, #{introduction}, #{deletekey})
 	</insert>
 
 	<!-- 通过id逻辑删除Teacher信息 -->
 	<update id="deleteTeacherLogicallyByID" parameterType="int">
+		update teacher set deletekey=1 where tid=#{tid}
+	</update>
+
+	<!-- 通过qid逻辑删除Teacher信息 -->
+	<update id="deleteTeacherLogicallyByQID" parameterType="int">
+		update teacher set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id修改Teacher信息 -->
 	<update id="updateTeacherByID" parameterType="com.lamport.admin.po.Teacher">
+		update teacher 
+		<set>
+			introduction = #{introduction}, 
+			tname = #{tname},
+			<if test="tphoto != null">
+				tphoto = #{tphoto}
+			</if>
+		</set>
+		where tid = #{tid}
+		
 	</update>
 
 	<!-- 通过qid和页码查询Teacher信息 -->
 	<select id="selectTeacherByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
 			resultType="com.lamport.admin.po.Teacher">
+		select * from teacher
+		where qid=#{qid} and deletekey=0
+		limit #{pageTool.startrow},#{pageTool.limit}
 	</select>
 
 	<!-- 通过qid查询Teacher的总数 -->
 	<select id="selectCountTeacherByQID" parameterType="int"
 			resultType="int">
+		select count(*) from teacher where qid = #{qid} and deletekey=0
 	</select>
 
 	<!-- 通过id查询Teacher图片存放路径 -->
 	<select id="selectTeacherTphotoByID" parameterType="int"
 			resultType="java.lang.String">
+		select tphoto from teacher where tid = #{tid} and deletekey=0
 	</select>
 
 </mapper>

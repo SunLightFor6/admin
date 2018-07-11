@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lamport.admin.mapper.FreeListenBookMapper;
-import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.po.FreeListenBook;
 import com.lamport.admin.service.FreeListenBookService;
 import com.lamport.admin.vo.BookQueryCondition;
@@ -24,21 +23,33 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 	
 	@Override
 	public int updateFreeListenBookByID(FreeListenBook freeListenBook) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int updateResult = 1;
+		
+		updateResult = freeListenBookMapper.updateFreeListenBookByID(freeListenBook);
+		
+		return updateResult;
 	}
 
 	@Override
 	public List<FreeListenBook> selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<FreeListenBook> freeListenBooks = null;
+		
+		int count = freeListenBookMapper.selectCountFreeListenBookByQID(bookQueryCondition.getQid());
+		bookQueryCondition.getPageTool().setCount(count);
+		freeListenBooks = freeListenBookMapper.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
+		System.out.println(freeListenBooks.size());
+		
+		return freeListenBooks;
 	}
 
 	@Override
 	public int selectCountFreeListenBookByQID(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int countBook = 0;
+		
+		countBook = freeListenBookMapper.selectCountFreeListenBookByQID(qid);
+		
+		return countBook;
 	}
 
 }

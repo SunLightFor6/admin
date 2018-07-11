@@ -26,6 +26,13 @@ public interface TeacherMapper {
 	 */
 	public int deleteTeacherLogicallyByID(int id) throws Exception;
 	/**
+	 * 通过qid逻辑删除Teacher信息
+	 * @param qid
+	 * @return int
+	 * @throws Exception
+	 */
+	public int deleteTeacherLogicallyByQID(int qid) throws Exception;
+	/**
 	 * 通过id修改Teacher信息
 	 * @param teacher
 	 * @return 1 更新成功 0 更新失败

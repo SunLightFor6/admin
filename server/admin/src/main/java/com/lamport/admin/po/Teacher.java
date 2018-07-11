@@ -9,7 +9,7 @@ public class Teacher {
 	private int qid;//企业表外键
 	private int tid;				//教师主键
 	private String tname;			//教师姓名
-	private String tphone;			//教师联系电话
+	private String tphoto;			//教师图片
 	private String introduction;	//教师简介
 	private int deletekey;			//删除键
 	
@@ -31,11 +31,11 @@ public class Teacher {
 	public void setTname(String tname) {
 		this.tname = tname;
 	}
-	public String getTphone() {
-		return tphone;
+	public String getTphoto() {
+		return tphoto;
 	}
-	public void setTphone(String tphone) {
-		this.tphone = tphone;
+	public void setTphoto(String tphoto) {
+		this.tphoto = tphoto;
 	}
 	public String getIntroduction() {
 		return introduction;

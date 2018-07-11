@@ -2,6 +2,8 @@ package com.lamport.admin.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -17,7 +19,7 @@ public interface TeacherService {
 	 * @return 1 保存成功 0 保存失败
 	 * @throws Exception
 	 */
-	public int saveTeacher(Teacher teacher) throws Exception;
+	public int saveTeacher(Teacher teacher, MultipartFile teacher_img, String path) throws Exception;
 	/**
 	 * 通过id逻辑删除Teacher信息
 	 * @param id
@@ -31,7 +33,7 @@ public interface TeacherService {
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateTeacherByID(Teacher teacher) throws Exception; 
+	public int updateTeacherByID(Teacher teacher, MultipartFile teacher_img, String path) throws Exception; 
 	/**
 	 * 通过qid和页码查询Teacher信息
 	 * @return List

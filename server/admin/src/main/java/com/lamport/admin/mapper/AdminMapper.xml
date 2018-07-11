@@ -13,6 +13,7 @@
 
 	<!-- 通过qid逻辑删除Admin信息 -->
 	<update id="deleteAdminLogicallyByQID" parameterType="int">
+		update admin set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id修改Admin的password -->

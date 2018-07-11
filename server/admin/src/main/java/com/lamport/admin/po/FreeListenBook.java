@@ -17,6 +17,8 @@ public class FreeListenBook {
 	private int deletekey;		//删除键
 	private int userdeletekey;	//用户删除键
 	
+	private FreeListen freeListen;//免费试听课
+	
 	public int getFid() {
 		return fid;
 	}
@@ -76,5 +78,11 @@ public class FreeListenBook {
 	}
 	public void setUserdeletekey(int userdeletekey) {
 		this.userdeletekey = userdeletekey;
+	}
+	public FreeListen getFreeListen() {
+		return freeListen;
+	}
+	public void setFreeListen(FreeListen freeListen) {
+		this.freeListen = freeListen;
 	}
 }

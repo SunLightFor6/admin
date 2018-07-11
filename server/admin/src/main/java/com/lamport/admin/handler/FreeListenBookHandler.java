@@ -1,11 +1,22 @@
 package com.lamport.admin.handler;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.lamport.admin.po.Admin;
+import com.lamport.admin.po.FreeListenBook;
 import com.lamport.admin.service.FreeListenBookService;
+import com.lamport.admin.tool.Const;
+import com.lamport.admin.vo.BookQueryCondition;
 
 /**
  * Controller, 进行FreeListenBook(免费试听课预约)信息的修改、查询
@@ -24,10 +35,18 @@ public class FreeListenBookHandler {
 	 */
 	@RequestMapping(value="/admin/processFreeListenBookByID")
 	@ResponseBody
-	public String processFreeListenBookByID() throws Exception{
+	public String processFreeListenBookByID(int id) throws Exception{
 		System.out.println("..........FreeListenBookHandler..........processFreeListenBookByID()..........");
 		String result = null;
-		//TODO
+
+		FreeListenBook freeListenBook = new FreeListenBook();
+		freeListenBook.setId(id);
+		freeListenBook.setStatus(Const.BookStatusProcessed);
+		int updateResult = freeListenBookService.updateFreeListenBookByID(freeListenBook);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", updateResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -36,10 +55,33 @@ public class FreeListenBookHandler {
 	 */
 	@RequestMapping(value="/admin/selectFreeListenBookByBookQueryCondition")
 	@ResponseBody
-	public String selectFreeListenBookByBookQueryCondition() throws Exception{
+	public String selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookByBookQueryCondition()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		bookQueryCondition.setQid(admin.getQid());
+		List<FreeListenBook> freeListenBooks = freeListenBookService.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", bookQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(FreeListenBook freeListenBook : freeListenBooks){
+			JsonObject object = new JsonObject();
+			object.addProperty("bookcourseid", freeListenBook.getFreeListen().getId());
+			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			object.addProperty("usernickname", freeListenBook.getUsername());
+			object.addProperty("usertel", freeListenBook.getTel());
+			object.addProperty("bookstatus", freeListenBook.getStatus());
+			object.addProperty("booktime", freeListenBook.getBooktime());
+			object.addProperty("message", freeListenBook.getComment());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+
 		return result;
 	}
 	/**
@@ -48,10 +90,34 @@ public class FreeListenBookHandler {
 	 */
 	@RequestMapping(value="/admin/selectFreeListenBookUnprocessedByBookQueryCondition")
 	@ResponseBody
-	public String selectFreeListenBookUnprocessedByBookQueryCondition() throws Exception{
+	public String selectFreeListenBookUnprocessedByBookQueryCondition(BookQueryCondition bookQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookUnprocessedByBookQueryCondition()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		bookQueryCondition.setQid(admin.getQid());
+		bookQueryCondition.setStatus(Const.BookStatusUnprocessed);
+		List<FreeListenBook> freeListenBooks = freeListenBookService.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", bookQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(FreeListenBook freeListenBook : freeListenBooks){
+			JsonObject object = new JsonObject();
+			object.addProperty("bookcourseid", freeListenBook.getFid());
+			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			object.addProperty("usernickname", freeListenBook.getUsername());
+			object.addProperty("usertel", freeListenBook.getTel());
+			object.addProperty("bookstatus", freeListenBook.getStatus());
+			object.addProperty("booktime", freeListenBook.getBooktime());
+			object.addProperty("message", freeListenBook.getComment());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+
 		return result;
 	}
 }

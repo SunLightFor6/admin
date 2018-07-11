@@ -30,6 +30,7 @@
 
 	<!-- 通过id逻辑删除Enterprise信息 -->
 	<update id="deleteEnterpriseLogicallyByID" parameterType="int">
+		update enterprise set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id更新Enterprise信息 -->
@@ -47,6 +48,7 @@
 			resultMap="_Enterprise">
 		select e.*, a.adminname
 		from enterprise e left join admin a on e.qid=a.qid
+		where e.deletekey=0
 		limit #{startrow},#{limit}
 	</select>
 	

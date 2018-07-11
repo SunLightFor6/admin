@@ -48,10 +48,15 @@ public class SuperAdminHandler {
 	 */
 	@RequestMapping(value="/superadmin/deleteEnterpriseLogicallyByID")
 	@ResponseBody
-	public String deleteEnterpriseLogicallyByID() throws Exception{
+	public String deleteEnterpriseLogicallyByID(int qid) throws Exception{
 		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........");
 		String result = null;
-		//TODO
+
+		int deleteResult = enterpriseService.deleteEnterpriseLogicallyByID(qid);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
