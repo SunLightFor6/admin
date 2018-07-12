@@ -5,7 +5,7 @@
     
 <mapper namespace="com.lamport.admin.mapper.EnterpriseMapper">
 	
-	<resultMap type="com.lamport.admin.po.Enterprise" id="_Enterprise">
+	<resultMap type="com.lamport.admin.po.Enterprise" id="_Enterprise_Admin">
 		<id column="qid" property="qid"/>
 		<result column="name" property="name"/>
 		<result column="videopath" property="videopath"/>
@@ -18,6 +18,18 @@
 			<result column="password" property="password"/>
 			<result column="jurisdiction" property="jurisdiction"/>
 		</association>
+	</resultMap>
+	
+	<resultMap type="com.lamport.admin.po.Enterprise" id="_Enterprie_Swiper">
+		<id column="qid" property="qid"/>
+		<result column="name" property="name"/>
+		<result column="videopath" property="videopath"/>
+		<result column="introduction" property="introduction"/>
+		<result column="jczs" property="jczs"/>
+		<collection property="swipers" ofType="com.lamport.admin.po.Swiper">
+			<id column="id" property="id"/>
+			<result column="imgurl" property="imgurl"/>
+		</collection>
 	</resultMap>
 
 	<!-- 创建企业 -->
@@ -35,17 +47,27 @@
 
 	<!-- 通过id更新Enterprise信息 -->
 	<update id="updateEnterpriseByID" parameterType="com.lamport.admin.po.Enterprise">
+		update enterprise 
+		<set>
+			introduction = #{introduction}, 
+			name = #{name},
+			jczs = #{jczs},
+			<if test="videopath != null">
+				videopath = #{videopath}
+			</if>
+		</set>
+		where qid = #{qid}
 	</update>
 
 	<!-- 通过qid查询Enterprise信息 -->
 	<select id="selectEnterpriseByQID" parameterType="int"
-			resultType="com.lamport.admin.po.Enterprise">
-		
+			resultType="com.lamport.admin.po.Enterprise" >
+		select * from enterprise where qid=#{qid} and deletekey=0
 	</select>
 
 	<!-- 通过页码查询Enterprise信息 -->
 	<select id="selectEnterpriseByPage" parameterType="com.lamport.admin.tool.PageTool"
-			resultMap="_Enterprise">
+			resultMap="_Enterprise_Admin">
 		select e.*, a.adminname
 		from enterprise e left join admin a on e.qid=a.qid
 		where e.deletekey=0
@@ -58,4 +80,9 @@
 		select count(*) from enterprise where deletekey=0
 	</select>
 
+	<!-- 通过qid查询Enterprise的video的存储路径 -->
+	<select id="selectEnterpriseVideopathByQID" parameterType="int"
+			resultType="java.lang.String">
+		select videopath from enterprise where qid=#{qid} and deletekey=0
+	</select>
 </mapper>

@@ -37,13 +37,32 @@ public class LogInAndOutHandler {
 		String result = null;
 		
 		JsonObject jsonObject = new JsonObject();
-		int isAdminLoginSuccessful = loginService.isAdminLoginSuccessful(admin);
-		if(isAdminLoginSuccessful == 1){
+		int loginResult = loginService.isAdminLoginSuccessful(admin);
+		switch(loginResult){
+		case -2:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "您没有此权限");
+			break;
+		case -1:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "该账号不存在");
+			break;
+		case 0:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "密码错误");
+			break;
+		case 1:
+			jsonObject.addProperty("status", "success");
+			jsonObject.addProperty("message", "登陆成功");
 			admin = adminService.selectAdminByAdminname(admin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", admin);
+			break;
+		default:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "登陆失败，请稍后重试");
+			break;
 		}
-		jsonObject.addProperty("response", isAdminLoginSuccessful);
 		result=jsonObject.toString();
 		
 		return result;
@@ -77,13 +96,32 @@ public class LogInAndOutHandler {
 		String result = null;
 
 		JsonObject jsonObject = new JsonObject();
-		int isAdminLoginSuccessful = loginService.isAdminLoginSuccessful(superAdmin);
-		if(isAdminLoginSuccessful == 1){
+		int loginResult = loginService.isAdminLoginSuccessful(superAdmin);
+		switch(loginResult){
+		case -2:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "您没有此权限");
+			break;
+		case -1:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "该账号不存在");
+			break;
+		case 0:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "密码错误");
+			break;
+		case 1:
+			jsonObject.addProperty("status", "success");
+			jsonObject.addProperty("message", "登陆成功");
 			superAdmin = adminService.selectAdminByAdminname(superAdmin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("superAdmin", superAdmin);
+			break;
+		default:
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "登陆失败，请稍后重试");
+			break;
 		}
-		jsonObject.addProperty("response", isAdminLoginSuccessful);
 		result=jsonObject.toString();
 		
 		return result;

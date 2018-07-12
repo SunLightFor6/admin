@@ -1,10 +1,16 @@
 package com.lamport.admin.handler;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
+import com.lamport.admin.po.Admin;
+import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.service.AdminService;
 import com.lamport.admin.service.EnterpriseService;
 
@@ -27,10 +33,30 @@ public class AdminHandler {
 	 */
 	@RequestMapping(value="/admin/updatePasswordByID")
 	@ResponseBody
-	public String updatePasswordByID() throws Exception{
+	public String updatePasswordByID(String sourse_password, String new_password, HttpServletRequest request) throws Exception{
 		System.out.println("..........AdminHandler..........updatePasswordByID()..........");
 		String result = null;
-		//TODO
+
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		JsonObject jsonObject = new JsonObject();
+		if(admin.getPassword().equals(sourse_password)){
+			admin.setPassword(new_password);
+			int updateResult = adminService.updatePasswordByID(admin);
+			if(updateResult == 1){
+				session.setAttribute("admin", admin);
+				jsonObject.addProperty("status", "success");
+				jsonObject.addProperty("message", "密码修改成功");
+			}else{
+				jsonObject.addProperty("status", "fail");
+				jsonObject.addProperty("message", "密码修改失败");
+			}
+		}else{
+			jsonObject.addProperty("status", "fail");
+			jsonObject.addProperty("message", "原密码输入错误");
+		}
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -39,10 +65,18 @@ public class AdminHandler {
 	 */
 	@RequestMapping(value="/admin/selectEnterpriseBasicDataByQID")
 	@ResponseBody
-	public String selectEnterpriseBasicDataByQID() throws Exception{
+	public String selectEnterpriseBasicDataByQID(HttpServletRequest request) throws Exception{
 		System.out.println("..........AdminHandler..........selectEnterpriseBasicDataByQID()..........");
 		String result = null;
-		//TODO
+
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		Enterprise enterprise = enterpriseService.selectEnterpriseByQID(admin.getQid());
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("enterprise_name", enterprise.getName());
+		jsonObject.addProperty("enterprise_id", enterprise.getQid());
+		result = jsonObject.toString();
+		
 		return result;
 	}
 }

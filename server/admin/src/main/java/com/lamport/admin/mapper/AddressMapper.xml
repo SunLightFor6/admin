@@ -7,10 +7,13 @@
 
 	<!-- 创建Address(分部) -->
 	<insert id="saveAddress" parameterType="com.lamport.admin.po.Address">
+		insert address(qid, branch, address, tel, longitude, latitude, deletekey)
+		values(#{qid}, #{branch}, #{address}, #{tel}, #{longitude}, #{latitude}, #{deletekey})
 	</insert>
 
 	<!-- 通过id逻辑删除Address信息 -->
 	<update id="deleteAddressLogicallyByID" parameterType="int">
+		update address set deletekey=1 where id=#{id}
 	</update>
 
 	<!-- 通过qid逻辑删除Address信息 -->
@@ -27,11 +30,22 @@
 
 	<!-- 通过id修改Address信息 -->
 	<update id="updateAddressByID" parameterType="com.lamport.admin.po.Address">
+		update address set branch=#{branch}, address=#{address}, tel=#{tel},
+						   longitude=#{longitude}, latitude=#{latitude}
+		where id=#{id}
 	</update>
 
 	<!-- 通过qid和页码查询Address信息 -->
 	<select id="selectAddressByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage" 
 			resultType="com.lamport.admin.po.Address">
+		select * from address where qid=#{qid} and deletekey = 0
+		limit #{pageTool.startrow}, #{pageTool.limit}
+	</select>
+
+	<!-- 通过qid查询Address信息 -->
+	<select id="selectAddressByQID" parameterType="int"
+			resultType="com.lamport.admin.po.Address">
+		select * from address where qid=#{qid} and deletekey = 0
 	</select>
 
 	<!-- 通过qid查询Address的总数 -->

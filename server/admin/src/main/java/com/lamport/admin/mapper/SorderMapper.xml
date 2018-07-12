@@ -33,6 +33,14 @@
 
 	<!-- 通过branchid逻辑删除Sorder信息 -->
 	<update id="deleteSorderLogicallyByBranchID" parameterType="int">
+		update  sorder s, refund r set s.deletekey=1, r.deletekey=1
+		where s.branchid=#{branchid} and r.oid in
+		(select s_r.oid from 
+			(select refund.oid from 
+			 refund left join sorder on refund.oid=sorder.oid	
+			 where sorder.branchid=#{branchid}
+			) s_r
+		)
 	</update>
 
 	<!-- 通过qid逻辑删除Sorder信息 -->

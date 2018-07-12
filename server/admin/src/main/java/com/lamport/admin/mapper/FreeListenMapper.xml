@@ -15,6 +15,14 @@
 
 	<!-- 通过branchid逻辑删除FreeListen的信息 -->
 	<update id="deleteFreeListenLogicallyByBranchID" parameterType="int">
+		update freelisten fl, freelistenbook flb set fl.deletekey=1, flb.deletekey=1
+		where fl.branchid=#{branchid} and flb.fid in
+		(select f_fb.fid from 
+			(select fid from 
+			 freelistenbook fb left join freelisten f on fb.fid=f.id 
+			 where f.branchid=#{branchid}
+			) f_fb
+		)
 	</update>
 
 	<!-- 通过qid逻辑删除FreeListen的信息 -->

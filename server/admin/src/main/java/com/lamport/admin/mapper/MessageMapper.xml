@@ -4,13 +4,26 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.lamport.admin.mapper.MessageMapper">
+	
+	<resultMap type="com.lamport.admin.po.Message" id="_Message">
+		<id column="mid" property="mid"/>
+		<result column="qid" property="qid"/>
+		<result column="mtitle" property="mtitle"/>
+		<result column="mtime" property="mtime"/>
+		<collection property="imgs" ofType="com.lamport.admin.po.MessageImg">
+			<id column="id" property="id"/>
+			<result column="imgurl" property="imgurl"/>
+		</collection>
+	</resultMap>
 
 	<!-- 创建Message信息 -->
 	<insert id="saveMessage" parameterType="com.lamport.admin.po.Message">
+		insert message(qid, mtitle, mtime, deletekey) values(#{qid}, #{mtitle}, NOW(), #{deletekey})
 	</insert>
 
 	<!-- 通过id逻辑删除Message信息 -->
 	<update id="deleteMessageLogicallyByID" parameterType="int">
+		update message set deletekey=1 where mid=#{mid}
 	</update>
 
 	<!-- 通过qid逻辑删除Message信息 -->
@@ -40,7 +53,11 @@
 
 	<!-- 通过id和页码查询Message信息 -->
 	<select id="selectMessageByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
-			resultType="com.lamport.admin.po.Message">
+			resultMap="_Message">
+		select m.*, mi.id, mi.imgurl from 
+		message m left join messageimg mi on m.mid=mi.mid
+		where m.qid=#{qid} and m.deletekey=0
+		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
 </mapper>

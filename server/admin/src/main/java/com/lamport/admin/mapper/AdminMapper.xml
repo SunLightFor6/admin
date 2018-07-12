@@ -18,24 +18,25 @@
 
 	<!-- 通过id修改Admin的password -->
 	<update id="updatePasswordByID" parameterType="com.lamport.admin.po.Admin">
+		update admin set password=#{password} where id=#{id}
 	</update>
 
 	<!-- 根据adminname查询Admin(SuperAdmin)信息 -->
 	<select id="selectAdminByAdminname" parameterType="java.lang.String"
 			resultType="com.lamport.admin.po.Admin">
-		select * from admin where adminname = #{adminname}
+		select * from admin where adminname = #{adminname} and deletekey=0
 	</select>
 
 	<!-- 通过adminname查询Admin的password -->
 	<select id="selectPasswordByAdminname" parameterType="java.lang.String"
 			resultType="java.lang.String">
-		select password from admin where adminname = #{adminname}
+		select password from admin where adminname = #{adminname} and deletekey=0
 	</select>
 
 	<!-- 通过adminname查询admin的jurisdiction -->
 	<select id="selectJurisdictionByAdminname" parameterType="java.lang.String"
 			resultType="java.lang.String">
-		select jurisdiction from admin where adminname = #{adminname}
+		select jurisdiction from admin where adminname = #{adminname} and deletekey=0
 	</select>
 	
 </mapper>

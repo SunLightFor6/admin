@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lamport.admin.mapper.AddressMapper;
-import com.lamport.admin.mapper.EnterpriseMapper;
 import com.lamport.admin.mapper.FreeListenMapper;
 import com.lamport.admin.mapper.LessonBranchMapper;
+import com.lamport.admin.mapper.LessonMapper;
 import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.po.Address;
 import com.lamport.admin.service.AddressService;
@@ -30,29 +30,65 @@ public class AddressServiceBean implements AddressService {
 	private LessonBranchMapper lessonBranchMapper;
 	@Autowired
 	private SorderMapper sorderMapper;
+	@Autowired
+	private LessonMapper lessonMapper;
 	
 	@Override
 	public int saveAddress(Address address) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int saveResult = 1;
+
+		address.setDeletekey(0);
+		saveResult = addressMapper.saveAddress(address);
+		
+		return saveResult;
 	}
 
 	@Override
 	public int deleteAddressLogicallyByID(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int deleteResult = 1;
+
+		List<Integer> lids = lessonBranchMapper.selectLIDByBranchID(id);
+		deleteResult *= sorderMapper.deleteSorderLogicallyByBranchID(id);
+		deleteResult *= freeListenMapper.deleteFreeListenLogicallyByBranchID(id);
+		deleteResult *= lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
+		deleteResult *= addressMapper.deleteAddressLogicallyByID(id);
+		//校验，删除没有分部的精品课
+		for(Integer lid: lids){
+			int count = lessonBranchMapper.selectCountLessonBranchByLID(lid);
+			if(count == 0){
+				deleteResult *= lessonMapper.deleteLessonLogicallyByID(lid);
+			}
+		}
+		deleteResult = deleteResult>0 ? 1 : 0;
+		
+		return deleteResult;
 	}
 
 	@Override
 	public int updateAddressByID(Address address) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int updateResult = 1;
+
+		updateResult *= addressMapper.updateAddressByID(address);
+		
+		return updateResult;
 	}
 
 	@Override
 	public List<Address> selectAddressByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Address> addresses = null;
+
+		addresses = addressMapper.selectAddressByQIDAndPage(qidAndPage);
+		
+		return addresses;
+	}
+
+	@Override
+	public List<Address> selectAddressByQID(int qid) throws Exception {
+		List<Address> addresses = null;
+
+		addresses = addressMapper.selectAddressByQID(qid);
+		
+		return addresses;
 	}
 
 }

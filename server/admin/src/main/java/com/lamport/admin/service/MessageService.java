@@ -20,7 +20,7 @@ public interface MessageService {
 	 * @return 1 保存成功 0 保存失败
 	 * @throws Exception
 	 */
-	public int saveMessage(Message message, MultipartFile[] imgs) throws Exception;
+	public int saveMessage(Message message, MultipartFile[] imgs, String path) throws Exception;
 	/**
 	 * 通过id逻辑删除Message信息
 	 * @param id

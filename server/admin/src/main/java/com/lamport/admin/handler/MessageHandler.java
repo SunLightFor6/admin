@@ -1,12 +1,25 @@
 package com.lamport.admin.handler;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.lamport.admin.po.Admin;
+import com.lamport.admin.po.Message;
+import com.lamport.admin.po.MessageImg;
+import com.lamport.admin.po.MessageReply;
 import com.lamport.admin.service.MessageReplyService;
 import com.lamport.admin.service.MessageService;
+import com.lamport.admin.vo.QIDAndPage;
 
 /**
  * Controller, 进行Messsage信息的增加、删除、查询
@@ -27,10 +40,19 @@ public class MessageHandler {
 	 */
 	@RequestMapping(value="/admin/saveMessage")
 	@ResponseBody
-	public String saveMessage() throws Exception{
+	public String saveMessage(Message new_message, MultipartFile[] message_pics, HttpServletRequest request) throws Exception{
 		System.out.println("..........MessageHandler..........saveMessage()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		new_message.setQid(admin.getQid());
+		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		int saveResult = messageService.saveMessage(new_message, message_pics, path);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("reponse", saveResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -39,10 +61,15 @@ public class MessageHandler {
 	 */
 	@RequestMapping(value="/admin/deleteMessageLogicallyByID")
 	@ResponseBody
-	public String deleteMessageLogicallyByID() throws Exception{
+	public String deleteMessageLogicallyByID(int id) throws Exception{
 		System.out.println("..........MessageHandler..........deleteMessageLogicallyByID()..........");
 		String result = null;
-		//TODO
+
+		int deleteResult = messageService.deleteMessageLogicallyByID(id);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -51,10 +78,15 @@ public class MessageHandler {
 	 */
 	@RequestMapping(value="/admin/deleteMessageReplyLogicallyByID")
 	@ResponseBody
-	public String deleteMessageReplyLogicallyByID() throws Exception{
+	public String deleteMessageReplyLogicallyByID(int id_comment, int id_message) throws Exception{
 		System.out.println("..........MessageHandler..........deleteMessageReplyLogicallyByID()..........");
 		String result = null;
-		//TODO
+
+		int deleteResult = messageReplyService.deleteMessageReplyLogicallyByID(id_comment);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -63,10 +95,44 @@ public class MessageHandler {
 	 */
 	@RequestMapping(value="/admin/selectMessageByQIDAndPage")
 	@ResponseBody
-	public String selectMessageByQIDAndPage() throws Exception{
+	public String selectMessageByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
 		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........");
 		String result = null;
-		//TODO
+
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		qidAndPage.setQid(admin.getQid());
+		List<Message> messages = messageService.selectMessageByQIDAndPage(qidAndPage);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("pages", qidAndPage.getPageTool().getPages());
+		jsonObject.addProperty("page", qidAndPage.getPageTool().getPage());
+		JsonArray jsonArray = new JsonArray();
+		for(Message message : messages){
+			JsonObject object = new JsonObject();
+			object.addProperty("id", message.getMid());
+			object.addProperty("name", message.getEnterprise().getName());
+			object.addProperty("logo", message.getSwiper().getImgurl());
+			object.addProperty("content", message.getMtitle());
+			JsonArray imgurls = new JsonArray();
+			for(MessageImg img: message.getImgs()){
+				imgurls.add(img.getImgurl());
+			}
+			object.add("imgurls", imgurls);
+			object.addProperty("stime", message.getMtime());
+			JsonArray comments = new JsonArray();
+			for(MessageReply reply: message.getReplies()){
+				JsonObject comment = new JsonObject();
+				comment.addProperty("id", reply.getId());
+				comment.addProperty("name", reply.getUser().getNickname());
+				comment.addProperty("comment", reply.getContent());
+				comments.add(comment);
+			}
+			object.add("comments", comments);
+			jsonArray.add(object);
+		}
+		jsonObject.add("messages", jsonArray);
+		result = jsonObject.toString();		
+		
 		return result;
 	}
 }

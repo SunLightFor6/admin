@@ -32,6 +32,42 @@
 </h3>
 <hr>
 
+<!---------- EnterpriseBasicInfoHandler ---------->
+<h3 align="left">
+	<a href="test/TestUpdateEnterpriseBasicInfoByID">TestUpdateEnterpriseBasicInfoByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestSelectEnterpriseBasicInfoByQID">TestSelectEnterpriseBasicInfoByQID</a>
+</h3>
+<hr>
+
+<!---------- BranchHandler ---------->
+<h3 align="left">
+	<a href="test/TestSaveBranch">TestSaveBranch</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestDeleteBranchLogicallyByID">TestDeleteBranchLogicallyByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestUpdateBranchByID">TestUpdateBranchByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestSelectBranchByQIDAndPage">TestSelectBranchByQIDAndPage</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestSelectBranchByQID">TestSelectBranchByQID</a>
+</h3>
+<hr>
+
+
+
+
+
+
+
+
+
+
 <!---------- SorderHandler ---------->
 <h3 align="left">
 	<a href="test/TestVerifySorderByID">TestVerifySorderByID</a>
@@ -83,6 +119,45 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!---------- MessgaeHandler ---------->
+<h3 align="left">
+	<a href="test/TestSaveMessage">TestSaveMessage</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestDeleteMessageLogicallyByID">TestDeleteMessageLogicallyByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestDeleteMessageReplyLogicallyByID">TestDeleteMessageReplyLogicallyByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestSelectMessageByQIDAndPage">TestSelectMessageByQIDAndPage</a>
+</h3>
+<hr>
+
+<!---------- AdminHandler ---------->
+<h3 align="left">
+	<a href="test/TestUpdatePasswordByID">TestUpdatePasswordByID</a>
+</h3>
+<h3 align="left">
+	<a href="test/TestSelectEnterpriseBasicDataByQID">TestSelectEnterpriseBasicDataByQID</a>
+</h3>
+<hr>
 
 
 

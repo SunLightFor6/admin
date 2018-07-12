@@ -11,6 +11,7 @@
 	
 	<!-- 通过id逻辑删除Lesson信息 -->
 	<update id="deleteLessonLogicallyByID" parameterType="int">
+		update lesson set deletekey=1 where lid = #{lid}
 	</update>
 
 	<!-- 通过qid逻辑删除Lesson的信息 -->

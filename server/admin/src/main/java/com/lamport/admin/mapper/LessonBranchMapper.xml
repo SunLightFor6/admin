@@ -15,6 +15,18 @@
 
 	<!-- 通过branchid逻辑删除LessonBranch的信息 -->
 	<update id="deleteLessonBranchLogicallyByBranchID" parameterType="int">
+		update lessonbranch set deletekey=1 where branchid=#{branchid}
 	</update>
 
+	<!-- 通过branchid查询lid -->
+	<select id="selectLIDByBranchID" parameterType="int"
+			resultType="java.lang.Integer">
+		select lid from lessonbranch where branchid=#{branchid} and deletekey=0
+	</select>
+	
+	<!-- 通过lid查询LessonBranch的条数 -->
+	<select id="selectCountLessonBranchByLID" parameterType="int"
+			resultType="int">
+		select count(*) from lessonbranch where lid=#{lid} and deletekey=0
+	</select>
 </mapper>
