@@ -14,7 +14,7 @@ public class FileTool {
 	 * 	要删除的文件名
 	 * @return boolean
 	 */
-	public boolean deleteFile(String fileName){
+	public static boolean deleteFile(String fileName){
 		boolean result = true;
 		File file = new File(fileName);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
@@ -37,7 +37,7 @@ public class FileTool {
 	 * 	要删除的文件名集合（多文件）
 	 * @return boolean
 	 */
-	public boolean deleteFiles(String[] fileNames){
+	public static boolean deleteFiles(String[] fileNames){
 		boolean result = true;
 		int count = 0;
 		for(String fileName : fileNames){

@@ -35,4 +35,11 @@ public interface AddressService {
 	 * @throws Exception
 	 */
 	public List<Address> selectAddressByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
+	/**
+	 * 通过qid查询Address信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Address> selectAddressByQID(int qid) throws Exception;
 }

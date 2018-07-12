@@ -11,10 +11,12 @@
 	
 	<!-- 通过id逻辑删除Lesson信息 -->
 	<update id="deleteLessonLogicallyByID" parameterType="int">
+		update lesson set deletekey=1 where lid = #{lid}
 	</update>
 
 	<!-- 通过qid逻辑删除Lesson的信息 -->
 	<update id="deleteLessonLogicallyByQID" parameterType="int">
+		update lesson set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id修改Lesson信息 -->
@@ -29,6 +31,7 @@
 	<!-- 通过qid查询Lesson的总数 -->
 	<select id="selectCountLessonByQID" parameterType="int"
 			resultType="int"> 
+		select count(*) from lesson where qid = #{qid} and deletekey=0
 	</select>
 
 	<!-- 通过id查询Lesson图片存放路径 -->

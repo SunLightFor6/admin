@@ -7,11 +7,13 @@
 
 	<!-- 通过qid逻辑删除User信息 -->
 	<update id="deleteUserLogicallyByQID" parameterType="int">
+		update user set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 根据qid查询User的总数 -->
 	<select id="selectCountUserByQID" parameterType="int"
 			resultType="int">
+		select count(*) from user where qid = #{qid} and deletekey=0
 	</select>
 
 </mapper>

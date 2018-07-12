@@ -2,6 +2,7 @@ package com.lamport.admin.mapper;
 
 import java.util.List;
 
+import com.lamport.admin.po.Refund;
 import com.lamport.admin.po.Sorder;
 import com.lamport.admin.vo.SorderQueryCondition;
 
@@ -37,12 +38,12 @@ public interface SorderMapper {
 	 */
 	public int updateSorderByID(Sorder sorder) throws Exception;
 	/**
-	 * 通过id修改Refund和相应的Sorder信息
+	 * 通过id修改Refund信息
 	 * @param sorder
 	 * @return 1 更新成功 0 更新失败
 	 * @throws Exception
 	 */
-	public int updateRefundByID(Sorder sorder) throws Exception;
+	public int updateRefundByID(Refund refund) throws Exception;
 	/**
 	 * 通过SorderQueryCondition查询Sorder信息
 	 * @param sorderQueryCondition

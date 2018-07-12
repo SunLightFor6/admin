@@ -4,13 +4,33 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.lamport.admin.mapper.MessageReplyMapper">
+	
+	<resultMap type="com.lamport.admin.po.MessageReply" id="_MessageReply">
+		<id column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="stime" property="stime"/>
+		<association property="user" javaType="com.lamport.admin.po.User">
+			<id column="uid" property="uid"/>
+			<result column="nickname" property="nickname"/>
+			<result column="userimg" property="userimg"/>
+		</association>
+	</resultMap>
 
 	<!-- 通过id逻辑删除MessageReply信息 -->
 	<update id="deleteMessageReplyLogicallyByID" parameterType="int">
+		update messagereply set deletekey=1 where id=#{id}
 	</update>
 
 	<!-- 通过mid逻辑删除MessageReply信息 -->
 	<update id="deleteMessageReplyLogicallyByMID" parameterType="int">
+		update messagereply set deletekey=1 where mid=#{mid}
 	</update>
 
+	<!-- 通过mid查询MessageReply信息 -->
+	<select id="selectMessageReplyByMID" parameterType="int"
+			resultMap="_MessageReply">
+		select mr.*, u.nickname, u.userimg from
+		messagereply mr left join user u on mr.uid=u.uid
+		where mr.mid=#{mid} and mr.deletekey=0 and u.deletekey=0
+	</select>
 </mapper>

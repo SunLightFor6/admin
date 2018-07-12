@@ -7,10 +7,12 @@
 
 	<!-- 创建MessageImg信息 -->
 	<insert id="saveMessageImg" parameterType="com.lamport.admin.po.MessageImg">
+		insert messageimg(mid, imgurl, deletekey) values(#{mid}, #{imgurl}, #{deletekey})
 	</insert>
 
 	<!-- 通过mid逻辑删除MessageImg信息 -->
 	<update id="deleteMessageImgLogicallyByMID" parameterType="int">
+		update messageimg set deletekey=1 where mid=#{mid}
 	</update>
 
 </mapper>

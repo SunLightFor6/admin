@@ -52,8 +52,11 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public int selectCountFreeListenByQID(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int countFreeListen = 0;
+		
+		countFreeListen = freeListenMapper.selectCountFreeListenByQID(qid);
+		
+		return countFreeListen;
 	}
 
 }

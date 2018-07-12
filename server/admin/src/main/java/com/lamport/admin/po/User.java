@@ -13,6 +13,7 @@ public class User {
 	private String tel;			//用户手机号，登陆用
 	private String nickname;	//用户昵称
 	private String username;	//用户真实姓名
+	private String userimg;		//用户头像
 	private String openid;		//用户微信号唯一标识
 	private int deletekey;		//删除键
 	
@@ -66,6 +67,12 @@ public class User {
 	}
 	public void setFreeListenBooks(List<FreeListenBook> freeListenBooks) {
 		this.freeListenBooks = freeListenBooks;
+	}
+	public String getUserimg() {
+		return userimg;
+	}
+	public void setUserimg(String userimg) {
+		this.userimg = userimg;
 	}
 	public int getDeletekey() {
 		return deletekey;

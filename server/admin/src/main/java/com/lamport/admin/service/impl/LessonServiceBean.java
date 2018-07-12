@@ -54,8 +54,11 @@ public class LessonServiceBean implements LessonService {
 
 	@Override
 	public int selectCountLessonByQID(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int countLesson = 0;
+		
+		countLesson = lessonMapper.selectCountLessonByQID(qid);
+		
+		return countLesson;
 	}
 
 }

@@ -19,8 +19,11 @@ public class MessageReplyServiceBean implements MessageReplyService {
 	
 	@Override
 	public int deleteMessageReplyLogicallyByID(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int deleteResult = 1;
+
+		deleteResult *= messageReplyMapper.deleteMessageReplyLogicallyByID(id);
+		
+		return deleteResult;
 	}
 
 }

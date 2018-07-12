@@ -5,22 +5,57 @@
     
 <mapper namespace="com.lamport.admin.mapper.FreeListenBookMapper">
 
+	<resultMap type="com.lamport.admin.po.FreeListenBook" id="_FreeListenBook">
+		<id column="id" property="id"/>
+		<result column="fid" property="fid"/>
+		<result column="uid" property="uid"/>
+		<result column="username" property="username"/>
+		<result column="tel" property="tel"/>
+		<result column="status" property="status"/>
+		<result column="booktime" property="booktime"/>
+		<result column="comment" property="comment"/>
+		<association property="freeListen" javaType="com.lamport.admin.po.FreeListen">
+			<id column="id" property="id"/>
+			<result column="qid" property="qid"/>
+			<result column="title" property="title"/>
+		</association>
+	</resultMap>
+
 	<!-- 通过fid逻辑删除FreeListenBook信息 -->
 	<update id="deleteFreeListenBookLogicallyByFID" parameterType="int">
 	</update>
 
 	<!-- 通过id修改FreeListenBook信息 -->
 	<update id="updateFreeListenBookByID" parameterType="com.lamport.admin.po.FreeListenBook">
+		update freelistenbook set status = #{status} where id=#{id}
 	</update>
 
 	<!-- 通过BookQueryCondition查询FreeListenBook信息 -->
 	<select id="selectFreeListenBookByBookQueryCondition" parameterType="com.lamport.admin.vo.BookQueryCondition"
-			resultType="com.lamport.admin.po.FreeListenBook">
+			resultMap="_FreeListenBook">
+		select * from freelistenbook b left join freelisten f on f.id= b.fid
+		where f.deletekey = 0 and b.deletekey = 0 and f.qid = #{qid} 
+		<if test="fid != 0">
+			and b.fid = #{fid}
+		</if>
+		<if test="status != null">
+			and b.status = #{status}
+		</if>
+		<if test="beginTime != null">
+			and b.booktime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="endTime != null">
+			and b.booktime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		limit #{pageTool.startrow},#{pageTool.limit}
 	</select>
 	
 	<!-- 根据qid查询FreeListenBook的总数 -->
 	<select id="selectCountFreeListenBookByQID" parameterType="int"
 			resultType="int">
+		select count(*) from 
+		freelisten f join freelistenbook fb on f.id = fb.fid
+		where qid = #{qid} and fb.deletekey=0
 	</select>
 
 </mapper>

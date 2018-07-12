@@ -7,24 +7,32 @@
 
 	<!-- 创建Swiper(轮播图) -->
 	<insert id="saveSwiper" parameterType="com.lamport.admin.po.Swiper">
+		insert swiper(qid, imgurl, category, deletekey) values(#{qid}, #{imgurl}, #{category}, #{deletekey})
 	</insert>
 
 	<!-- 通过qid和category逻辑删除Swiper(轮播图)信息 -->
 	<update id="deleteSwiperLogicallyByQIDAndCategory" parameterType="com.lamport.admin.vo.QIDAndCategory">
+		update swiper set deletekey=1 where qid=#{qid} and category=#{category}
 	</update>
 
 	<!-- 通过qid逻辑删除Swiper(轮播图)信息 -->
 	<update id="deleteSwiperLogicallyByQID" parameterType="int">
+		update swiper set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过qid和category查询Swiper(轮播图)信息 -->
 	<select id="selectSwiperByQIDAndCategory" parameterType="com.lamport.admin.vo.QIDAndCategory"
 			resultType="com.lamport.admin.po.Swiper">
+		select * from swiper
+		where qid=#{qid} and category=#{category} and deletekey=0
 	</select>
 
 	<!-- 通过qid和category查询Swiper(轮播图)的imgurl信息 -->
 	<select id="selectSwiperImgurlByQIDAndCategory" parameterType="com.lamport.admin.vo.QIDAndCategory"
 			resultType="java.lang.String">
+		select imgurl from swiper
+		where qid=#{qid} and category=#{category} and deletekey=0
+		<!-- TODO -->
 	</select>
 
 </mapper>

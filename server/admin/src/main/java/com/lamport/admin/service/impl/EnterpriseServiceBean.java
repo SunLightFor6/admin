@@ -1,5 +1,7 @@
 package com.lamport.admin.service.impl;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,15 @@ import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.mapper.UserMapper;
-import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
-import com.lamport.admin.po.FreeListen;
-import com.lamport.admin.po.Message;
+import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.EnterpriseService;
+import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
+import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.tool.PageTool;
+import com.lamport.admin.vo.QIDAndCategory;
 
 /**
  * implements EnterpriseService
@@ -55,36 +59,106 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public int saveEnterprise(Enterprise enterprise) throws Exception {
-		int result = 0;
+		int saveResult = 1;
 		
-		int saveEnterpriseResult = enterpriseMapper.saveEnterprise(enterprise);
+		enterprise.setDeletekey(0);
+		saveResult *= enterpriseMapper.saveEnterprise(enterprise);
 		Admin admin = new Admin();
-		long time = System.currentTimeMillis();
 		admin.setQid(enterprise.getQid());
-		int saveAminResult = adminMapper.saveAdmin(admin);
-		if(saveEnterpriseResult==1 && saveAminResult==1){
-			result = 1;
-		}
+		admin.setAdminname(Creator.createAdminName());
+		admin.setPassword(admin.getAdminname());
+		admin.setJurisdiction(Const.AdminJurisdiction);
+		admin.setDeletekey(0);
+		saveResult *= adminMapper.saveAdmin(admin);
+		enterprise.setAdminister(admin);
+		
+		return saveResult;
+	}
+
+	@Override
+	public int deleteEnterpriseLogicallyByID(int id) throws Exception {
+		int result = 1;
+		
+		result *= adminMapper.deleteAdminLogicallyByQID(id);
+		sorderMapper.deleteSorderLogicallyByQID(id);
+		lessonMapper.deleteLessonLogicallyByQID(id);
+		freeListenMapper.deleteFreeListenLogicallyByQID(id);
+		addressMapper.deleteAddressLogicallyByQID(id);
+		swiperMapper.deleteSwiperLogicallyByQID(id);
+		teacherMapper.deleteTeacherLogicallyByQID(id);
+		userMapper.deleteUserLogicallyByQID(id);
+		messageMapper.deleteMessageLogicallyByQID(id);
+		result *= enterpriseMapper.deleteEnterpriseLogicallyByID(id);
 		
 		return result;
 	}
 
 	@Override
-	public int deleteEnterpriseLogicallyByID(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] imgs, MultipartFile video, String path) throws Exception {
+		int updateResult = 1;
+		
+		QIDAndCategory qidAndCategory = new QIDAndCategory();
+		qidAndCategory.setQid(enterprise.getQid());
+		qidAndCategory.setCategory(Const.SwiperCategoryE);
+		List<String> imgurls = new ArrayList<String>();
+		List<File> imgFiles = new ArrayList<File>();
+		if(imgs!=null && imgs.length>0){
+			File f = new File(path);
+			String ppath = f.getParent();
+			for(int i=0; i<imgs.length; i++){
+				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+				imgFiles.add(new File(ppath + "/img/swiper", filename));
+				imgurls.add(imgFiles.get(i).getPath());
+			}
+			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
+			for(int i=0; i<imgurls.size(); i++){
+				Swiper swiper = new Swiper();
+				swiper.setCategory(qidAndCategory.getCategory());
+				swiper.setQid(qidAndCategory.getQid());
+				swiper.setImgurl(imgurls.get(i));
+				swiper.setDeletekey(0);
+				updateResult *= swiperMapper.saveSwiper(swiper);
+			}
+		}
+		
+		String videoPath = null;
+		File videoFile = null;
+		if(video != null){
+			File f = new File(path);
+			String ppath = f.getParent();
+			String filename = System.currentTimeMillis() + video.getOriginalFilename();
+			videoFile = new File(ppath + "/video", filename);
+			videoPath = videoFile.getPath();
+		}
+		String oldVideo = enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
+		enterprise.setVideopath(videoPath);
+		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
+		if(imgurls != null){
+			for(int i=0; i<imgFiles.size(); i++){
+				imgs[i].transferTo(imgFiles.get(i));
+			}
+		}
+		if(videoPath != null){
+			video.transferTo(videoFile);//保存文件
+			FileTool.deleteFile(oldVideo);//删除文件？？？？？？
+		}		
+		updateResult = (updateResult>0) ? 1 : 0;
 
-	@Override
-	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] imgs, MultipartFile video) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return updateResult;
 	}
 
 	@Override
 	public Enterprise selectEnterpriseByQID(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Enterprise enterprise = null;
+
+		QIDAndCategory qidAndCategory = new QIDAndCategory();
+		qidAndCategory.setCategory(Const.SwiperCategoryE);
+		qidAndCategory.setQid(qid);
+		enterprise = enterpriseMapper.selectEnterpriseByQID(qid);
+		List<Swiper> swipers = swiperMapper.selectSwiperByQIDAndCategory(qidAndCategory);
+		enterprise.setSwipers(swipers);
+		
+		return enterprise;
 	}
 
 	@Override

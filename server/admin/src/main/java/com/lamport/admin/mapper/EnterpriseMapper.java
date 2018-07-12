@@ -46,5 +46,11 @@ public interface EnterpriseMapper {
 	 * @return int Enterprise的总条数
 	 * @throws Exception
 	 */
-	public int selectCountEnterprise() throws Exception;
+	public int selectCountEnterprise() throws Exception;	
+	/**
+	 * 通过qid查询Enterprise的video的存储路径
+	 * @return String
+	 * @throws Exception
+	 */
+	public String selectEnterpriseVideopathByQID(int qid) throws Exception;
 }

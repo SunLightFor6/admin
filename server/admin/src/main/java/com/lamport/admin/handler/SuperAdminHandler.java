@@ -34,10 +34,13 @@ public class SuperAdminHandler {
 		System.out.println("..........SuperAdminHandler..........saveEnterprise()..........");
 		String result = null;
 		
+		JsonObject jsonObject = new JsonObject();
 		Enterprise enterprise = new Enterprise();
 		int saveResult = enterpriseService.saveEnterprise(enterprise);
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", saveResult);
+		if(saveResult == 1){
+			jsonObject.addProperty("qid", enterprise.getQid());
+			jsonObject.addProperty("admincount", enterprise.getAdminister().getAdminname());
+		}
 		result = jsonObject.toString();
 		
 		return result;
@@ -48,10 +51,15 @@ public class SuperAdminHandler {
 	 */
 	@RequestMapping(value="/superadmin/deleteEnterpriseLogicallyByID")
 	@ResponseBody
-	public String deleteEnterpriseLogicallyByID() throws Exception{
+	public String deleteEnterpriseLogicallyByID(int id) throws Exception{
 		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........");
 		String result = null;
-		//TODO
+
+		int deleteResult = enterpriseService.deleteEnterpriseLogicallyByID(id);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**

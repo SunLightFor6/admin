@@ -15,10 +15,26 @@
 
 	<!-- 通过branchid逻辑删除FreeListen的信息 -->
 	<update id="deleteFreeListenLogicallyByBranchID" parameterType="int">
+		update freelisten fl, freelistenbook flb set fl.deletekey=1, flb.deletekey=1
+		where fl.branchid=#{branchid} and flb.fid in
+		(select f_fb.fid from 
+			(select fid from 
+			 freelistenbook fb left join freelisten f on fb.fid=f.id 
+			 where f.branchid=#{branchid}
+			) f_fb
+		)
 	</update>
 
 	<!-- 通过qid逻辑删除FreeListen的信息 -->
 	<update id="deleteFreeListenLogicallyByQID" parameterType="int">
+		update freelisten fl, freelistenbook flb set fl.deletekey=1, flb.deletekey=1
+		where fl.qid=#{qid} and flb.fid in
+		(select f_fb.fid from 
+			(select fid from 
+			 freelistenbook fb left join freelisten f on fb.fid=f.id 
+			 where f.qid=#{qid}
+			) f_fb
+		)
 	</update>
 
 	<!-- 通过id修改FreeListen信息 -->
@@ -33,6 +49,7 @@
 	<!-- 通过qid查询FreeListen的总数 -->
 	<select id="selectCountFreeListenByQID" parameterType="int"
 			resultType="int">
+		select count(*) from freelisten where qid = #{qid} and deletekey=0
 	</select>
 
 	<!-- 通过id查询FreeListen图片存放路径 -->

@@ -20,13 +20,19 @@ public class AdminServiceBean implements AdminService {
 	
 	@Override
 	public int updatePasswordByID(Admin admin) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int updateResult = 1;
+
+		updateResult *= adminMapper.updatePasswordByID(admin);
+		
+		return updateResult;
 	}
 
 	@Override
 	public Admin selectAdminByAdminname(String adminname) throws Exception {
-		Admin admin = adminMapper.selectAdminByAdminname(adminname);
+		Admin admin = null;
+				
+		admin = adminMapper.selectAdminByAdminname(adminname);
+		
 		return admin;
 	}
 

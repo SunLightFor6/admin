@@ -19,8 +19,11 @@ public class UserServiceBean implements UserService {
 
 	@Override
 	public int selectCountUserByQID(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int countUser = 0;
+		
+		countUser = userMapper.selectCountUserByQID(qid);
+		
+		return countUser;
 	}
 
 }

@@ -1,11 +1,23 @@
 package com.lamport.admin.handler;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.lamport.admin.po.Admin;
+import com.lamport.admin.po.Refund;
+import com.lamport.admin.po.Sorder;
 import com.lamport.admin.service.SorderService;
+import com.lamport.admin.tool.Const;
+import com.lamport.admin.vo.SorderQueryCondition;
 
 /**
  * Controller, 进行Sorder信息的修改、查询
@@ -24,10 +36,18 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/verifySorderByID")
 	@ResponseBody
-	public String verifySorderByID() throws Exception{
+	public String verifySorderByID(int oid) throws Exception{
 		System.out.println("..........SorderHandler..........verifySorderByID()..........");
 		String result = null;
-		//TODO
+		
+		Sorder sorder = new Sorder();
+		sorder.setOid(oid);
+		sorder.setStatus(Const.SorderStatusCAV);
+		int updateResult = sorderService.updateSorderByID(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", updateResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -36,10 +56,21 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/processRefundByID")
 	@ResponseBody
-	public String processRefundByID() throws Exception{
+	public String processRefundByID(int oid) throws Exception{
 		System.out.println("..........SorderHandler..........processRefundByID()..........");
 		String result = null;
-		//TODO
+		
+		Sorder sorder = new Sorder();
+		sorder.setOid(oid);
+		sorder.setRefund(new Refund());
+		sorder.getRefund().setOid(oid);
+		sorder.setStatus(Const.SorderStatusRefunded);
+		sorder.getRefund().setStatus(Const.RefundStatusProcessed);
+		int updateResult = sorderService.updateRefundByID(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", updateResult);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -48,10 +79,35 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/selectSorderBySorderQueryCondition")
 	@ResponseBody
-	public String selectSorderBySorderQueryCondition() throws Exception{
+	public String selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		sorderQueryCondition.setOid(admin.getQid());
+		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", sorderQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(Sorder sorder : sorders){
+			JsonObject object = new JsonObject();
+			object.addProperty("courseid", sorder.getOid());
+			object.addProperty("orderid", sorder.getOid());
+			object.addProperty("usernickname", sorder.getUsername());
+			object.addProperty("usertel", sorder.getTel());
+			object.addProperty("total", sorder.getTotal());
+			object.addProperty("actual", sorder.getActual());
+			object.addProperty("orderstatus", sorder.getStatus());
+			object.addProperty("ordertime", sorder.getOrdertime());
+			object.addProperty("transactionid", sorder.getTransactionid());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -60,10 +116,36 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/selectRefundBySorderQueryCondition")
 	@ResponseBody
-	public String selectselectRefundBySorderQueryCondition() throws Exception{
+	public String selectselectRefundBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition()..........");
 		String result = null;
-		//TODO
+
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setStatus(Const.SorderStatusRefunding);
+		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", sorderQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(Sorder sorder : sorders){
+			JsonObject object = new JsonObject();
+			object.addProperty("courseid", sorder.getOid());
+			object.addProperty("orderid", sorder.getOid());
+			object.addProperty("usernickname", sorder.getUsername());
+			object.addProperty("usertel", sorder.getTel());
+			object.addProperty("total", sorder.getTotal());
+			object.addProperty("actual", sorder.getActual());
+			object.addProperty("orderstatus", sorder.getStatus());
+			object.addProperty("ordertime", sorder.getOrdertime());
+			object.addProperty("transactionid", sorder.getTransactionid());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 	/**
@@ -72,10 +154,36 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/selectSorderUnverifiedBySorderQueryCondition")
 	@ResponseBody
-	public String selectSorderUnverifiedBySorderQueryCondition() throws Exception{
+	public String selectSorderUnverifiedBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........selectSorderUnverifiedBySorderQueryCondition()..........");
 		String result = null;
-		//TODO
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setStatus(Const.SorderStatusPayed);
+		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", sorderQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(Sorder sorder : sorders){
+			JsonObject object = new JsonObject();
+			object.addProperty("courseid", sorder.getOid());
+			object.addProperty("orderid", sorder.getOid());
+			object.addProperty("usernickname", sorder.getUsername());
+			object.addProperty("usertel", sorder.getTel());
+			object.addProperty("total", sorder.getTotal());
+			object.addProperty("actual", sorder.getActual());
+			object.addProperty("orderstatus", sorder.getStatus());
+			object.addProperty("ordertime", sorder.getOrdertime());
+			object.addProperty("transactionid", sorder.getTransactionid());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+		
 		return result;
 	}
 }

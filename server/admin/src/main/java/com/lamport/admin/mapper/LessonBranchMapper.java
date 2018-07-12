@@ -1,5 +1,7 @@
 package com.lamport.admin.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 
 import com.lamport.admin.po.LessonBranch;
@@ -30,4 +32,18 @@ public interface LessonBranchMapper {
 	 * @throws Exception
 	 */
 	public int deleteLessonBranchLogicallyByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过branchid查询lid
+	 * @param branchid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Integer> selectLIDByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过lid查询LessonBranch的条数
+	 * @param lid
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountLessonBranchByLID(int lid) throws Exception;
 }

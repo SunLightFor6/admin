@@ -7,6 +7,7 @@
 
 	<!-- 通过mid逻辑删除MessageLike信息 -->
 	<update id="deleteMessageLikeLogicallyByMID" parameterType="int">
+		update messagelike set deletekey=1 where mid=#{mid}
 	</update>
 
 </mapper>

@@ -17,6 +17,8 @@ public class Message {
 	private List<MessageImg> imgs;//朋友圈图片
 	private List<MessageLike> likes;//朋友圈点赞
 	private List<MessageReply> replies;//朋友圈评论
+	private Enterprise enterprise;//企业，需要其中的name
+	private Swiper swiper;//选取一张企业轮播图作为该企业的LOGO
 	
 	public int getQid() {
 		return qid;
@@ -65,5 +67,17 @@ public class Message {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	public Swiper getSwiper() {
+		return swiper;
+	}
+	public void setSwiper(Swiper swiper) {
+		this.swiper = swiper;
+	}
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
 	}
 }
