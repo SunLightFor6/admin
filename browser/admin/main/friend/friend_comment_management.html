@@ -16,12 +16,13 @@
 		</li>
 	</ul>
 </div>
+
 <script>
 	//删除整个朋友圈item
 	function deletemessage(id) {
 		//	var message_id = data[d].id.split('_')[1];
 		console.log('#item_' + id + "clicked---");
-		let formData = new FormData();
+		var formData = new FormData();
 		formData.append("id", id);
 		$.ajax({
 			type: "post",
@@ -52,7 +53,7 @@
 
 	function deletecomment(id_comment, id_message) {
 		console.log('#comment_item_' + id_comment + " id_message " + id_message + "clicked---");
-		let formData = new FormData();
+		var formData = new FormData();
 		formData.append("id_comment", id_comment);
 		formData.append("id_message", id_message);
 		$.ajax({
@@ -83,14 +84,11 @@
 	}
 
 	//JavaScript代码区域
-	layui.use('element', function() {
-		var element = layui.element;
-		//		element.render();
-	});
 	layui.use('form', function() {
 		var form = layui.form;
 	});
-	var n = 0;
+	var friendpicsdiv_num = 0;
+	//	var n = 0;
 	$(function() {
 
 		var col1 = '<div name="img" class="layui-col-md1"><img src="%1" class="enter_face" /></div>';
@@ -121,8 +119,11 @@
 			'		</div>';
 		var layuicard = '<div class="layui-card"><div class="layui-card-body"><div class="layui-row">%1 %2 %3</div></div></div>';
 
-		layui.use('flow', function() {
-			var flow = layui.flow;
+		layui.use(['flow', 'layer', 'element'], function() {
+			var flow = layui.flow,
+				element = layui.element,
+				layer = layui.layer;
+
 			flow.load({
 				elem: '#top',
 				scrollElem: '#top',
@@ -140,11 +141,15 @@
 						success: function(data) {
 							var innerHtml = "";
 							var messages = data.messages;
+							var length = 0;
+							var old = friendpicsdiv_num;
 							//						console.log(data);	
 							for(var d in messages) {
 								//					console.log("--------------------------");
 								//					console.log(data[d]);
-								var imgs_content = '<div id="friendpics' + d + '">';
+								friendpicsdiv_num++;
+								console.log("-----friendpicsdiv_num = " + friendpicsdiv_num);
+								var imgs_content = '<div id="friendpics' + friendpicsdiv_num + '">';
 								var imgurls = messages[d].imgurls;
 								var img_class = 'messagelist-imgs' + imgurls.length;
 								var num = numperrow(imgurls.length);
@@ -192,38 +197,41 @@
 										comments
 									)
 								);
-								n = d;
+								//								n = d;
 								//					alert(n);
 								//					console.log('#item_' + data[d].id + "clicking---");
 								//注册删除事件
+								length = d;
 							}
-//							$('#top').append(innerHtml);
-							next(innerHtml, page < data.pages);  
+							//							$('#top').append(innerHtml);
+							//	这里！！！   循环就这几个新建的div
+							element.render();
+							console.log("循环执行完毕--friendpicsdiv_num=" + friendpicsdiv_num + " data.length=" + length)
+							// 				layer.msg("hhh");
+							next(innerHtml, page < data.pages);
+							for(var i = friendpicsdiv_num - length; i <= friendpicsdiv_num; i++) {
+								var id_ = '#friendpics' + i;
+								console.log("photos 方法启动 & id = " + id_);
+								console.log("这个div下一共有 " + $(id_).length + " 张图片，他们是：");
+								console.log($('#friendpics' + i).html());
+								
+								layer.photos({
+									photos: id_,
+									anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+								});
+								element.render();
+								console.log("photos 方法执行完毕 & id = " + id_);
+							}
 						},
 						error: function() {
 							alert("error");
 						}
 					});
+					console.log($('#friendpics1').html());;
 				}
 			});
 		});
 
 		return false;
-	});
-	layui.use('layer', function() {
-		console.log(" * * * * * *  layui.use('layer') * * *");
-		var layer = layui.layer;
-		// 				layer.msg("hhh");
-		$(function() {
-			for(var i = 0; i <= n; i++) {
-				var id_ = '#friendpics' + i;
-				console.log("photos 方法启动 & id = " + id_);
-				layer.photos({
-					photos: id_,
-					anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-				});
-				console.log("photos 方法执行完毕 & id = " + id_);
-			}
-		});
 	});
 </script>

@@ -1,25 +1,26 @@
 #6 朋友圈
-#61 朋友圈新建
-	-->	-- url: 
+#61 朋友圈新建	·
+	-->	-- /admin/saveMessage
 		-- {mtitle, message_pics}	//消息标题和图片（文件）
 	<-- (1， 0) 	//1表示成功  0表示失败						统一都是response: 1
 	
-#62 朋友圈查询
+#62 朋友圈查询	·
 	## 请求朋友圈的全部数据
-		--> -- url: "../../json/friend.json?page=" + page
+		--> url: /admin/selectMessageByQIDAndPage
+			{page}
 		<--	friend.json  (名称可以变)
 		
-	##请求删除朋友圈
-		--> -- url:
+	## 请求删除朋友圈
+		--> -- /admin/deleteMessageLogicallyByID
 			-- {id}		//这代表一个name为id的数值，随着请求发送给了服务器
 		<-- (1， 0) 	//1表示成功  0表示失败
 		
-	##请求删除评论
-		--> -- url:
+	## 请求删除评论
+		--> -- /admin/deleteMessageReplyLogicallyByID
 			-- {id_comment, id_message}		//这代表一个name为id的数值，随着请求发送给了服务器
 		<-- (1， 0) 	//1表示成功  0表示失败
 
-#5 订单管理
+#5 订单管理 	·
 #51 订单查询
 	--> url: "/admin/selectSorderBySorderQueryCondition"
 		{oid, status, beginTime, endTime, page, limit} //limit每页的数据数
@@ -49,18 +50,18 @@
 
 #4 预约管理
 #41 查看预约信息表
-	##列表
+	##列表	·
 	--> /admin/selectFreeListenBookByBookQueryCondition
 		{fid, nickname, status, beginTime, endTime, page, limit}
-	<-- book.json
+	<-- book.json (加一个bookid)
 	
 #42 预约处理
-	##列表
+	##列表	·
 	--> /admin/selectFreeListenBookUnprocessedByBookQueryCondition
 		{fid, nickname, status, beginTime, endTime, page, limit}
-	<-- book_handle.json
+	<-- book_handle.json  (加一个bookid)
 	
-	##处理
+	##处理	·
 	--> /admin/processFreeListenBookByID
 		{id}
 	<-- (1， 0) 	//1表示成功  0表示失败
@@ -100,40 +101,124 @@
 		
 #2 课程管理
 #21 课程信息表
-	## 查看课程信息表
+	## 查看课程信息表lesson
+	--> /admin/selectLessonByLessonQueryCondition
+		{branch, page, limit}
+	<-- course.json new
+	 
+	## 查看免费课程表freelisten
+	--> /admin/selectFreeListenByFreeListenQueryCondition
+		{branch, page, limit}
+	<-- course.json new
+
+	## 编辑精品课程详情
+	--> /admin/updateLessonByID
+		{lid, lname, imgFile, lprice, ldesc, status, category, branchs[]}
+	<-- (1, 0)
+		
+	## 编辑预约课程详情
+	--> /admin/updateFreeListenByID
+		{id, title, imgFile, fdesc, status, category, branchName}
+	<-- (1, 0)
 	
-	## 查看课程信息详情
+	## 删除精品课程
+	--> /admin/deleteLessonByID
+		{id}
+	<-- (1, 0)	
 	
-	## 编辑课程信息
-	
-	## 删除课程信息
+	## 删除预约课程
+	--> /admin/deleteFreeListenLogicallyByID
+		{id}
+	<-- (1, 0)	
 
 #22 新增课程信息
-
+	## 新增免费课程信息
+	--> /admin/saveFreeListen
+		{title, imgFile, fdesc, status, category, branchName}
+	<-- (1, 0)
+	
+	## 新增正式课程信息
+	--> /admin/saveLesson
+		{lname, imgFile, lprice, ldesc, status, category, branchs[]}
+	<-- (1, 0)
+	
 #1 企业管理
-#11 企业基本信息
+#11 企业基本信息	·
 	--> /admin/selectEnterpriseBasicInfoByQID
-		
 	<-- {name; videopath; introduction; jczs; imgs}
 
-#13 企业基本信息修改
+#13 企业基本信息修改	·
+	--> /admin/updateEnterpriseBasicInfoByID
+		{name, introduction, jczs; message_pics(图片list), video(视频文件)}
+	<-- (1, 0)
 
-#12 企业分部信息管理
-	## 企业分部信息列表
+#12 企业分部信息管理·
+	## 企业分部信息列表	·
+	--> /admin/selectBranchByQIDAndPage
+		page, limit
+	<-- 根据Address类的内容返回json： id, branch, address, tel, longitude, latitude
 	
-	## 查看企业分部信息
+	## 编辑企业分部信息	·
+	--> /admin/updateBranchByID
+		{id, branch, address, tel, longitude, latitude}
+	<-- (1, 0)	
 	
-	## 编辑企业分部信息
+	## 删除企业分部信息	·
+	--> /admin/deleteBranchLogicallyByID
+		{id}
+	<-- (1, 0)
 	
-	## 删除企业分部信息
+	## 添加企业分部信息	·
+	--> /admin/saveBranch
+		{branch, address, tel, longitude, latitude}
+	<-- {status: 0|1; id: XXX}
 	
-	## 添加企业分部信息
+#0 企业信息统计	·
+	-->/admin/statistics
+	<-- {user_total, course_total, teacher_total, order_total, book_total, profit_total}
 
-#0 企业信息统计
+#01 企业资料展示·
+	--> /admin/selectEnterpriseBasicDataByQID
+	<--{enterprise_name, enterprise_id}
 
-#01 企业资料展示
+#02 修改企业密码·
+	--> /admin/updatePasswordByID
+		{sourse_password, new_password}
+	<-- {"status": "fail | success"; "message": "密码输入错误"}
 
-#02 修改企业密码
+#03 安全退出	·
+	--> /login/adminLogout
+	<-- (1, 0)
+
+# 登录
+## 超级管理员登录	·
+	--> /login/superAdminLogin
+		{adminname, password}
+	<-- {"status": "fail | success"; "message": "密码输入错误"}
+
+## 管理员登录	·
+	--> /login/adminLogin
+		{adminname, password}
+	<-- {"status": "fail | success"; "message": "密码输入错误"}
+
+##超级管理员	·
+## 查看企业表
+	--> /superadmin/selectEnterpriseByPage
+	<-- admin.json
+
+## 新增企业
+	--> /superadmin/saveEnterprise
+	<-- {qid, admincount}	//企业id，管理员账号
+
+## 删除企业
+	--> /superadmin/deleteEnterpriseLogicallyByID
+		{id}
+	<-- (1, 0)
+
+## 超级管理员退出登录		·
+	--> /login/superAdminLogout
+	<-- (1, 0)
+
 
 $(function() {
 	$.ajax({
@@ -150,3 +235,17 @@ $(function() {
 		}
 	});
 })
+
+layer.open({
+	type: 0,
+	btn: false,
+	title: false,
+	icon: 6,
+	closeBtn: 0,
+	shadeClose: true,
+	time: 1500,
+	content: '更改成功！'
+});
+
+
+

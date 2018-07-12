@@ -1,0 +1,10 @@
+<script>
+	$.ajax({
+		type:"post",
+		url:"/login/adminLogout",
+		async:true,
+		success: function () {
+			window.location.href = "../login.html";
+		}
+	});
+</script>

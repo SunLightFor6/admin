@@ -6,14 +6,13 @@
 		</blockquote>
 		<script>
 			$(function() {
-						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 						$.ajax({
 									type: "get",
 									url: "/admin/selectTeacherSwiperByQID",
 									async: true,
-									data: formData,
 									processData: false,
 									contentType: false,
 									success: function(data) {

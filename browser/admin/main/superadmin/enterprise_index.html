@@ -27,7 +27,7 @@
 						</a>
 					</li>
 					<li class="layui-nav-item">
-						<a href="../login.html">安全退出</a>
+						<a href="javascript: logout()">安全退出</a>
 					</li>
 				</ul>
 			</div>
@@ -39,14 +39,14 @@
 					<div class="layui-col-md4">
 						<h2>企业信息表</h2> </div>
 					<div class="layui-col-md4" align="right">
-						<h4><a href="" style="color: #007DDB;">+添加企业</a></h4></div>
+						<h4><a href="javascript: addEnterprise()" style="color: #007DDB;">+创建新的企业账号</a></h4></div>
 					<div class="layui-col-md2">&nbsp;</div>
 				</div>
 
 				<div class="layui-row">
 					<div class="layui-col-md2">&nbsp;</div>
 					<div class="layui-col-md8">
-						<table class="layui-hide" id="test" lay-filter="demo"></table>
+						<table class="layui-hide" id="enter-list" lay-filter="enter-list"></table>
 					</div>
 					<div class="layui-col-md2">&nbsp;</div>
 				</div>
@@ -75,8 +75,9 @@
 				var table = layui.table;
 
 				table.render({
-					elem: '#test',
-					url: '../../json/admin.json',
+					elem: '#enter-list',
+//					url: '/superadmin/selectEnterpriseByPage',
+										url: '../../json/admin.json',
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -85,7 +86,7 @@
 						[{
 							field: 'id',
 							align: 'center',
-							title: 'ID',
+							title: '企业ID',
 							sort: true
 						}, {
 							field: 'admin',
@@ -112,49 +113,85 @@
 		<script>
 			layui.use('table', function() {
 				var table = layui.table;
-				//监听表格复选框选择
-				table.on('checkbox(demo)', function(obj) {
-					console.log(obj)
-				});
+
 				//监听工具条
-				table.on('tool(demo)', function(obj) {
+				table.on('tool(enter-list)', function(obj) {
 					var data = obj.data;
-					if(obj.event === 'detail') {
-						//layer.msg('ID：'+ data.id + ' 的查看操作');//在这里跳入查看界面
-						window.location.href = 'branch_view.html';
-					} else if(obj.event === 'del') {
-						layer.confirm('真的删除行么', function(index) {
-							obj.del();
+					if(obj.event === 'del') {
+						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {icon: 3, title:'', closeBtn: false}, function(index) {
+							$.ajax({
+								type: "post",
+								url: "/superadmin/deleteEnterpriseLogicallyByID?id=" + data.id,
+								async: true,
+								success: function(data) {
+									if(data.response == "1") {
+										layer.open({
+											type: 0,
+											btn: false,
+											title: false,
+											icon: 1,
+											closeBtn: 0,
+											shadeClose: true,
+											time: 1500,
+											content: '删除成功！'
+										});
+										obj.del();
+									} else if(data.response == "0") {
+										layer.open({
+											type: 0,
+											btn: false,
+											title: false,
+											icon: 2,
+											closeBtn: 0,
+											shadeClose: true,
+											time: 1500,
+											content: '删除失败，请稍后重试或联系数据库系统管理员！'
+										});
+									}
+								}
+							});
 							layer.close(index);
 						});
-					} else if(obj.event === 'edit') {
-						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
 					}
 				});
 
-				var $ = layui.$,
-					active = {
-						getCheckData: function() { //获取选中数据
-							var checkStatus = table.checkStatus('idTest'),
-								data = checkStatus.data;
-							layer.alert(JSON.stringify(data));
-						},
-						getCheckLength: function() { //获取选中数目
-							var checkStatus = table.checkStatus('idTest'),
-								data = checkStatus.data;
-							layer.msg('选中了：' + data.length + ' 个');
-						},
-						isAll: function() { //验证是否全选
-							var checkStatus = table.checkStatus('idTest');
-							layer.msg(checkStatus.isAll ? '全选' : '未全选')
-						}
-					};
-
-				$('.demoTable .layui-btn').on('click', function() {
-					var type = $(this).data('type');
-					active[type] ? active[type].call(this) : '';
-				});
 			});
+			
+			function addEnterprise() {
+				$.ajax({
+					type:"post",
+					url:"/superadmin/saveEnterprise",
+					async:true,
+					success: function(data) {
+						layer.open({
+							type: 0,
+							btn: '确定',
+							title: "新的企业账号创建成功",
+							icon: 6,
+							closeBtn: 0,
+							shadeClose: true,
+							content: '企业id：' + data.qid + '<br>企业管理员账号：' + data.admincount
+						});
+						table.render();
+					}
+				});
+			}
+			
+			function logout() {
+				$.ajax({
+					type:"post",
+					url:"/login/superAdminLogout",
+					async:true,
+					success: function(data) {
+						if(data.response == "1") {
+							window.location.href = "../login.html";
+						} else {
+							console.log("超级管理员退出登录异常，建议重启浏览器");
+							window.location.href = "../login.html";
+						}
+					}
+				});
+			}
 		</script>
 
 	</body>

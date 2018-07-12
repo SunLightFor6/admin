@@ -40,7 +40,8 @@
 		pics_num_loaded = 0, //div中的图片数量
 		pics_cur = 0, //当前已经被加载了的图片数量
 		message_pics = new Array(), //所有要被上传的图片，定义出来以封装到formdata
-		pics_map = new Map(); //所有图片的集合
+		pics_map = new Map(), //所有图片的集合
+		video;
 
 	layui.use(['element', 'form', 'upload', 'layer'], function() {
 		var layer = layui.layer;
@@ -126,12 +127,14 @@
 			elem: '#upload-video',
 			url: '/upload/',
 			accept: 'video',
+			auto: false,
 			//					acceptMime: 'video', //video/* not include mp4
 			size: 100000 //限制文件大小，单位 KB
 				,
 			choose: function(obj) {
 				$('#preview_video').show();
 				obj.preview(function(index, file, result) {
+					video = file;
 					$('#preview_video').append('<video src="' + result + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
 				});
 
@@ -144,8 +147,11 @@
 		//表单提交的方法
 		$('#enter_modify_submit').click(function() {
 			var formData = new FormData();
-			formData.append("mtitle", $('#title')[0]);
+			formData.append("name", $('#enter-name').val());
+			formData.append("introduction", $('#enter-des').val());
 			formData.append("message_pics", message_pics);
+			formData.append("video", video);
+			formData.append("jczs", um_free.getContent());
 			$.ajax({
 				type: "post",
 				url: "",
