@@ -7,10 +7,12 @@
 
 	<!-- 创建LessonBranch -->
 	<insert id="saveLessonBranch" parameterType="com.lamport.admin.po.LessonBranch">
+		insert lessonbranch(lid, branchid, deletekey) values(#{lid}, #{branchid}, #{deletekey})
 	</insert>
 
 	<!-- 通过lid逻辑删除LessonBranch的信息 -->
 	<update id="deleteLessonBranchLogicallyByLID" parameterType="int">
+		update lessonbranch set deletekey=1 where lid=#{lid}
 	</update>
 
 	<!-- 通过branchid逻辑删除LessonBranch的信息 -->
@@ -22,6 +24,12 @@
 	<select id="selectLIDByBranchID" parameterType="int"
 			resultType="java.lang.Integer">
 		select lid from lessonbranch where branchid=#{branchid} and deletekey=0
+	</select>
+
+	<!-- 通过lid查询branchid -->
+	<select id="selectBranchIDByLID" parameterType="int"
+			resultType="java.lang.Integer">
+		select branchid from lessonbranch where lid=#{lid} and deletekey=0
 	</select>
 	
 	<!-- 通过lid查询LessonBranch的条数 -->

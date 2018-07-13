@@ -40,6 +40,13 @@ public interface LessonBranchMapper {
 	 */
 	public List<Integer> selectLIDByBranchID(int branchid) throws Exception;
 	/**
+	 * 通过lid查询branchid
+	 * @param lid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Integer> selectBranchIDByLID(int lid) throws Exception;
+	/**
 	 * 通过lid查询LessonBranch的条数
 	 * @param lid
 	 * @return int

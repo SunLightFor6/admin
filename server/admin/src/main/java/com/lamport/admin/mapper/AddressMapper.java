@@ -36,6 +36,13 @@ public interface AddressMapper {
 	 */
 	public int updateAddressByID(Address address) throws Exception;
 	/**
+	 * 通过id查询Address信息
+	 * @param id
+	 * @return Address
+	 * @throws Exception
+	 */
+	public Address selectAddressByID(int id) throws Exception;
+	/**
 	 * 通过qid和页码查询Address信息
 	 * @return List
 	 * @throws Exception

@@ -4,9 +4,31 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.lamport.admin.mapper.LessonMapper">
+	
+	<resultMap type="com.lamport.admin.po.Lesson" id="_Lesson_Address">
+		<id column="lid" property="lid"/>
+		<result column="qid" property="qid"/>
+		<result column="lname" property="lname"/>
+		<result column="imgurl" property="imgurl"/>
+		<result column="lprice" property="lprice"/>
+		<result column="ldesc" property="ldesc"/>
+		<result column="status" property="status"/>
+		<result column="category" property="category"/>
+		<result column="pubtime" property="pubtime"/>
+		<collection property="branches" ofType="com.lamport.admin.po.Address">
+			<id column="id" property="id"/>
+			<result column="branch" property="branch"/>
+		</collection>
+		
+	</resultMap>
 
 	<!-- 创建Lesson -->
 	<insert id="saveLesson" parameterType="com.lamport.admin.po.Lesson">
+		insert lesson(qid, lname, imgurl, lprice, ldesc, status, category, pubtime, deletekey) 
+		values(#{qid}, #{lname}, #{imgurl}, #{lprice}, #{ldesc}, #{status}, #{category}, NOW(), #{deletekey})
+		<selectKey keyProperty="lid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
 	</insert>
 	
 	<!-- 通过id逻辑删除Lesson信息 -->
@@ -21,11 +43,25 @@
 
 	<!-- 通过id修改Lesson信息 -->
 	<update id="updateLessonByID" parameterType="com.lamport.admin.po.Lesson">
+		update lesson 
+		<set> 
+			lname = #{lname},
+			lprice = #{lprice},
+			ldesc = #{ldesc},
+			status = #{status},
+			category = #{category},
+			<if test="imgurl != null">
+				imgurl = #{imgurl}
+			</if>
+		</set>
+		where lid = #{lid}
 	</update>
 
 	<!-- 通过多条件查询Lesson信息 -->
-	<select id="selectLessonByQIDAndPage" parameterType="com.lamport.admin.vo.LessonQueryCondition"
+	<select id="selectLessonByLessonQueryCondition" parameterType="com.lamport.admin.vo.LessonQueryCondition"
 			resultType="com.lamport.admin.po.Lesson">
+		select * from lesson where qid=#{qid} and deletekey=0
+		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
 	<!-- 通过qid查询Lesson的总数 -->
@@ -37,6 +73,7 @@
 	<!-- 通过id查询Lesson图片存放路径 -->
 	<select id="selectLessonImgurlByID" parameterType="int"
 			resultType="java.lang.String">
+		select imgurl from lesson where lid=#{lid} and deletekey=0
 	</select>
 
 </mapper>

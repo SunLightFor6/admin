@@ -1,8 +1,10 @@
 package com.lamport.admin.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,7 @@ import com.lamport.admin.service.UserService;
 import com.lamport.admin.tool.Const;
 import com.lamport.admin.tool.PageTool;
 import com.lamport.admin.vo.BookQueryCondition;
+import com.lamport.admin.vo.LessonQueryCondition;
 import com.lamport.admin.vo.QIDAndCategory;
 import com.lamport.admin.vo.QIDAndPage;
 import com.lamport.admin.vo.SorderQueryCondition;
@@ -346,8 +349,114 @@ public class TestHandler {
 	
 	
 	
-	
-	
+
+	/********************************LessonHandler********************************/
+	@RequestMapping(value="/test/TestSaveLesson")
+	public String testSaveLesson(HttpServletRequest request) throws Exception{
+		System.out.println("........TestHandler...........testSaveLesson()........");
+		String result = null;
+
+		Lesson lesson = new Lesson();
+		lesson.setQid(6);
+		lesson.setLname("3个月精通Java");
+		lesson.setLdesc("来新东方，3个月精通Java，结课立找10万年薪");
+		lesson.setLprice(3400);
+		lesson.setCategory("Java");
+		lesson.setStatus(Const.LessonStatusNotStarted);
+		Address address = new Address();
+		address.setId(5);
+		List<Address> addresses = new ArrayList<Address>();
+		addresses.add(address);
+		lesson.setBranches(addresses);
+		
+		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		int saveResult = lessonService.saveLesson(lesson, null, path);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("reponse", saveResult);
+		result = jsonObject.toString();
+
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	@RequestMapping(value="/test/TestDeleteLessonByID")
+	public String testDeleteLessonByID() throws Exception{
+		System.out.println("........TestHandler...........testDeleteLessonByID()........");
+		String result = null;
+
+		int id=6;
+		int deleteResult = lessonService.deleteLessonLogicallyByID(id);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	@RequestMapping(value="/test/TestUpdateLessonByID")
+	public String testUpdateLessonByID(HttpServletRequest request) throws Exception{
+		System.out.println("........TestHandler...........testUpdateLessonByID()........");
+		String result = null;
+
+		Lesson lesson = new Lesson();
+		lesson.setLid(9);
+		lesson.setLname("3个月精通Html");
+		lesson.setLdesc("来新东方，3个月精通Html，结课立找6万年薪");
+		lesson.setLprice(3400);
+		lesson.setCategory("Java");
+		lesson.setStatus(Const.LessonStatusNotStarted);
+		Address address = new Address();
+		address.setId(5);
+		List<Address> addresses = new ArrayList<Address>();
+		addresses.add(address);
+		lesson.setBranches(addresses);
+		
+		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		int updateResult = lessonService.updateLessonByID(lesson, null, path);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("reponse", updateResult);
+		result = jsonObject.toString();
+
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	@RequestMapping(value="/test/TestSelectLessonByLessonQueryCondition")
+	public String testSelectLessonByLessonQueryCondition() throws Exception{
+		System.out.println("........TestHandler...........testSelectLessonByLessonQueryCondition()........");
+		String result = null;
+
+		LessonQueryCondition lessonQueryCondition = new LessonQueryCondition();
+		lessonQueryCondition.setQid(1);
+		lessonQueryCondition.setPageTool(new PageTool(1, 10));
+		List<Lesson> lessons = lessonService.selectLessonByLessonQueryCondition(lessonQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", lessonQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		for(Lesson lesson : lessons){
+			JsonObject object = new JsonObject();
+			object.addProperty("courseid", lesson.getLid());
+			object.addProperty("coursename", lesson.getLname());
+			object.addProperty("courseimg", lesson.getImgurl());
+			object.addProperty("courseprice", lesson.getLprice());
+			object.addProperty("coursecategory", lesson.getCategory());
+			JsonArray branches = new JsonArray();
+			for(Address address : lesson.getBranches()){
+				branches.add(address.getBranch());
+			}
+			object.add("branch", branches);			
+			object.addProperty("pubtime", lesson.getPubtime());
+			object.addProperty("ldesc", lesson.getLdesc());
+			object.addProperty("status", lesson.getStatus());
+			jsonArray.add(object);
+		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
+
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	/********************************BranchHandler********************************/
 	
 	
 	
