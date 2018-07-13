@@ -120,9 +120,15 @@ public class LessonServiceBean implements LessonService {
 			List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
 			List<Address> addresses = new ArrayList<Address>();
 			for(Integer branchid : branchids){
-				addresses.add(addressMapper.selectAddressByID(branchid));
+				Address address = addressMapper.selectAddressByID(branchid);
+				if(address.getBranch().equals(lessonQueryCondition.getBranch())){
+					addresses.add(address);
+				}
 			}
 			lesson.setBranches(addresses);
+			if(lesson.getBranches()==null || lesson.getBranches().size()==0){
+				lessons.remove(lesson);
+			}
 		}
 		
 		return lessons;
