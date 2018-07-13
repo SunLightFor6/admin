@@ -11,6 +11,16 @@ public class Const {
 
 	public static final long UselessTime = 1530000000000L;
 	
+	public static final String LessonStatusNotStarted = "未开始";
+	public static final String LessonStatusUnderway = "进行中";
+	public static final String LessonStatusEnded = "已结束";
+	public static final String LessonStatusSoldOut = "已下架";
+	
+	public static final String FreeListenStatusNotStarted = "未开始";
+	public static final String FreeListenUnderway = "进行中";
+	public static final String FreeListenEnded = "已结束";
+	
+	
 	public static final String SorderStatusWait = "待付款";
 	public static final String SorderStatusPayed = "已付款";
 	public static final String SorderStatusRefunding = "退款中";
