@@ -14,6 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import com.lamport.admin.po.Admin;
 
+/**
+ * 过滤器，判断superAdmin是否登录
+ * @author Lin Zhao, protector of Sherry
+ *
+ */
 public class SuperAdminFilter implements Filter {
 
 	@Override

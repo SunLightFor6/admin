@@ -14,6 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import com.lamport.admin.po.Admin;
 
+/**
+ * 过滤器，判断是否已有账号登录
+ * @author Lin Zhao, protector of Sherry
+ *
+ */
 public class LoginFilter implements Filter {
 
 	@Override

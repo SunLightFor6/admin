@@ -26,6 +26,13 @@
 		select lid from lessonbranch where branchid=#{branchid} and deletekey=0
 	</select>
 
+	<!-- 通过branchid和页码查询lid -->
+	<select id="selectLIDByBranchIDAndPage" parameterType="com.lamport.admin.vo.BranchIDAndPage"
+			resultType="java.lang.Integer">
+		select lid from lessonbranch where branchid=#{branchid} and deletekey=0
+		limit #{pageTool.startrow}, #{pageTool.limit}
+	</select>
+
 	<!-- 通过lid查询branchid -->
 	<select id="selectBranchIDByLID" parameterType="int"
 			resultType="java.lang.Integer">
@@ -36,5 +43,11 @@
 	<select id="selectCountLessonBranchByLID" parameterType="int"
 			resultType="int">
 		select count(*) from lessonbranch where lid=#{lid} and deletekey=0
+	</select>
+
+	<!-- 通过branchid查询LessonBranch的条数 -->
+	<select id="selectCountLessonBranchByBranchID" parameterType="int"
+			resultType="int">
+		select count(*) from lessonbranch where branchid=#{branchid} and deletekey=0
 	</select>
 </mapper>

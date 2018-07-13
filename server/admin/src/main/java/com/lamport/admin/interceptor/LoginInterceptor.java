@@ -9,6 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lamport.admin.po.Admin;
 
+/**
+ * 拦截器，判断是否有账号登陆
+ * @author Lin Zhao, protector of Sherry
+ *
+ */
 public class LoginInterceptor implements HandlerInterceptor {
 
 	@Override

@@ -3,6 +3,7 @@ package com.lamport.admin.mapper;
 import java.util.List;
 
 import com.lamport.admin.po.Address;
+import com.lamport.admin.vo.QIDAndBranch;
 import com.lamport.admin.vo.QIDAndPage;
 
 /**
@@ -62,5 +63,11 @@ public interface AddressMapper {
 	 * @throws Exception
 	 */
 	public int selectCountAddressByQID(int qid) throws Exception;
-	
+	/**
+	 * 通过qid和branch查询Address信息
+	 * @param qidAndBranch
+	 * @return int
+	 * @throws Exception
+	 */
+	public Address selectAddressIDByQIDAndBranch(QIDAndBranch qidAndBranch) throws Exception;
 }
