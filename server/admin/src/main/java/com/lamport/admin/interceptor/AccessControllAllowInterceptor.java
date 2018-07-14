@@ -1,4 +1,4 @@
-package com.lamport.admin.Interceptor;
+package com.lamport.admin.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

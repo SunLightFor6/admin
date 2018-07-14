@@ -39,6 +39,13 @@ public interface LessonMapper {
 	 */
 	public int updateLessonByID(Lesson lesson) throws Exception;
 	/**
+	 * 通过lid查询Lesson信息
+	 * @param lid
+	 * @return Lesson
+	 * @throws Exception
+	 */
+	public Lesson selectLessonByLID(int lid) throws Exception;
+	/**
 	 * 通过多条件查询Lesson信息
 	 * @return List
 	 * @throws Exception

@@ -38,5 +38,5 @@
 			resultType="java.lang.String">
 		select jurisdiction from admin where adminname = #{adminname} and deletekey=0
 	</select>
-	
+
 </mapper>

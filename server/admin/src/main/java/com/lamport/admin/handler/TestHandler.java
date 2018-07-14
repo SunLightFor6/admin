@@ -427,6 +427,8 @@ public class TestHandler {
 		LessonQueryCondition lessonQueryCondition = new LessonQueryCondition();
 		lessonQueryCondition.setQid(1);
 		lessonQueryCondition.setPageTool(new PageTool(1, 10));
+		lessonQueryCondition.setBranch("扬州分舵");
+		
 		List<Lesson> lessons = lessonService.selectLessonByLessonQueryCondition(lessonQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);

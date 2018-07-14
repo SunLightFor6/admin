@@ -20,6 +20,7 @@ public class FreeListen {
 	private int deletekey;		//删除键
 	
 	private List<FreeListenBook> freeListenBooks;//试听课预约
+	private Address branch;//所在分部
 	
 	public int getQid() {
 		return qid;
@@ -86,5 +87,11 @@ public class FreeListen {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	public Address getBranch() {
+		return branch;
+	}
+	public void setBranch(Address branch) {
+		this.branch = branch;
 	}
 }

@@ -17,7 +17,9 @@ import com.lamport.admin.po.Lesson;
 import com.lamport.admin.po.LessonBranch;
 import com.lamport.admin.service.LessonService;
 import com.lamport.admin.tool.FileTool;
+import com.lamport.admin.vo.BranchIDAndPage;
 import com.lamport.admin.vo.LessonQueryCondition;
+import com.lamport.admin.vo.QIDAndBranch;
 
 /**
  * implements LessonService
@@ -115,14 +117,38 @@ public class LessonServiceBean implements LessonService {
 	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception {
 		List<Lesson> lessons = null;
 
-		lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
-		for(Lesson lesson : lessons){
-			List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
-			List<Address> addresses = new ArrayList<Address>();
-			for(Integer branchid : branchids){
-				addresses.add(addressMapper.selectAddressByID(branchid));
+		if(lessonQueryCondition.getBranch() == null){
+			int count = lessonMapper.selectCountLessonByQID(lessonQueryCondition.getQid());
+			lessonQueryCondition.getPageTool().setCount(count);
+			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
+			for(Lesson lesson : lessons){
+				List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
+				List<Address> addresses = new ArrayList<Address>();
+				for(Integer branchid : branchids){
+					Address address = addressMapper.selectAddressByID(branchid);
+					addresses.add(address);
+				}
+				lesson.setBranches(addresses);
 			}
-			lesson.setBranches(addresses);
+		}else{
+			QIDAndBranch qidAndBranch = new QIDAndBranch();
+			qidAndBranch.setQid(lessonQueryCondition.getQid());
+			qidAndBranch.setBranch(lessonQueryCondition.getBranch());
+			Address branch = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
+			BranchIDAndPage branchIDAndPage = new BranchIDAndPage();
+			branchIDAndPage.setBranchid(branch.getId());
+			branchIDAndPage.setPageTool(lessonQueryCondition.getPageTool());
+			int count = lessonBranchMapper.selectCountLessonBranchByBranchID(branch.getId());
+			lessonQueryCondition.getPageTool().setCount(count);
+			List<Integer> lids = lessonBranchMapper.selectLIDByBranchIDAndPage(branchIDAndPage);
+			lessons = new ArrayList<Lesson>();
+			for(Integer lid : lids){
+				Lesson lesson = lessonMapper.selectLessonByLID(lid);
+				List<Address> branches = new ArrayList<Address>();
+				branches.add(branch);
+				lesson.setBranches(branches);
+				lessons.add(lesson);
+			}
 		}
 		
 		return lessons;

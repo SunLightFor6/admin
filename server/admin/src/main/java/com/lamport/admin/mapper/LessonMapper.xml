@@ -57,10 +57,17 @@
 		where lid = #{lid}
 	</update>
 
+	<!-- 通过lid查询Lesson信息 -->
+	<select id="selectLessonByLID" parameterType="int"
+			resultType="com.lamport.admin.po.Lesson">
+		select * from lesson where lid=#{lid} and deletekey=0
+	</select>
+
 	<!-- 通过多条件查询Lesson信息 -->
 	<select id="selectLessonByLessonQueryCondition" parameterType="com.lamport.admin.vo.LessonQueryCondition"
 			resultType="com.lamport.admin.po.Lesson">
-		select * from lesson where qid=#{qid} and deletekey=0
+		select * from lesson 
+		where qid=#{qid} and deletekey=0
 		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
