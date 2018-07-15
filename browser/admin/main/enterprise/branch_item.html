@@ -1,4 +1,3 @@
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
 <style type="text/css">
 	body,
 	html {
@@ -22,17 +21,20 @@
 	<div class="layui-card-body">
 		<fieldset class="layui-elem-field">
 			<legend>分部名字</legend>
-			<div class="layui-field-box" id="branch_name_show">实训中心</div>
+			<div class="layui-field-box">
+				<p id="branch_name_show">实训中心</p>
+			</div>
 		</fieldset>
 		<fieldset class="layui-elem-field">
 			<legend>分部地址</legend>
-			<div class="layui-field-box" id="enterprise_pics">
+			<div class="layui-field-box"><p id="address">hhhhhhhhhhhhhhhhhhh</p></div>
+			<div class="layui-field-box">
 				<div id="allmap"></div>
 			</div>
 		</fieldset>
 		<fieldset class="layui-elem-field">
 			<legend>分部联系电话</legend>
-			<div class="layui-field-box" id="enterprise_des">15940471397</div>
+			<div class="layui-field-box"><p id="tel>"15940471397</p></div>
 		</fieldset>
 	</div>
 </div>
@@ -41,7 +43,7 @@
 	<ul class="slideul">
 		<li>
 			<a href="#15">
-				<img src="../../img/new.png" style="height: 48px; width: 48px;" />
+				<img src="../../img/new.png" style="height: 40px; width: 40px;" />
 			</a>
 		</li>
 		<li>
@@ -51,20 +53,29 @@
 		</li>
 	</ul>
 </div>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
 <script>
 	//JavaScript代码区域
 	layui.use('element', function() {
 		var element = layui.element;
-
 	});
+	$('#branch_name_show').val(sessionStorage.getItem("b_branch"));
+	$('#address').val(sessionStorage.getItem("b_address"));
+	$('#tel').val(sessionStorage.getItem("b_tel"));
+	var longi = parseInt(sessionStora/ge.getItem("b_longitude"));
+	var lati =  parseInt(sessionStorage.getItem("b_latitude"));	
+//	var longi = 123.4;
+//	var lati =  41.8;
+	
 </script>
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
-	map.centerAndZoom(new BMap.Point(123.445992, 41.711578), 12);
+//	var mapPointer = new BMap.Point(123.445992, 41.711578)
+	var mapPointer = new BMap.Point(longi, lati);
+	map.centerAndZoom(mapPointer, 14);
+
 	map.enableScrollWheelZoom(true);
-	var marker = new BMap.Marker(new BMap.Point(123.445992, 41.711578)); // 创建点
+	var marker = new BMap.Marker(mapPointer); // 创建点
 	map.addOverlay(marker); //增加点
 	// 用经纬度设置地图中心点
 	//经纬度应当从数据库中读出

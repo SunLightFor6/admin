@@ -2,25 +2,28 @@
 	<div class="layui-card-body">
 		<form class="layui-form" name="message_form" action="" method="post">
 			<p class="form-label">消息文字</p>
-			<input type="text" name="title" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+			<input type="text" id="title" name="title" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
 			<p class="form-label">消息图片</p>
+			<input type="file" style="display: none;" name="message_pics" />
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-btn-primary" id="uploadpics">选择图片</button>
 				<blockquote id="blockquote_pics" class="layui-elem-quote layui-quote-nm" style="display: none; margin-top: 10px;">
 					预览图：
-					<div class="layui-upload-list" id="pics" lay-filter="pics"></div>
+					<div class="layui-upload-list layui-row" id="pics" lay-filter="pics"></div>
 				</blockquote>
 			</div>
 			<p class="form-label"></p>
-			<button type="submit" class="layui-btn">发表</button>
+			<button type="button" id="message_submit" class="layui-btn">发表</button>
 		</form>
 	</div>
 </div>
 <script>
-	var pics_num_amount = 0,	//图片总数  先后上传加载的图片总数
-		pics_num_load = 0,		//每次加载的图片数量
-		pics_num_loaded = 0,	//div中的图片数量
-		pics_cur = 0;			//当前已经被加载了的图片数量
+	var pics_num_amount = 0, //图片总数  先后上传加载的图片总数
+		pics_num_load = 0, //每次加载的图片数量
+		pics_num_loaded = 0, //div中的图片数量
+		pics_cur = 0, //当前已经被加载了的图片数量
+		message_pics = new Array(), //所有要被上传的图片，定义出来以封装到formdata
+		pics_map = new Map(); //所有图片的集合
 	layui.use(['layer', 'upload', 'element'], function() {
 		var layer = layui.layer;
 		var element = layui.element;
@@ -28,25 +31,38 @@
 		//多图片上传
 		upload.render({
 			elem: '#uploadpics',
-			url: '/upload/',
+			auto: false,
 			multiple: true,
 			size: 9 * 1024 //限制文件大小，单位 KB
 				,
 			number: 9,
-			before: function(obj) {
-				var fileLength = obj.fileLength_();		//获取本次上传的图片数量
-				pics_num_amount = pics_num_load + fileLength;	//目前一共加载了的图片的数量
+			choose: function(obj) {
+				var fileLength = obj.fileLength_(); //获取本次上传的图片数量
+				pics_num_amount = pics_num_load + fileLength; //目前一共加载了的图片的数量
 				console.log("pics_num_amount = " + pics_num_amount + "， fileLength = " + fileLength);
-				$('#blockquote_pics').show();			//显示这div
-				
+				$('#blockquote_pics').show(); //显示这div
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {
-					$('#pics').append('<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
-					pics_cur ++;						//加载中  实时更新的已经加载了的图片总数
+					$('#pics').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img"></div>');
+					pics_cur++; //加载中  实时更新的已经加载了的图片总数
 					console.log("pics_num_amount = " + pics_num_amount + " pics_cur = " + pics_cur);
-					if(pics_cur == pics_num_amount) {		//都加载完毕了
-						layerphotos_dynamic('pics');					//调用layer.photos() 此时调用能保证div中的图片加载完全了
+					if(pics_cur == pics_num_amount) { //都加载完毕了
+						layerphotos_dynamic('pics'); //调用layer.photos() 此时调用能保证div中的图片加载完全了
 					}
+					message_pics.push(file);
+					pics_map.set(index, file);
+					console.log("----------```````````````````````````--------------");
+					console.log(message_pics);
+					console.log(pics_map);
+					console.log("-------``````````````````````````````-----------------");
+					$('#b_' + index).click(function() {
+						$('#img_o_' + index).remove();
+						$('#b_' + index).remove();
+						message_pics.splice(message_pics.indexOf(pics_map.get(index)), 1);
+						console.log(message_pics);
+						console.log(pics_map);
+					});
 				});
 				pics_num_load += fileLength;
 			},
@@ -62,6 +78,47 @@
 				//上传完毕
 				layerphotos();
 			}
+		});
+
+		//表单提交的方法
+		$('#message_submit').click(function() {
+			var formData = new FormData();
+			formData.append("mtitle", $('#title')[0]);
+			formData.append("message_pics", message_pics);
+			$.ajax({
+				type: "post",
+				url: PREPATH + "",
+				async: true,
+				data: formData,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '发表成功！'
+					});
+					window.location.href = "#61";
+				},
+				error: function() {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '发表失败，请稍后重试'
+					});
+				}
+			});
 		});
 	});
 </script>

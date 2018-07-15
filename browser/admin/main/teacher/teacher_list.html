@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<div class="body-lz-in-t">
-		<table class="layui-hide" id="test" lay-filter="demo"></table>
+		<table class="layui-hide" id="teacher_list" lay-filter="teacher_list"></table>
 	</div>
 </div>
 
@@ -21,41 +21,41 @@
 	layui.use('table', function() {
 		var table = layui.table;
 
-				table.render({
-					elem: '#test',
-					url: '../../json/teacher.json',
-					dataType: 'jsonp',
-					skin: 'nob',
-					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,
-					cols: [
-						[{
-							field: 'teachername',
-							width: '20%',
-							align: 'center',
-							title: '讲师姓名'
-						}, {
-							field: 'teacherimg',
-							width: '20%',
-							align: 'center',
-							title: '讲师图片',
-							style: 'height:100px;',
-							templet: '#imgTpl'
-						}, {
-							field: 'teacherintro',
-							width: '35%',
-							align: 'center',
-							title: '讲师简介'
-						}, {
-							width: '25%',
-							align: 'center',
-							toolbar: '#barDemo'
-						}]
-					],
-					page: true
-				});
-			});
-		</script>
+		table.render({
+			elem: '#teacher_list',
+			url: PREPATH + '/admin/selectTeacherByQIDAndPage',
+			dataType: 'jsonp',
+			skin: 'nob',
+			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,
+			cols: [
+				[{
+					field: 'teachername',
+					width: '20%',
+					align: 'center',
+					title: '讲师姓名'
+				}, {
+					field: 'teacherimg',
+					width: '20%',
+					align: 'center',
+					title: '讲师图片',
+					style: 'height:100px;',
+					templet: '#imgTpl'
+				}, {
+					field: 'teacherintro',
+					width: '35%',
+					align: 'center',
+					title: '讲师简介'
+				}, {
+					width: '25%',
+					align: 'center',
+					toolbar: '#barDemo'
+				}]
+			],
+			page: true
+		});
+	});
+</script>
 
 <script id="barDemo" type="text/html">
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -67,45 +67,65 @@
 <script>
 	layui.use('table', function() {
 		var table = layui.table;
-		//监听表格复选框选择
-		table.on('checkbox(demo)', function(obj) {
-			console.log(obj)
-		});
 		//监听工具条
 		table.on('tool(demo)', function(obj) {
 			var data = obj.data;
 			if(obj.event === 'del') {
-				layer.confirm('真的删除行么', function(index) {
-					obj.del();
+				layer.confirm('确认真的删除', function(index) {
+					$.ajax({
+						type:"post",
+						url: PREPATH + "/admin/deleteTeacherLogicallyByID?id=" + data.id,
+						async:true,
+						success:function(response) {
+							if(response == 1) {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 1,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '删除成功'
+								});
+								obj.del();
+							} else {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 2,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '删除失败'
+								});
+							}
+						},
+						error: function() {
+							layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 2,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '删除失败——服务器出错'
+								});
+						}
+					});
 					layer.close(index);
 				});
 			} else if(obj.event === 'edit') {
-				//						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+				//	layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+				sessionStorage.setItem("id", data.id);
+				sessionStorage.setItem("teachername", data.teachername);
+				sessionStorage.setItem("teacherimg", data.teacherimg);
+				sessionStorage.setItem("teacherintro", data.teacherintro);
 				window.location.href = "#34";
 			}
 		});
 
-		var $ = layui.$,
-			active = {
-				getCheckData: function() { //获取选中数据
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-				},
-				getCheckLength: function() { //获取选中数目
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.msg('选中了：' + data.length + ' 个');
-				},
-				isAll: function() { //验证是否全选
-					var checkStatus = table.checkStatus('idTest');
-					layer.msg(checkStatus.isAll ? '全选' : '未全选')
-				}
-			};
-
-		$('.demoTable .layui-btn').on('click', function() {
-			var type = $(this).data('type');
-			active[type] ? active[type].call(this) : '';
-		});
 	});
 </script>

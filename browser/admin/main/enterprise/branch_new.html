@@ -17,22 +17,22 @@
 		font-size: 14px;
 	}
 </style>
-<div class="body-in" style="padding: 10px; background-color: #F2F2F2;" id="top">
+<div class="body-in" id="top">
 	<div class="layui-card-body">
 		<form class="layui-form" name="branch-info" lay-filter="branch-info" action="" method="post">
 			<p class="form-label_sm">分部名称</p>
-			<input type="text" id="enter-name" name="branch-name" lay-verify="title required" autocomplete="off" placeholder="请输入分部名称" class="layui-input" />
+			<input type="text" id="branch" name="branch" lay-verify="title required" autocomplete="off" placeholder="请输入分部名称" class="layui-input" />
 			<p class="form-label_sm">企业地址</p>
-			<!--
-                            	作者：820602086@qq.com
-                            	时间：2018-06-28
-                            	描述：TODO 地图添加位置信息
-                            -->
-			<div id="allmap"></div>
-			<p class="form-label_sm">分部联系电话</p>
-			<input type="text" id="enter-des" name="branch-tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
+			<input type="text" id="address" name="address" lay-verify="title required" autocomplete="off" placeholder="请输入分部地址" class="layui-input" />
 			<p class="form-label_sm"></p>
-			<button class="layui-btn layui-btn-primary">提交</button>
+			<div style="position: relative;">
+				<!--<div id="longi_lati_show" style=" position: absolute; width: 20%; height: 200px; z-index: 999; margin-right:8%; margin-left: 77%; margin-top: 30px; background-color: #105F79;"></div>-->
+				<div id="allmap"></div>
+			</div>
+			<p class="form-label_sm">分部联系电话</p>
+			<input type="text" id="tel" name="tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
+			<p class="form-label_sm"></p>
+			<button class="layui-btn layui-btn-primary" id="branch_add_submit">提交</button>
 		</form>
 	</div>
 </div>
@@ -46,22 +46,53 @@
 	layui.use('form', function() {
 		var form = layui.form;
 	});
+	var longi = 0,
+		lati = 0;
 </script>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
 	// 用经纬度设置地图中心点
-	//经纬度应当从数据库中读出
-	map.centerAndZoom(new BMap.Point(123.445992, 41.711578), 12);
-	map.enableScrollWheelZoom(true);
-	var marker = new BMap.Marker(new BMap.Point(123.445992, 41.711578)); // 创建点
-	map.addOverlay(marker); //增加点
+	var opts = {
+		width: 200, // 信息窗口宽度    
+		height: 120, // 信息窗口高度    
+		title: "<h3>当前位置坐标值</h3>" // 信息窗口标题   
+	}
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r) {
+		if(this.getStatus() == BMAP_STATUS_SUCCESS) {
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			//			map.panTo(r.point);
+			console.log('您的位置：' + r.point.lng + ',' + r.point.lat);
+			//			var currentPoint = new BMap.Point(112, 44);
+			//			var currentPoint = new BMap.Point(r.point.lng, r.point.lat);
+			map.centerAndZoom(r.point, 13);
+			map.enableScrollWheelZoom(true);
+			//			var marker = new BMap.Marker(currentPoint); // 创建点
+			//			map.addOverlay(marker); //增加点
+			var info = "<br>经度：" + r.point.lng + "<br>纬度：" + r.point.lat;
+			var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
+			map.openInfoWindow(infoWindow, r.point); // 打开信息窗口
+			longi = r.point.lng;
+			lati = r.point.lat;
+		} else {
+			console.log('failed' + this.getStatus());
+		}
+	}, {
+		enableHighAccuracy: true
+	})
 
 	function add_point(e) {
-		var point = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat)); // 创建点
+		var currPoint = new BMap.Point(e.point.lng, e.point.lat);
+		longi = e.point.lng;
+		lati = e.point.lat;
+		var point = new BMap.Marker(currPoint); // 创建点
 		map.addOverlay(point); //增加点
+		var info = "<br>经度：" + e.point.lng + "<br>纬度：" + e.point.lat;
+		var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
+		map.openInfoWindow(infoWindow, currPoint); // 打开信息窗口
 	}
 
 	function remove_point() {
@@ -69,4 +100,57 @@
 	};
 	map.addEventListener("click", remove_point);
 	map.addEventListener("click", add_point);
+</script>
+<script>
+	$(function() {
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			$('#branch_add_submit').click(function() {
+				var formData = new FormData($('#branch-info')[0]);
+				formData.append("longitude", longi);
+				formData.append("latitude", lati);
+				$.ajax({
+					type: "post",
+					url: PREPATH + "/admin/saveBranch",
+					async: true,
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(data) {
+						if(data.status == "0") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '新增失败，请稍后重试或联系系统管理员！'
+							});
+						} else if(data.status == "1") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 6,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '新增成功！'
+							});
+							sessionStorage.setItem("b_branch", $('#branch').text());
+							sessionStorage.setItem("b_address", $('#address').text());
+							sessionStorage.setItem("b_tel", $('#tel').text());
+							sessionStorage.setItem("b_id", data.id);
+							sessionStorage.setItem("b_longitude", longi);
+							sessionStorage.setItem("b_latitude", lati);
+							window.location.href = "#14";
+						}
+					}
+				});
+			});
+		});
+
+	})
 </script>

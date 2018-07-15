@@ -7,10 +7,13 @@
 
 	<!-- 创建FreeListen -->
 	<insert id="saveFreeListen" parameterType="com.lamport.admin.po.FreeListen">
+		insert freelisten(title, imgurl, fdesc, status, category, qid, branchid, pubtime, deletekey)
+		values(#{title}, #{imgurl}, #{fdesc}, #{status}, #{category}, #{qid}, #{branchid},  NOW(), #{deletekey})
 	</insert>
 
 	<!-- 通过id逻辑删除FreeListen信息 -->
 	<update id="deleteFreeListenLogicallyByID" parameterType="int">
+		update freelisten set deletekey=1 where id=#{id}
 	</update>
 
 	<!-- 通过branchid逻辑删除FreeListen的信息 -->
@@ -39,11 +42,25 @@
 
 	<!-- 通过id修改FreeListen信息 -->
 	<update id="updateFreeListenByID" parameterType="com.lamport.admin.po.FreeListen">
+	update freelisten 
+		<set> 
+			title = #{title},
+			fdesc = #{fdesc},
+			branchid = #{branchid},
+			status = #{status},
+			category = #{category},
+			<if test="imgurl != null">
+				imgurl = #{imgurl}
+			</if>
+		</set>
+		where id = #{id}
 	</update>
 
 	<!-- 通过多条件查询FreeListen信息 -->
 	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"
 			resultType="com.lamport.admin.po.FreeListen">
+			select * from freelisten where qid=#{qid} and deletekey=0
+			limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
 	<!-- 通过qid查询FreeListen的总数 -->
@@ -55,6 +72,7 @@
 	<!-- 通过id查询FreeListen图片存放路径 -->
 	<select id="selectFreeListenImgurlByID" parameterType="java.lang.String"
 			resultType="java.lang.String">
+			select imgurl from freelisten where id=#{id} and deletekey=0
 	</select>
 
 </mapper>

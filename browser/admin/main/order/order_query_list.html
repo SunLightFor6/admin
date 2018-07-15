@@ -1,36 +1,37 @@
 <div class="body-lz-in" style="margin-left: 30px; width: 95%;" id="top">
 	<div style="margin-top: 36px;">
-		<form class="layui-form" action="">
+		<form class="layui-form" id="order_query_form">
 			<div class="layui-form-item">
 				<div class="layui-inline">
-					<label class="layui-lz-form-label">关键字：</label>
+					<label class="layui-lz-form-label">订单编号：</label>
 					<div class="layui-lz-input-inline">
-						<input name="keyword" class="layui-input" type="text" autocomplete="off" placeholder="请输入订单编号">
+						<input id="oid" name="oid" class="layui-input" type="text" autocomplete="off" placeholder="请输入订单编号">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-lz-form-label">订单状态：</label>
 					<div class="layui-lz-select-inline">
-						<select name="modules" lay-verify="required" lay-search="">
+						<select name="status_sel" id="status_sel" lay-verify="required" lay-search="">
 							<option value="1">已付款</option>
 							<option value="2">待付款</option>
 							<option value="3">退款中</option>
 							<option value="4">已退款</option>
+							<option value="5">已核销</option>
 						</select>
 					</div>
 				</div>
 				<div class="layui-inline">
-					<label class="layui-lz-form-label">下单时间：</label>
+					<label class="layui-lz-form-label">下单日期：</label>
 					<div class="layui-lz-input-inline">
-						<input name="startdate" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
+						<input id="beginTime" name="begainTime" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
 					</div>
 					<div class="layui-form-mid">-</div>
 					<div class="layui-lz-input-inline">
-						<input name="enddate" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
+						<input id="endTime" name="endTime" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
 					</div>
 				</div>
 				<div class="layui-inline">
-					<button class="layui-btn" lay-filter="query" lay-submit="">查询</button>
+					<button type="button" class="layui-btn" id="order_query_btn">查询</button>
 				</div>
 			</div>
 		</form>
@@ -46,12 +47,19 @@
 	});
 </script>
 <script>
+	var currentpage = 1;
+	var status = "";
+	var oid = "";
+	var beginTime = "";
+	var endTime = "";
 	layui.use('table', function() {
 		var table = layui.table;
 
 		table.render({
 			elem: '#test',
-			url: '../../json/order.json',
+			url: PREPATH + "/admin/selectSorderBySorderQueryCondition?oid=" + oid + "&status" + status + "&beginTime=" + beginTime + "&endTime=" + endTime,
+			//			url: "/admin/selectSorderBySorderQueryCondition",
+			//			url: "../../json/order.json",
 			dataType: 'jsonp',
 			skin: 'nob'
 				//,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -99,6 +107,28 @@
 			],
 			page: true
 		});
+
+		$("#order_query_btn").click(function() {
+			console.log("$(#order_query_btn).click");
+//			var status_sel = $('#status_sel option:selected').val();
+//			console.log("status_sel.value "  +  status_sel);
+//			if(status_sel.value == "1") {
+//				status = "已付款";
+//			} else if(status_sel.value == "2") {
+//				status = "待付款";
+//			} else if(status_sel.value == "3") {
+//				status = "退款中";
+//			} else if(status_sel.value == "4") {
+//				status = "已退款";
+//			}
+			status = $('#status_sel option:selected').text();
+			oid = $('#oid').val();
+			beginTime = $('#beginTime').val();
+			endTime = $('#endTime').val();
+			console.log("oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
+			table.render();
+		});
+
 	});
 </script>
 
@@ -114,9 +144,9 @@
 	layui.use('table', function() {
 		var table = layui.table;
 		//监听表格复选框选择
-		table.on('checkbox(demo)', function(obj) {
-			console.log(obj)
-		});
+		//		table.on('checkbox(demo)', function(obj) {
+		//			console.log(obj)
+		//		});
 		//监听工具条
 		table.on('tool(demo)', function(obj) {
 			var data = obj.data;
@@ -132,28 +162,28 @@
 			}
 		});
 
-		var $ = layui.$,
-			active = {
-				getCheckData: function() { //获取选中数据
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-				},
-				getCheckLength: function() { //获取选中数目
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.msg('选中了：' + data.length + ' 个');
-				},
-				isAll: function() { //验证是否全选
-					var checkStatus = table.checkStatus('idTest');
-					layer.msg(checkStatus.isAll ? '全选' : '未全选')
-				}
-			};
-
-		$('.demoTable .layui-btn').on('click', function() {
-			var type = $(this).data('type');
-			active[type] ? active[type].call(this) : '';
-		});
+		//		var $ = layui.$,
+		//			active = {
+		//				getCheckData: function() { //获取选中数据
+		//					var checkStatus = table.checkStatus('idTest'),
+		//						data = checkStatus.data;
+		//					layer.alert(JSON.stringify(data));
+		//				},
+		//				getCheckLength: function() { //获取选中数目
+		//					var checkStatus = table.checkStatus('idTest'),
+		//						data = checkStatus.data;
+		//					layer.msg('选中了：' + data.length + ' 个');
+		//				},
+		//				isAll: function() { //验证是否全选
+		//					var checkStatus = table.checkStatus('idTest');
+		//					layer.msg(checkStatus.isAll ? '全选' : '未全选')
+		//				}
+		//			};
+		//
+		//		$('.demoTable .layui-btn').on('click', function() {
+		//			var type = $(this).data('type');
+		//			active[type] ? active[type].call(this) : '';
+		//		});
 	});
 </script>
 <script>
@@ -164,18 +194,18 @@
 		form.render();
 		//日期
 		laydate.render({
-			elem: '#startdate'
+			elem: '#beginTime'
 		});
 		laydate.render({
-			elem: '#enddate'
+			elem: '#endTime'
 		});
 
 		//监听提交
-		form.on('submit(query)', function(data) {
-			layer.alert(JSON.stringify(data.field), {
-				title: '最终的提交信息'
-			})
-			return false;
-		});
+		//		form.on('submit(query)', function(data) {
+		//			layer.alert(JSON.stringify(data.field), {
+		//				title: '最终的提交信息'
+		//			})
+		//			return false;
+		//		});
 	});
 </script>

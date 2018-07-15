@@ -8,12 +8,11 @@
 			"courseid":1,
 			"coursename":"体验课：C语言快速入门",
 			"courseimg":"../../img/course/001.jpg",
-			"courseprice":"0.01",
 			"coursecategory":"C",
-			"branch":["恒大名都","恒大名都","恒大名都"],
-			"pubtime": ""
-			"ldesc"
-			"status"
+			"branch":"恒大名都"
+			"fdesc"
+			status
+			pubtime
 		},
 		{
 			"courseid":2,
@@ -21,10 +20,7 @@
 			"courseimg":"../../img/course/002.jpg",
 			"courseprice":"0.02",
 			"coursecategory":"C++",
-			"branch":["恒大名都","恒大名都","恒大名都"],
-			"pubtime": ""
-			"ldesc"
-			"status"
+			"branch":"实训中心"
 		},
 		{
 			"courseid":3,
@@ -32,21 +28,15 @@
 			"courseimg":"../../img/course/003.jpg",
 			"courseprice":"0.03",
 			"coursecategory":"HTML5",
-			"pubtime": ""
-			"branch":["恒大名都","恒大名都","恒大名都"],
-			"ldesc"
-			"status"
+			"branch":"艺术中心"
 		},
 		{
 			"courseid":4,
 			"coursename":"PHP免费试听课",
 			"courseimg":"../../img/course/004.jpg",
-			"courseprice":"33",
+			"courseprice":"-",
 			"coursecategory":"PHP",
-			"branch":["恒大名都","恒大名都","恒大名都"],
-			"pubtime": ""
-			"ldesc"
-			"status"
+			"branch":"实训中心"
 		}
 	]
 }

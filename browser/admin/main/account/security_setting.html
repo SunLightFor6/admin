@@ -1,29 +1,92 @@
-				<div class="body-in" id="top">
-					<div class="layui-card-body">
-						<fieldset class="layui-elem-field">
-							<legend class="ljy-legend">修改密码</legend>
-							<div class="layui-field-box" id="coursestatus">
-								<form class="layui-form" name="new_course_form_formal" action="" method="post">
-									<p class="form-label_sm">请输入原密码</p>
-									<input type="password" name="sourse_password" lay-verify="password required" autocomplete="off" placeholder="请输入原密码" class="layui-input">
-									<p class="form-label_sm">请输入新密码</p>
-									<input type="password" name="new1_password" lay-verify="password required" autocomplete="off" placeholder="请输入新密码" class="layui-input">
-									<p class="form-label_sm">请再次输入新密码</p>
-									<input type="password" name="new2_password" lay-verify="password required" autocomplete="off" placeholder="请再次输入新密码" class="layui-input">
-									<p class="form-label_sm"></p>
-									<button type="button" class="layui-btn layui-btn-normal">提交</button>
-							</div>
-						</fieldset>
-					</div>
-				</div>
+<div class="body-in" id="top">
+	<div class="layui-card-body">
+		<fieldset class="layui-elem-field">
+			<legend class="ljy-legend">修改密码</legend>
+			<div class="layui-field-box" id="coursestatus">
+				<form class="layui-form" name="password_modify_form" method="post">
+					<p class="form-label_sm">请输入原密码</p>
+					<input type="password" name="sourse_password" lay-verify="pass required" autocomplete="off" placeholder="请输入原密码" class="layui-input">
+					<p class="form-label_sm">请输入新密码</p>
+					<input type="password" name="new1_password" lay-verify="pass required" autocomplete="off" placeholder="请输入新密码" class="layui-input">
+					<p class="form-label_sm">请再次输入新密码</p>
+					<input type="password" name="new2_password" lay-verify="pass required" autocomplete="off" placeholder="请再次输入新密码" class="layui-input">
+					<p class="form-label_sm"></p>
+					<button type="button" id="password_modify_btn" class="layui-btn layui-btn-normal">提交</button>
+				</form>
+			</div>
+		</fieldset>
+	</div>
+</div>
 
-		<script>
-			//JavaScript代码区域
-			layui.use('element', function() {
-				var element = layui.element;
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
 
-			});
-			layui.use('form', function() {
-				var form = layui.form;
-			});
-		</script>
+	});
+	layui.use(['form', 'layer'], function() {
+		var form = layui.form,
+			layer = layui.layer;
+
+		form.verify({
+			pass: [
+				/^[\S]{8,16}$/, '密码至少8到16位，且不能出现空格'
+			]
+		});
+
+		$('#password_modify_btn').click(function() {
+				var formData = new FormData($('#password_modify_form')[0]);
+				if($('#new1_password').text() !== $('#new2_password')) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 2,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '两次输入的密码不一致，请重新输入',
+						success: function() {
+							$('#new1_password').text('');
+							$('#new2_password').text('');
+							$('#new1_password').focus();
+						}
+					});
+					return;
+				}
+				$.ajax({
+					type: "post",
+					url: PREPATH + "/admin/updatePasswordByID",
+					async: true,
+					data: formData,
+					dataType: json,
+					success: function(data) {
+						if(data.status == "success") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 1,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '密码修改成功，请牢记您的新密码！'
+							});
+							window.location.href = "#";
+						} else if(data.status == "fail") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: data.message
+							});
+						}
+					}
+				});
+		});
+	});
+</script>

@@ -2,33 +2,28 @@
 	<div class="layui-card-body">
 		<div id="alternative">
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-				<!--
-                                	作者：820602086@qq.com
-                                	时间：2018-06-26
-                                	描述：选择是正式课程还是体验课程
-                                -->
 				<ul class="layui-tab-title">
 					<li class="layui-this">新增正式课程</li>
 					<li>新增免费课程</li>
 				</ul>
 				<div class="layui-tab-content" style="height: 100px;">
-					<div class="layui-tab-item layui-show" onload="loadPay()">
+					<div class="layui-tab-item layui-show">
 						<form class="layui-form" name="new_course_form_formal" action="" method="post">
 							<p class="form-label_sm">课程名称</p>
-							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
+							<input type="text" id="coursename" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 							<p class="form-label_sm">课程状态</p>
-							<select name="modules" lay-verify="required" lay-search="">
+							<select name="coursestatus" id="coursestatus" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
-								<option value="1">进行中</option>
-								<option value="2">已结束</option>
-								<option value="3">即将开始</option>
+								<option value="进行中">进行中</option>
+								<option value="已结束">已结束</option>
+								<option value="即将开始">即将开始</option>
 							</select>
 							<p class="form-label_sm">课程类别</p>
-							<select id="categories_s" lay-filter="categories-select" lay-verify="required" lay-search="">
-								<option value="">直接选择或搜索选择</option>
-								<option value="1">前端</option>
-								<option value="2">Java</option>
-								<option value="3">Java Web</option>
+							<select id="categories_s" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
+								<option value="直接选择或搜索选择">直接选择或搜索选择</option>
+								<option value="前端">前端</option>
+								<option value="Java">Java</option>
+								<option value="Java Web">Java Web</option>
 								<option value="0">自定义</option>
 							</select>
 							<p id="categories_p"></p>
@@ -43,57 +38,38 @@
 									<div><img id="pic" /></div>
 									<p id="demoText"></p>
 								</blockquote>
-								<!--<div class="layui-upload-list" id="pic-div" style="display: none;">
-													<img class="layui-upload-img" style="height: 120px; width: 200px;" id="pic">
-													<p id="demoText"></p>
-												</div>-->
 							</div>
 							<p class="form-label_sm">课程定价</p>
-							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">
-							<!--
-                                            	作者：820602086@qq.com
-                                            	时间：2018-06-26
-                                            	描述：接下来下的是   多选选择分部  富文本编辑器
-                                            -->
+							<input type="text" id="courseprice" name="courseprice" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">
 							<p class="form-label_sm">开本课程的分部</p>
-							<div class="layui-input-inline">
+							<div class="layui-input-block" id="branch_sel">
 								<input type="checkbox" name="fenbu1" title="实训中心">
-								<input type="checkbox" name="fenbu2" title="学校基地" checked="">
+								<input type="checkbox" name="fenbu2" title="学校基地">
 								<input type="checkbox" name="fenbu3" title="大连软件园">
 							</div>
 							<p class="form-label_sm">课程描述</p>
-							<script type="text/plain" id="myEditor" style="height:240px;"></script>
+							<script type="text/plain" id="myEditor_formal" style="height:240px;"></script>
 							<p class="form-label_sm"></p>
-							<button type="submit" class="layui-btn">发表</button>
-							<script type="text/javascript" defer="true">
-//								function loadPay() {
-//								var um = UM.getEditor('myEditor');
-//								um.setWidth("100%");
-//								$(".edui-body-container").css("width", "98%");
+							<button type="button" id="submit_pay_btn" class="layui-btn">发表</button>
+							<script type="text/javascript">
 								//实例化编辑器
-//								}
+								var um_formal = UM.createEditor('myEditor_formal');
+								um_free.setWidth("100%");
+								$(".edui-body-container").css("width", "98%");
 							</script>
 						</form>
 					</div>
-					<div class="layui-tab-item" onload="loadFree()">
+					<div class="layui-tab-item">
 						<form class="layui-form" name="new_course_form_exp" action="" method="post">
 							<p class="form-label_sm">课程名称</p>
 							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 							<p class="form-label_sm">课程状态</p>
-							<select name="modules" lay-verify="required" lay-search="">
+							<select name="coursestatus" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
-								<option value="1">进行中</option>
-								<option value="2">已结束</option>
-								<option value="3">即将开始</option>
+								<option value="进行中">进行中</option>
+								<option value="已结束">已结束</option>
+								<option value="即将开始">即将开始</option>
 							</select>
-							<!--<p class="form-label_sm">课程类别</p>
-											<select id="categories_s" lay-filter="categories-select" lay-verify="required" lay-search="">
-												<option value="">直接选择或搜索选择</option>
-												<option value="1">前端</option>
-												<option value="2">Java</option>
-												<option value="3">Java Web</option>
-												<option value="0">自定义</option>
-											</select>-->
 							<p id="categories_p"></p>
 							<p class="form-label_sm">课程图片</p>
 							<div class="layui-upload">
@@ -107,33 +83,23 @@
 									<p id="demoText"></p>
 								</blockquote>
 							</div>
-							<!--<p class="form-label_sm">课程定价</p>
-											<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">-->
 							<p class="form-label_sm">开本课程的分部</p>
-							<select id="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
+							<select id="fenbu" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
-								<option value="">直接选择或搜索选择</option>
-								<option value="1">实训中心</option>
-								<option value="2">大连软件园</option>
-								<option value="3">世纪路</option>
-								<option value="4">学校基地</option>
+								<option value="实训中心">实训中心</option>
+								<option value="大连软件园">大连软件园</option>
+								<option value="世纪路">世纪路</option>
+								<option value="学校基地">学校基地</option>
 							</select>
-							<!--<div class="layui-input-inline">
-                                            	<input type="checkbox" name="like[write]" title="1">
-                                            	<input type="checkbox" name="like[read]" title="2" checked="">
-                                            	<input type="checkbox" name="like[game]" title="3">
-                                            </div>-->
 							<p class="form-label_sm">课程描述</p>
 							<script type="text/plain" id="myEditor_free" style="height:240px;"></script>
 							<p class="form-label_sm"></p>
-							<button type="submit" class="layui-btn">发表</button>
-							<script type="text/javascript" defer="true">
-//								function loadFree() {
-									//实例化编辑器
-//									var um_free = UM.getEditor('myEditor_free');
-//									um_free.setWidth("100%");
-//									$(".edui-body-container").css("width", "98%");
-//								}
+							<button type="button" id="submit_free_btn" class="layui-btn">发表</button>
+							<script type="text/javascript">
+								//实例化编辑器
+								var um_free = UM.createEditor('myEditor_free');
+								um_free.setWidth("100%");
+								$(".edui-body-container").css("width", "98%");
 							</script>
 						</form>
 					</div>
@@ -143,12 +109,13 @@
 	</div>
 
 	<script>
+		var imgFile = null;
 		//JavaScript代码区域
 		layui.use('element', function() {
 			var element = layui.element;
 		});
-	</script>
-	<script>
+
+		//上传图片
 		layui.use('upload', function() {
 			var $ = layui.jquery,
 				upload = layui.upload;
@@ -156,31 +123,18 @@
 			upload.render({
 				elem: '#uploadpic',
 				url: '/upload/',
+				auto: false,
 				acceptMime: 'image/*',
 				size: 1000 //限制文件大小，单位 KB
 					,
-				before: function(obj) {
+				choose: function(obj) {
 					//预读本地文件示例，不支持ie8
 					obj.preview(function(index, file, result) {
 						$('#pic-div').show();
+						imgFile = file;
 						$('#pic').attr('src', result); //图片链接（base64）
 					});
-				},
-				done: function(res) {
-					//如果上传失败
-					if(res.code > 0) {
-						return layer.msg('上传失败');
-					}
-					//上传成功
-				},
-				error: function() {
-					//演示失败状态，并实现重传
-					var demoText = $('#demoText');
-					demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-danger layui-btn-mini demo-reload">重试</a>');
-					demoText.find('.demo-reload').on('click', function() {
-						uploadInst.upload();
-					});
-				},
+				}
 			});
 		});
 		layui.use(['form', 'layedit', 'laydate'], function() {
@@ -207,6 +161,136 @@
 					$('#categories_p').hide();
 				}
 			});
+		});
+		$(function() {
+			$("#submit_pay_btn").click(function() {
+				var formData = new FormData();
+				var branchs_s = $("#branch_sel input:checked");
+				var branch = new Array();
+				for(var i in branchs_s) {
+					branch.push(branchs_s[i].name);
+				}
 
+				formData.append("lname", $('#coursename').val());
+				formData.append("imgFile", imgFile);
+				formData.append("lprice", $("#courseprice").val());
+				formData.append("ldesc", um_formal.getContent());
+				formData.append("status", $('#coursestatus option:selected'));
+				formData.append("category", $('#categories_s option:selected'));
+				formData.append("branchs", branch);
+
+				$.ajax({
+					type: "post",
+					url: PREPATH + "/admin/saveLesson",
+					async: true,
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(data) {
+						if(data.response == "1") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 1,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程添加成功！',
+								cancel: function() {
+									window.location.href = "#21";
+								}
+							});
+						} else {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程添加失败，请稍后重试或联系系统管理员'
+
+							});
+						}
+					},
+					error: function() {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 2,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '课程添加失败，请稍后重试或联系系统管理员'
+
+						});
+					}
+				});
+			});
+			$("#submit_free_btn").click(function() {
+				var formData = new FormData();
+				var branch = $("#fenbu input:selected");
+
+				formData.append("title", $('#coursename').val());
+				formData.append("imgFile", imgFile);
+				formData.append("ldesc", um_free.getContent());
+				formData.append("status", $('#coursestatus option:selected'));
+				formData.append("category", $('#categories_s option:selected'));
+				formData.append("branchName", branch);
+
+				$.ajax({
+					type: "post",
+					url: PREPATH + "/admin/deleteFreeListenLogicallyByID",
+					async: true,
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(data) {
+						if(data.response == "1") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 1,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程更新成功！',
+								cancel: function() {
+									window.location.href = "#21";
+								}
+							});
+						} else {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程更新失败，请稍后重试或联系系统管理员'
+
+							});
+						}
+					},
+					error: function() {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 2,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '课程更新失败，请稍后重试或联系系统管理员'
+
+						});
+					}
+				});
+			});
 		});
 	</script>

@@ -16,7 +16,6 @@
 		<script src="../../layui.js"></script>
 		<script src="../../js/fun.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
-
 	</head>
 
 	<body class="layui-layout-body" onhashchange="getHash()">
@@ -49,7 +48,6 @@
 
 			<div class="layui-body" style="background-color: #FFFFFF;">
 				<p id="content_page"></p>
-				
 			</div>
 
 			<div class="layui-footer">
@@ -81,10 +79,10 @@
 			$(function() {
 				getHash(); //这是一个大问题啊解决了
 				var hash = window.location.hash;
-				if (hash != '') {
+				if(hash != '') {
 					var id = hash;
 					var id_p = '#' + hash.charAt(1);
-//					console.log("id = " + id + " id_p = " + id_p);
+					//					console.log("id = " + id + " id_p = " + id_p);
 					$(id_p).attr("class", "layui-nav-item layui-nav-itemed");
 					$(id).attr("class", "layui-this")
 				}
@@ -188,11 +186,11 @@
 						$('#page-title').text('朋友圈消息管理');
 						$('#content_page').load("../friend/friend_comment_management.html");
 						break;
+						//					case '#62':
+						//						$('#page-title').text('朋友圈首页设置');
+						//						$('#content_page').load("../friend/friend_homepage_setting.html");
+						//						break;
 					case '#62':
-						$('#page-title').text('朋友圈首页设置');
-						$('#content_page').load("../friend/friend_homepage_setting.html");
-						break;
-					case '#63':
 						$('#page-title').text('朋友圈发布信息');
 						$('#content_page').load("../friend/friend_new_message.html");
 						break;
@@ -203,6 +201,10 @@
 					case '#02':
 						$('#page-title').text('企业安全设置');
 						$('#content_page').load("../account/security_setting.html");
+						break;
+					case '#03':
+						$('#page-title').text('企业安全设置');
+						$('#content_page').load("../account/logout.html");
 						break;
 					default:
 						$('#page-title').text('企业信息统计');

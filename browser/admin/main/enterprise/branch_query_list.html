@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<div class="body-in" style="margin-top: 1px;">
-		<table class="layui-hide" id="test" lay-filter="demo"></table>
+		<table class="layui-hide" id="branch_query_list" lay-filter="branch_query_list"></table>
 	</div>
 </div>
 
@@ -20,39 +20,40 @@
 	layui.use('table', function() {
 		var table = layui.table;
 
-				table.render({
-					elem: '#test',
-					url: '../../json/branch.json',
-					dataType: 'jsonp',
-					skin: 'nob',
-					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,
-					cols: [
-						[{
-							field: 'branchname',
-							width: '24%',
-							align: 'center',
-							title: '分部名字'
-						}, {
-							field: 'branchaddr',
-							width: '25%',
-							align: 'center',
-							title: '分部地址'
-						}, {
-							field: 'branchtel',
-							width: '25%',
-							align: 'center',
-							title: '分部电话'
-						}, {
-							width: '26%',
-							align: 'center',
-							toolbar: '#barDemo'
-						}]
-					],
-					page: true
-				});
-			});
-		</script>
+		table.render({
+			elem: '#branch_query_list',
+			//			url: '../../json/branch.json',
+			url: PREPATH + '/admin/selectBranchByQIDAndPage',
+			dataType: 'jsonp',
+			skin: 'nob',
+			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,
+			cols: [
+				[{
+					field: 'branch',
+					width: '24%',
+					align: 'center',
+					title: '分部名字'
+				}, {
+					field: 'address',
+					width: '25%',
+					align: 'center',
+					title: '分部地址'
+				}, {
+					field: 'tel',
+					width: '25%',
+					align: 'center',
+					title: '分部电话'
+				}, {
+					width: '26%',
+					align: 'center',
+					toolbar: '#barDemo'
+				}]
+			],
+			page: true
+		});
+	});
+</script>
 
 <script id="barDemo" type="text/html">
 	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -62,48 +63,66 @@
 <script>
 	layui.use('table', function() {
 		var table = layui.table;
-		//监听表格复选框选择
-		table.on('checkbox(demo)', function(obj) {
-			console.log(obj)
-		});
 		//监听工具条
-		table.on('tool(demo)', function(obj) {
+		table.on('tool(branch_query_list)', function(obj) {
 			var data = obj.data;
 			if(obj.event === 'detail') {
 				//layer.msg('ID：'+ data.id + ' 的查看操作');//在这里跳入查看界面
+				sessionStorage.setItem("b_id", data.id);
+				sessionStorage.setItem("b_branch", data.branch);
+				sessionStorage.setItem("b_address", data.address);
+				sessionStorage.setItem("b_tel", data.tel);
+				sessionStorage.setItem("b_longitude", data.longitude);
+				sessionStorage.setItem("b_latitude", data.latitude);
+
 				window.location.href = '#14';
 			} else if(obj.event === 'del') {
-				layer.confirm('真的删除行么', function(index) {
-					obj.del();
+				layer.confirm('确认删除分部' + data.branch + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
+					$.ajax({
+						type: "post",
+						url: PREPATH + "/admin/deleteBranchLogicallyByID?id=" + data.id,
+						async: true,
+						success: function(data) {
+							if(data.response == "1") {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 1,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '删除成功！'
+								});
+								obj.del();
+							} else if(data.response == "0") {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 2,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '删除失败，请稍后重试或联系系统管理员！'
+								});
+							}
+						}
+					});
 					layer.close(index);
 				});
 			} else if(obj.event === 'edit') {
 				//						layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
+				sessionStorage.setItem("b_id", data.id);
+				sessionStorage.setItem("b_branch", data.branch);
+				sessionStorage.setItem("b_address", data.address);
+				sessionStorage.setItem("b_tel", data.tel);
+				sessionStorage.setItem("b_longitude", data.longitude);
+				sessionStorage.setItem("b_latitude", data.latitude);
+
 				window.location.href = '#15';
 			}
 		});
 
-		var $ = layui.$,
-			active = {
-				getCheckData: function() { //获取选中数据
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-				},
-				getCheckLength: function() { //获取选中数目
-					var checkStatus = table.checkStatus('idTest'),
-						data = checkStatus.data;
-					layer.msg('选中了：' + data.length + ' 个');
-				},
-				isAll: function() { //验证是否全选
-					var checkStatus = table.checkStatus('idTest');
-					layer.msg(checkStatus.isAll ? '全选' : '未全选')
-				}
-			};
-
-		$('.demoTable .layui-btn').on('click', function() {
-			var type = $(this).data('type');
-			active[type] ? active[type].call(this) : '';
-		});
 	});
 </script>

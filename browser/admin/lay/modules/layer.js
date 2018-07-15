@@ -659,6 +659,8 @@
 			}
 		}
 	}, r.photos = function(t, n, a) {			//原本的photos()方法
+			console.log(" 001 -- photos 方法调用--r.photos = function(t, n, a)   &  t.photos.data:");
+		console.log(t.photos.data);
 		function o(e, t, i) {
 			var n = new Image;
 			return n.src = e, n.complete ? t(n) : (n.onload = function() {
@@ -673,6 +675,7 @@
 				f = l ? t.photos : {},
 				u = f.data || [],
 				d = f.start || 0;
+			console.log("002 ---图片数据u=f.data: u.length = " + u.length + " startIndex:d = " + d + " ---s.imgIndex = " + s.imgIndex);
 			s.imgIndex = (0 | d) + 1, t.img = t.img || "img";
 			var y = t.success;
 			if(delete t.success, l) {
@@ -681,6 +684,7 @@
 				var p = i(t.photos),
 					h = function() {
 						u = [], p.find(t.img).each(function(e) {
+							console.log("003 -- 方法h()调用  & e = " + e);
 							var t = i(this);
 							t.attr("layer-index", e), u.push({
 								alt: t.attr("alt"),
@@ -692,6 +696,7 @@
 					};
 				if(h(), 0 === u.length) return;
 				if(n || p.on("click", t.img, function() {
+						console.log("004 -- p.on(click, t.img, function() {}  &  e = " + e + "  n = e.attr(layer-index) = " + n);
 						var e = i(this),
 							n = e.attr("layer-index");
 						r.photos(i.extend(t, {

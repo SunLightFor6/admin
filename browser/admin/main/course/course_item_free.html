@@ -10,6 +10,10 @@
 			<div class="layui-field-box" id="coursestatus"></div>
 		</fieldset>
 		<fieldset class="layui-elem-field">
+			<legend>课程类别</legend>
+			<div class="layui-field-box" id="courseclass"></div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
 			<legend class="ljy-legend">课程图片</legend>
 			<div class="layui-field-box" id="pic"></div>
 		</fieldset>
@@ -34,10 +38,12 @@
 </script>
 <script>
 	$(function() {
-		$('#coursename').text('大数据入门基础班');
-		$('#coursestatus').text('正在进行');
-		$('#coursefenbu').text('实训中心');
-		$('#pic').html('<img src="../../img/112.jpg" style="height: 120px; width: 200px;" />');
-		$('#coursedescription').html('<h3>这是一个很重要的课</h3><h1>Attention</h1>heiheiheia');
+		var data = JSON.parse(sessionStorage.getItem("freeListen"));
+		$('#coursename').text(data.coursename);
+		$('#coursestatus').text(data.status);
+		$('#coursefenbu').text(data.branch);
+		$('#courseclass').text(data.coursecategory);
+		$('#pic').html('<img src="' + data.courseimg + '" style="height: 120px; width: 200px;" />');
+		$('#coursedescription').html(data.fdesc);
 	});
 </script>
