@@ -103,6 +103,7 @@ public class MessageHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		qidAndPage.setQid(admin.getQid());
+		qidAndPage.setPageTool();
 		List<Message> messages = messageService.selectMessageByQIDAndPage(qidAndPage);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("pages", qidAndPage.getPageTool().getPages());

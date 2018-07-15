@@ -27,6 +27,24 @@ public class LogInAndOutHandler {
 	private AdminService adminService;
 	
 	/**
+	 * 判断是否有用户登陆(admin/superAdmin)
+	 * @return
+	 */
+	@RequestMapping(value="/login/isAnyoneLogin")
+	@ResponseBody
+	public String isAnyoneLogin() throws Exception{
+		System.out.println("..........LoginHandler..........isAnyoneLogin()..........");
+		String result = null;
+		
+		//既然interceptor放行，说明没有用户登录
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", 1);
+		result = jsonObject.toString();
+		
+		return result;
+	}
+	
+	/**
 	 * 进行admin的登录
 	 * @return String
 	 */

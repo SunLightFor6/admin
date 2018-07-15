@@ -86,6 +86,7 @@ public class SorderHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setPageTool();
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
@@ -124,6 +125,7 @@ public class SorderHandler {
 		Admin admin = (Admin)session.getAttribute("admin");
 		sorderQueryCondition.setOid(admin.getQid());
 		sorderQueryCondition.setStatus(Const.SorderStatusRefunding);
+		sorderQueryCondition.setPageTool();
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
@@ -162,6 +164,7 @@ public class SorderHandler {
 		Admin admin = (Admin)session.getAttribute("admin");
 		sorderQueryCondition.setOid(admin.getQid());
 		sorderQueryCondition.setStatus(Const.SorderStatusPayed);
+		sorderQueryCondition.setPageTool();
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);

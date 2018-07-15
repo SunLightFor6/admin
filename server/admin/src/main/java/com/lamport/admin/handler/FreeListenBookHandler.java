@@ -62,6 +62,7 @@ public class FreeListenBookHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		bookQueryCondition.setQid(admin.getQid());
+		bookQueryCondition.setPageTool();
 		List<FreeListenBook> freeListenBooks = freeListenBookService.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
@@ -98,6 +99,7 @@ public class FreeListenBookHandler {
 		Admin admin = (Admin)session.getAttribute("admin");
 		bookQueryCondition.setQid(admin.getQid());
 		bookQueryCondition.setStatus(Const.BookStatusUnprocessed);
+		bookQueryCondition.setPageTool();
 		List<FreeListenBook> freeListenBooks = freeListenBookService.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
