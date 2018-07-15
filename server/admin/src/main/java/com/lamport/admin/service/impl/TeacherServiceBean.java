@@ -27,6 +27,8 @@ public class TeacherServiceBean implements TeacherService {
 	
 	@Override
 	public int saveTeacher(Teacher teacher, MultipartFile teacher_img, String path) throws Exception {
+		System.out.println("..........TeacherServiceBean..........saveTeacher()..........");
+
 		int saveResult = 1;
 		
 		String tphoto = null;
@@ -48,6 +50,8 @@ public class TeacherServiceBean implements TeacherService {
 
 	@Override
 	public int deleteTeacherLogicallyByID(int id) throws Exception {
+		System.out.println("..........TeacherServiceBean..........deleteTeacherLogicallyByID()..........");
+
 		int deleteResult = 1;
 
 		deleteResult *= teacherMapper.deleteTeacherLogicallyByID(id);
@@ -57,6 +61,8 @@ public class TeacherServiceBean implements TeacherService {
 
 	@Override
 	public int updateTeacherByID(Teacher teacher, MultipartFile imgFile, String path) throws Exception {
+		System.out.println("..........TeacherServiceBean..........updateTeacherByID()..........");
+
 		int updateResult = 1;
 		
 		String tphoto = null;
@@ -79,6 +85,8 @@ public class TeacherServiceBean implements TeacherService {
 
 	@Override
 	public List<Teacher> selectTeacherByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
+		System.out.println("..........TeacherServiceBean..........selectTeacherByQIDAndPage()..........");
+
 		List<Teacher> teachers = null;
 		
 		int count = teacherMapper.selectCountTeacherByQID(qidAndPage.getQid());
@@ -90,6 +98,8 @@ public class TeacherServiceBean implements TeacherService {
 
 	@Override
 	public int selectCountTeacherByQID(int qid) throws Exception {
+		System.out.println("..........TeacherServiceBean..........selectCountTeacherByQID()..........");
+
 		int countTeacher = 0;
 		
 		countTeacher = teacherMapper.selectCountTeacherByQID(qid);

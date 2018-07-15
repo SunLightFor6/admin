@@ -27,6 +27,7 @@ public class SwiperServiceBean implements SwiperService {
 
 	@Override
 	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
+		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() ---imgs.size = " + imgs.length + " path = " + path);
 		int updateResult = 1;
 		// TODO Auto-generated method stub
 		List<String> imgurls = new ArrayList<String>();
@@ -36,6 +37,7 @@ public class SwiperServiceBean implements SwiperService {
 				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
 				imgurls.add(Const.ImgSwiperPath + "/" + filename);
+				System.out.println(Const.ImgSwiperPath + "/" + filename);
 			}
 			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){
@@ -51,12 +53,14 @@ public class SwiperServiceBean implements SwiperService {
 			}
 		}
 		updateResult = (updateResult>0) ? 1 : 0;
-			
+		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() --- updateResult = " + updateResult);
 		return updateResult;
 	}
 
 	@Override
 	public List<Swiper> selectSwiperByQIDAndCategory(QIDAndCategory qidAndCategory) throws Exception {
+		System.out.println("..........SwiperServiceBean..........selectSwiperByQIDAndCategory()..........");
+
 		List<Swiper> swipers = null;
 		
 		swipers = swiperMapper.selectSwiperByQIDAndCategory(qidAndCategory);
@@ -66,6 +70,8 @@ public class SwiperServiceBean implements SwiperService {
 	
 	@Override
 	public List<String> selectSwiperImgurlByQIDAndCategory(QIDAndCategory qidAndCategory) throws Exception {
+		System.out.println("..........SwiperServiceBean..........selectSwiperImgurlByQIDAndCategory()..........");
+
 		List<String> swiperImgurls = null;
 		
 		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);

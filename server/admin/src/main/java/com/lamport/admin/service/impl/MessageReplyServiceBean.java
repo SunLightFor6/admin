@@ -19,6 +19,8 @@ public class MessageReplyServiceBean implements MessageReplyService {
 	
 	@Override
 	public int deleteMessageReplyLogicallyByID(int id) throws Exception {
+		System.out.println("..........deleteMessageReplyLogicallyByID..........deleteMessageReplyLogicallyByID()..........");
+
 		int deleteResult = 1;
 
 		deleteResult *= messageReplyMapper.deleteMessageReplyLogicallyByID(id);

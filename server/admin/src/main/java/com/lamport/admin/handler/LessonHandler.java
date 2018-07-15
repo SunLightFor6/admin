@@ -38,7 +38,7 @@ public class LessonHandler {
 	@RequestMapping(value="/admin/saveLesson")
 	@ResponseBody
 	public String saveLesson(Lesson lesson, MultipartFile imgFile, HttpServletRequest request) throws Exception{
-		System.out.println("..........LessonHandler..........saveLesson()..........");
+		System.out.println("..........LessonHandler..........saveLesson()..........lesson:" + lesson.getLname() + " imgFile:" + imgFile);
 		String result = null;
 
 		HttpSession session = request.getSession();
@@ -59,7 +59,7 @@ public class LessonHandler {
 	@RequestMapping(value="/admin/deleteLessonByID")
 	@ResponseBody
 	public String deleteLessonLogicallyByID(int id) throws Exception{
-		System.out.println("..........LessonHandler..........deleteLessonLogicallyByID()..........");
+		System.out.println("..........LessonHandler..........deleteLessonLogicallyByID()..........id = " + id);
 		String result = null;
 
 		int deleteResult = lessonService.deleteLessonLogicallyByID(id);
@@ -76,7 +76,7 @@ public class LessonHandler {
 	@RequestMapping(value="/admin/updateLessonByID")
 	@ResponseBody
 	public String updateLessonByID(Lesson lesson, MultipartFile imgFile, HttpServletRequest request) throws Exception{
-		System.out.println("..........LessonHandler..........updateLessonByID()..........");
+		System.out.println("..........LessonHandler..........updateLessonByID()..........lesson:" + lesson.getLname() + " imgFile:" + imgFile);
 		String result = null;
 		
 		String path = Const.Path;
@@ -94,7 +94,7 @@ public class LessonHandler {
 	@RequestMapping(value="/admin/selectLessonByLessonQueryCondition")
 	@ResponseBody
 	public String selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........LessonHandler..........selectLessonByLessonQueryCondition()..........");
+		System.out.println("..........LessonHandler..........selectLessonByLessonQueryCondition()..........lessonQueryCondition:" + lessonQueryCondition.getBranch());
 		String result = null;
 
 		HttpSession session = request.getSession();

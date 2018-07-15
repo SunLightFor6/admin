@@ -35,7 +35,7 @@ public class BranchHandler {
 	@RequestMapping(value="/admin/saveBranch")
 	@ResponseBody
 	public String saveBranch(Address address, HttpServletRequest request) throws Exception{
-		System.out.println("..........BranchHandler..........saveBranch()..........");
+		System.out.println("..........BranchHandler..........saveBranch()..........address:" + address.getAddress() + " " + address.getBranch() + " " + address.getLatitude() + " " + address.getLongitude());
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -55,7 +55,7 @@ public class BranchHandler {
 	@RequestMapping(value="/admin/deleteBranchLogicallyByID")
 	@ResponseBody
 	public String deleteBranchLogicallyByID(int id) throws Exception{
-		System.out.println("..........BranchHandler..........deleteBranchLogicallyByID()..........");
+		System.out.println("..........BranchHandler..........deleteBranchLogicallyByID()..........id = " + id);
 		String result = null;
 		
 		int deleteResult = addressService.deleteAddressLogicallyByID(id);
@@ -72,7 +72,7 @@ public class BranchHandler {
 	@RequestMapping(value="/admin/updateBranchByID")
 	@ResponseBody
 	public String updateBranchByID(Address address) throws Exception{
-		System.out.println("..........BranchHandler..........updateBranchByID()..........");
+		System.out.println("..........BranchHandler..........updateBranchByID()..........address:" + address.getAddress() + " " + address.getBranch() + " " + address.getLatitude() + " " + address.getLongitude());
 		String result = null;
 
 		int updateResult = addressService.updateAddressByID(address);
@@ -89,7 +89,7 @@ public class BranchHandler {
 	@RequestMapping(value="/admin/selectBranchByQIDAndPage")
 	@ResponseBody
 	public String selectBranchByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
-		System.out.println("..........BranchHandler..........selectBranchByQIDAndPage()..........");
+		System.out.println("..........BranchHandler..........selectBranchByQIDAndPage()..........qidAndPage:" + qidAndPage.getPageTool().getPage() + " " + qidAndPage.getPageTool().getLimit());
 		String result = null;
 
 		HttpSession session = request.getSession();

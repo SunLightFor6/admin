@@ -219,6 +219,10 @@
 	--> /login/superAdminLogout
 	<-- (1, 0)
 
+#判断登陆
+	--> /login/isAnyoneLogin
+	<-- (1, 0)
+
 
 $(function() {
 	$.ajax({

@@ -42,7 +42,7 @@ public class MessageHandler {
 	@RequestMapping(value="/admin/saveMessage")
 	@ResponseBody
 	public String saveMessage(Message new_message, MultipartFile[] message_pics, HttpServletRequest request) throws Exception{
-		System.out.println("..........MessageHandler..........saveMessage()..........");
+		System.out.println("..........MessageHandler..........saveMessage()..........new_message: " + new_message.getMtitle() + " message_pics = " + message_pics.length);
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -63,7 +63,7 @@ public class MessageHandler {
 	@RequestMapping(value="/admin/deleteMessageLogicallyByID")
 	@ResponseBody
 	public String deleteMessageLogicallyByID(int id) throws Exception{
-		System.out.println("..........MessageHandler..........deleteMessageLogicallyByID()..........");
+		System.out.println("..........MessageHandler..........deleteMessageLogicallyByID()..........id = " + id);
 		String result = null;
 
 		int deleteResult = messageService.deleteMessageLogicallyByID(id);
@@ -80,7 +80,7 @@ public class MessageHandler {
 	@RequestMapping(value="/admin/deleteMessageReplyLogicallyByID")
 	@ResponseBody
 	public String deleteMessageReplyLogicallyByID(int id_comment, int id_message) throws Exception{
-		System.out.println("..........MessageHandler..........deleteMessageReplyLogicallyByID()..........");
+		System.out.println("..........MessageHandler..........deleteMessageReplyLogicallyByID()..........id_comment = " + id_comment + " id_message" + id_message);
 		String result = null;
 
 		int deleteResult = messageReplyService.deleteMessageReplyLogicallyByID(id_comment);
@@ -97,7 +97,7 @@ public class MessageHandler {
 	@RequestMapping(value="/admin/selectMessageByQIDAndPage")
 	@ResponseBody
 	public String selectMessageByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
-		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........");
+		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........qidAndPage:" + qidAndPage.getPageTool().getPage() + " " + qidAndPage.getPageTool().getLimit());
 		String result = null;
 
 		HttpSession session = request.getSession();

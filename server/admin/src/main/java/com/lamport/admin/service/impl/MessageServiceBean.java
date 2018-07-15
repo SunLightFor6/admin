@@ -47,6 +47,8 @@ public class MessageServiceBean implements MessageService {
 	
 	@Override
 	public int saveMessage(Message message, MultipartFile[] imgs, String path) throws Exception {
+		System.out.println("..........MessageServiceBean..........saveMessage()..........");
+
 		int saveResult = 1;
 		
 		saveResult *= messageMapper.saveMessage(message);
@@ -76,6 +78,8 @@ public class MessageServiceBean implements MessageService {
 
 	@Override
 	public int deleteMessageLogicallyByID(int id) throws Exception {
+		System.out.println("..........MessageServiceBean..........deleteMessageLogicallyByID()..........");
+
 		int deleteResult = 1;
 
 		deleteResult *= messageImgMapper.deleteMessageImgLogicallyByMID(id);
@@ -89,6 +93,8 @@ public class MessageServiceBean implements MessageService {
 
 	@Override
 	public List<Message> selectMessageByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
+		System.out.println("..........MessageServiceBean..........selectMessageByQIDAndPage()..........");
+
 		List<Message> messages = null;
 
 		messages = messageMapper.selectMessageByQIDAndPage(qidAndPage);

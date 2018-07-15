@@ -37,7 +37,7 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/verifySorderByID")
 	@ResponseBody
 	public String verifySorderByID(int oid) throws Exception{
-		System.out.println("..........SorderHandler..........verifySorderByID()..........");
+		System.out.println("..........SorderHandler..........verifySorderByID()..........oid = " + oid);
 		String result = null;
 		
 		Sorder sorder = new Sorder();
@@ -57,7 +57,7 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/processRefundByID")
 	@ResponseBody
 	public String processRefundByID(int oid) throws Exception{
-		System.out.println("..........SorderHandler..........processRefundByID()..........");
+		System.out.println("..........SorderHandler..........processRefundByID()..........oid = " + oid);
 		String result = null;
 		
 		Sorder sorder = new Sorder();
@@ -80,7 +80,7 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/selectSorderBySorderQueryCondition")
 	@ResponseBody
 	public String selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........");
+		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........sorderQueryCondition:" + sorderQueryCondition.getStatus() + " " + sorderQueryCondition.getBeginTime() + " " + sorderQueryCondition.getEndTime());
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -117,7 +117,7 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/selectRefundBySorderQueryCondition")
 	@ResponseBody
 	public String selectselectRefundBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition()..........");
+		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition()..........sorderQueryCondition:" + sorderQueryCondition.getStatus() + " " + sorderQueryCondition.getBeginTime() + " " + sorderQueryCondition.getEndTime());
 		String result = null;
 
 		HttpSession session = request.getSession();
@@ -155,7 +155,7 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/selectSorderUnverifiedBySorderQueryCondition")
 	@ResponseBody
 	public String selectSorderUnverifiedBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........SorderHandler..........selectSorderUnverifiedBySorderQueryCondition()..........");
+		System.out.println("..........SorderHandler..........selectSorderUnverifiedBySorderQueryCondition()..........sorderQueryCondition:" + sorderQueryCondition.getStatus() + " " + sorderQueryCondition.getBeginTime() + " " + sorderQueryCondition.getEndTime());
 		String result = null;
 		
 		HttpSession session = request.getSession();

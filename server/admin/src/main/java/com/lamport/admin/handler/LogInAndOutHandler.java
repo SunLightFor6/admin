@@ -33,7 +33,7 @@ public class LogInAndOutHandler {
 	@RequestMapping(value="/login/adminLogin")
 	@ResponseBody
 	public String adminLogin(Admin admin, HttpServletRequest request) throws Exception{
-		System.out.println("..........LoginHandler..........adminLogin()..........");
+		System.out.println("..........LoginHandler..........adminLogin()..........admin:" + admin.getAdminname());
 		String result = null;
 		
 		JsonObject jsonObject = new JsonObject();
@@ -92,7 +92,7 @@ public class LogInAndOutHandler {
 	@RequestMapping(value="/login/superAdminLogin")
 	@ResponseBody
 	public String superAdminLogin(Admin superAdmin, HttpServletRequest request) throws Exception{
-		System.out.println("..........LoginHandler..........superAdminLogin()..........");
+		System.out.println("..........LoginHandler..........superAdminLogin()..........superAdmin = " + superAdmin.getAdminname());
 		String result = null;
 
 		JsonObject jsonObject = new JsonObject();

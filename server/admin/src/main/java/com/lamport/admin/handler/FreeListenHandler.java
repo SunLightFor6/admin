@@ -39,7 +39,7 @@ public class FreeListenHandler {
 	@RequestMapping(value="/admin/saveFreeListen")
 	@ResponseBody
 	public String saveFreeListen(FreeListen freeListen, MultipartFile imgFile, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenHandler..........saveFreeListen()..........");
+		System.out.println("..........FreeListenHandler..........saveFreeListen()..........freeListen:" + freeListen.getTitle() + " imgFile" + imgFile);
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -60,7 +60,7 @@ public class FreeListenHandler {
 	@RequestMapping(value="/admin/deleteFreeListenLogicallyByID")
 	@ResponseBody
 	public String deleteFreeListenLogicallyByID(int id) throws Exception{
-		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........");
+		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........id = " + id);
 		String result = null;
 		
 		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id);
@@ -77,7 +77,7 @@ public class FreeListenHandler {
 	@RequestMapping(value="/admin/updateFreeListenByID")
 	@ResponseBody
 	public String updateFreeListenByID(FreeListen freeListen, MultipartFile imgFile, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenHandler..........updateFreeListenByID()..........");
+		System.out.println("..........FreeListenHandler..........updateFreeListenByID()..........freeListen:" + freeListen.getTitle() + " imgFile" + imgFile);
 		String result = null;
 		
 		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
@@ -95,7 +95,7 @@ public class FreeListenHandler {
 	@RequestMapping(value="/admin/selectFreeListenByFreeListenQueryCondition")
 	@ResponseBody
 	public String selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenHandler..........selectFreeListenByFreeListenQueryCondition()..........");
+		System.out.println("..........FreeListenHandler..........selectFreeListenByFreeListenQueryCondition()..........freeListenQueryCondition:" + freeListenQueryCondition.getBranch());
 		String result = null;
 		
 		HttpSession session = request.getSession();

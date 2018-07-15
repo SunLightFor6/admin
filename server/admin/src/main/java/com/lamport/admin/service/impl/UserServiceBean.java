@@ -19,6 +19,8 @@ public class UserServiceBean implements UserService {
 
 	@Override
 	public int selectCountUserByQID(int qid) throws Exception {
+		System.out.println("..........UserServiceBean..........selectCountUserByQID()..........");
+
 		int countUser = 0;
 		
 		countUser = userMapper.selectCountUserByQID(qid);

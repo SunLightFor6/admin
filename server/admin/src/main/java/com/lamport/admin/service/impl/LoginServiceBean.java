@@ -21,6 +21,8 @@ public class LoginServiceBean implements LoginService {
 	
 	@Override
 	public int isAdminLoginSuccessful(Admin admin) throws Exception {
+		System.out.println("..........LoginServiceBean..........isAdminLoginSuccessful()..........");
+
 		int result = 0;
 		String jurisdiction = adminMapper.selectJurisdictionByAdminname(admin.getAdminname());
 		if(jurisdiction != null){
@@ -42,6 +44,8 @@ public class LoginServiceBean implements LoginService {
 
 	@Override
 	public int isSuperAdminLoginSuccessful(Admin superAdmin) throws Exception {
+		System.out.println("..........LoginServiceBean..........isSuperAdminLoginSuccessful()..........");
+
 		int result = 0;
 		String jurisdiction = adminMapper.selectJurisdictionByAdminname(superAdmin.getAdminname());
 		if(jurisdiction != null){

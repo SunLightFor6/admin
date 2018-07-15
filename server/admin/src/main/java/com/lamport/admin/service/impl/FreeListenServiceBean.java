@@ -37,6 +37,8 @@ public class FreeListenServiceBean implements FreeListenService {
 	
 	@Override
 	public int saveFreeListen(FreeListen freeListen, MultipartFile img, String path) throws Exception {
+		System.out.println("..........FreeListenServiceBean..........saveFreeListen()..........");
+
 		int saveResult = 1;
 		
 		String imgurl = null;
@@ -62,6 +64,8 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public int deleteFreeListenLogicallyByID(int id) throws Exception {
+		System.out.println("..........FreeListenServiceBean..........deleteFreeListenLogicallyByID()..........");
+
 		int deleteResult = 0;
 		
 		deleteResult = freeListenMapper.deleteFreeListenLogicallyByID(id);
@@ -71,6 +75,8 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public int updateFreeListenByID(FreeListen freeListen, MultipartFile img, String path) throws Exception {
+		System.out.println("..........FreeListenServiceBean..........updateFreeListenByID()..........");
+
 	int updateResult = 1;
 		
 		String imgurl = null;
@@ -94,6 +100,8 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public List<FreeListen> selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition) throws Exception {
+		System.out.println("..........FreeListenServiceBean..........selectFreeListenByFreeListenQueryCondition()..........");
+
 		List<FreeListen> freeListens = null;
 		List<FreeListen> freeListens_query = null;
 
@@ -110,6 +118,8 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public int selectCountFreeListenByQID(int qid) throws Exception {
+		System.out.println("..........FreeListenServiceBean..........selectCountFreeListenByQID()..........");
+
 		int countFreeListen = 0;
 		
 		countFreeListen = freeListenMapper.selectCountFreeListenByQID(qid);

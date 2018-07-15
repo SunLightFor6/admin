@@ -15,15 +15,16 @@
 									async: true,
 									processData: false,
 									contentType: false,
+									dataType: "json",
 									success: function(data) {
 										$.each(data, function(name, value) {
-												$('#current_pics').append('<img src="' + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+												$('#current_pics').append('<img src="' + IMGPATH + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 										});
 									}
 									});
 							})
 		</script>
-		<form class="layui-form" name="message_form" action="" method="post">
+		<form class="layui-form" name="message_form" action="" method="post" enctype="multipart/form-data">
 			<p class="form-label">上传轮播图</p>
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-btn-primary" id="uploadpics">选择图片</button>
@@ -54,7 +55,7 @@
 		//多图片上传
 		upload.render({
 			elem: '#uploadpics',
-			url: '/upload/',
+			auto: false,
 			multiple: true,
 			acceptMime: 'image/*',
 			number: 3,
@@ -86,7 +87,12 @@
 
 	$('#submit_t_pics').click(function() {
 		var formData = new FormData();
-		formData.append("imgs", imgs);
+		console.log("imgs");
+		console.log(imgs);
+		for(var i in imgs) {
+			formData.append("imgs", imgs[i]);
+		}
+		console.log(formData.getAll('imgs'));
 		$.ajax({
 			type: "post",
 			url: PREPATH + "/admin/updateTeacherSwiperByQID",
@@ -96,7 +102,7 @@
 			processData: false,
 			contentType: false,
 			success: function(data) {
-				if(data.respense == 1) {
+				if(data.response == 1) {
 					layer.open({
 						type: 0,
 						btn: false,
@@ -130,7 +136,7 @@
 					closeBtn: 0,
 					shadeClose: true,
 					time: 1500,
-					content: '更新失败，请稍后重试'
+					content: '服务器错误，请稍后重试'
 				});
 			}
 		});

@@ -55,6 +55,29 @@
 			layui.use(['form', 'layer'], function() {
 				var form = layui.form,
 					layer = layui.layer;
+					
+				//判断当前是否已经登录账号
+				$.ajax({
+					type:"post",
+					url: PREPATH + "/login/isAnyoneLogin",
+					async:true,
+					dataType: "json",
+					success: function(data) {
+						if(data.response == 1) {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: "您已登录，正在为您跳转"
+							});
+						}
+					}
+				});
+					
 				form.verify({
 					admin: function(value, item) { //value：表单的值、item：表单的DOM对象
 						if(!new RegExp("^[0-9]+$").test(value)) {

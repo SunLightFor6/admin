@@ -1,0 +1,13 @@
+Teacher
+-	1.  selectTeacherByQIDAndPage   传参问题    Z
+	2. 获取当前的轮播图  前端代码处理Cannot use 'in' operator to search for 'length' in {"banner3.jpg":"banner3.jpg","banner4.jpg":"banner4.jpg","img1.jpg":"img1.jpg"}
+						---> dataType: "json"
+-				图片路径问题  $('#current_pics').append('<img src="/' + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');   根路径
+-				上传图片   预览图的地方
+				上传	图片 服务器500	 enctype=”multipart/form-data”  https://blog.csdn.net/u011410529/article/details/66974974 @RequestParam，@PathParam，@PathVariable等注解区别
+						-->  加注解就好使
+				图片上传  1. enctype="multipart/form-data"  不起作用
+						2. formData()不应该直接append一个list  应该多次append到同一个“img”，让其自己处理  成功
+				图片预览  报错:8080/lamport/upload_files/img/swiper/153164918658611.jpg:1 GET localhost:8080/lamport/upload_files/img/swiper/153164918658611.jpg 0 ()
+						--> 路径前加 http://
+	！！				这里注意图片展示的所有路径 src=' + IMGPATH + value

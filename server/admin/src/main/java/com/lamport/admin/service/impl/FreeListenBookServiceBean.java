@@ -23,6 +23,8 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 	
 	@Override
 	public int updateFreeListenBookByID(FreeListenBook freeListenBook) throws Exception {
+		System.out.println("..........FreeListenBookServiceBean..........updateFreeListenBookByID()..........");
+
 		int updateResult = 1;
 		
 		updateResult = freeListenBookMapper.updateFreeListenBookByID(freeListenBook);
@@ -33,6 +35,8 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 	@Override
 	public List<FreeListenBook> selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition)
 			throws Exception {
+		System.out.println("..........FreeListenBookServiceBean..........selectFreeListenBookByBookQueryCondition()..........");
+
 		List<FreeListenBook> freeListenBooks = null;
 		
 		int count = freeListenBookMapper.selectCountFreeListenBookByQID(bookQueryCondition.getQid());
@@ -45,6 +49,8 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 
 	@Override
 	public int selectCountFreeListenBookByQID(int qid) throws Exception {
+		System.out.println("..........FreeListenBookServiceBean..........selectCountFreeListenBookByQID()..........");
+
 		int countBook = 0;
 		
 		countBook = freeListenBookMapper.selectCountFreeListenBookByQID(qid);

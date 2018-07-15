@@ -35,6 +35,7 @@ public class AddressServiceBean implements AddressService {
 	
 	@Override
 	public int saveAddress(Address address) throws Exception {
+		System.out.println("..........AddressServiceBean..........saveAddress()..........");
 		int saveResult = 1;
 
 		address.setDeletekey(0);
@@ -45,6 +46,8 @@ public class AddressServiceBean implements AddressService {
 
 	@Override
 	public int deleteAddressLogicallyByID(int id) throws Exception {
+		System.out.println("..........AddressServiceBean..........deleteAddressLogicallyByID()..........");
+
 		int deleteResult = 1;
 
 		List<Integer> lids = lessonBranchMapper.selectLIDByBranchID(id);
@@ -66,6 +69,8 @@ public class AddressServiceBean implements AddressService {
 
 	@Override
 	public int updateAddressByID(Address address) throws Exception {
+		System.out.println("..........AddressServiceBean..........updateAddressByID()..........");
+
 		int updateResult = 1;
 
 		updateResult *= addressMapper.updateAddressByID(address);
@@ -75,6 +80,8 @@ public class AddressServiceBean implements AddressService {
 
 	@Override
 	public List<Address> selectAddressByQIDAndPage(QIDAndPage qidAndPage) throws Exception {
+		System.out.println("..........AddressServiceBean..........selectAddressByQIDAndPage()..........");
+
 		List<Address> addresses = null;
 
 		addresses = addressMapper.selectAddressByQIDAndPage(qidAndPage);
@@ -84,6 +91,8 @@ public class AddressServiceBean implements AddressService {
 
 	@Override
 	public List<Address> selectAddressByQID(int qid) throws Exception {
+		System.out.println("..........AddressServiceBean..........selectAddressByQID()..........");
+
 		List<Address> addresses = null;
 
 		addresses = addressMapper.selectAddressByQID(qid);

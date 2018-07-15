@@ -52,7 +52,7 @@ public class SuperAdminHandler {
 	@RequestMapping(value="/superadmin/deleteEnterpriseLogicallyByID")
 	@ResponseBody
 	public String deleteEnterpriseLogicallyByID(int id) throws Exception{
-		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........");
+		System.out.println("..........SuperAdminHandler..........deleteEnterpriseLogicallyByID()..........id = " + id);
 		String result = null;
 
 		int deleteResult = enterpriseService.deleteEnterpriseLogicallyByID(id);
@@ -69,7 +69,7 @@ public class SuperAdminHandler {
 	@RequestMapping(value="/superadmin/selectEnterpriseByPage")
 	@ResponseBody
 	public String selectEnterpriseByPage(PageTool pageTool) throws Exception{
-		System.out.println("..........SuperAdminHandler..........selectEnterpriseByPage()..........");
+		System.out.println("..........SuperAdminHandler..........selectEnterpriseByPage()..........pageTool:" + pageTool.getPage() + " " + pageTool.getLimit());
 		String result = null;
 		
 		List<Enterprise> enterprises = enterpriseService.selectEnterpriseByPage(pageTool);

@@ -34,7 +34,7 @@ public class AdminHandler {
 	@RequestMapping(value="/admin/updatePasswordByID")
 	@ResponseBody
 	public String updatePasswordByID(String sourse_password, String new_password, HttpServletRequest request) throws Exception{
-		System.out.println("..........AdminHandler..........updatePasswordByID()..........");
+		System.out.println("..........AdminHandler..........updatePasswordByID()..........sourse_password = " + sourse_password + " new_password = " + new_password);
 		String result = null;
 
 		HttpSession session = request.getSession();

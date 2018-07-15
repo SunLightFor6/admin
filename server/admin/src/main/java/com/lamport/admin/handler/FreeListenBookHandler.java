@@ -36,7 +36,7 @@ public class FreeListenBookHandler {
 	@RequestMapping(value="/admin/processFreeListenBookByID")
 	@ResponseBody
 	public String processFreeListenBookByID(int id) throws Exception{
-		System.out.println("..........FreeListenBookHandler..........processFreeListenBookByID()..........");
+		System.out.println("..........FreeListenBookHandler..........processFreeListenBookByID()..........id = " + id);
 		String result = null;
 
 		FreeListenBook freeListenBook = new FreeListenBook();
@@ -56,7 +56,7 @@ public class FreeListenBookHandler {
 	@RequestMapping(value="/admin/selectFreeListenBookByBookQueryCondition")
 	@ResponseBody
 	public String selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookByBookQueryCondition()..........");
+		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookByBookQueryCondition()..........bookQueryCondition: " + bookQueryCondition.getNickname() + " " + bookQueryCondition.getStatus() + " " + bookQueryCondition.getBeginTime() + " " + bookQueryCondition.getEndTime() + " " + bookQueryCondition.getFid());
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -91,7 +91,7 @@ public class FreeListenBookHandler {
 	@RequestMapping(value="/admin/selectFreeListenBookUnprocessedByBookQueryCondition")
 	@ResponseBody
 	public String selectFreeListenBookUnprocessedByBookQueryCondition(BookQueryCondition bookQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookUnprocessedByBookQueryCondition()..........");
+		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookUnprocessedByBookQueryCondition()..........bookQueryCondition: " + bookQueryCondition.getNickname() + " " + bookQueryCondition.getStatus() + " " + bookQueryCondition.getBeginTime() + " " + bookQueryCondition.getEndTime() + " " + bookQueryCondition.getFid());
 		String result = null;
 		
 		HttpSession session = request.getSession();

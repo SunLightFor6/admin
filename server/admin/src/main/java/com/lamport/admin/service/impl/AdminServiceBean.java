@@ -20,6 +20,8 @@ public class AdminServiceBean implements AdminService {
 	
 	@Override
 	public int updatePasswordByID(Admin admin) throws Exception {
+		System.out.println("..........AdminServiceBean..........updatePasswordByID()..........");
+
 		int updateResult = 1;
 
 		updateResult *= adminMapper.updatePasswordByID(admin);
@@ -29,6 +31,8 @@ public class AdminServiceBean implements AdminService {
 
 	@Override
 	public Admin selectAdminByAdminname(String adminname) throws Exception {
+		System.out.println("..........AdminServiceBean..........selectAdminByAdminname()..........");
+
 		Admin admin = null;
 				
 		admin = adminMapper.selectAdminByAdminname(adminname);

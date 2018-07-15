@@ -23,6 +23,8 @@ public class SorderServiceBean implements SorderService {
 	
 	@Override
 	public int updateSorderByID(Sorder sorder) throws Exception {
+		System.out.println("..........SorderServiceBean..........updateSorderByID()..........");
+
 		int updateResult = 1;
 		
 		updateResult = sorderMapper.updateSorderByID(sorder);
@@ -32,6 +34,8 @@ public class SorderServiceBean implements SorderService {
 
 	@Override
 	public int updateRefundByID(Sorder sorder) throws Exception {
+		System.out.println("..........SorderServiceBean..........updateRefundByID()..........");
+
 		int updateResult = 1;
 		
 		updateResult *= sorderMapper.updateSorderByID(sorder);
@@ -42,6 +46,8 @@ public class SorderServiceBean implements SorderService {
 
 	@Override
 	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception {
+		System.out.println("..........SorderServiceBean..........selectSorderBySorderQueryCondition()..........");
+
 		List<Sorder> sorders = null;
 		
 		int count = sorderMapper.selectCountSorderByQID(sorderQueryCondition.getOid());
@@ -53,6 +59,8 @@ public class SorderServiceBean implements SorderService {
 
 	@Override
 	public int selectCountSorderByQID(int qid) throws Exception {
+		System.out.println("..........SorderServiceBean..........selectCountSorderByQID()..........");
+
 		int countSorder = 0;
 		
 		countSorder = sorderMapper.selectCountSorderByQID(qid);
@@ -62,6 +70,8 @@ public class SorderServiceBean implements SorderService {
 
 	@Override
 	public double selectCountSorderActualByQID(int qid) throws Exception {
+		System.out.println("..........SorderServiceBean..........selectCountSorderActualByQID()..........");
+
 		double countSorderActual = 0;
 		
 		countSorderActual = sorderMapper.selectCountSorderActualByQID(qid);

@@ -17,7 +17,7 @@
 			<p class="form-label">讲师简介</p>
 			<textarea name="introduction" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
 			<div style="margin: 10px;">
-				<button type="button" id="teacher_modify_btn" class="layui-btn">提交讲师信息</button>
+				<button type="button" id="teacher_submit_btn" class="layui-btn">提交讲师信息</button>
 			</div>
 		</form>
 	</div>
@@ -31,10 +31,10 @@
 	});
 </script>
 <script>
+	var teacher_img;
 	layui.use('upload', function() {
-		var $ = layui.jquery,
-			upload = layui.upload;
-		var teacher_img;
+		var upload = layui.upload;
+		
 		upload.render({
 			elem: '#uploadpic',
 			url: '/upload/',
@@ -53,18 +53,18 @@
 		});
 	});
 
-	$("#teacher_modify_btn").click(function() {
-		var formData = new FormData("teacher_form");
+	$("#teacher_submit_btn").click(function() {
+		var formData = new FormData($("#teacher_form")[0]);
 		formData.append("teacher_img", teacher_img);
 		$.ajax({
 			type: "post",
-			url: PREPATH + "/admin/saveTeacher,
+			url: PREPATH + "/admin/saveTeacher",
 			async: true,
 			data: formData,
 			processData: false,
 			contentType: false,
 			success: function(data) {
-				if(data = 1) {
+				if(data.response = 1) {
 					layer.open({
 						type: 0,
 						btn: false,
@@ -99,7 +99,7 @@
 					closeBtn: 0,
 					shadeClose: true,
 					time: 1500,
-					content: '新增失败，请稍后重试'
+					content: '服务器错误，请稍后重试'
 				});
 			}
 		});

@@ -41,6 +41,8 @@ public class LessonServiceBean implements LessonService {
 	
 	@Override
 	public int saveLesson(Lesson lesson, MultipartFile img, String path) throws Exception {
+		System.out.println("..........LessonServiceBean..........saveLesson()..........");
+
 		int saveResult = 1;
 		
 		String imgurl = null;
@@ -71,6 +73,8 @@ public class LessonServiceBean implements LessonService {
 
 	@Override
 	public int deleteLessonLogicallyByID(int id) throws Exception {
+		System.out.println("..........LessonServiceBean..........deleteLessonLogicallyByID()..........");
+
 		int deleteResult = 1;
 
 		deleteResult *= sorderMapper.deleteSorderLogicallyByLID(id);
@@ -83,6 +87,8 @@ public class LessonServiceBean implements LessonService {
 
 	@Override
 	public int updateLessonByID(Lesson lesson, MultipartFile img, String path) throws Exception {
+		System.out.println("..........LessonServiceBean..........updateLessonByID()..........");
+
 		int updateResult = 1;
 		
 		String imgurl = null;
@@ -112,6 +118,8 @@ public class LessonServiceBean implements LessonService {
 
 	@Override
 	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception {
+		System.out.println("..........LessonServiceBean..........selectLessonByLessonQueryCondition()..........");
+
 		List<Lesson> lessons = null;
 
 		if(lessonQueryCondition.getBranch() == null){
@@ -153,6 +161,8 @@ public class LessonServiceBean implements LessonService {
 
 	@Override
 	public int selectCountLessonByQID(int qid) throws Exception {
+		System.out.println("..........LessonServiceBean..........selectCountLessonByQID()..........");
+
 		int countLesson = 0;
 		
 		countLesson = lessonMapper.selectCountLessonByQID(qid);

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public class TeacherHandler {
 	@RequestMapping(value="/admin/saveTeacher")
 	@ResponseBody
 	public String saveTeacher(Teacher teacher, MultipartFile teacher_img, HttpServletRequest request) throws Exception{
-		System.out.println("..........TeacherHandler..........saveTeacher()..........");
+		System.out.println("..........TeacherHandler..........saveTeacher()..........teacher:" + teacher.getTname() + " teacher_img：" + teacher_img);
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -62,7 +63,7 @@ public class TeacherHandler {
 	@RequestMapping(value="/admin/deleteTeacherLogicallyByID")
 	@ResponseBody
 	public String deleteTeacherLogicallyByID(int id) throws Exception{
-		System.out.println("..........TeacherHandler..........deleteTeacherLogicallyByID()..........");
+		System.out.println("..........TeacherHandler..........deleteTeacherLogicallyByID()..........id = " + id);
 		String result = null;
 
 		int deleteResult = teacherService.deleteTeacherLogicallyByID(id);
@@ -79,7 +80,7 @@ public class TeacherHandler {
 	@RequestMapping(value="/admin/updateTeacherByID")
 	@ResponseBody
 	public String updateTeacherByID(Teacher teacher, MultipartFile teacher_img, HttpServletRequest request) throws Exception{
-		System.out.println("..........TeacherHandler..........updateTeacherByID()..........");
+		System.out.println("..........TeacherHandler..........updateTeacherByID()..........teacher:" + teacher.getTname() + " teacher_img：" + teacher_img);
 		String result = null;
 		
 		String path = Const.Path;
@@ -96,8 +97,8 @@ public class TeacherHandler {
 	 */
 	@RequestMapping(value="/admin/updateTeacherSwiperByQID")
 	@ResponseBody
-	public String updateTeacherSwiperByQID(MultipartFile[] imgs, HttpServletRequest request) throws Exception{
-		System.out.println("..........TeacherHandler..........updateTeacherSwiperByQID()..........");
+	public String updateTeacherSwiperByQID(@RequestParam("imgs") MultipartFile[] imgs, HttpServletRequest request) throws Exception{
+		System.out.println("..........TeacherHandler..........updateTeacherSwiperByQID()..........imgs.length = "  + imgs.length);
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -108,7 +109,7 @@ public class TeacherHandler {
 		String path = Const.Path;
 		int updateResult = swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, imgs, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("response", updateResult);
 		result = jsonObject.toString();
 		
 		return result;
