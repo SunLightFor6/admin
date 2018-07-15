@@ -44,9 +44,9 @@
 	<update id="updateFreeListenByID" parameterType="com.lamport.admin.po.FreeListen">
 	update freelisten 
 		<set> 
-			title = #{lname},
-			fdesc = #{lprice},
-			branchid = #{ldesc},
+			title = #{title},
+			fdesc = #{fdesc},
+			branchid = #{branchid},
 			status = #{status},
 			category = #{category},
 			<if test="imgurl != null">

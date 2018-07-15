@@ -100,8 +100,8 @@ public class FreeListenServiceBean implements FreeListenService {
 		freeListens = freeListenMapper.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
 		for(FreeListen freeListen : freeListens){
 			Address address = addressMapper.selectAddressByID(freeListen.getBranchid());
-			freeListen.setBeanch(address);
-			if(address.getBranch().equals(freeListenQueryCondition.getBranch())) {
+			freeListen.setBranch(address);
+			if(freeListenQueryCondition.getBranch().equals("") || address.getBranch().equals(freeListenQueryCondition.getBranch())) {
 				freeListens_query.add(freeListen);
 			}
 		}

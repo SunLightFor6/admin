@@ -53,18 +53,18 @@ public class LogInAndOutHandler {
 			break;
 		case 1:
 			jsonObject.addProperty("status", "success");
-			jsonObject.addProperty("message", "登陆成功");
+			jsonObject.addProperty("message", "登录成功");
 			admin = adminService.selectAdminByAdminname(admin.getAdminname());
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", admin);
 			break;
 		default:
 			jsonObject.addProperty("status", "fail");
-			jsonObject.addProperty("message", "登陆失败，请稍后重试");
+			jsonObject.addProperty("message", "登录失败，请稍后重试");
 			break;
 		}
 		result=jsonObject.toString();
-		
+		System.out.println("---------------------------------------------\n" + result);
 		return result;
 	}
 	/**

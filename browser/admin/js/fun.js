@@ -1,3 +1,5 @@
+var PREPATH = "/lamport/api/admin";
+
 String.format = function(str) {
 	var args = arguments,
 		re = new RegExp("%([1-" + args.length + "])", "g");

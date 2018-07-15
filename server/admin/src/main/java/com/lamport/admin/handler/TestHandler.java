@@ -46,6 +46,7 @@ import com.lamport.admin.service.UserService;
 import com.lamport.admin.tool.Const;
 import com.lamport.admin.tool.PageTool;
 import com.lamport.admin.vo.BookQueryCondition;
+import com.lamport.admin.vo.FreeListenQueryCondition;
 import com.lamport.admin.vo.LessonQueryCondition;
 import com.lamport.admin.vo.QIDAndCategory;
 import com.lamport.admin.vo.QIDAndPage;
@@ -458,10 +459,128 @@ public class TestHandler {
 		System.out.println("\n" + result + "\n");
 		return "/test_show.jsp";
 	}
-	/********************************BranchHandler********************************/
+	/********************************LessonHandler********************************/
 	
 	
+	/********************************FreeListenHandler********************************/
+	@RequestMapping(value="/test/testsaveFreeListen")
+	public String saveFreeListen(HttpServletRequest request) throws Exception{
+		System.out.println("..........FreeListenHandler..........saveFreeListen()..........");
+		String result = null;
+		
+		FreeListen freeListen = new FreeListen();
+		Address branch = new Address();
+		branch.setBranch("哈哈哈");
+		freeListen.setBranch(branch);
+		freeListen.setBranchid(2);
+		freeListen.setCategory("1");
+		freeListen.setDeletekey(0);
+		freeListen.setFdesc("-----");
+		freeListen.setTitle("title");
+		freeListen.setStatus("hhh");
+		
+		HttpSession session = request.getSession();
+		Admin admin = new Admin();
+		admin.setQid(1);
+		session.setAttribute("admin", admin);
+		freeListen.setQid(admin.getQid());
+		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		int saveResult = freeListenService.saveFreeListen(freeListen, null, path);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("reponse", saveResult);
+		result = jsonObject.toString();
+		
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
 	
+	@RequestMapping(value="/test/testdeleteFreeListenLogicallyByID")
+	public String deleteFreeListenLogicallyByID(int id) throws Exception{
+		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........");
+		String result = null;
+		
+		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", deleteResult);
+		result = jsonObject.toString();
+		
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	/**
+	 * 通过id修改FreeListen信息
+	 * @return
+	 */
+	@RequestMapping(value="/test/testupdateFreeListenByID")
+	@ResponseBody
+	public String updateFreeListenByID(HttpServletRequest request) throws Exception{
+		System.out.println("..........FreeListenHandler..........updateFreeListenByID()..........");
+		String result = null;
+		
+		FreeListen freeListen = new FreeListen();
+		Address branch = new Address();
+		branch.setBranch("哈哈哈2");
+		freeListen.setBranch(branch);
+		freeListen.setBranchid(2);
+		freeListen.setCategory("12");
+		freeListen.setDeletekey(0);
+		freeListen.setFdesc("-----2");
+		freeListen.setTitle("title2");
+		freeListen.setStatus("hhh2");
+		
+		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		int updateResult = freeListenService.updateFreeListenByID(freeListen, null, path);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("reponse", updateResult);
+		result = jsonObject.toString();
+		
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	/**
+	 * 通过多条件查询FreeListen信息
+	 * @return
+	 */
+	@RequestMapping(value="/test/testselectFreeListenByFreeListenQueryCondition")
+	@ResponseBody
+	public String selectFreeListenByFreeListenQueryCondition(HttpServletRequest request) throws Exception{
+		System.out.println("..........FreeListenHandler..........selectFreeListenByFreeListenQueryCondition()..........");
+		String result = null;
+		
+		FreeListenQueryCondition freeListenQueryCondition = new FreeListenQueryCondition();
+		PageTool p = new PageTool(1, 10);
+		freeListenQueryCondition.setPageTool(p);
+		freeListenQueryCondition.setBranch("哈哈哈");
+		
+		HttpSession session = request.getSession();
+		
+		Admin admin = (Admin)session.getAttribute("admin");
+		freeListenQueryCondition.setQid(admin.getQid());
+		List<FreeListen> freeListens = freeListenService.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+		System.out.println(freeListens.size());
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("code", 0);
+		jsonObject.addProperty("msg", "");
+		jsonObject.addProperty("count", freeListenQueryCondition.getPageTool().getCount());
+		JsonArray jsonArray = new JsonArray();
+		
+		for(FreeListen freeListen : freeListens) {
+			JsonObject object = new JsonObject();
+			object.addProperty("courseid", freeListen.getId());
+			object.addProperty("coursename", freeListen.getTitle());
+			object.addProperty("courseimg", freeListen.getImgurl());
+			object.addProperty("coursecategory", freeListen.getCategory());
+			object.addProperty("branch", freeListen.getBranch().getBranch());			
+			object.addProperty("pubtime", freeListen.getPubtime());
+			object.addProperty("fdesc", freeListen.getFdesc());
+			object.addProperty("status", freeListen.getStatus());
+			jsonArray.add(object);
+		}
+		
+		System.out.println("\n" + result + "\n");
+		return "/test_show.jsp";
+	}
+	/********************************FreeListenHandler********************************/
 	
 	
 	
