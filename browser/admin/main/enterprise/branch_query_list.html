@@ -78,7 +78,7 @@
 				window.location.href = '#14';
 			} else if(obj.event === 'del') {
 				layer.confirm('确认删除分部' + data.branch + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
-					$.ajax({
+					jqxhr = $.ajax({
 						type: "post",
 						url: PREPATH + "/admin/deleteBranchLogicallyByID?id=" + data.id,
 						async: true,

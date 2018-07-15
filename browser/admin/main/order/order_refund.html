@@ -140,7 +140,7 @@
 					btn: ['确认处理', '取消'],
 					yes: function(index, layero) {
 						//按钮【按钮一】的回调
-						$.ajax({
+						jqxhr = $.ajax({
 							type: "post",
 							url: PREPATH + "/admin/processRefundByID?oid=" + data.oid,
 							async: true,

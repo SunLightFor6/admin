@@ -27,7 +27,7 @@
 		var form = layui.form;
 	});
 	$(function() {
-		$.ajax({
+		jqxhr = $.ajax({
 			type:"get",
 			url: PREPATH + "/admin/selectEnterpriseBasicDataByQID",
 			async:true,

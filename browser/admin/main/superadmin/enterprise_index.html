@@ -119,7 +119,7 @@
 					var data = obj.data;
 					if(obj.event === 'del') {
 						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {icon: 3, title:'', closeBtn: false}, function(index) {
-							$.ajax({
+							jqxhr = $.ajax({
 								type: "post",
 								url: PREPATH + "/superadmin/deleteEnterpriseLogicallyByID?id=" + data.id,
 								async: true,
@@ -158,7 +158,7 @@
 			});
 			
 			function addEnterprise() {
-				$.ajax({
+				jqxhr = $.ajax({
 					type:"post",
 					url: PREPATH + "/superadmin/saveEnterprise",
 					async:true,
@@ -178,7 +178,7 @@
 			}
 			
 			function logout() {
-				$.ajax({
+				jqxhr = $.ajax({
 					type:"post",
 					url: PREPATH + "/login/superAdminLogout",
 					async:true,

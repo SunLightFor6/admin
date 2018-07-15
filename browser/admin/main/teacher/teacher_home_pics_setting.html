@@ -9,7 +9,7 @@
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-						$.ajax({
+						jqxhr = jqxhr = jqxhr = $.ajax({
 									type: "get",
 									url: PREPATH + "/admin/selectTeacherSwiperByQID",
 									async: true,
@@ -93,7 +93,7 @@
 			formData.append("imgs", imgs[i]);
 		}
 		console.log(formData.getAll('imgs'));
-		$.ajax({
+		jqxhr = jqxhr = $.ajax({
 			type: "post",
 			url: PREPATH + "/admin/updateTeacherSwiperByQID",
 			async: true,

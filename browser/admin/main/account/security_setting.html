@@ -54,7 +54,7 @@
 					});
 					return;
 				}
-				$.ajax({
+				jqxhr = $.ajax({
 					type: "post",
 					url: PREPATH + "/admin/updatePasswordByID",
 					async: true,

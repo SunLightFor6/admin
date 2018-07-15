@@ -56,7 +56,7 @@
 	$("#teacher_submit_btn").click(function() {
 		var formData = new FormData($("#teacher_form")[0]);
 		formData.append("teacher_img", teacher_img);
-		$.ajax({
+		jqxhr = $.ajax({
 			type: "post",
 			url: PREPATH + "/admin/saveTeacher",
 			async: true,

@@ -179,7 +179,7 @@
 				formData.append("category", $('#categories_s option:selected'));
 				formData.append("branchs", branch);
 
-				$.ajax({
+				jqxhr = $.ajax({
 					type: "post",
 					url: PREPATH + "/admin/saveLesson",
 					async: true,
@@ -241,7 +241,7 @@
 				formData.append("category", $('#categories_s option:selected'));
 				formData.append("branchName", branch);
 
-				$.ajax({
+				jqxhr = $.ajax({
 					type: "post",
 					url: PREPATH + "/admin/deleteFreeListenLogicallyByID",
 					async: true,

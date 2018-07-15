@@ -138,7 +138,7 @@
 			formData.append("category", $('#categories_s option:selected'));
 			formData.append("branchName", branch);
 
-			$.ajax({
+			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updateFreeListenByID",
 				async: true,

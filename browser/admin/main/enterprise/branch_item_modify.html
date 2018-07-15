@@ -103,7 +103,7 @@
 				formData.append("id", sessionStorage.getItem("b_id"));
 				formData.append("longitude", lng);
 				formData.append("latitude", lat);
-				$.ajax({
+				jqxhr = $.ajax({
 					type: "post",
 					url: PREPATH + "/admin/updateBranchByID",
 					async: true,

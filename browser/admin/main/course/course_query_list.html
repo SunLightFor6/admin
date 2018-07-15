@@ -350,7 +350,7 @@
 			} else if(obj.event === 'del') {
 				if(course_cat == "免费试听课") {
 					layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
-					$.ajax({
+					jqxhr = $.ajax({
 						type: "post",
 						url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
 						async: true,
@@ -385,7 +385,7 @@
 				});
 				} else if(course_cat == "正式精品课") {
 				layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
-					$.ajax({
+					jqxhr = $.ajax({
 						type: "post",
 						url: PREPATH + "/admin/deleteLessonByID?id=" + data.courseid,
 						async: true,
