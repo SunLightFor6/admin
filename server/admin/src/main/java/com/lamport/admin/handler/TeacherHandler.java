@@ -82,7 +82,7 @@ public class TeacherHandler {
 		System.out.println("..........TeacherHandler..........updateTeacherByID()..........");
 		String result = null;
 		
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int updateResult = teacherService.updateTeacherByID(teacher, teacher_img, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);
@@ -105,7 +105,7 @@ public class TeacherHandler {
 		QIDAndCategory qidAndCategory = new QIDAndCategory();
 		qidAndCategory.setCategory(Const.SwiperCategoryT);
 		qidAndCategory.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int updateResult = swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, imgs, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);

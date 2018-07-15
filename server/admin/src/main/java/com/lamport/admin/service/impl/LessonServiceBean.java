@@ -16,6 +16,7 @@ import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Lesson;
 import com.lamport.admin.po.LessonBranch;
 import com.lamport.admin.service.LessonService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.BranchIDAndPage;
 import com.lamport.admin.vo.LessonQueryCondition;
@@ -45,11 +46,9 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			File f = new File(path);
-			String ppath = f.getParent();
 			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(ppath + "/img/teacher", filename);
-			imgurl = imgFile.getPath();
+			imgFile = new File(path + Const.ImgLessonPath, filename);
+			imgurl = Const.ImgLessonPath + "/" + filename;
 		}
 		lesson.setImgurl(imgurl);
 		lesson.setDeletekey(0);
@@ -89,13 +88,11 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			File f = new File(path);
-			String ppath = f.getParent();
 			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(ppath + "/img/lesson", filename);
-			imgurl = imgFile.getPath();
+			imgFile = new File(path + Const.ImgLessonPath, filename);
+			imgurl = Const.ImgLessonPath + "/" + filename;
 		}
-		String oldImgurl = lessonMapper.selectLessonImgurlByID(lesson.getLid());
+		String oldImgurl = path + lessonMapper.selectLessonImgurlByID(lesson.getLid());
 		updateResult *= lessonBranchMapper.deleteLessonBranchLogicallyByLID(lesson.getLid());
 		lesson.setImgurl(imgurl);
 		updateResult *= lessonMapper.updateLessonByID(lesson);

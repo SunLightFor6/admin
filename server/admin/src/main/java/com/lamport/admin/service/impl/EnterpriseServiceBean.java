@@ -103,12 +103,10 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		List<String> imgurls = new ArrayList<String>();
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
-			File f = new File(path);
-			String ppath = f.getParent();
 			for(int i=0; i<imgs.length; i++){
 				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(ppath + "/img/swiper", filename));
-				imgurls.add(imgFiles.get(i).getPath());
+				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
+				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 			}
 			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){
@@ -124,13 +122,11 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		String videoPath = null;
 		File videoFile = null;
 		if(video != null){
-			File f = new File(path);
-			String ppath = f.getParent();
 			String filename = System.currentTimeMillis() + video.getOriginalFilename();
-			videoFile = new File(ppath + "/video", filename);
-			videoPath = videoFile.getPath();
+			videoFile = new File(path + Const.VideoPath, filename);
+			videoPath = Const.VideoPath + "/" + filename;
 		}
-		String oldVideo = enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
+		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
 		enterprise.setVideopath(videoPath);
 		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
 		if(imgurls != null){

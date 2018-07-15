@@ -53,12 +53,10 @@ public class MessageServiceBean implements MessageService {
 		List<String> imgurls = new ArrayList<String>();
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
-			File f = new File(path);
-			String ppath = f.getParent();
 			for(int i=0; i<imgs.length; i++){
 				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(ppath + "/img/messageImg", filename));
-				imgurls.add(imgFiles.get(i).getPath());
+				imgFiles.add(new File(path + Const.ImgMessagePath, filename));
+				imgurls.add( Const.ImgMessagePath + "/" + filename);
 			}
 			for(int i=0; i<imgurls.size(); i++){
 				MessageImg messageImg = new MessageImg();

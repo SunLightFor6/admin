@@ -17,6 +17,7 @@ import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Lesson;
 import com.lamport.admin.service.LessonService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.LessonQueryCondition;
 
 /**
@@ -43,7 +44,7 @@ public class LessonHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		lesson.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;//存储路径
 		int saveResult = lessonService.saveLesson(lesson, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);
@@ -78,7 +79,7 @@ public class LessonHandler {
 		System.out.println("..........LessonHandler..........updateLessonByID()..........");
 		String result = null;
 		
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int updateResult = lessonService.updateLessonByID(lesson, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);
