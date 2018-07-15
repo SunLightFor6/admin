@@ -76,8 +76,8 @@
 
 				table.render({
 					elem: '#enter-list',
-//					url: '/superadmin/selectEnterpriseByPage',
-										url: '../../json/admin.json',
+//					url: PREPATH + '/superadmin/selectEnterpriseByPage',
+										teacherimg: '../../json/admin.json',
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -121,7 +121,7 @@
 						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {icon: 3, title:'', closeBtn: false}, function(index) {
 							$.ajax({
 								type: "post",
-								url: "/superadmin/deleteEnterpriseLogicallyByID?id=" + data.id,
+								url: PREPATH + "/superadmin/deleteEnterpriseLogicallyByID?id=" + data.id,
 								async: true,
 								success: function(data) {
 									if(data.response == "1") {
@@ -160,7 +160,7 @@
 			function addEnterprise() {
 				$.ajax({
 					type:"post",
-					url:"/superadmin/saveEnterprise",
+					url: PREPATH + "/superadmin/saveEnterprise",
 					async:true,
 					success: function(data) {
 						layer.open({
@@ -180,7 +180,7 @@
 			function logout() {
 				$.ajax({
 					type:"post",
-					url:"/login/superAdminLogout",
+					url: PREPATH + "/login/superAdminLogout",
 					async:true,
 					success: function(data) {
 						if(data.response == "1") {

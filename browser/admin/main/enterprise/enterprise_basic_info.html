@@ -45,7 +45,7 @@
 	$(function() {
 		$.ajax({
 			type: "post",
-			url: "/admin/selectEnterpriseBasicInfoByQID",
+			url: PREPATH + "/admin/selectEnterpriseBasicInfoByQID",
 			async: true,
 			success: function(data) {
 				$('#enterprise_name_show').html(data.name);

@@ -77,7 +77,7 @@
 		formData.append("teacher_img", teacher_img);
 		$.ajax({
 			type: "post",
-			url: "/admin/updateTeacherByID",
+			url: PREPATH + "/admin/updateTeacherByID",
 			async: true,
 			data: formData,
 			processData: false,

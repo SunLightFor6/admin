@@ -41,7 +41,7 @@
 
 		table.render({
 			elem: '#refund_query',
-			url: "/admin/selectRefundBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
+			url: PREPATH + "/admin/selectRefundBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
 			dataType: 'jsonp',
 			skin: 'nob',
 			cols: [
@@ -142,7 +142,7 @@
 						//按钮【按钮一】的回调
 						$.ajax({
 							type: "post",
-							url: "/admin/processRefundByID?oid=" + data.oid,
+							url: PREPATH + "/admin/processRefundByID?oid=" + data.oid,
 							async: true,
 							success: function() {
 								layer.open({

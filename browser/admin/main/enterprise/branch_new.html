@@ -111,7 +111,7 @@
 				formData.append("latitude", lati);
 				$.ajax({
 					type: "post",
-					url: "/admin/saveBranch",
+					url: PREPATH + "/admin/saveBranch",
 					async: true,
 					data: formData,
 					processData: false,

@@ -11,7 +11,7 @@
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 						$.ajax({
 									type: "get",
-									url: "/admin/selectTeacherSwiperByQID",
+									url: PREPATH + "/admin/selectTeacherSwiperByQID",
 									async: true,
 									processData: false,
 									contentType: false,
@@ -89,7 +89,7 @@
 		formData.append("imgs", imgs);
 		$.ajax({
 			type: "post",
-			url: "/admin/updateTeacherSwiperByQID",
+			url: PREPATH + "/admin/updateTeacherSwiperByQID",
 			async: true,
 			data: formData,
 			dataType: "json",

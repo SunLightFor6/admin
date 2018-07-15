@@ -49,7 +49,7 @@
 
 		table.render({
 			elem: '#book_handle_list',
-			url: '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&status=' + status + '&beginTime=' + beginTime + '&endTime=' + endTime,
+			url: PREPATH + '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&status=' + status + '&beginTime=' + beginTime + '&endTime=' + endTime,
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -127,7 +127,7 @@
 						//按钮【按钮一】的回调
 						$.ajax({
 							type: "post",
-							url: "/admin/processFreeListenBookByID?id=" + data.bookid,
+							url: PREPATH + "/admin/processFreeListenBookByID?id=" + data.bookid,
 							async: true,
 							success: function(data) {
 								if(data == 1) {

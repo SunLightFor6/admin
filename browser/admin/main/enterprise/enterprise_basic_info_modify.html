@@ -154,7 +154,7 @@
 			formData.append("jczs", um_free.getContent());
 			$.ajax({
 				type: "post",
-				url: "",
+				url: PREPATH + "/admin/updateBranchByID",
 				async: true,
 				data: formData,
 				dataType: "json",

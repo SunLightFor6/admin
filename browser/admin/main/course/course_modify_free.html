@@ -73,7 +73,7 @@
 
 		upload.render({
 			elem: '#uploadpic',
-			url: '/upload/',
+			url: PREPATH + '/upload/',
 			auto: false,
 			acceptMime: 'image/*',
 			size: 1000 //限制文件大小，单位 KB
@@ -140,7 +140,7 @@
 
 			$.ajax({
 				type: "post",
-				url: "/admin/updateFreeListenByID",
+				url: PREPATH + "/admin/updateFreeListenByID",
 				async: true,
 				data: formData,
 				processData: false,

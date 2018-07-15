@@ -36,10 +36,14 @@ public class AdminInterceptor implements HandlerInterceptor {
 
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
+		System.out.println("here here");
 		if(admin != null){
+			System.out.println("Ready to leave AdminInterceptor to into AdminHandler");
 			return true;
 		}else{
-			response.sendRedirect(request.getContextPath()+"/main/login.html");
+//			response.sendRedirect(request.getContextPath()+"/main/login.html");
+			System.out.println("Ready to leave AdminInterceptor to into login.html");
+			response.sendRedirect(request.getContextPath().substring(0, request.getContextPath().indexOf('/'))+"/lamport/admin/main/login.html");
 			return false;
 		}
 	}

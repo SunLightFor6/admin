@@ -23,7 +23,7 @@
 
 		table.render({
 			elem: '#teacher_list',
-			url: '/admin/selectTeacherByQIDAndPage',
+			url: PREPATH + '/admin/selectTeacherByQIDAndPage',
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -74,7 +74,7 @@
 				layer.confirm('确认真的删除', function(index) {
 					$.ajax({
 						type:"post",
-						url:"/admin/deleteTeacherLogicallyByID?id=" + data.id,
+						url: PREPATH + "/admin/deleteTeacherLogicallyByID?id=" + data.id,
 						async:true,
 						success:function(response) {
 							if(response == 1) {

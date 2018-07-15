@@ -41,7 +41,7 @@
 
 		table.render({
 			elem: '#cav_query',
-			url: "/admin/selectSorderUnverifiedBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
+			url: PREPATH + "/admin/selectSorderUnverifiedBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
 		
 		dataType: 'jsonp',
 			skin: 'nob',
@@ -145,7 +145,7 @@
 						//按钮【按钮一】的回调
 						$.ajax({
 							type: "post",
-							url: "/admin/verifySorderByID?oid=" + data.oid,
+							url: PREPATH + "/admin/verifySorderByID?oid=" + data.oid,
 							async: true,
 							success: function() {
 								layer.open({

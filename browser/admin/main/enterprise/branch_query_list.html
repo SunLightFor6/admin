@@ -23,7 +23,7 @@
 		table.render({
 			elem: '#branch_query_list',
 			//			url: '../../json/branch.json',
-			url: '/admin/selectBranchByQIDAndPage',
+			url: PREPATH + '/admin/selectBranchByQIDAndPage',
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -80,7 +80,7 @@
 				layer.confirm('确认删除分部' + data.branch + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
 					$.ajax({
 						type: "post",
-						url: "/admin/deleteBranchLogicallyByID?id=" + data.id,
+						url: PREPATH + "/admin/deleteBranchLogicallyByID?id=" + data.id,
 						async: true,
 						success: function(data) {
 							if(data.response == "1") {

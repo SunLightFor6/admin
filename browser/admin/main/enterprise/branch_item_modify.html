@@ -105,7 +105,7 @@
 				formData.append("latitude", lat);
 				$.ajax({
 					type: "post",
-					url: "/admin/updateBranchByID",
+					url: PREPATH + "/admin/updateBranchByID",
 					async: true,
 					data: formData,
 					processData: false,

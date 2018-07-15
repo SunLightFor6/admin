@@ -71,7 +71,7 @@
 
 		upload.render({
 			elem: '#uploadpic',
-			url: '/upload/',
+			url: PREPATH + '/upload/',
 			aotu: false,
 			acceptMime: 'image/*',
 			size: 1000 //限制文件大小，单位 KB
@@ -151,7 +151,7 @@
 
 			$.ajax({
 				type: "post",
-				url: "/admin/updateLessonByID",
+				url: PREPATH + "/admin/updateLessonByID",
 				async: true,
 				data: formData,
 				processData: false,

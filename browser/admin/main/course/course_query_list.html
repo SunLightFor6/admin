@@ -86,7 +86,7 @@
 		//初始加载正是精品课 全部分部
 		table.render({
 			elem: '#course_list',
-			url: '/admin/selectLessonByLessonQueryCondition',
+			url: PREPATH + '/admin/selectLessonByLessonQueryCondition',
 			skin: 'nob',
 			cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 			id: 'table-content',
@@ -142,7 +142,7 @@
 			if(course_cat == "免费试听课") {
 				table.render({
 					elem: '#course_list',
-					url: '/admin/selectFreeListenByFreeListenQueryCondition',
+					url: PREPATH + '/admin/selectFreeListenByFreeListenQueryCondition',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 					id: 'table-content',
@@ -187,7 +187,7 @@
 			} else if(course_cat == "正式精品课") {
 				table.render({
 					elem: '#course_list',
-					url: '/admin/selectLessonByLessonQueryCondition',
+					url: PREPATH + '/admin/selectLessonByLessonQueryCondition',
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -247,7 +247,7 @@
 			if(course_cat == "免费试听课") {
 				table.render({
 					elem: '#course_list',
-					url: '/admin/selectFreeListenByFreeListenQueryCondition?branch=' + branch_sel,
+					url: PREPATH + '/admin/selectFreeListenByFreeListenQueryCondition?branch=' + branch_sel,
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -293,7 +293,7 @@
 			} else if(course_cat == "正式精品课") {
 				table.render({
 					elem: '#course_list',
-					url: '/admin/selectLessonByLessonQueryCondition?branch=' + branch_sel,
+					url: PREPATH + '/admin/selectLessonByLessonQueryCondition?branch=' + branch_sel,
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -352,7 +352,7 @@
 					layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
 					$.ajax({
 						type: "post",
-						url: "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
+						url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
 						async: true,
 						success: function(data) {
 							if(data.response == "1") {
@@ -387,7 +387,7 @@
 				layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
 					$.ajax({
 						type: "post",
-						url: "/admin/deleteLessonByID?id=" + data.courseid,
+						url: PREPATH + "/admin/deleteLessonByID?id=" + data.courseid,
 						async: true,
 						success: function(data) {
 							if(data.response == "1") {

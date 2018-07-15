@@ -54,7 +54,7 @@
   </filter>
   <filter-mapping>
   	<filter-name>LoginFilter</filter-name>
-  	<url-pattern>/main/login.html/*</url-pattern>
+  	<url-pattern>/lamport/admin/main/login.html/*</url-pattern>
   </filter-mapping>
   
   <!-- Admin是否登录 -->
@@ -65,12 +65,33 @@
   <filter-mapping>
   	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/account/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>	
   	<url-pattern>/main/book/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/course/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/enterprise/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/friend/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/order/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/page/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>AdminFilter</filter-name>
   	<url-pattern>/main/teacher/*</url-pattern>
   </filter-mapping>
   

@@ -36,6 +36,7 @@ public class LoginFilter implements Filter {
 		Admin admin = (Admin)session.getAttribute("admin");
 		Admin superAdmin = (Admin)session.getAttribute("superAdmin");
 		if(admin == null && superAdmin == null){
+			System.out.println("Ready to Chain");
 			chain.doFilter(request, response);
 		}else if(admin != null){
 			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/main/page/index.html");

@@ -26,7 +26,7 @@
 		formData.append("id", id);
 		$.ajax({
 			type: "post",
-			url: "",
+			url: PREPATH + "",
 			data: formData,
 			async: true,
 			processData: false, //告诉jQuery不要处理数据
@@ -58,7 +58,7 @@
 		formData.append("id_message", id_message);
 		$.ajax({
 			type: "post",
-			url: "",
+			url: PREPATH + "",
 			data: formData,
 			async: true,
 			processData: false, //告诉jQuery不要处理数据
@@ -132,7 +132,7 @@
 					console.log("---当前页：" + page);
 					$.ajax({
 						type: "get",
-						url: "../../json/friend.json?page=" + page,
+						url: PREPATH + "../../json/friend.json?page=" + page,
 						//					url: "http://127.0.0.1:8020/admin/json/friend.json",
 						async: false,
 						//					dataType: "text",
