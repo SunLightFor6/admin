@@ -6,7 +6,7 @@ var IMGPATH = URL + "/lamport/upload_files";
 var jqxhr;
 $.ajaxSetup({ 
     complete:function(){
-        if("REDIRECT" == jqxhr.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+        if((jqxhr != null) && ("REDIRECT" == jqxhr.getResponseHeader("REDIRECT"))){ //若HEADER中含有REDIRECT说明后端想重定向，
             var win = window;
             while(win != win.top){
                 win = win.top;

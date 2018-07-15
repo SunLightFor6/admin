@@ -57,7 +57,7 @@
 					layer = layui.layer;
 					
 				//判断当前是否已经登录账号
-				$.ajax({
+				jqxhr = $.ajax({
 					type:"post",
 					url: PREPATH + "/login/isAnyoneLogin",
 					async:true,

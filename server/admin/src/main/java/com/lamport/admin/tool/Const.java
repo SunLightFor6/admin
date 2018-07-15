@@ -36,7 +36,8 @@ public class Const {
 
 	public static final long UselessTime = 1530000000000L;
 	
-	public static final String Path = "F:/github/upload_files";
+	public static final String Path = "D:/Users/Sun/neuedu_project/admin/upload_files";
+//	public static final String Path = "F:/github/upload_files";
 	public static final String ImgSwiperPath = "/img/swiper";
 	public static final String VideoPath = "/video";
 	public static final String ImgTeacherPath = "/img/teacher";
