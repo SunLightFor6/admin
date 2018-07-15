@@ -127,6 +127,7 @@ public class TeacherHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		qidAndPage.setQid(admin.getQid());
+		qidAndPage.setPageTool();
 		List<Teacher> teachers = teacherService.selectTeacherByQIDAndPage(qidAndPage);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);

@@ -59,8 +59,11 @@
 	<!-- 通过多条件查询FreeListen信息 -->
 	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"
 			resultType="com.lamport.admin.po.FreeListen">
-			select * from freelisten where qid=#{qid} and deletekey=0
-			limit #{pageTool.startrow}, #{pageTool.limit}
+		select * from freelisten where qid=#{qid} and deletekey=0
+		<if test="branchid != null">
+			and branchid = #{branchid}
+		</if>
+		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
 	<!-- 通过qid查询FreeListen的总数 -->
@@ -72,7 +75,7 @@
 	<!-- 通过id查询FreeListen图片存放路径 -->
 	<select id="selectFreeListenImgurlByID" parameterType="java.lang.String"
 			resultType="java.lang.String">
-			select imgurl from freelisten where id=#{id} and deletekey=0
+		select imgurl from freelisten where id=#{id} and deletekey=0
 	</select>
 
 </mapper>

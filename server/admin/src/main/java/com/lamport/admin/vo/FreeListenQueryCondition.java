@@ -9,13 +9,39 @@ import com.lamport.admin.tool.PageTool;
  */
 public class FreeListenQueryCondition {
 	private int qid;			//企业表主键
+	private int branchid;		//分部表主键
 	private String branch;		//分部名称
 	private PageTool pageTool;	//页码工具类
+	
+	private int page;
+	private int limit;
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public void setPageTool(){
+		pageTool = new PageTool(page, limit);
+	}
+	
 	public int getQid() {
 		return qid;
 	}
 	public void setQid(int qid) {
 		this.qid = qid;
+	}
+	public int getBranchid() {
+		return branchid;
+	}
+	public void setBranchid(int branchid) {
+		this.branchid = branchid;
 	}
 	public String getBranch() {
 		return branch;

@@ -100,6 +100,7 @@ public class LessonHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		lessonQueryCondition.setQid(admin.getQid());
+		lessonQueryCondition.setPageTool();
 		List<Lesson> lessons = lessonService.selectLessonByLessonQueryCondition(lessonQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);

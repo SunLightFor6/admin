@@ -41,5 +41,6 @@ public class Const {
 	public static final String VideoPath = "/video";
 	public static final String ImgTeacherPath = "/img/teacher";
 	public static final String ImgLessonPath = "/img/lesson";
+	public static final String ImgFreeListenPath = "/img/freelisten";
 	public static final String ImgMessagePath = "/img/message";
 }

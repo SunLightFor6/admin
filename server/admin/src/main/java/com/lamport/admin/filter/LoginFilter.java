@@ -23,6 +23,7 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		System.out.println(".....LoginFilter.........init()........销毁....");
 		// TODO Auto-generated method stub
 
 	}
@@ -35,6 +36,7 @@ public class LoginFilter implements Filter {
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		Admin superAdmin = (Admin)session.getAttribute("superAdmin");
+		System.out.println(((HttpServletRequest)request).getContextPath());
 		if(admin == null && superAdmin == null){
 			System.out.println("Ready to Chain");
 			chain.doFilter(request, response);
@@ -47,6 +49,7 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
+		System.out.println(".....LoginFilter.........init()........初始化....");
 		// TODO Auto-generated method stub
 
 	}

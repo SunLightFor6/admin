@@ -13,12 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.lamport.admin.mapper.AddressMapper;
-import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.FreeListen;
-import com.lamport.admin.po.Lesson;
 import com.lamport.admin.service.FreeListenService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.FreeListenQueryCondition;
 
 /**
@@ -45,7 +43,7 @@ public class FreeListenHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		freeListen.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int saveResult = freeListenService.saveFreeListen(freeListen, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);
@@ -80,7 +78,7 @@ public class FreeListenHandler {
 		System.out.println("..........FreeListenHandler..........updateFreeListenByID()..........freeListen:" + freeListen.getTitle() + " imgFile" + imgFile);
 		String result = null;
 		
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int updateResult = freeListenService.updateFreeListenByID(freeListen, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);
@@ -102,6 +100,7 @@ public class FreeListenHandler {
 		
 		Admin admin = (Admin)session.getAttribute("admin");
 		freeListenQueryCondition.setQid(admin.getQid());
+		freeListenQueryCondition.setPageTool();
 		List<FreeListen> freeListens = freeListenService.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
