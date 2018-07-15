@@ -8,8 +8,6 @@ package com.lamport.admin.tool;
 public class Const {
 	public static final String AdminJurisdiction = "管理员";
 	public static final String SuperAdminJurisdiction = "超级管理员";
-
-	public static final long UselessTime = 1530000000000L;
 	
 	public static final String LessonStatusNotStarted = "未开始";
 	public static final String LessonStatusUnderway = "进行中";
@@ -35,4 +33,13 @@ public class Const {
 
 	public static final String SwiperCategoryE = "E";
 	public static final String SwiperCategoryT = "T";
+
+	public static final long UselessTime = 1530000000000L;
+	
+	public static final String Path = "F:/github/upload_files";
+	public static final String ImgSwiperPath = "/img/swiper";
+	public static final String VideoPath = "/video";
+	public static final String ImgTeacherPath = "/img/teacher";
+	public static final String ImgLessonPath = "/img/lesson";
+	public static final String ImgMessagePath = "/img/message";
 }

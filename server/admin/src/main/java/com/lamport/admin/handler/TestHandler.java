@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -191,7 +192,7 @@ public class TestHandler {
 	
 	/********************************EnterpriseBasicInfoHandler********************************/
 	@RequestMapping(value="/test/TestUpdateEnterpriseBasicInfoByID")
-	public String testUpdateEnterpriseBasicInfoByID(HttpServletRequest request) throws Exception{
+	public String testUpdateEnterpriseBasicInfoByID(@RequestParam MultipartFile[] imgs, @RequestParam MultipartFile video, HttpServletRequest request) throws Exception{
 		System.out.println("........TestHandler...........testUpdateEnterpriseBasicInfoByID()........");
 		String result = null;
 		
@@ -199,8 +200,8 @@ public class TestHandler {
 		enterprise.setQid(2);
 		enterprise.setName("古汉文渊");
 		enterprise.setIntroduction("古汉文渊，带您领略古文之美");
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
-		int updateResult = enterpriseService.updateEnterpriseByID(enterprise, null, null, path);
+		String path = Const.Path;
+		int updateResult = enterpriseService.updateEnterpriseByID(enterprise, imgs, video, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);
 		result = jsonObject.toString();
@@ -353,7 +354,7 @@ public class TestHandler {
 
 	/********************************LessonHandler********************************/
 	@RequestMapping(value="/test/TestSaveLesson")
-	public String testSaveLesson(HttpServletRequest request) throws Exception{
+	public String testSaveLesson(MultipartFile img, HttpServletRequest request) throws Exception{
 		System.out.println("........TestHandler...........testSaveLesson()........");
 		String result = null;
 
@@ -370,8 +371,8 @@ public class TestHandler {
 		addresses.add(address);
 		lesson.setBranches(addresses);
 		
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
-		int saveResult = lessonService.saveLesson(lesson, null, path);
+		String path = Const.Path;
+		int saveResult = lessonService.saveLesson(lesson, img, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);
 		result = jsonObject.toString();
@@ -411,7 +412,7 @@ public class TestHandler {
 		addresses.add(address);
 		lesson.setBranches(addresses);
 		
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int updateResult = lessonService.updateLessonByID(lesson, null, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);
@@ -745,16 +746,22 @@ public class TestHandler {
 
 	/********************************TeacherHandler********************************/
 	@RequestMapping(value="/test/TestSaveTeacher")
-	public String testSaveTeacher(HttpServletRequest request) throws Exception{
+	public String testSaveTeacher(MultipartFile img, HttpServletRequest request) throws Exception{
 		System.out.println("........TestHandler...........testSaveTeacher()........");
 		String result = null;
 
+		if(img == null){
+			System.out.println("The File is Null!");
+		}else{
+			System.out.println("The File name is " + img.getOriginalFilename());
+		}
+		
 		Teacher teacher = new Teacher();
 		teacher.setQid(6);
 		teacher.setTname("潘");
 		teacher.setIntroduction("伟伟");
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
-		int saveResult = teacherService.saveTeacher(teacher, null, path);
+		String path = Const.Path;//存放路径
+		int saveResult = teacherService.saveTeacher(teacher, img, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);
 		result = jsonObject.toString();
@@ -874,15 +881,15 @@ public class TestHandler {
 
 	/********************************MessageHandler********************************/
 	@RequestMapping(value="/test/TestSaveMessage")
-	public String testSaveMessage(HttpServletRequest request) throws Exception{
+	public String testSaveMessage(@RequestParam MultipartFile[] imgs, HttpServletRequest request) throws Exception{
 		System.out.println("........TestHandler...........testSaveMessage()........");
 		String result = null;
 		
 		Message new_message = new Message();
 		new_message.setMtitle("潘");
 		new_message.setQid(6);
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
-		int saveResult = messageService.saveMessage(new_message, null, path);
+		String path = Const.Path;
+		int saveResult = messageService.saveMessage(new_message, imgs, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);
 		result = jsonObject.toString();

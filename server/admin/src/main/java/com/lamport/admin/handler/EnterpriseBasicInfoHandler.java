@@ -15,6 +15,7 @@ import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.EnterpriseService;
+import com.lamport.admin.tool.Const;
 
 /**
  * Controller, 进行Enterprise基本信息的修改、查询
@@ -40,7 +41,7 @@ public class EnterpriseBasicInfoHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		enterprise.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;//存储路径
 		int updateResult = enterpriseService.updateEnterpriseByID(enterprise, message_pics, video, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", updateResult);

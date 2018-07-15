@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.SwiperService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.QIDAndCategory;
 
 /**
@@ -31,12 +32,10 @@ public class SwiperServiceBean implements SwiperService {
 		List<String> imgurls = new ArrayList<String>();
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
-			File f = new File(path);
-			String ppath = f.getParent();
 			for(int i=0; i<imgs.length; i++){
 				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(ppath + "/img/swiper", filename));
-				imgurls.add(imgFiles.get(i).getPath());
+				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
+				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 			}
 			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){

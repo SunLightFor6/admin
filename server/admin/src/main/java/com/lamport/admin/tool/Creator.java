@@ -12,4 +12,12 @@ public class Creator {
 		String adminName = Long.toString(usefulTime);
 		return adminName;
 	}
+	public String createNewFilename(String originalFilename){
+		String newFilename = System.currentTimeMillis() + originalFilename;
+		return newFilename;
+	}
+	public String createFilename(){
+		String newFilename = System.currentTimeMillis() + this.toString();
+		return newFilename;
+	}
 }

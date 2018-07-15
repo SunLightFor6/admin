@@ -19,6 +19,7 @@ import com.lamport.admin.po.MessageImg;
 import com.lamport.admin.po.MessageReply;
 import com.lamport.admin.service.MessageReplyService;
 import com.lamport.admin.service.MessageService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.QIDAndPage;
 
 /**
@@ -47,7 +48,7 @@ public class MessageHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		new_message.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int saveResult = messageService.saveMessage(new_message, message_pics, path);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("reponse", saveResult);

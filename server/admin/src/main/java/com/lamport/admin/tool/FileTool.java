@@ -15,6 +15,7 @@ public class FileTool {
 	 * @return boolean
 	 */
 	public static boolean deleteFile(String fileName){
+		System.out.println("..........FileTool..........deleteFile()..........");
 		boolean result = true;
 		File file = new File(fileName);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
@@ -38,6 +39,7 @@ public class FileTool {
 	 * @return boolean
 	 */
 	public static boolean deleteFiles(String[] fileNames){
+		System.out.println("..........FileTool..........deleteFiles()..........");
 		boolean result = true;
 		int count = 0;
 		for(String fileName : fileNames){

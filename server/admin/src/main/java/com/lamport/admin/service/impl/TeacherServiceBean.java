@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.service.TeacherService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -31,11 +32,9 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(teacher_img != null){
-			File f = new File(path);
-			String ppath = f.getParent();
 			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
-			tphotoFile = new File(ppath + "/img/teacher", filename);
-			tphoto = tphotoFile.getPath();
+			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
+			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
 		teacher.setTphoto(tphoto);
 		teacher.setDeletekey(0);
@@ -63,13 +62,11 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(imgFile != null){
-			File f = new File(path);
-			String ppath = f.getParent();
 			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
-			tphotoFile = new File(ppath + "/img/teacher", filename);
-			tphoto = tphotoFile.getPath();
+			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
+			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
-		String oldTphoto = teacherMapper.selectTeacherTphotoByID(teacher.getTid());
+		String oldTphoto = path + teacherMapper.selectTeacherTphotoByID(teacher.getTid());//默认为图片存储路径没有修改过
 		teacher.setTphoto(tphoto);
 		updateResult = teacherMapper.updateTeacherByID(teacher);
 		if(tphoto != null){
