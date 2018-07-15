@@ -8,6 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lamport.admin.po.Admin;
+import com.lamport.admin.tool.Const;
 
 /**
  * 拦截器，判断超级管理员是否登陆
@@ -54,7 +55,7 @@ public class SuperAdminInterceptor implements HandlerInterceptor {
 	public void reDirectAdmin(HttpServletRequest request, HttpServletResponse response, String path) throws Exception{
 		System.out.println("..........SuperAdminInterceptor..........reDirect()..........");
         //获取当前请求的路径
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":"  + request.getServerPort()+request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":"  + request.getServerPort() + Const.redirectPath;
         System.out.println(basePath);
         //如果request.getHeader("X-Requested-With") 返回的是"XMLHttpRequest"说明就是ajax请求，需要特殊处理
         if("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
@@ -64,7 +65,7 @@ public class SuperAdminInterceptor implements HandlerInterceptor {
             response.setHeader("CONTENTPATH", basePath + path);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }else{
-            response.sendRedirect(basePath + "/login.html");
+            response.sendRedirect(basePath + path);
         }
 	}
 }

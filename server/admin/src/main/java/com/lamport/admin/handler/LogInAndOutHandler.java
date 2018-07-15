@@ -38,7 +38,7 @@ public class LogInAndOutHandler {
 		
 		//既然interceptor放行，说明没有用户登录
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", 1);
+		jsonObject.addProperty("response", 0);
 		result = jsonObject.toString();
 		
 		return result;
