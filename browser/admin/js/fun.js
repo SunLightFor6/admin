@@ -3,6 +3,7 @@ var URL = "http://localhost:8080";
 var IMGPATH = URL + "/lamport/upload_files";
 
  //设置ajax请求完成后运行的函数,
+var jqxhr;
 $.ajaxSetup({ 
     complete:function(){
         if("REDIRECT" == jqxhr.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，

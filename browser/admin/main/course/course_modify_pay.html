@@ -149,7 +149,7 @@
 			formData.append("category", $('#categories_s option:selected'));
 			formData.append("branchs", branch);
 
-			$.ajax({
+			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updateLessonByID",
 				async: true,

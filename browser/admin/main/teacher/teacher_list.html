@@ -72,7 +72,7 @@
 			var data = obj.data;
 			if(obj.event === 'del') {
 				layer.confirm('确认真的删除', function(index) {
-					$.ajax({
+					jqxhr = $.ajax({
 						type:"post",
 						url: PREPATH + "/admin/deleteTeacherLogicallyByID?id=" + data.id,
 						async:true,

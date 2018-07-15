@@ -109,7 +109,7 @@
 				var formData = new FormData($('#branch-info')[0]);
 				formData.append("longitude", longi);
 				formData.append("latitude", lati);
-				$.ajax({
+				jqxhr = $.ajax({
 					type: "post",
 					url: PREPATH + "/admin/saveBranch",
 					async: true,

@@ -85,7 +85,7 @@
 			var formData = new FormData();
 			formData.append("mtitle", $('#title')[0]);
 			formData.append("message_pics", message_pics);
-			$.ajax({
+			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "",
 				async: true,

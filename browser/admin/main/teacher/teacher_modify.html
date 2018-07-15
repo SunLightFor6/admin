@@ -75,7 +75,7 @@
 		var formData = new FormData($("#teacher_form")[0]);
 		formData.append("tid", sessionStorage.getItem("id"));
 		formData.append("teacher_img", teacher_img);
-		$.ajax({
+		jqxhr = $.ajax({
 			type: "post",
 			url: PREPATH + "/admin/updateTeacherByID",
 			async: true,

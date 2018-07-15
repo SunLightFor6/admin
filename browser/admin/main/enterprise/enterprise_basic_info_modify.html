@@ -152,7 +152,7 @@
 			formData.append("message_pics", message_pics);
 			formData.append("video", video);
 			formData.append("jczs", um_free.getContent());
-			$.ajax({
+			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updateBranchByID",
 				async: true,
