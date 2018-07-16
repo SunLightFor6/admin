@@ -89,7 +89,7 @@ public class LogInAndOutHandler {
 	 * 进行admin的退出
 	 * @return String
 	 */
-	@RequestMapping(value="/login/adminLogout")
+	@RequestMapping(value="/logout/adminLogout")
 	@ResponseBody
 	public String adminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........adminLogout()..........");
@@ -148,7 +148,7 @@ public class LogInAndOutHandler {
 	 * 进行superAdmin的退出
 	 * @return String
 	 */
-	@RequestMapping(value="/login/superAdminLogout")
+	@RequestMapping(value="/logout/superAdminLogout")
 	@ResponseBody
 	public String superAdminLogout(HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........superAdminLogout()..........");
