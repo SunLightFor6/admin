@@ -9,7 +9,7 @@
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
 //						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-						jqxhr = jqxhr = jqxhr = $.ajax({
+						jqxhr = $.ajax({
 									type: "get",
 									url: PREPATH + "/admin/selectTeacherSwiperByQID",
 									async: true,
@@ -28,14 +28,33 @@
 			<p class="form-label">上传轮播图</p>
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-btn-primary" id="uploadpics">选择图片</button>
-				<blockquote id="teacher_pic" class="layui-elem-quote layui-quote-nm" style="display: none; margin-top: 10px;">
+				<!--<blockquote id="teacher_pic" class="layui-elem-quote layui-quote-nm" style="display: none; margin-top: 10px;">
+					<!--预览图：-->
+					<!--<div class="layui-upload-list" id="pics">-->
+					<!--<div id="pics" style="clear:both;"></div>	
+						
+						
+					<!--</div>-->
+				<!--</blockquote>-->
+			
+			<blockquote id="teacher_pic" class="layui-elem-quote layui-quote-nm" style="display:none; margin-top: 10px;">
+		<!--<blockquote id="teacher_pic" class="layui-elem-quote layui-quote-nm" style="display: none; margin-top: 10px;">-->
 					预览图：
-					<div class="layui-upload-list" id="pics"></div>
+					<div class="layui-upload-list" id="pics">
+					<div id="pics"></div>	
+						
+						
+					</div>
 				</blockquote>
+			
+			
 			</div>
 			<p class="form-label"></p>
 			<button type="button" id="submit_t_pics" class="layui-btn">确定更新轮播图</button>
 		</form>
+		
+		
+				
 	</div>
 </div>
 
@@ -67,7 +86,11 @@
 				obj.preview(function(index, file, result) {
 					imgs.push(file);
 					pics_map.set(index, file);
-					$('#pics').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+//					$('#pics').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+//						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 150px; width: 240px">')
+					$('#pics').append(
+//						'<img src="' + result + '" class="layui-upload-img" style="height: 150px; width: 240px" />'
+						
 						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img" style="height: 150px; width: 240px">')
 
 					$('#b_' + index).click(function() {
