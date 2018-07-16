@@ -59,7 +59,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public int saveEnterprise(Enterprise enterprise) throws Exception {
-		System.out.println("..........AddressServiceBean..........saveEnterprise()..........");
+		System.out.println("..........EnterpriseServiceBean..........saveEnterprise()..........");
 
 		int saveResult = 1;
 		
@@ -79,7 +79,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public int deleteEnterpriseLogicallyByID(int id) throws Exception {
-		System.out.println("..........AddressServiceBean..........deleteEnterpriseLogicallyByID()..........");
+		System.out.println("..........EnterpriseServiceBean..........deleteEnterpriseLogicallyByID()..........");
 
 		int result = 1;
 		
@@ -93,13 +93,14 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		userMapper.deleteUserLogicallyByQID(id);
 		messageMapper.deleteMessageLogicallyByQID(id);
 		result *= enterpriseMapper.deleteEnterpriseLogicallyByID(id);
+		result = result > 0 ? 1 : 0;
 		
 		return result;
 	}
 
 	@Override
 	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] imgs, MultipartFile video, String path) throws Exception {
-		System.out.println("..........AddressServiceBean..........updateEnterpriseByID()..........");
+		System.out.println("..........EnterpriseServiceBean..........updateEnterpriseByID()..........");
 		int updateResult = 1;
 		
 		QIDAndCategory qidAndCategory = new QIDAndCategory();
@@ -150,7 +151,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public Enterprise selectEnterpriseByQID(int qid) throws Exception {
-		System.out.println("..........AddressServiceBean..........selectEnterpriseByQID()..........");
+		System.out.println("..........EnterpriseServiceBean..........selectEnterpriseByQID()..........");
 
 		Enterprise enterprise = null;
 
@@ -166,7 +167,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 	@Override
 	public List<Enterprise> selectEnterpriseByPage(PageTool pageTool) throws Exception {
-		System.out.println("..........AddressServiceBean..........selectEnterpriseByPage()..........");
+		System.out.println("..........EnterpriseServiceBean..........selectEnterpriseByPage()..........");
 
 		List<Enterprise> enterprises = null;
 		

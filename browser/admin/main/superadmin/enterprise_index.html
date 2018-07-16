@@ -47,7 +47,7 @@
 				<div class="layui-row">
 					<div class="layui-col-md2">&nbsp;</div>
 					<div class="layui-col-md8">
-						<table class="layui-hide" id="enter-list" lay-filter="enter-list"></table>
+						<table class="layui-hide" id="enter-list" lay-data="{id: 'enter-list'}" lay-filter="enter-list"></table>
 					</div>
 					<div class="layui-col-md2">&nbsp;</div>
 				</div>
@@ -119,7 +119,7 @@
 				table.on('tool(enter-list)', function(obj) {
 					var data = obj.data;
 					if(obj.event === 'del') {
-						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {
+						layer.confirm('确认删除企业' + data.admin + " (" + data.enterprie + ')?' + '<br>删除之后会删除企业及其所有信息！', {
 							icon: 3,
 							title: '',
 							closeBtn: false
@@ -173,17 +173,25 @@
 						layer.open({
 							type: 0,
 							btn: '确定',
+							yes: function(index, layero) {
+								layui.use('table', function() {
+									var table = layui.table;
+									table.reload('enter-list', {
+										url: PREPATH + "/superadmin/selectEnterpriseByPage",
+										page: {
+											curr: 1 //重新从第 1 页开始
+										},
+										dataType: 'jsonp',
+										skin: 'nob',
+									});
+								});
+								layer.close(index)
+							},
 							title: "新的企业账号创建成功",
 							icon: 6,
 							closeBtn: 0,
 							shadeClose: true,
 							content: '企业id：' + data.qid + '<br>企业管理员账号：' + data.admincount
-						});
-						layui.use('table', function() {
-							var table = layui.table;
-							table.reload('#enter-list', {
-								url: PREPATH + "/superadmin/saveEnterprise",
-							});
 						});
 					}
 				});
