@@ -44,7 +44,7 @@ public class EnterpriseBasicInfoHandler {
 		String path = Const.Path;//存储路径
 		int updateResult = enterpriseService.updateEnterpriseByID(enterprise, message_pics, video, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("response", updateResult);
 		result = jsonObject.toString();
 		
 		return result;

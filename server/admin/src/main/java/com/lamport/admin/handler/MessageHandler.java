@@ -51,7 +51,7 @@ public class MessageHandler {
 		String path = Const.Path;
 		int saveResult = messageService.saveMessage(new_message, message_pics, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", saveResult);
+		jsonObject.addProperty("response", saveResult);
 		result = jsonObject.toString();
 		
 		return result;

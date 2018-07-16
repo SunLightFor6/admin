@@ -15,5 +15,14 @@ Teacher
 								图片预览  报错:8080/lamport/upload_files/img/swiper/153164918658611.jpg:1 GET localhost:8080/lamport/upload_files/img/swiper/153164918658611.jpg 0 ()
 					--> 路径前加 http://
 	！！			这里注意图片展示的所有路径 src=' + IMGPATH + value
-	3. #33 新增讲师信息
-			
+	3. #33 新增讲师信息		
+				<script id="imgTpl" type="text/html">
+					<div><img src="{{IMGPATH}}{{ d.teacherimg }}"></div>
+				</script>
+	#34修改讲师信息   通过
+
+课程管理
+-	# 课程列表  大问题
+	# 新建课程  通过
+预约
+fid = parseInt(('#fid').val());	

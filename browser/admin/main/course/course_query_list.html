@@ -86,7 +86,8 @@
 		//初始加载正是精品课 全部分部
 		table.render({
 			elem: '#course_list',
-			url: PREPATH + '/admin/selectLessonByLessonQueryCondition',
+			url: PREPATH + '/admin/selectLessonByLessonQueryCondition?branch=""',
+			method: "post",
 			skin: 'nob',
 			cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 			id: 'table-content',
@@ -142,7 +143,8 @@
 			if(course_cat == "免费试听课") {
 				table.render({
 					elem: '#course_list',
-					url: PREPATH + '/admin/selectFreeListenByFreeListenQueryCondition',
+					url: PREPATH + '/admin/selectFreeListenByFreeListenQueryCondition?branch=""',
+					method: "post",
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 					id: 'table-content',
@@ -187,7 +189,8 @@
 			} else if(course_cat == "正式精品课") {
 				table.render({
 					elem: '#course_list',
-					url: PREPATH + '/admin/selectLessonByLessonQueryCondition',
+					url: PREPATH + '/admin/selectLessonByLessonQueryCondition?branch=""',
+					method: "post",
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -248,6 +251,7 @@
 				table.render({
 					elem: '#course_list',
 					url: PREPATH + '/admin/selectFreeListenByFreeListenQueryCondition?branch=' + branch_sel,
+					method: "post",
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -294,6 +298,7 @@
 				table.render({
 					elem: '#course_list',
 					url: PREPATH + '/admin/selectLessonByLessonQueryCondition?branch=' + branch_sel,
+					method: "post",
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -349,75 +354,83 @@
 				}
 			} else if(obj.event === 'del') {
 				if(course_cat == "免费试听课") {
-					layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
-					jqxhr = $.ajax({
-						type: "post",
-						url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
-						async: true,
-						success: function(data) {
-							if(data.response == "1") {
-								layer.open({
-									type: 0,
-									btn: false,
-									title: false,
-									icon: 1,
-									closeBtn: 0,
-									shadeClose: true,
-									time: 1500,
-									content: '删除成功！'
-								});
-								obj.del();
-							} else if(data.response == "0") {
-								layer.open({
-									type: 0,
-									btn: false,
-									title: false,
-									icon: 2,
-									closeBtn: 0,
-									shadeClose: true,
-									time: 1500,
-									content: '删除失败，请稍后重试或联系系统管理员！'
-								});
+					layer.confirm('确认删除课程' + data.coursename + '?', {
+						icon: 3,
+						title: '',
+						closeBtn: false
+					}, function(index) {
+						jqxhr = $.ajax({
+							type: "post",
+							url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
+							async: true,
+							success: function(data) {
+								if(data.response == "1") {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 1,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 1500,
+										content: '删除成功！'
+									});
+									obj.del();
+								} else if(data.response == "0") {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 2,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 1500,
+										content: '删除失败，请稍后重试或联系系统管理员！'
+									});
+								}
 							}
-						}
+						});
+						layer.close(index);
 					});
-					layer.close(index);
-				});
 				} else if(course_cat == "正式精品课") {
-				layer.confirm('确认删除课程' + data.coursename + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
-					jqxhr = $.ajax({
-						type: "post",
-						url: PREPATH + "/admin/deleteLessonByID?id=" + data.courseid,
-						async: true,
-						success: function(data) {
-							if(data.response == "1") {
-								layer.open({
-									type: 0,
-									btn: false,
-									title: false,
-									icon: 1,
-									closeBtn: 0,
-									shadeClose: true,
-									time: 1500,
-									content: '删除成功！'
-								});
-								obj.del();
-							} else if(data.response == "0") {
-								layer.open({
-									type: 0,
-									btn: false,
-									title: false,
-									icon: 2,
-									closeBtn: 0,
-									shadeClose: true,
-									time: 1500,
-									content: '删除失败，请稍后重试或联系系统管理员！'
-								});
+					layer.confirm('确认删除课程' + data.coursename + '?', {
+						icon: 3,
+						title: '',
+						closeBtn: false
+					}, function(index) {
+						jqxhr = $.ajax({
+							type: "post",
+							url: PREPATH + "/admin/deleteLessonByID?id=" + data.courseid,
+							async: true,
+							success: function(data) {
+								if(data.response == "1") {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 1,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 1500,
+										content: '删除成功！'
+									});
+									obj.del();
+								} else if(data.response == "0") {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 2,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 1500,
+										content: '删除失败，请稍后重试或联系系统管理员！'
+									});
+								}
 							}
-						}
+						});
+						layer.close(index);
 					});
-					layer.close(index);
-				});
 				}
 			} else if(obj.event === 'edit') {
 				if(course_cat == "免费试听课") {

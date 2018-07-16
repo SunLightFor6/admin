@@ -56,9 +56,9 @@
 				,
 			cols: [
 				[{
-					field: 'bookcourseid',
+					field: 'freelistenid',
 					width: '10%',
-					title: '课程编号',
+					title: '课程id',
 					sort: true
 				}, {
 					field: 'bookcoursename',
@@ -120,14 +120,13 @@
 				//				layer.msg('ID：' + data.id + ' 的查看操作'); //在这里跳入查看界面
 				layer.open({
 					title: '确认预约处理',
-					content: '预约课程编号：' + data.bookcourseid + '\n用户：' + data.usernickname + '\n留言：' + data.message,
-					,
+					content: '预约课程编号：' + data.freelistenid + '\n用户：' + data.usernickname + '\n留言：' + data.message,
 					btn: ['确认处理', '取消'],
 					yes: function(index, layero) {
 						//按钮【按钮一】的回调
 						jqxhr = $.ajax({
 							type: "post",
-							url: PREPATH + "/admin/processFreeListenBookByID?id=" + data.bookid,
+							url: PREPATH + "/admin/processFreeListenBookByID?id=" + data.bookcourseid,
 							async: true,
 							success: function(data) {
 								if(data == 1) {

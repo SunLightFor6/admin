@@ -38,13 +38,13 @@
 		<if test="fid != 0">
 			and b.fid = #{fid}
 		</if>
-		<if test="status != null">
+		<if test="status != null and status != ''">
 			and b.status = #{status}
 		</if>
-		<if test="beginTime != null">
+		<if test="beginTime != null and beginTime != ''">
 			and b.booktime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
 		</if>
-		<if test="endTime != null">
+		<if test="endTime != null and endTime != ''">
 			and b.booktime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
 		</if>
 		limit #{pageTool.startrow},#{pageTool.limit}
