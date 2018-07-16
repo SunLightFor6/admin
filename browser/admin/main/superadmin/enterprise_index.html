@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="../../css/style.css">
 		<script type="text/javascript" charset="UTF-8" src="../../js/jquery-3.2.1.min.js"></script>
 		<script src="../../layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../js/fun.js"></script>
 	</head>
 
 	<body class="layui-layout-body">
@@ -76,8 +77,8 @@
 
 				table.render({
 					elem: '#enter-list',
-//					url: PREPATH + '/superadmin/selectEnterpriseByPage',
-										teacherimg: '../../json/admin.json',
+					url: PREPATH + '/superadmin/selectEnterpriseByPage',
+					//										teacherimg: '../../json/admin.json',
 					dataType: 'jsonp',
 					skin: 'nob',
 					cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -118,11 +119,16 @@
 				table.on('tool(enter-list)', function(obj) {
 					var data = obj.data;
 					if(obj.event === 'del') {
-						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {icon: 3, title:'', closeBtn: false}, function(index) {
+						layer.confirm('确认删除企业' + data.enterprie + '?' + '<br>删除之后会删除企业及其所有信息！', {
+							icon: 3,
+							title: '',
+							closeBtn: false
+						}, function(index) {
 							jqxhr = $.ajax({
 								type: "post",
 								url: PREPATH + "/superadmin/deleteEnterpriseLogicallyByID?id=" + data.id,
 								async: true,
+								dataType: "json",
 								success: function(data) {
 									if(data.response == "1") {
 										layer.open({
@@ -156,12 +162,13 @@
 				});
 
 			});
-			
+
 			function addEnterprise() {
 				jqxhr = $.ajax({
-					type:"post",
+					type: "post",
 					url: PREPATH + "/superadmin/saveEnterprise",
-					async:true,
+					async: true,
+					dataType: "json",
 					success: function(data) {
 						layer.open({
 							type: 0,
@@ -172,22 +179,23 @@
 							shadeClose: true,
 							content: '企业id：' + data.qid + '<br>企业管理员账号：' + data.admincount
 						});
-						table.render();
+						//						table.render();
 					}
 				});
 			}
-			
+
 			function logout() {
 				jqxhr = $.ajax({
-					type:"post",
+					type: "post",
 					url: PREPATH + "/login/superAdminLogout",
-					async:true,
+					async: true,
+					dataType: "json",
 					success: function(data) {
 						if(data.response == "1") {
-							window.location.href = "../login.html";
+							window.location.href = "../../login.html";
 						} else {
+							window.location.href = "../../login.html";
 							console.log("超级管理员退出登录异常，建议重启浏览器");
-							window.location.href = "../login.html";
 						}
 					}
 				});

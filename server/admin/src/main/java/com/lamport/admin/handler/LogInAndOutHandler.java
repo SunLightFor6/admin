@@ -112,9 +112,9 @@ public class LogInAndOutHandler {
 	public String superAdminLogin(Admin superAdmin, HttpServletRequest request) throws Exception{
 		System.out.println("..........LoginHandler..........superAdminLogin()..........superAdmin = " + superAdmin.getAdminname());
 		String result = null;
-
+		
 		JsonObject jsonObject = new JsonObject();
-		int loginResult = loginService.isAdminLoginSuccessful(superAdmin);
+		int loginResult = loginService.isSuperAdminLoginSuccessful(superAdmin);
 		switch(loginResult){
 		case -2:
 			jsonObject.addProperty("status", "fail");
