@@ -95,12 +95,58 @@
 		});
 
 		$("#book_handle_btn").click(function() {
-			fid = $('#fid').val();
+			fid = $('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0;
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
 			nickname = $('#nickname').val();
 			console.log("fid=" + fid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
-			table.render();
+			table.render({
+				elem: '#book_handle_list',
+				url: PREPATH + '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&status=' + status + '&beginTime=' + beginTime + '&endTime=' + endTime,
+				dataType: 'jsonp',
+				skin: 'nob',
+				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					,
+				cols: [
+					[{
+						field: 'freelistenid',
+						width: '10%',
+						title: '课程id',
+						sort: true
+					}, {
+						field: 'bookcoursename',
+						width: '15%',
+						title: '课程标题'
+					}, {
+						field: 'usernickname',
+						width: '10%',
+						title: '用户昵称',
+						sort: true
+					}, {
+						field: 'usertel',
+						width: '10%',
+						title: '用户电话'
+					}, {
+						field: 'bookstatus',
+						width: '10%',
+						title: '预约状态'
+					}, {
+						field: 'booktime',
+						width: '18%',
+						title: '预约时间'
+					}, {
+						field: 'message',
+						width: '16%',
+						title: '留言'
+					}, {
+						width: '11%',
+						align: 'center',
+						toolbar: '#barDemo'
+					}]
+				],
+				page: true
+			});
+
 		});
 
 	});

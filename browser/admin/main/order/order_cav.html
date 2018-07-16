@@ -42,8 +42,8 @@
 		table.render({
 			elem: '#cav_query',
 			url: PREPATH + "/admin/selectSorderUnverifiedBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
-		
-		dataType: 'jsonp',
+
+			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 				,
@@ -139,7 +139,6 @@
 				layer.open({
 					title: '确认订单核销',
 					content: '订单编号：' + data.oid + '\n用户：' + data.usernickname + '\n实际付款:' + data.actual + '\n交易流水号：' + data.transactionid,
-					,
 					btn: ['确认处理', '取消'],
 					yes: function(index, layero) {
 						//按钮【按钮一】的回调

@@ -134,22 +134,15 @@
 					console.log("---当前页：" + page);
 					jqxhr = $.ajax({
 						type: "get",
-//						url: PREPATH + "../../json/friend.json?page=" + page,
 						url: PREPATH + "/admin/selectMessageByQIDAndPage?page=" + page,
-						//					url: "http://127.0.0.1:8020/admin/json/friend.json",
 						async: false,
-						//					dataType: "text",
 						dataType: "json",
-						//					contentType: 'application/json',
 						success: function(data) {
 							var innerHtml = "";
 							var messages = data.messages;
 							var length = 0;
 							var old = friendpicsdiv_num;
-							//						console.log(data);	
 							for(var d in messages) {
-								//					console.log("--------------------------");
-								//					console.log(data[d]);
 								friendpicsdiv_num++;
 								console.log("-----friendpicsdiv_num = " + friendpicsdiv_num);
 								var imgs_content = '<div id="friendpics' + friendpicsdiv_num + '">';
@@ -157,7 +150,7 @@
 								var img_class = 'messagelist-imgs' + imgurls.length;
 								var num = numperrow(imgurls.length);
 								for(var i in imgurls) {
-									imgs_content += '<span class="' + img_class + '" style="background-image: url(' + imgurls[i] + ');"><img src="' + imgurls[i] + '" style="opacity: 0;" /></span>';
+									imgs_content += '<span class="' + img_class + '" style="background-image: url(' + IMGPATH + imgurls[i] + ');"><img src="' + IMGPATH + imgurls[i] + '" style="opacity: 0;" /></span>';
 									//								imgs_content += '<span class="' + img_class + '"><img src="' + imgurls[i] + '" /></span>';
 									//								imgs_content += '<div style="background-image: url(' + imgurls[i] + ');"></div>';
 									if((i + 1) % num == 0) {
