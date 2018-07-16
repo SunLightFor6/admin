@@ -81,7 +81,7 @@
 				form.verify({
 					admin: function(value, item) { //value：表单的值、item：表单的DOM对象
 						if(!new RegExp("^[0-9]+$").test(value)) {
-							if(!(value === "sadmin")) {
+							if(!(value === "adminadmin")) {
 								return '企业管理员用户名只能是数字';
 							}
 						}
@@ -96,14 +96,15 @@
 				
 				form.on('submit(super)', function(data) {
 					var formData = new FormData($('#login_form')[0]);
+					console.log(formData.get("adminname"));
 					$.ajax({
 						type: "post",
 						url: PREPATH + "/login/superAdminLogin",
-						async: false,
+						async: true,
 						data: formData,
 						dataType: "json",
 						processData: false,
-						contentType: "application/json",
+						contentType: false,
 						success: function(data, textStatus) {
 							console.log("success data: ");
 							console.log(data);
