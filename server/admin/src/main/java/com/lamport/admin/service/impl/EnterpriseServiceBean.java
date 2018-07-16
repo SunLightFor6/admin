@@ -110,7 +110,9 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+				Creator creator = new Creator();
+				String filename = creator.createFilename();
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
 				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 			}
@@ -128,7 +130,9 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		String videoPath = null;
 		File videoFile = null;
 		if(video != null){
-			String filename = System.currentTimeMillis() + video.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + video.getOriginalFilename();
 			videoFile = new File(path + Const.VideoPath, filename);
 			videoPath = Const.VideoPath + "/" + filename;
 		}

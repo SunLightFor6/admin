@@ -72,6 +72,19 @@
 		select count(*) from freelisten where qid = #{qid} and deletekey=0
 	</select>
 
+	<!-- 通过多条件查询满足条件的FreeListen的总数 -->
+	<select id="selectCountFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"
+			resultType="int">
+		select count(*) from freelisten where qid=#{qid} and deletekey=0
+		<if test="branchid != 0">
+			and branchid = #{branchid}
+		</if>
+	</select>
+
+
+
+
+
 	<!-- 通过id查询FreeListen图片存放路径 -->
 	<select id="selectFreeListenImgurlByID" parameterType="java.lang.String"
 			resultType="java.lang.String">

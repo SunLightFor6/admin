@@ -34,6 +34,13 @@ public interface LessonBranchMapper {
 	 */
 	public int deleteLessonBranchLogicallyByBranchID(int branchid) throws Exception;
 	/**
+	 * 通过qid查询LessonBranch的信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<LessonBranch> selectLessonBranchByQID(int qid) throws Exception;
+	/**
 	 * 通过branchid查询lid
 	 * @param branchid
 	 * @return List
@@ -67,4 +74,11 @@ public interface LessonBranchMapper {
 	 * @throws Exception
 	 */
 	public int selectCountLessonBranchByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过qid查询LessonBranch的条数
+	 * @param qid
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountLessonBranchByQID(int qid) throws Exception;
 }

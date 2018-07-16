@@ -33,7 +33,7 @@
 </script>
 <script>
 	var currentpage = 1;
-	var oid = "";
+	var oid = 0;
 	var beginTime = "";
 	var endTime = "";
 	layui.use('table', function() {
@@ -96,7 +96,7 @@
 <script>
 	$("#order_cav_btn").click(function() {
 		console.log("$(#order_cav_btn).click");
-		oid = $('#oid').val();
+		oid = $('#oid').val() != null && $('#oid').val() != "" ? parseInt($('#oid').val()) : 0;
 		beginTime = $('#beginTime').val();
 		endTime = $('#endTime').val();
 		console.log("oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);

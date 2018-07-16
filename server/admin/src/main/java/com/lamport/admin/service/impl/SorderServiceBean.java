@@ -50,7 +50,7 @@ public class SorderServiceBean implements SorderService {
 
 		List<Sorder> sorders = null;
 		
-		int count = sorderMapper.selectCountSorderByQID(sorderQueryCondition.getOid());
+		int count = sorderMapper.selectCountSorderBySorderQueryCondition(sorderQueryCondition);
 		sorderQueryCondition.getPageTool().setCount(count);
 		sorders = sorderMapper.selectSorderBySorderQueryCondition(sorderQueryCondition);
 		

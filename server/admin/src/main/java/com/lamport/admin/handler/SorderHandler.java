@@ -80,13 +80,14 @@ public class SorderHandler {
 	@RequestMapping(value="/admin/selectSorderBySorderQueryCondition")
 	@ResponseBody
 	public String selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
-		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........sorderQueryCondition:" + sorderQueryCondition.getStatus() + " " + sorderQueryCondition.getBeginTime() + " " + sorderQueryCondition.getEndTime());
+		System.out.println("..........SorderHandler..........selectSorderBySorderQueryCondition()..........sorderQueryCondition:" +sorderQueryCondition.getOid()+"\t" + sorderQueryCondition.getStatus() + "\t" + sorderQueryCondition.getBeginTime() + "\t" + sorderQueryCondition.getEndTime());
 		String result = null;
 		
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
-		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setQid(admin.getQid());
 		sorderQueryCondition.setPageTool();
+		
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
@@ -117,13 +118,13 @@ public class SorderHandler {
 	 */
 	@RequestMapping(value="/admin/selectRefundBySorderQueryCondition")
 	@ResponseBody
-	public String selectselectRefundBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
+	public String selectRefundBySorderQueryCondition(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition()..........sorderQueryCondition:" + sorderQueryCondition.getStatus() + " " + sorderQueryCondition.getBeginTime() + " " + sorderQueryCondition.getEndTime());
 		String result = null;
 
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
-		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setQid(admin.getQid());
 		sorderQueryCondition.setStatus(Const.SorderStatusRefunding);
 		sorderQueryCondition.setPageTool();
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
@@ -162,7 +163,7 @@ public class SorderHandler {
 		
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
-		sorderQueryCondition.setOid(admin.getQid());
+		sorderQueryCondition.setQid(admin.getQid());
 		sorderQueryCondition.setStatus(Const.SorderStatusPayed);
 		sorderQueryCondition.setPageTool();
 		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);

@@ -19,7 +19,11 @@ public class Lesson {
 	private String pubtime;		//课程发布时间
 	private int deletekey;		//删除键
 	
-	private List<Address> branches;//分部
+	private List<Address> branches;//所有分部
+	/**
+	 * 具体的一个分部
+	 */
+	private Address address;//某一分部
 
 	public int getQid() {
 		return qid;
@@ -86,5 +90,15 @@ public class Lesson {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	/**
+	 * 具体的一个分部， 慎用，容易抛出空指针异常
+	 * @return Address
+	 */
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

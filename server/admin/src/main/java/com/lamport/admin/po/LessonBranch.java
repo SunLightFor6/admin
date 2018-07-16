@@ -11,6 +11,8 @@ public class LessonBranch {
 	private int id;			//主键
 	private int deletekey;	//删除键
 	
+	private Lesson lesson;//课程
+	
 	public int getLid() {
 		return lid;
 	}
@@ -34,5 +36,11 @@ public class LessonBranch {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	public Lesson getLesson() {
+		return lesson;
+	}
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
 	}
 }

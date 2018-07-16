@@ -11,6 +11,7 @@ import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.service.TeacherService;
 import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -34,7 +35,9 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(teacher_img != null){
-			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
 			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
 			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
@@ -68,7 +71,9 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(imgFile != null){
-			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
 			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
 			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
