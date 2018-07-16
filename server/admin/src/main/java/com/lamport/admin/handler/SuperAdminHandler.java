@@ -72,6 +72,7 @@ public class SuperAdminHandler {
 		System.out.println("..........SuperAdminHandler..........selectEnterpriseByPage()..........pageTool:" + pageTool.getPage() + " " + pageTool.getLimit());
 		String result = null;
 		
+		pageTool.init();
 		List<Enterprise> enterprises = enterpriseService.selectEnterpriseByPage(pageTool);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("code", 0);
