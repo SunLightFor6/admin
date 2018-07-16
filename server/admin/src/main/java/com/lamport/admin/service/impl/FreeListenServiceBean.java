@@ -99,6 +99,8 @@ public class FreeListenServiceBean implements FreeListenService {
 
 		QIDAndBranch qidAndBranch = new QIDAndBranch();
 		qidAndBranch.setQid(freeListenQueryCondition.getQid());
+		int count = freeListenMapper.selectCountFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+		freeListenQueryCondition.getPageTool().setCount(count);
 		
 		if(freeListenQueryCondition.getBranch()==null || freeListenQueryCondition.getBranch().equals("")){
 			freeListenQueryCondition.setBranch(null);

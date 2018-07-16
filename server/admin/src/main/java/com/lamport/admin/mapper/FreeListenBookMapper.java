@@ -38,4 +38,11 @@ public interface FreeListenBookMapper {
 	 * @throws Exception
 	 */
 	public int selectCountFreeListenBookByQID(int qid) throws Exception;
+	/**
+	 * 通过BookQueryCondition查询FreeListenBook信息
+	 * @param bookQueryCondition
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition) throws Exception;
 }

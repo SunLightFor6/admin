@@ -57,6 +57,13 @@ public interface FreeListenMapper {
 	 */
 	public int selectCountFreeListenByQID(int qid) throws Exception;
 	/**
+	 * 通过多条件查询满足条件的FreeListen的总数
+	 * @param freeListenQueryCondition
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition) throws Exception;
+	/**
 	 * 通过id查询FreeListen图片存放路径
 	 * @param id
 	 * @return String imgurl

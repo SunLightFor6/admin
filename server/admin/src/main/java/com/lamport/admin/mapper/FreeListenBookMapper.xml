@@ -60,5 +60,28 @@
 		freelisten f join freelistenbook fb on f.id = fb.fid
 		where qid = #{qid} and fb.deletekey=0
 	</select>
-
+	
+	<!-- 通过BookQueryCondition查询FreeListenBook信息 -->
+	<select id="selectCountFreeListenBookByBookQueryCondition" parameterType="com.lamport.admin.vo.BookQueryCondition"
+			resultType="int">
+		select count(*) from freelistenbook b left join freelisten f on f.id= b.fid
+		where f.deletekey = 0 and b.deletekey = 0 and f.qid = #{qid} 
+		<if test="fid != 0">
+			and b.fid = #{fid}
+		</if>
+		<if test="nickname != null and nickname != ''">
+			and username = #{nickname}
+		</if>
+		<if test="status != null and status != ''">
+			and b.status = #{status}
+		</if>
+		<if test="beginTime != null and beginTime != ''">
+			and b.booktime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and b.booktime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+	</select>
+	
+	
 </mapper>

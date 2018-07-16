@@ -21,6 +21,7 @@ import com.lamport.admin.po.MessageReply;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.MessageService;
 import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.vo.QIDAndCategory;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -56,7 +57,9 @@ public class MessageServiceBean implements MessageService {
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+				Creator creator = new Creator();
+				String filename = creator.createFilename();
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgMessagePath, filename));
 				imgurls.add( Const.ImgMessagePath + "/" + filename);
 			}
@@ -96,7 +99,8 @@ public class MessageServiceBean implements MessageService {
 		System.out.println("..........MessageServiceBean..........selectMessageByQIDAndPage()..........");
 
 		List<Message> messages = null;
-
+		int count = messageMapper.selectCountMessageByQID(qidAndPage.getQid());
+		qidAndPage.getPageTool().setCount(count);
 		messages = messageMapper.selectMessageByQIDAndPage(qidAndPage);
 		Enterprise enterprise = enterpriseMapper.selectEnterpriseByQID(qidAndPage.getQid());
 		QIDAndCategory qidAndCategory = new QIDAndCategory();
@@ -104,7 +108,9 @@ public class MessageServiceBean implements MessageService {
 		qidAndCategory.setCategory(Const.SwiperCategoryE);
 		List<Swiper> swipers = swiperMapper.selectSwiperByQIDAndCategory(qidAndCategory);
 		for(Message message : messages){
+			List<MessageImg> imgs = messageImgMapper.selectMessageImgByMID(message.getMid());
 			List<MessageReply> replies = messageReplyMapper.selectMessageReplyByMID(message.getMid());
+			message.setImgs(imgs);
 			message.setReplies(replies);
 			message.setEnterprise(enterprise);
 			message.setSwiper(swipers.get(0));

@@ -5,6 +5,22 @@
     
 <mapper namespace="com.lamport.admin.mapper.LessonBranchMapper">
 
+	<resultMap type="com.lamport.admin.po.LessonBranch" id="_LessonBranch">
+		<id column="id" property="id"/>
+		<result column="branchid" property="branchid"/>
+		<association property="lesson" javaType="com.lamport.admin.po.Lesson">
+			<id column="lid" property="lid"/>
+			<result column="qid" property="qid"/>
+			<result column="lname" property="lname"/>
+			<result column="imgurl" property="imgurl"/>
+			<result column="lprice" property="lprice"/>
+			<result column="ldesc" property="ldesc"/>
+			<result column="status" property="status"/>
+			<result column="category" property="category"/>
+			<result column="pubtime" property="pubtime"/>
+		</association>
+	</resultMap>
+
 	<!-- 创建LessonBranch -->
 	<insert id="saveLessonBranch" parameterType="com.lamport.admin.po.LessonBranch">
 		insert lessonbranch(lid, branchid, deletekey) values(#{lid}, #{branchid}, #{deletekey})
@@ -19,6 +35,14 @@
 	<update id="deleteLessonBranchLogicallyByBranchID" parameterType="int">
 		update lessonbranch set deletekey=1 where branchid=#{branchid}
 	</update>
+
+	<!-- 通过qid查询LessonBranch的信息 -->
+	<select id="selectLessonBranchByQID" parameterType="int"
+			resultMap="_LessonBranch">
+		select lb.id, lb.branchid, l.* from 
+		lessonbranch lb left join lesson l on lb.lid=l.lid
+		where l.qid=#{qid} and lb.deletekey=0
+	</select>
 
 	<!-- 通过branchid查询lid -->
 	<select id="selectLIDByBranchID" parameterType="int"
@@ -52,5 +76,13 @@
 	<select id="selectCountLessonBranchByBranchID" parameterType="int"
 			resultType="int">
 		select count(*) from lessonbranch where branchid=#{branchid} and deletekey=0
+	</select>
+	
+	<!-- 通过qid查询LessonBranch的条数 -->
+	<select id="selectCountLessonBranchByQID" parameterType="int"
+			resultType="int">
+		select count(*) from 
+		lessonbranch lb left join lesson l on lb.lid=l.lid
+		where l.qid=#{qid} and lb.deletekey=0
 	</select>
 </mapper>

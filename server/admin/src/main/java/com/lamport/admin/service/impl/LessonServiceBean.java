@@ -17,6 +17,7 @@ import com.lamport.admin.po.Lesson;
 import com.lamport.admin.po.LessonBranch;
 import com.lamport.admin.service.LessonService;
 import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.BranchIDAndPage;
 import com.lamport.admin.vo.LessonQueryCondition;
@@ -48,7 +49,9 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgLessonPath, filename);
 			imgurl = Const.ImgLessonPath + "/" + filename;
 		}
@@ -94,7 +97,9 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgLessonPath, filename);
 			imgurl = Const.ImgLessonPath + "/" + filename;
 		}
@@ -121,22 +126,37 @@ public class LessonServiceBean implements LessonService {
 		System.out.println("..........LessonServiceBean..........selectLessonByLessonQueryCondition()..........");
 
 		List<Lesson> lessons = null;
-
+		
 		if(lessonQueryCondition.getBranch() == null || lessonQueryCondition.getBranch().equals("")){
+			//如果没有给出分部名称，则查找所有分部
 			lessonQueryCondition.setBranch(null);
-			int count = lessonMapper.selectCountLessonByQID(lessonQueryCondition.getQid());
+			
+			int count = lessonBranchMapper.selectCountLessonBranchByQID(lessonQueryCondition.getQid());
 			lessonQueryCondition.getPageTool().setCount(count);
-			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
-			for(Lesson lesson : lessons){
-				List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
+			List<LessonBranch> lessonBranchs = lessonBranchMapper.selectLessonBranchByQID(lessonQueryCondition.getQid());
+			lessons = new ArrayList<Lesson>();
+			for(LessonBranch lessonBranch : lessonBranchs){
+				Lesson lesson = lessonBranch.getLesson();
+				Address address = addressMapper.selectAddressByID(lessonBranch.getBranchid());
 				List<Address> addresses = new ArrayList<Address>();
-				for(Integer branchid : branchids){
-					Address address = addressMapper.selectAddressByID(branchid);
-					addresses.add(address);
-				}
+				addresses.add(address);
 				lesson.setBranches(addresses);
-			}
+				lessons.add(lesson);
+			}			
+//			int count = lessonMapper.selectCountLessonByQID(lessonQueryCondition.getQid());//？？
+//			lessonQueryCondition.getPageTool().setCount(count);
+//			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
+//			for(Lesson lesson : lessons){
+//				List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
+//				List<Address> addresses = new ArrayList<Address>();
+//				for(Integer branchid : branchids){
+//					Address address = addressMapper.selectAddressByID(branchid);
+//					addresses.add(address);
+//				}
+//				lesson.setBranches(addresses);
+//			}
 		}else{
+			//如果给出分部名称，则查找在该分部下的课程
 			QIDAndBranch qidAndBranch = new QIDAndBranch();
 			qidAndBranch.setQid(lessonQueryCondition.getQid());
 			qidAndBranch.setBranch(lessonQueryCondition.getBranch());

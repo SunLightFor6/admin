@@ -38,4 +38,11 @@ public interface MessageMapper {
 	 * @throws Exception
 	 */
 	public List<Message> selectMessageByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
+	/**
+	 * 通过qid查询Message的总数
+	 * @param qid
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountMessageByQID(int qid) throws Exception;
 }

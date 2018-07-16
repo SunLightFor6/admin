@@ -58,6 +58,13 @@ public interface SorderMapper {
 	 */
 	public int selectCountSorderByQID(int qid) throws Exception;
 	/**
+	 * 通过SorderQueryCondition查询满足条件的Sorder的总数
+	 * @param sorderQueryCondition
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
+	/**
 	 * 根据qid查询Sorder的订单总额
 	 * @return double
 	 * @throws Exception

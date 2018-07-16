@@ -19,6 +19,9 @@
 	<!-- 创建Message信息 -->
 	<insert id="saveMessage" parameterType="com.lamport.admin.po.Message">
 		insert message(qid, mtitle, mtime, deletekey) values(#{qid}, #{mtitle}, NOW(), #{deletekey})
+		<selectKey keyProperty="mid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
 	</insert>
 
 	<!-- 通过id逻辑删除Message信息 -->
@@ -54,10 +57,15 @@
 	<!-- 通过id和页码查询Message信息 -->
 	<select id="selectMessageByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
 			resultMap="_Message">
-		select m.*, mi.id, mi.imgurl from 
-		message m left join messageimg mi on m.mid=mi.mid
+		select * from message m
 		where m.qid=#{qid} and m.deletekey=0
 		limit #{pageTool.startrow}, #{pageTool.limit}
+	</select>
+
+	<!-- 通过qid查询Message的总数 -->
+	<select id="selectCountMessageByQID" parameterType="int"
+			resultType="int">
+		select count(*) from message where qid=#{qid} and deletekey=0
 	</select>
 
 </mapper>

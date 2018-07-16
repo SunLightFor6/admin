@@ -81,13 +81,13 @@
 		<if test="oid != 0">
 			and s.oid = #{oid}
 		</if>
-		<if test="status != null">
+		<if test="status != null and status != ''">
 			and s.status = #{status}
 		</if>
-		<if test="beginTime != null">
+		<if test="beginTime != null and beginTime != ''">
 			and s.ordertime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
 		</if>
-		<if test="endTime != null">
+		<if test="endTime != null and endTime != ''">
 			and s.ordertime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
 		</if>
 		limit #{pageTool.startrow},#{pageTool.limit}
@@ -98,6 +98,25 @@
 	<select id="selectCountSorderByQID" parameterType="int"
 			resultType="int">
 		select count(*) from sorder where qid = #{qid} and deletekey=0
+	</select>
+
+	<!-- 通过SorderQueryCondition查询满足条件的Sorder的总数 -->
+	<select id="selectCountSorderBySorderQueryCondition" parameterType="com.lamport.admin.vo.SorderQueryCondition"
+			resultType="int">
+		select count(*) from sorder s left join refund r on s.oid= r.oid
+		where s.deletekey = 0 and s.qid = #{qid} 
+		<if test="oid != 0">
+			and s.oid = #{oid}
+		</if>
+		<if test="status != null and status != ''">
+			and s.status = #{status}
+		</if>
+		<if test="beginTime != null and beginTime != ''">
+			and s.ordertime &gt; str_to_date(#{beginTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and s.ordertime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
+		</if>
 	</select>
 
 	<!-- 根据qid查询Sorder的订单总额 -->

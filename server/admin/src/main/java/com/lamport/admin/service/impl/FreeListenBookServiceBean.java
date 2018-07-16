@@ -39,7 +39,7 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 
 		List<FreeListenBook> freeListenBooks = null;
 		
-		int count = freeListenBookMapper.selectCountFreeListenBookByQID(bookQueryCondition.getQid());
+		int count = freeListenBookMapper.selectCountFreeListenBookByBookQueryCondition(bookQueryCondition);
 		bookQueryCondition.getPageTool().setCount(count);
 		freeListenBooks = freeListenBookMapper.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
 		System.out.println(freeListenBooks.size());

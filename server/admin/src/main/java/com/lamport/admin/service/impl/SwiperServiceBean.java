@@ -12,6 +12,7 @@ import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.SwiperService;
 import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.vo.QIDAndCategory;
 
 /**
@@ -29,12 +30,14 @@ public class SwiperServiceBean implements SwiperService {
 	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
 		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() ---imgs.size = " + imgs.length + " path = " + path);
 		int updateResult = 1;
-		// TODO Auto-generated method stub
+
 		List<String> imgurls = new ArrayList<String>();
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+				Creator creator = new Creator();
+				String filename = creator.createFilename();
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
 				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 				System.out.println(Const.ImgSwiperPath + "/" + filename);

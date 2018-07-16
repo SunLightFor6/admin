@@ -44,6 +44,7 @@ public class BranchHandler {
 		int saveResult = addressService.saveAddress(address);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("response", saveResult);
+		jsonObject.addProperty("id", address.getId());
 		result = jsonObject.toString();
 		
 		return result;

@@ -106,6 +106,9 @@ public class MessageHandler {
 		qidAndPage.setQid(admin.getQid());
 		qidAndPage.setPageTool();
 		List<Message> messages = messageService.selectMessageByQIDAndPage(qidAndPage);
+		for(Message message : messages){
+			System.out.println("mid = " + message.getMid());
+		}
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("pages", qidAndPage.getPageTool().getPages());
 		jsonObject.addProperty("page", qidAndPage.getPageTool().getPage());

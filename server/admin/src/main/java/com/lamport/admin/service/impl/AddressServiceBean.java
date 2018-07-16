@@ -84,6 +84,8 @@ public class AddressServiceBean implements AddressService {
 
 		List<Address> addresses = null;
 
+		int count = addressMapper.selectCountAddressByQID(qidAndPage.getQid());
+		qidAndPage.getPageTool().setCount(count);
 		addresses = addressMapper.selectAddressByQIDAndPage(qidAndPage);
 		
 		return addresses;

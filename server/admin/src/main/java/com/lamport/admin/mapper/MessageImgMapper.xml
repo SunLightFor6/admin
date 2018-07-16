@@ -14,5 +14,11 @@
 	<update id="deleteMessageImgLogicallyByMID" parameterType="int">
 		update messageimg set deletekey=1 where mid=#{mid}
 	</update>
+	
+	<!-- 通过mid查询MessageImg信息 -->
+	<select id="selectMessageImgByMID" parameterType="int"
+			resultType="com.lamport.admin.po.MessageImg">
+		select * from messageimg where mid=#{mid} and deletekey=0
+	</select>
 
 </mapper>
