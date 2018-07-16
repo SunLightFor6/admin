@@ -122,7 +122,8 @@ public class LessonServiceBean implements LessonService {
 
 		List<Lesson> lessons = null;
 
-		if(lessonQueryCondition.getBranch() == null){
+		if(lessonQueryCondition.getBranch() == null || lessonQueryCondition.getBranch().equals("")){
+			lessonQueryCondition.setBranch(null);
 			int count = lessonMapper.selectCountLessonByQID(lessonQueryCondition.getQid());
 			lessonQueryCondition.getPageTool().setCount(count);
 			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
