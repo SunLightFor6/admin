@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public class MessageHandler {
 	 */
 	@RequestMapping(value="/admin/saveMessage")
 	@ResponseBody
-	public String saveMessage(Message new_message, MultipartFile[] message_pics, HttpServletRequest request) throws Exception{
+	public String saveMessage(Message new_message, @RequestParam("message_pics") MultipartFile[] message_pics, HttpServletRequest request) throws Exception{
 		System.out.println("..........MessageHandler..........saveMessage()..........new_message: " + new_message.getMtitle() + " message_pics = " + message_pics.length);
 		String result = null;
 		

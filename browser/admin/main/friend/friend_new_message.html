@@ -83,11 +83,13 @@
 		//表单提交的方法
 		$('#message_submit').click(function() {
 			var formData = new FormData();
-			formData.append("mtitle", $('#title')[0]);
-			formData.append("message_pics", message_pics);
+			formData.append("mtitle", $('#title').val());
+			for(var i in message_pics) {
+				formData.append("message_pics", message_pics[i]);
+			}
 			jqxhr = $.ajax({
 				type: "post",
-				url: PREPATH + "",
+				url: PREPATH + "/admin/saveMessage",
 				async: true,
 				data: formData,
 				dataType: "json",

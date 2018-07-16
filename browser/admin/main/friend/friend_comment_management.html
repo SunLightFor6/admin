@@ -26,7 +26,7 @@
 		formData.append("id", id);
 		jqxhr = $.ajax({
 			type: "post",
-			url: PREPATH + "",
+			url: PREPATH + "/admin/deleteMessageLogicallyByID",
 			data: formData,
 			async: true,
 			processData: false, //告诉jQuery不要处理数据
@@ -58,7 +58,7 @@
 		formData.append("id_message", id_message);
 		jqxhr = $.ajax({
 			type: "post",
-			url: PREPATH + "",
+			url: PREPATH + "/admin/deleteMessageReplyLogicallyByID",
 			data: formData,
 			async: true,
 			processData: false, //告诉jQuery不要处理数据
@@ -132,7 +132,8 @@
 					console.log("---当前页：" + page);
 					jqxhr = $.ajax({
 						type: "get",
-						url: PREPATH + "../../json/friend.json?page=" + page,
+//						url: PREPATH + "../../json/friend.json?page=" + page,
+						url: PREPATH + "/admin/selectMessageByQIDAndPage",
 						//					url: "http://127.0.0.1:8020/admin/json/friend.json",
 						async: false,
 						//					dataType: "text",

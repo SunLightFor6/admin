@@ -187,14 +187,14 @@
 			function logout() {
 				jqxhr = $.ajax({
 					type: "post",
-					url: PREPATH + "/login/superAdminLogout",
+					url: PREPATH + "/logout/superAdminLogout",
 					async: true,
 					dataType: "json",
 					success: function(data) {
 						if(data.response == "1") {
-							window.location.href = "../../login.html";
+							window.location.href = "../login.html";
 						} else {
-							window.location.href = "../../login.html";
+							window.location.href = "../login.html";
 							console.log("超级管理员退出登录异常，建议重启浏览器");
 						}
 					}
