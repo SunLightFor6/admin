@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +35,7 @@ public class EnterpriseBasicInfoHandler {
 	 */
 	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByID")
 	@ResponseBody
-	public String updateEnterpriseBasicInfoByID(Enterprise enterprise, MultipartFile[] message_pics, MultipartFile video, HttpServletRequest request) throws Exception{
+	public String updateEnterpriseBasicInfoByID(Enterprise enterprise, @RequestParam("message_pics") MultipartFile[] message_pics, MultipartFile video, HttpServletRequest request) throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........enterprise:" + enterprise + " message_pics" + message_pics.length + " video" + video);
 		String result = null;
 

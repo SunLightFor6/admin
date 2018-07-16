@@ -22,19 +22,19 @@
 		<fieldset class="layui-elem-field">
 			<legend>分部名字</legend>
 			<div class="layui-field-box">
-				<p id="branch_name_show">实训中心</p>
+				<p id="branch_name_show"></p>
 			</div>
 		</fieldset>
 		<fieldset class="layui-elem-field">
 			<legend>分部地址</legend>
-			<div class="layui-field-box"><p id="address">hhhhhhhhhhhhhhhhhhh</p></div>
+			<div class="layui-field-box"><p id="address"></p></div>
 			<div class="layui-field-box">
 				<div id="allmap"></div>
 			</div>
 		</fieldset>
 		<fieldset class="layui-elem-field">
 			<legend>分部联系电话</legend>
-			<div class="layui-field-box"><p id="tel>"15940471397</p></div>
+			<div class="layui-field-box"><p id="tel"></p></div>
 		</fieldset>
 	</div>
 </div>
@@ -58,10 +58,10 @@
 	layui.use('element', function() {
 		var element = layui.element;
 	});
-	$('#branch_name_show').val(sessionStorage.getItem("b_branch"));
-	$('#address').val(sessionStorage.getItem("b_address"));
-	$('#tel').val(sessionStorage.getItem("b_tel"));
-	var longi = parseInt(sessionStora/ge.getItem("b_longitude"));
+	$('#branch_name_show').text(sessionStorage.getItem("b_branch"));
+	$('#address').text(sessionStorage.getItem("b_address"));
+	$('#tel').text(sessionStorage.getItem("b_tel"));
+	var longi = parseInt(sessionStorage.getItem("b_longitude"));
 	var lati =  parseInt(sessionStorage.getItem("b_latitude"));	
 //	var longi = 123.4;
 //	var lati =  41.8;

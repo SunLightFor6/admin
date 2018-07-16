@@ -15,17 +15,18 @@
 				</div>
 				<blockquote id="preview_pics" class="layui-elem-quote layui-quote-nm" style="display:none; margin-top: 10px;">
 					预览图：
-					<div id="pics_now"></div>
+					<div class="layui-row" id="pics_now"></div>
 					<p id="demoText"></p>
 				</blockquote>
 			</div>
 			<p class="form-label_sm">企业简介</p>
-			<input type="text" id="enter-des" name="enter-des" lay-verify="required" autocomplete="off" placeholder="请输入企业简介" class="layui-input" />
+			<textarea type="text" id="enter-des" rows="4" name="enter-des" lay-verify="required" autocomplete="off" placeholder="请输入企业简介" class="layui-input"></textarea>
 			<p class="form-label_sm">企业视频</p>
 			<div class="layui-upload">
 				<button type="button" class="layui-btn layui-upload-button" id="upload-video">上传视频</button>
 			</div>
 			<p class="form-label_sm" id="preview_video"></p>
+			<p class="form-label_sm" id="preview_video_info" style="display: none;"></p>
 			<p class="form-label_sm">企业精彩展示</p>
 			<script type="text/plain" id="myEditor_enter_modify" style="height:240px;"></script>
 			<p class="form-label_sm"></p>
@@ -33,6 +34,18 @@
 		</form>
 	</div>
 </div>
+<!--获取企业基本信息-->
+<script>
+	var data = JSON.parse(sessionStorage.getItem("enterpriser_info"));
+	$('#enter-name').val(data.name);
+	$.each(data.imgs, function(name, value) {
+		$('#current_pics').append('<img alt="' + name + '" src="' + IMGPATH + value + '"class="layui-upload-img" style="height: 120px;" />');
+	});
+	$('#enter-des').val(data.introduction);
+	$('#preview_video').append('<video src="' + IMGPATH + data.videopath + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
+	UM.getEditor('myEditor_enter_modify').setContent(data.jczs);
+	$('.edui-body-container img').attr("style", "max-width: 90%");
+</script>
 
 <script>
 	var pics_num_amount = 0, //图片总数  先后上传加载的图片总数
@@ -50,7 +63,7 @@
 		var upload = layui.upload;
 		var enterprise_info = sessionStorage.getItem("enterprise_info");
 
-		var um_free = UM.createEditor('myEditor_enter_modify');
+		var um_free = UM.getEditor('myEditor_enter_modify');
 		console.log("--------UM 初始化 -------- ： ");
 		um_free.setWidth("100%");
 		$(".edui-body-container").css("width", "98%");
@@ -58,17 +71,6 @@
 		//		um_free.setContent(enterprise_info.jczs);
 
 		form.render();
-
-		$(function() {
-			//			form.val('enter-basic-info', {
-			//				'enter-name': enterprise_info.name,
-			//				'enter-des': enterprise_info.introduction
-			//			});
-			//			$.each(enterprise_info.imgs, function(name, value) {
-			//	$('#current_pics').append('<img src="' + value + '"class="layui-upload-img" style="height: 120px; width: 200px" />');
-
-			//			});
-		});
 
 		//以下是上传代码
 
@@ -132,10 +134,17 @@
 			size: 100000 //限制文件大小，单位 KB
 				,
 			choose: function(obj) {
-				$('#preview_video').show();
+				$('#preview_video video').hide();
+				$('#preview_video_info').show();
 				obj.preview(function(index, file, result) {
 					video = file;
-					$('#preview_video').append('<video src="' + result + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
+					//					$('#preview_video video').attr("src", IMGPATH + result);
+					var html = "<div class='layui-row' style='padding-left: 10px; font-weight: 300'><div class='layui-col-md2'>当前文件（待上传）：</div>" +
+						"<div class='layui-col-md2'>" + file.name + "</div>" +
+						"<div class='layui-col-md2'>" + file.type + "</div>" +
+						"<div class='layui-col-md2'>" + (file.size / 1024 / 1024).toFixed(1) + "MB</div>"; +
+					"</div>";
+					$('#preview_video_info').append(html);
 				});
 
 			},
@@ -152,26 +161,44 @@
 			formData.append("message_pics", message_pics);
 			formData.append("video", video);
 			formData.append("jczs", um_free.getContent());
+//			alert("即将ajax");
 			jqxhr = $.ajax({
 				type: "post",
-				url: PREPATH + "/admin/updateBranchByID",
-				async: true,
+				url: PREPATH + "/admin/updateEnterpriseBasicInfoByID",
+				async: false,
 				data: formData,
 				dataType: "json",
 				processData: false,
 				contentType: false,
 				success: function(data) {
-					layer.open({
-						type: 0,
-						btn: false,
-						title: false,
-						icon: 6,
-						closeBtn: 0,
-						shadeClose: true,
-						time: 1500,
-						content: '更改成功！'
-					});
-					window.location.href = "#11";
+//					alert(data.response);
+					if(data.response == 1) {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 6,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '更改成功！',
+							success: function() {
+								window.location.href = "#11";
+							}
+						});
+					} else {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 6,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '更改失败，请重试或联系系统管理员！',
+						});
+					}
+
 				},
 				error: function() {
 					layer.open({
@@ -182,11 +209,10 @@
 						closeBtn: 0,
 						shadeClose: true,
 						time: 1500,
-						content: '更改失败，请稍后重试'
+						content: '服务器错误，请稍后重试'
 					});
 				}
 			});
-
 		});
 	});
 </script>

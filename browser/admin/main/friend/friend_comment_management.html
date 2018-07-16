@@ -33,7 +33,9 @@
 			contentType: false, //告诉jQuery不要修改请求头
 			dataType: "json",
 			success: function(data) {
-				$('#item_' + id).parents('.layui-card').remove();
+				if(data.response == 1) {
+					$('#item_' + id).parents('.layui-card').remove();
+				}
 			},
 			error: function() {
 				//					$('#item_' + id).parents('.layui-card').remove();

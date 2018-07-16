@@ -26,6 +26,9 @@ public class QIDAndPage {
 		this.limit = limit;
 	}
 	public void setPageTool(){
+		if(limit == 0) {
+			limit = 4;
+		}
 		pageTool = new PageTool(page, limit);
 	}
 	

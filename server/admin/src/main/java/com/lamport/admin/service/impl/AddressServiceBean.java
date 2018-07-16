@@ -51,9 +51,9 @@ public class AddressServiceBean implements AddressService {
 		int deleteResult = 1;
 
 		List<Integer> lids = lessonBranchMapper.selectLIDByBranchID(id);
-		deleteResult *= sorderMapper.deleteSorderLogicallyByBranchID(id);
-		deleteResult *= freeListenMapper.deleteFreeListenLogicallyByBranchID(id);
-		deleteResult *= lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
+		sorderMapper.deleteSorderLogicallyByBranchID(id);
+		freeListenMapper.deleteFreeListenLogicallyByBranchID(id);
+		lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
 		deleteResult *= addressMapper.deleteAddressLogicallyByID(id);
 		//校验，删除没有分部的精品课
 		for(Integer lid: lids){

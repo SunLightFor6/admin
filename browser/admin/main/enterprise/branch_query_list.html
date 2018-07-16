@@ -81,9 +81,10 @@
 					jqxhr = $.ajax({
 						type: "post",
 						url: PREPATH + "/admin/deleteBranchLogicallyByID?id=" + data.id,
-						async: true,
+						async: false,
+						dataType: "json",
 						success: function(data) {
-							if(data.response == "1") {
+							if(data.response == 1) {
 								layer.open({
 									type: 0,
 									btn: false,
@@ -95,7 +96,7 @@
 									content: '删除成功！'
 								});
 								obj.del();
-							} else if(data.response == "0") {
+							} else if(data.response == 0) {
 								layer.open({
 									type: 0,
 									btn: false,

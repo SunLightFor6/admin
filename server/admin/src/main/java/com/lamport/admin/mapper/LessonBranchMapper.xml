@@ -23,10 +23,8 @@
 	<!-- 通过branchid查询lid -->
 	<select id="selectLIDByBranchID" parameterType="int"
 			resultType="java.lang.Integer">
-		select lid from lessonbranch where deletekey=0
-		<if test="branchid != 0">
-			and branchid=#{branchid} 
-		</if>
+		select lid from lessonbranch 
+		where deletekey=0 and branchid=#{id} 
 	</select>
 
 	<!-- 通过branchid和页码查询lid -->
