@@ -38,6 +38,9 @@
 		<if test="fid != 0">
 			and b.fid = #{fid}
 		</if>
+		<if test="nickname != null and nickname != ''">
+			and username = #{nickname}
+		</if>
 		<if test="status != null and status != ''">
 			and b.status = #{status}
 		</if>

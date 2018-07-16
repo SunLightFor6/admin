@@ -72,7 +72,7 @@ public class FreeListenBookHandler {
 		for(FreeListenBook freeListenBook : freeListenBooks){
 			JsonObject object = new JsonObject();
 			object.addProperty("bookcourseid", freeListenBook.getId());
-			object.addProperty("freelistenid", freeListenBook.getFreeListen().getId());
+			object.addProperty("freelistenid", freeListenBook.getFid());
 			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
 			object.addProperty("usernickname", freeListenBook.getUsername());
 			object.addProperty("usertel", freeListenBook.getTel());

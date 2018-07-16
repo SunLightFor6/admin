@@ -26,6 +26,7 @@ public class PageTool {
 	}
 	public void setCount(int count) {
 		this.count = count;
+		this.setPages();
 	}
 	
 	public int getStartrow() {
@@ -57,13 +58,12 @@ public class PageTool {
 		this.setPage(page);
 		this.setLimit(limit);
 		this.setStartrow();
-		this.setPages();
+		
 	}
 	public PageTool(){
 		
 	}
 	public void init(){
 		this.setStartrow();
-		this.setPages();
 	}
 }

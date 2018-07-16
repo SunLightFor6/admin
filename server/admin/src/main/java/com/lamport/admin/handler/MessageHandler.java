@@ -98,7 +98,7 @@ public class MessageHandler {
 	@RequestMapping(value="/admin/selectMessageByQIDAndPage")
 	@ResponseBody
 	public String selectMessageByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
-		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........qidAndPage:" + qidAndPage.getPageTool().getPage() + " " + qidAndPage.getPageTool().getLimit());
+		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........qidAndPage:" + qidAndPage.getPage() + "\t" + qidAndPage.getLimit());
 		String result = null;
 
 		HttpSession session = request.getSession();

@@ -89,7 +89,7 @@ public class BranchHandler {
 	@RequestMapping(value="/admin/selectBranchByQIDAndPage")
 	@ResponseBody
 	public String selectBranchByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
-		System.out.println("..........BranchHandler..........selectBranchByQIDAndPage()..........qidAndPage:" + qidAndPage.getPageTool().getPage() + " " + qidAndPage.getPageTool().getLimit());
+		System.out.println("..........BranchHandler..........selectBranchByQIDAndPage()..........qidAndPage:" + qidAndPage.getPage() + " " + qidAndPage.getLimit());
 		String result = null;
 
 		HttpSession session = request.getSession();

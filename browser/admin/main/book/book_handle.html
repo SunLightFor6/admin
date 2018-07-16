@@ -98,7 +98,7 @@
 			fid = $('#fid').val();
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
-			nickname = $('nickname').val();
+			nickname = $('#nickname').val();
 			console.log("fid=" + fid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
 			table.render();
 		});
@@ -128,8 +128,9 @@
 							type: "post",
 							url: PREPATH + "/admin/processFreeListenBookByID?id=" + data.bookcourseid,
 							async: true,
+							dataType: "json",
 							success: function(data) {
-								if(data == 1) {
+								if(data.response == 1) {
 									layer.open({
 										type: 0,
 										btn: false,

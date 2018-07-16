@@ -49,7 +49,7 @@
 <script>
 	var currentpage = 1;
 	var status = "";
-	var oid = "";
+	var oid = 0;
 	var beginTime = "";
 	var endTime = "";
 	layui.use('table', function() {
@@ -122,7 +122,7 @@
 //				status = "已退款";
 //			}
 			status = $('#status_sel option:selected').text();
-			oid = $('#oid').val();
+			oid = $('#oid').val() != null && $('#oid').val() != "" ? parseInt($('#oid').val()) : 0;
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
 			console.log("oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);

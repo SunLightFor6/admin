@@ -112,8 +112,8 @@
 			fid = $('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0;
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
-			nickname = $('nickname').val();
-			console.log("fid=" + fid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
+			nickname = $('#nickname').val();
+			console.log("fid=" + fid + "nickname=" + nickname + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
 			//			table.render();
 			table.render({
 				elem: '#book_query_list',
