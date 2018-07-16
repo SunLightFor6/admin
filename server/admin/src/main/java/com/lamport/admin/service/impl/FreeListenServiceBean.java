@@ -14,6 +14,7 @@ import com.lamport.admin.po.Address;
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.service.FreeListenService;
 import com.lamport.admin.tool.Const;
+import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.FreeListenQueryCondition;
 import com.lamport.admin.vo.QIDAndBranch;
@@ -40,7 +41,9 @@ public class FreeListenServiceBean implements FreeListenService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null) {
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgFreeListenPath, filename);
 			imgurl = Const.ImgFreeListenPath + "/" + filename;
 		}
@@ -76,7 +79,9 @@ public class FreeListenServiceBean implements FreeListenService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+			Creator creator = new Creator();
+			String filename = creator.createFilename();
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgFreeListenPath, filename);
 			imgurl = Const.ImgFreeListenPath + "/" + filename;
 		}
