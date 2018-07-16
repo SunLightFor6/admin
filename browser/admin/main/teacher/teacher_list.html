@@ -62,13 +62,13 @@
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script id="imgTpl" type="text/html">
-	<div><img src="{{ d.teacherimg }}"></div>
+	<div><img src="{{IMGPATH}}{{ d.teacherimg }}"></div>
 </script>
 <script>
 	layui.use('table', function() {
 		var table = layui.table;
 		//监听工具条
-		table.on('tool(demo)', function(obj) {
+		table.on('tool(teacher_list)', function(obj) {
 			var data = obj.data;
 			if(obj.event === 'del') {
 				layer.confirm('确认真的删除', function(index) {
@@ -121,7 +121,7 @@
 				//	layer.alert('编辑行：<br>' + JSON.stringify(data)) //在这里跳入编辑界面
 				sessionStorage.setItem("id", data.id);
 				sessionStorage.setItem("teachername", data.teachername);
-				sessionStorage.setItem("teacherimg", data.teacherimg);
+				sessionStorage.setItem("teacherimg", IMGPATH + data.teacherimg);
 				sessionStorage.setItem("teacherintro", data.teacherintro);
 				window.location.href = "#34";
 			}

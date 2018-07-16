@@ -43,7 +43,7 @@ public class BranchHandler {
 		address.setQid(admin.getQid());
 		int saveResult = addressService.saveAddress(address);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", saveResult);
+		jsonObject.addProperty("response", saveResult);
 		result = jsonObject.toString();
 		
 		return result;

@@ -47,7 +47,7 @@ public class LessonHandler {
 		String path = Const.Path;//存储路径
 		int saveResult = lessonService.saveLesson(lesson, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", saveResult);
+		jsonObject.addProperty("response", saveResult);
 		result = jsonObject.toString();
 		
 		return result;
@@ -82,7 +82,7 @@ public class LessonHandler {
 		String path = Const.Path;
 		int updateResult = lessonService.updateLessonByID(lesson, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("response", updateResult);
 		result = jsonObject.toString();
 		
 		return result;

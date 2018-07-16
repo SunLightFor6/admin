@@ -71,7 +71,8 @@ public class FreeListenBookHandler {
 		JsonArray jsonArray = new JsonArray();
 		for(FreeListenBook freeListenBook : freeListenBooks){
 			JsonObject object = new JsonObject();
-			object.addProperty("bookcourseid", freeListenBook.getFreeListen().getId());
+			object.addProperty("bookcourseid", freeListenBook.getId());
+			object.addProperty("freelistenid", freeListenBook.getFreeListen().getId());
 			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
 			object.addProperty("usernickname", freeListenBook.getUsername());
 			object.addProperty("usertel", freeListenBook.getTel());
@@ -108,7 +109,8 @@ public class FreeListenBookHandler {
 		JsonArray jsonArray = new JsonArray();
 		for(FreeListenBook freeListenBook : freeListenBooks){
 			JsonObject object = new JsonObject();
-			object.addProperty("bookcourseid", freeListenBook.getFid());
+			object.addProperty("bookcourseid", freeListenBook.getId());
+			object.addProperty("freelistenid", freeListenBook.getFid());
 			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
 			object.addProperty("usernickname", freeListenBook.getUsername());
 			object.addProperty("usertel", freeListenBook.getTel());

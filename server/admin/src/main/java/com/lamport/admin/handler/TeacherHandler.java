@@ -48,10 +48,10 @@ public class TeacherHandler {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		teacher.setQid(admin.getQid());
-		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
+		String path = Const.Path;
 		int saveResult = teacherService.saveTeacher(teacher, teacher_img, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", saveResult);
+		jsonObject.addProperty("response", saveResult);
 		result = jsonObject.toString();
 		
 		return result;
@@ -86,7 +86,7 @@ public class TeacherHandler {
 		String path = Const.Path;
 		int updateResult = teacherService.updateTeacherByID(teacher, teacher_img, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("response", updateResult);
 		result = jsonObject.toString();
 		
 		return result;
@@ -121,7 +121,7 @@ public class TeacherHandler {
 	@RequestMapping(value="/admin/selectTeacherByQIDAndPage")
 	@ResponseBody
 	public String selectTeacherByQIDAndPage(QIDAndPage qidAndPage, HttpServletRequest request) throws Exception{
-		System.out.println("..........TeacherHandler..........selectTeacherByQIDAndPage()..........");
+		System.out.println("..........TeacherHandler..........selectTeacherByQIDAndPage()..........qidAndPage:" + qidAndPage.getPage() + " " + qidAndPage.getLimit());
 		String result = null;
 
 		HttpSession session = request.getSession();

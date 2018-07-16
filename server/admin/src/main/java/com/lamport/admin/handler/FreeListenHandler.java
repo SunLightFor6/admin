@@ -46,7 +46,7 @@ public class FreeListenHandler {
 		String path = Const.Path;
 		int saveResult = freeListenService.saveFreeListen(freeListen, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", saveResult);
+		jsonObject.addProperty("response", saveResult);
 		result = jsonObject.toString();
 		
 		return result;	
@@ -81,7 +81,7 @@ public class FreeListenHandler {
 		String path = Const.Path;
 		int updateResult = freeListenService.updateFreeListenByID(freeListen, imgFile, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("response", updateResult);
 		result = jsonObject.toString();
 		
 		return result;

@@ -141,9 +141,13 @@ public class LessonServiceBean implements LessonService {
 			qidAndBranch.setBranch(lessonQueryCondition.getBranch());
 			Address branch = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
 			BranchIDAndPage branchIDAndPage = new BranchIDAndPage();
-			branchIDAndPage.setBranchid(branch.getId());
+			if(branch == null){
+				branchIDAndPage.setBranchid(0);
+			}else{
+				branchIDAndPage.setBranchid(branch.getId());
+			}
 			branchIDAndPage.setPageTool(lessonQueryCondition.getPageTool());
-			int count = lessonBranchMapper.selectCountLessonBranchByBranchID(branch.getId());
+			int count = lessonBranchMapper.selectCountLessonBranchByBranchID(branchIDAndPage.getBranchid());
 			lessonQueryCondition.getPageTool().setCount(count);
 			List<Integer> lids = lessonBranchMapper.selectLIDByBranchIDAndPage(branchIDAndPage);
 			lessons = new ArrayList<Lesson>();
