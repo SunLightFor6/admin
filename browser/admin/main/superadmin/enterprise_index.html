@@ -179,7 +179,12 @@
 							shadeClose: true,
 							content: '企业id：' + data.qid + '<br>企业管理员账号：' + data.admincount
 						});
-						//						table.render();
+						layui.use('table', function() {
+							var table = layui.table;
+							table.reload('#enter-list', {
+								url: PREPATH + "/superadmin/saveEnterprise",
+							});
+						});
 					}
 				});
 			}

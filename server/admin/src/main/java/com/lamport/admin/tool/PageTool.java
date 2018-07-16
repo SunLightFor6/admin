@@ -48,7 +48,7 @@ public class PageTool {
 		}
 	}
 	/**
-	 * 不提供无参的构造方法
+	 * 不提供无参的构造方法		是不行滴，不要倔强，要乖乖认怂
 	 * 要进行构造必须传入参数page和limit
 	 * @param page
 	 * @param limit
@@ -56,6 +56,13 @@ public class PageTool {
 	public PageTool(int page, int limit){
 		this.setPage(page);
 		this.setLimit(limit);
+		this.setStartrow();
+		this.setPages();
+	}
+	public PageTool(){
+		
+	}
+	public void init(){
 		this.setStartrow();
 		this.setPages();
 	}

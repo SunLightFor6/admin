@@ -60,7 +60,7 @@
 	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"
 			resultType="com.lamport.admin.po.FreeListen">
 		select * from freelisten where qid=#{qid} and deletekey=0
-		<if test="branchid != null">
+		<if test="branchid != 0">
 			and branchid = #{branchid}
 		</if>
 		limit #{pageTool.startrow}, #{pageTool.limit}

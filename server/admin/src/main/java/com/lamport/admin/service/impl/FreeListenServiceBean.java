@@ -1,6 +1,7 @@
 package com.lamport.admin.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,10 +99,30 @@ public class FreeListenServiceBean implements FreeListenService {
 
 		QIDAndBranch qidAndBranch = new QIDAndBranch();
 		qidAndBranch.setQid(freeListenQueryCondition.getQid());
-		qidAndBranch.setBranch(freeListenQueryCondition.getBranch());
-		Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
-		freeListenQueryCondition.setBranchid(address.getId());
-		freeListens = freeListenMapper.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+		
+		if(freeListenQueryCondition.getBranch()==null || freeListenQueryCondition.getBranch().equals("")){
+			freeListenQueryCondition.setBranch(null);
+			freeListenQueryCondition.setBranchid(0);
+			freeListens = freeListenMapper.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+			for(FreeListen freeListen : freeListens){
+				Address address = addressMapper.selectAddressByID(freeListen.getBranchid());
+				freeListen.setBranch(address);
+			}
+		}else{
+			qidAndBranch.setBranch(freeListenQueryCondition.getBranch());
+			Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
+			if(address == null){
+				freeListenQueryCondition.setBranchid(-1);
+				//既然Address不存在，那么就没有必要再查下去了
+				freeListens = new ArrayList<FreeListen>();
+			}else{
+				freeListenQueryCondition.setBranchid(address.getId());
+				freeListens = freeListenMapper.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+				for(FreeListen freeListen : freeListens){
+					freeListen.setBranch(address);
+				}
+			}
+		}
 //		for(FreeListen freeListen : freeListens){
 //			Address address = addressMapper.selectAddressByID(freeListen.getBranchid());
 //			freeListen.setBranch(address);

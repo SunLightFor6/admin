@@ -107,19 +107,20 @@ public class FreeListenHandler {
 		jsonObject.addProperty("msg", "");
 		jsonObject.addProperty("count", freeListenQueryCondition.getPageTool().getCount());
 		JsonArray jsonArray = new JsonArray();
-		
 		for(FreeListen freeListen : freeListens) {
 			JsonObject object = new JsonObject();
 			object.addProperty("courseid", freeListen.getId());
 			object.addProperty("coursename", freeListen.getTitle());
 			object.addProperty("courseimg", freeListen.getImgurl());
 			object.addProperty("coursecategory", freeListen.getCategory());
-			object.addProperty("branch", freeListen.getBranch().getBranch());			
+			object.addProperty("branch", freeListen.getBranch().getBranch());
 			object.addProperty("pubtime", freeListen.getPubtime());
 			object.addProperty("fdesc", freeListen.getFdesc());
 			object.addProperty("status", freeListen.getStatus());
 			jsonArray.add(object);
 		}
+		jsonObject.add("data", jsonArray);
+		result = jsonObject.toString();
 		
 		return result;
 	}
