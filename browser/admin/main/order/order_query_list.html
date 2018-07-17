@@ -12,6 +12,7 @@
 					<label class="layui-lz-form-label">订单状态：</label>
 					<div class="layui-lz-select-inline">
 						<select name="status_sel" id="status_sel" lay-verify="required" lay-search="">
+							<option value="0">全部</option>
 							<option value="1">已付款</option>
 							<option value="2">待付款</option>
 							<option value="3">退款中</option>
@@ -31,12 +32,12 @@
 					</div>
 				</div>
 				<div class="layui-inline">
-					<button type="button" class="layui-btn" lay-data="{'id': 'order_query_btn'}" id="order_query_btn">查询</button>
+					<button type="button" class="layui-btn" lay-data="{id: 'order_query_btn'}" id="order_query_btn">查询</button>
 				</div>
 			</div>
 		</form>
 	</div>
-	<table class="layui-hide" id="test" lay-filter="demo"></table>
+	<table class="layui-hide" id="order_query_list" lay-filter="order_query_list" lay-data="{id: 'order_query_list'}" ></table>
 </div>
 
 <script>
@@ -56,7 +57,7 @@
 		var table = layui.table;
 
 		table.render({
-			elem: '#test',
+			elem: '#order_query_list',
 			url: PREPATH + "/admin/selectSorderBySorderQueryCondition?oid=" + oid + "&status" + status + "&beginTime=" + beginTime + "&endTime=" + endTime,
 			//			url: "/admin/selectSorderBySorderQueryCondition",
 			//			url: "../../json/order.json",
@@ -122,14 +123,14 @@
 			//				status = "已退款";
 			//			}
 			status = $('#status_sel option:selected').text();
-			oid = $('#oid').val() != null && $('#oid').val() != "" ? parseInt($('#oid').val()) : 0;
+			oid = ($('#oid').val() != null && $('#oid').val() != "" ? parseInt($('#oid').val()) : 0);
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
 			console.log("oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
 			layui.use('table', function() {
 				var table = layui.table;
-				table.reload('order_query_btn', {
-					url: PREPATH + "/admin/selectSorderBySorderQueryCondition?oid=" + oid + "&status" + status + "&beginTime=" + beginTime + "&endTime=" + endTime,
+				table.reload('order_query_list', {
+					url: PREPATH + "/admin/selectSorderBySorderQueryCondition?oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime,
 					page: {
 						curr: 1 //重新从第 1 页开始
 					},

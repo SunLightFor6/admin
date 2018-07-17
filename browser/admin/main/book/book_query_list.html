@@ -109,7 +109,7 @@
 
 		$("#book_query_btn").click(function() {
 			status = $('#status_sel option:selected').val() == "0" ? "" : $('#status_sel option:selected').val();
-			fid = $('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0;
+			fid = ($('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0);
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
 			nickname = $('#nickname').val();

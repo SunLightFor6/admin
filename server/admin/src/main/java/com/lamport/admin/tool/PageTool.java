@@ -42,6 +42,10 @@ public class PageTool {
 		return pages;
 	}
 	public void setPages() {
+		if(limit == 0) {
+			pages = -1;
+			return;
+		}
 		if(count%limit == 0){
 			pages = count / limit;
 		}else{

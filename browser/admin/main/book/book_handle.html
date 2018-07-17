@@ -16,11 +16,11 @@
 			<div class="layui-inline">
 				<label class="layui-lz-form-label" style="width: 70px;">预约时间：</label>
 				<div class="layui-lz-input-inline">
-					<input name="beginTime" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
+					<input name="beginTime" id="beginTime" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
 				</div>
 				<div class="layui-form-mid">-</div>
 				<div class="layui-lz-input-inline">
-					<input name="endTime" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
+					<input name="endTime" id="endTime" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
 				</div>
 			</div>
 			<div class="layui-inline">
@@ -41,15 +41,16 @@
 </script>
 <script>
 	var currentpage = 1;
-	var oid = "";
+	var fid = 0;
 	var beginTime = "";
 	var endTime = "";
+	var nickname = "";
 	layui.use('table', function() {
 		var table = layui.table;
 
 		table.render({
 			elem: '#book_handle_list',
-			url: PREPATH + '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&status=' + status + '&beginTime=' + beginTime + '&endTime=' + endTime,
+			url: PREPATH + '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&beginTime=' + beginTime + '&endTime=' + endTime,
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -95,7 +96,7 @@
 		});
 
 		$("#book_handle_btn").click(function() {
-			fid = $('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0;
+			fid = ($('#fid').val() != null && $('#fid').val() != "" ? parseInt($('#fid').val()) : 0);
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();
 			nickname = $('#nickname').val();
@@ -185,7 +186,55 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 1500,
-										content: '预约处理成功'
+										content: '预约处理成功',
+										success: function() {
+											table.render({
+												elem: '#book_handle_list',
+												url: PREPATH + '/admin/selectFreeListenBookUnprocessedByBookQueryCondition?fid=' + fid + '&nickname=' + nickname + '&beginTime=' + beginTime + '&endTime=' + endTime,
+												dataType: 'jsonp',
+												skin: 'nob',
+												cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+													,
+												cols: [
+													[{
+														field: 'freelistenid',
+														width: '10%',
+														title: '课程id',
+														sort: true
+													}, {
+														field: 'bookcoursename',
+														width: '15%',
+														title: '课程标题'
+													}, {
+														field: 'usernickname',
+														width: '10%',
+														title: '用户昵称',
+														sort: true
+													}, {
+														field: 'usertel',
+														width: '10%',
+														title: '用户电话'
+													}, {
+														field: 'bookstatus',
+														width: '10%',
+														title: '预约状态'
+													}, {
+														field: 'booktime',
+														width: '18%',
+														title: '预约时间'
+													}, {
+														field: 'message',
+														width: '16%',
+														title: '留言'
+													}, {
+														width: '11%',
+														align: 'center',
+														toolbar: '#barDemo'
+													}]
+												],
+												page: true
+											});
+										}
 									});
 								} else {
 									layer.open({
