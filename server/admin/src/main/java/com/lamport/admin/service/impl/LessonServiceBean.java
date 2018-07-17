@@ -49,9 +49,9 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgLessonPath, filename);
 			imgurl = Const.ImgLessonPath + "/" + filename;
 		}
@@ -80,8 +80,8 @@ public class LessonServiceBean implements LessonService {
 
 		int deleteResult = 1;
 
-		deleteResult *= sorderMapper.deleteSorderLogicallyByLID(id);
-		deleteResult *= lessonBranchMapper.deleteLessonBranchLogicallyByLID(id);
+		sorderMapper.deleteSorderLogicallyByLID(id);
+		lessonBranchMapper.deleteLessonBranchLogicallyByLID(id);
 		deleteResult *= lessonMapper.deleteLessonLogicallyByID(id);
 		deleteResult = deleteResult>0 ? 1 : 0;
 		
@@ -97,9 +97,9 @@ public class LessonServiceBean implements LessonService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgLessonPath, filename);
 			imgurl = Const.ImgLessonPath + "/" + filename;
 		}

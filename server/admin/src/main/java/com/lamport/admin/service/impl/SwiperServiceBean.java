@@ -35,9 +35,9 @@ public class SwiperServiceBean implements SwiperService {
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
-				Creator creator = new Creator();
-				String filename = creator.createFilename();
-//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+//				Creator creator = new Creator();
+//				String filename = creator.createFilename();
+				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
 				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 				System.out.println(Const.ImgSwiperPath + "/" + filename);

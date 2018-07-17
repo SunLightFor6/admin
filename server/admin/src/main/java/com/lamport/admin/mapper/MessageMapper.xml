@@ -59,6 +59,7 @@
 			resultMap="_Message">
 		select * from message m
 		where m.qid=#{qid} and m.deletekey=0
+		order by mid desc
 		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 

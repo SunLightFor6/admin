@@ -1,0 +1,96 @@
+42		38		4
+		27		15
+		11		31
+
+----------2018.07.10 17:12----------
+1. LogInAndOut:
+	adminLogin												...				.
+	adminLogout												...				.
+	superAdminLogin											...				.
+	superAdminLogout										...				.
+	
+2. SuperAdmin:
+	saveEnterprise											...				.
+	deleteEnterpriseByID									...				.
+	selectEnterpriseByPage									...				.
+
+3. Statistics: 
+	statistics												...				.
+	
+4. EnterpriseBasicInfo:
+	updateEnterpriseBasicInfoByID							...				x
+	selectEnterpriseBasicInfoByQID							...				.	修改数据库存放的文件路径
+	
+5. Branch:
+	saveBranch												...				.	地图定位有误，貌似会定位到同一个地方
+	deleteBranchByID										...				.
+	updateBranchByID										...				.	地图定位有误
+	selectBranchByQIDAndPage								...				.
+	
+6. FreeListen:
+	saveFreeListen															？	富文本编辑器不能上传图片
+	deleteFreeListenByID													?	后台删除免费课成功，前台没响应
+	updateFreeListenByID													x
+	selectFreeListenByFreeListenQueryCondition								.
+	
+7. Lesson:
+	saveLesson												...				.	富文本编辑器不能上传图片
+	deleteLessonByID										...				?	后台删除精品课成功，前台没响应
+	updateLessonByID										...				x
+	selectLessonByLessonQueryCondition						...				.
+
+8. Teacher:
+	saveTeacher												...				.
+	deleteTeacherByID										...				?	后台删除教师成功，前台没响应
+	updateTeacherByID										...				.
+	updateTeacherSwiperByQID								...				.
+	selectTeacherByQIDAndPage								...				.
+	selectTeacherSwiperByQID								...				.
+
+9. FreeListenBook:
+	processFreeListenBookByID								...
+	selectFreeListenBookByBookQueryCondition				...
+	selectFreeListenBookUnprocessedByBookQueryCondition		...
+
+10.Sorder:
+	processRefundByID										...
+	verifySorderByID										...
+	selectSorderBySorderQueryCondition						...
+	selectRefundBySorderQueryCondition						...
+	selectSorderUnverifiedBySorderQueryCondition			...
+
+11.Message:
+	saveMessage												...
+	deleteMessageByID										...
+	deleteMessageReplyByID									...
+	selectMessageByQIDAndPage								...
+
+12.Admin:
+	updatePasswordByQID										...				?	密码前端校验有问题，后续未知
+	selectEnterpriseBasicDataByQID							...				?	没有请求后台？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
