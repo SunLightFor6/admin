@@ -76,8 +76,9 @@
 						type:"post",
 						url: PREPATH + "/admin/deleteTeacherLogicallyByID?id=" + data.id,
 						async:true,
-						success:function(response) {
-							if(response == 1) {
+						dataType:"json",
+						success:function(data) {
+							if(data.response == 1) {
 								layer.open({
 									type: 0,
 									btn: false,

@@ -57,9 +57,9 @@ public class MessageServiceBean implements MessageService {
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
-				Creator creator = new Creator();
-				String filename = creator.createFilename();
-//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+//				Creator creator = new Creator();
+//				String filename = creator.createFilename();
+				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgMessagePath, filename));
 				imgurls.add( Const.ImgMessagePath + "/" + filename);
 			}
@@ -85,9 +85,9 @@ public class MessageServiceBean implements MessageService {
 
 		int deleteResult = 1;
 
-		deleteResult *= messageImgMapper.deleteMessageImgLogicallyByMID(id);
-		deleteResult *= messageLikeMapper.deleteMessageLikeLogicallyByMID(id);				
-		deleteResult *= messageReplyMapper.deleteMessageReplyLogicallyByMID(id);
+		messageImgMapper.deleteMessageImgLogicallyByMID(id);
+		messageLikeMapper.deleteMessageLikeLogicallyByMID(id);				
+		messageReplyMapper.deleteMessageReplyLogicallyByMID(id);
 		deleteResult *= messageMapper.deleteMessageLogicallyByID(id);
 		deleteResult = deleteResult>0 ? 1: 0;
 		

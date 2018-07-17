@@ -41,9 +41,9 @@ public class FreeListenServiceBean implements FreeListenService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null) {
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgFreeListenPath, filename);
 			imgurl = Const.ImgFreeListenPath + "/" + filename;
 		}
@@ -79,9 +79,9 @@ public class FreeListenServiceBean implements FreeListenService {
 		String imgurl = null;
 		File imgFile = null;
 		if(img != null){
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + img.getOriginalFilename();
 			imgFile = new File(path + Const.ImgFreeListenPath, filename);
 			imgurl = Const.ImgFreeListenPath + "/" + filename;
 		}

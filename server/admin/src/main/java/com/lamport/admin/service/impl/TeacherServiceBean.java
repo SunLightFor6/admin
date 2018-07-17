@@ -35,9 +35,9 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(teacher_img != null){
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
 			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
 			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
@@ -71,9 +71,9 @@ public class TeacherServiceBean implements TeacherService {
 		String tphoto = null;
 		File tphotoFile = null;
 		if(imgFile != null){
-			Creator creator = new Creator();
-			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
+//			Creator creator = new Creator();
+//			String filename = creator.createFilename();
+			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
 			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
 			tphoto = Const.ImgTeacherPath + "/" + filename;
 		}
