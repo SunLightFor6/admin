@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lamport.education.mapper.LessonMapper">
+	
+	<select id="selectLessonByLid" parameterType="int" resultType="com.lamport.education.vo.LessonInfoVo">
+		select lesson.lid,imgurl,lprice as price,category,branch,address,ldesc as lessonDesc,lname as title,lessonbranch.branchid as bid
+		from lesson,lessonbranch,address
+		where lesson.lid=#{lid} and lesson.lid = lessonbranch.lid
+			  and address.id = lessonbranch.branchid
+	</select>
+
+	<select id="selectLessonByOid" parameterType="int" resultType="com.lamport.education.vo.LessonInfoVo">
+		select lesson.lid,imgurl,lprice as price,category,branch,address,ldesc as lessonDesc,lname as title,lessonbranch.branchid as bid
+		from lesson,lessonbranch,address,sorder
+		where  sorder.oid =#{oid}
+			  and lesson.lid=sorder.lid
+			  and lesson.lid = lessonbranch.lid
+			  and address.id = lessonbranch.branchid
+			    
+	</select>
+	
+	
+	
+	<select id="selectLessonsByQid" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.Lesson">
+		select *
+		from lesson 
+		where qid=#{qid} 
+		 <if test='page.startRowId !=-1'>
+				and #{page.startRowId}>lid
+		</if>
+		order by lid desc
+		limit 0,#{page.pageSize}
+	</select>
+	
+	<select id="selectLessonPageByBidAndCategory" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.Lesson">
+		select * from lesson join lessonbranch on lesson.lid = lessonbranch.lid 
+		where deletekey = 0 
+		 <if test='page.startRowId !=-1'>
+				and #{page.startRowId}>lesson.lid
+		</if>
+		<if test="bid != -1">
+			and lessonbranch.bid = #{bid}
+		</if>
+		<if test="category != ''">
+			and lesson.category = #{category}
+		</if>
+		 order by lid desc
+         limit 0,#{page.pageSize}
+	</select>
+	<select id="selectLessonPageByBranchNameCategory" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.Lesson">
+		SELECT lesson.lid,imgurl from lesson,lessonbranch,address 
+		where lesson.deletekey = 0 
+			  and lesson.lid = lessonbranch.lid 
+			  and lessonbranch.branchid = address.id
+			  and lesson.qid=#{qid}
+			  <if test='page.startRowId !=-1'>
+				and #{page.startRowId}>lesson.lid
+			</if>
+			 <if test="branchName !=''">
+				and address.branch = #{branchName}
+			</if>
+			<if test="category !=''">
+				and category = #{category}
+			</if>
+		order by lid desc
+         limit 0,#{page.pageSize}
+		
+	</select>
+	
+</mapper>

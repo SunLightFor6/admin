@@ -1,6 +1,6 @@
 var PREPATH = "/lamport/api/admin";
 var URL = "http://localhost:8083";
-var IMGPATH = URL + "/lamport/upload_files";
+var IMGPATH = "/lamport/upload_files";
 
  //设置ajax请求完成后运行的函数,
 var jqxhr;

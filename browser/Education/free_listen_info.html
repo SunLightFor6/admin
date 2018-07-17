@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Education</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/icons-extra.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+    	<script src="js/loading.animation.js" type="text/javascript"></script>
+    	<script src="js/config.js" type="text/javascript"></script>
+		<style>
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 17px;
+			}
+		</style>
+		
+	</head>
+	<!--loading页开始-->
+		<div class="loading">
+			<div class="loader">
+		        <div class="loader-inner pacman">
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		        </div>
+			</div>
+		</div>
+		<!--loading页结束-->
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">免费试听</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<img id="lessonImg"   src="" data-preview-src="" data-preview-group="1" width="100%" height="25%"/>
+			</div>			
+			<div id="lessonTitle" class="title">
+				 
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
+						<div class="mui-media-body">
+							开课分校
+							<p id="schoolLoaction"  class='mui-ellipsis'>实训中心</p>
+						</div>						
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
+						<div class="mui-media-body">	
+							课程方向
+							<p id="studyDirection"  class='mui-ellipsis'>进行中</p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
+						<div class="mui-media-body">
+							课程状态
+							<p class='mui-ellipsis'>进行中</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-card" style="margin-top: 20px;">
+				<div class="mui-content-padded" style="background-color: #FFFFFF;">
+					<p id="lessonDesc">
+						 
+					</p>
+				</div>
+			</div>
+			<div class="mui-content-padded" style="float: right;">
+				<button id="reserve" type="button" class="mui-btn mui-btn-warning" style="font-size: 15px;" value="">
+					<span style="padding-right: 3px;">申请预约</span>
+					<span class="mui-icon mui-icon-extra mui-icon-extra-cate"></span>
+				</button>
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui.plusReady(
+			document.getElementById("reserve").addEventListener('tap', function() {
+				var fid =this.value;
+				console.log(fid);				
+				var skpiUrl = 'reserve_free_listen.html?fid='+fid+"&fname="+$("#lessonTitle").html();
+				encodeURI(skpiUrl);
+				console.log(skpiUrl);
+				mui.openWindow({
+					url:skpiUrl ,
+					id: 'reserve_free_listen.html' 
+            	});
+			})
+		)
+
+	 
+		var fid = ((window.location+'').split('?')[1]).split('=')[1];
+		var requestUrl = PREPATH+"/selectFreeListenByFid";
+	    getFreeListenInfo(requestUrl,1,fid);
+		function getFreeListenInfo(url,qid,fid){
+				//获取所有订单
+				   mui.ajax(url,{
+					type:"post",
+					async:true,
+					data:{fid:fid},
+					dataType:"json",
+					xhrFields: {  
+						withCredentials: true  
+					},  
+					crossDomain: true,
+					success:function(data){
+						$("#lessonImg").attr('src',IMGPATH +data.imgurl) ;
+						$("#studyDirection").text(data.category)
+					    $("#lessonTitle").html(data.title);
+					    $("#schoolLoaction").text(data.branch + data.address);
+					    $("#lessonDesc").text(data.lessonDesc);
+					    $("#reserve").val(fid);
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+    				}
+
+				});
+				
+		};
+		
+	</script>
+</html>

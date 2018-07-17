@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lamport.education.mapper.BranchMapper">
+	<resultMap type="com.lamport.education.vo.EnterpriseCategoryVo" id="_EnterpriseCategoryVo">
+		    <id column="qid" property="qid"/>
+		    <!-- column通常为 order表中的外键列 -->
+		    <collection property="branchCategoryVos" ofType="com.lamport.education.vo.BranchCategoryVo" >
+		        <id column="branchid" property="bid"/>
+		        <result column="branch" property="branch"/>
+		        <collection property="lessonCategorys" ofType="com.lamport.education.po.Lesson" >
+				        <id column="lid" property="lid"/>
+				        <result column="lessonCategory" property="category"/>
+		    	</collection>
+		    	<collection property="freeListenCategorys" ofType="com.lamport.education.po.FreeListen" >
+				        <id column="fid" property="id"/>
+				        <result column="freelistenCategory" property="category"/>
+		    	</collection>
+		    </collection>
+	</resultMap>
+	
+	<select id="selectAllCategoryByQid" parameterType="int" resultMap="_EnterpriseCategoryVo" >
+		SELECT qid,temp2.branchid,temp2.branch,temp2.category as lessonCategory,temp2.lid ,temp3.category as freelistenCategory,temp3.fid
+		from ( 
+			SELECT *from
+			address 
+			LEFT JOIN (SELECT lesson.lid,lessonbranch.branchid,lesson.category from lesson,lessonbranch  
+								where lesson.deletekey = 0 
+								and lesson.lid = lessonbranch.lid
+								GROUP BY branchid ,category
+								)temp
+								on temp.branchid = address.id
+			)temp2 LEFT JOIN (select branchid,category,freelisten.id as fid from freelisten 
+				where deletekey =0
+				group by branchid ,category)temp3 on temp3.branchid = temp2.branchid
+		where temp2.qid = #{qid}
+	</select>
+	
+</mapper>

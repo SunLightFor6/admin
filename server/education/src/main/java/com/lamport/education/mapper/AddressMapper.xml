@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lamport.education.mapper.AddressMapper">
+	<select id="selectAddressPageByQid" parameterType="com.lamport.education.vo.EnterpriseInfoVo" resultType="com.lamport.education.po.Address" >
+		select * from address where qid=#{qid} and deletekey=0 
+		<if test='page.startRowId !=-1'>
+			and qid>#{page.startRowId}
+		</if>	
+		limit 0,#{page.pageSize}
+	</select>
+	
+</mapper>
