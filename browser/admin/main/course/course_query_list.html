@@ -362,9 +362,10 @@
 						jqxhr = $.ajax({
 							type: "post",
 							url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
-							async: true,
+							async: false,
+							dataType: "json",
 							success: function(data) {
-								if(data.response == "1") {
+								if(data.response == 1) {
 									layer.open({
 										type: 0,
 										btn: false,
@@ -376,7 +377,7 @@
 										content: '删除成功！'
 									});
 									obj.del();
-								} else if(data.response == "0") {
+								} else if(data.response == 0) {
 									layer.open({
 										type: 0,
 										btn: false,
@@ -403,7 +404,7 @@
 							url: PREPATH + "/admin/deleteLessonByID?id=" + data.courseid,
 							async: true,
 							success: function(data) {
-								if(data.response == "1") {
+								if(data.response == 1) {
 									layer.open({
 										type: 0,
 										btn: false,
@@ -412,10 +413,13 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 1500,
-										content: '删除成功！'
+										content: '删除成功！',
+										success: function() {
+											obj.del();
+										}
 									});
-									obj.del();
-								} else if(data.response == "0") {
+									
+								} else if(data.response == 0) {
 									layer.open({
 										type: 0,
 										btn: false,
