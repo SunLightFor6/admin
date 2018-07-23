@@ -62,13 +62,21 @@
 					<div class="layui-tab-item">
 						<form class="layui-form" name="new_course_form_exp" action="" method="post">
 							<p class="form-label_sm">课程名称</p>
-							<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
+							<input type="text" name="coursename" id="coursename_f" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 							<p class="form-label_sm">课程状态</p>
-							<select name="coursestatus" lay-verify="required" lay-search="">
+							<select name="coursestatus" id="coursestatus_f" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
 								<option value="进行中">进行中</option>
 								<option value="已结束">已结束</option>
 								<option value="即将开始">即将开始</option>
+							</select>
+							<p class="form-label_sm">课程类别</p>
+							<select id="categories_s_f" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
+								<option value="直接选择或搜索选择">直接选择或搜索选择</option>
+								<option value="前端">前端</option>
+								<option value="Java">Java</option>
+								<option value="Java Web">Java Web</option>
+								<option value="0">自定义</option>
 							</select>
 							<p id="categories_p"></p>
 							<p class="form-label_sm">课程图片</p>
@@ -84,7 +92,7 @@
 								</blockquote>
 							</div>
 							<p class="form-label_sm">开本课程的分部</p>
-							<select id="fenbu" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
+							<select id="fenbu_f" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
 								<option value="实训中心">实训中心</option>
 								<option value="大连软件园">大连软件园</option>
@@ -189,8 +197,8 @@
 				formData.append("imgFile", imgFile);
 				formData.append("lprice", $("#courseprice").val());
 				formData.append("ldesc", um_formal.getContent());
-				formData.append("status", $('#coursestatus option:selected'));
-				formData.append("category", $('#categories_s option:selected'));
+				formData.append("status", $('#coursestatus option:selected').text());
+				formData.append("category", $('#categories_s option:selected').text());
 				formData.append("branchs", branch);
 
 				jqxhr = $.ajax({
@@ -213,7 +221,7 @@
 								shadeClose: true,
 								time: 1500,
 								content: '课程添加成功！',
-								cancel: function() {
+								success: function() {
 									window.location.href = "#21";
 								}
 							});
@@ -249,13 +257,13 @@
 			});
 			$("#submit_free_btn").click(function() {
 				var formData = new FormData();
-				var branch = $("#fenbu input:selected");
+				var branch = $("#fenbu_f input:selected").text();
 
-				formData.append("title", $('#coursename').val());
+				formData.append("title", $('#coursename_f').val());
 				formData.append("imgFile", imgFile);
-				formData.append("ldesc", um_free.getContent());
-				formData.append("status", $('#coursestatus option:selected'));
-				formData.append("category", $('#categories_s option:selected'));
+				formData.append("fdesc", um_free.getContent());
+				formData.append("status", $('#coursestatus_f option:selected').text());
+				formData.append("category", $('#categories_s_f option:selected').text());
 				formData.append("branchName", branch);
 
 				jqxhr = $.ajax({
@@ -278,7 +286,7 @@
 								shadeClose: true,
 								time: 1500,
 								content: '课程更新成功！',
-								cancel: function() {
+								success: function() {
 									window.location.href = "#21";
 								}
 							});

@@ -43,12 +43,12 @@
 	<ul class="slideul">
 		<li>
 			<a href="#15">
-				<img src="../../img/new.png" style="height: 40px; width: 40px;" />
+				<img src="../../img/new.png" />
 			</a>
 		</li>
 		<li>
 			<a href="#top">
-				<img src="../../img/top.png" style="height: 40px; width: 40px;" />
+				<img src="../../img/top.png" />
 			</a>
 		</li>
 	</ul>
@@ -61,8 +61,8 @@
 	$('#branch_name_show').text(sessionStorage.getItem("b_branch"));
 	$('#address').text(sessionStorage.getItem("b_address"));
 	$('#tel').text(sessionStorage.getItem("b_tel"));
-	var longi = parseInt(sessionStorage.getItem("b_longitude"));
-	var lati =  parseInt(sessionStorage.getItem("b_latitude"));	
+	var longi = parseFloat(sessionStorage.getItem("b_longitude"));
+	var lati =  parseFloat(sessionStorage.getItem("b_latitude"));	
 //	var longi = 123.4;
 //	var lati =  41.8;
 	

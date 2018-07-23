@@ -4,26 +4,6 @@
 			现有的轮播图：
 			<div id="current_pics"></div>
 		</blockquote>
-		<script>
-			$(function() {
-//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-//						$('#current_pics').append('<img src="' + '../../img/11.jpg' + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-						jqxhr = $.ajax({
-									type: "get",
-									url: PREPATH + "/admin/selectTeacherSwiperByQID",
-									async: true,
-									processData: false,
-									contentType: false,
-									dataType: "json",
-									success: function(data) {
-										$.each(data, function(name, value) {
-												$('#current_pics').append('<img src="' + IMGPATH + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
-										});
-									}
-									});
-							})
-		</script>
 		<form class="layui-form" name="message_form" action="" method="post" enctype="multipart/form-data">
 			<p class="form-label">上传轮播图</p>
 			<div class="layui-upload">
@@ -134,7 +114,10 @@
 						closeBtn: 0,
 						shadeClose: true,
 						time: 1500,
-						content: '更新成功！'
+						content: '更新成功！',
+						success : function() {
+							location.reload()
+						}
 					});
 					window.location.href = "#32";
 				} else {
@@ -164,4 +147,21 @@
 			}
 		});
 	});
+</script>
+<script>
+			$(function() {
+				jqxhr = $.ajax({
+					type: "get",
+					url: PREPATH + "/admin/selectTeacherSwiperByQID",
+					async: true,
+					processData: false,
+					contentType: false,
+					dataType: "json",
+					success: function(data) {
+						$.each(data, function(name, value) {
+								$('#current_pics').append('<img src="' + IMGPATH + value + '"class="layui-upload-img" style="height: 150px; width: 240px" />');
+						});
+					}
+					});
+					})
 </script>

@@ -31,6 +31,14 @@
 			<script type="text/plain" id="myEditor_enter_modify" style="height:240px;"></script>
 			<p class="form-label_sm"></p>
 			<button type="submit" id="enter_modify_submit" class="layui-btn">确定</button>
+			<script>
+				var um_free = UM.getEditor('myEditor_enter_modify');
+				console.log("--------UM 初始化 -------- ： ");
+				um_free.setWidth("100%");
+				$(".edui-body-container").css("width", "98%");
+				$(".edui-body-container").css("z-index", "1");
+				//		um_free.setContent(enterprise_info.jczs);
+			</script>
 		</form>
 	</div>
 </div>
@@ -62,13 +70,6 @@
 		var form = layui.form;
 		var upload = layui.upload;
 		var enterprise_info = sessionStorage.getItem("enterprise_info");
-
-		var um_free = UM.getEditor('myEditor_enter_modify');
-		console.log("--------UM 初始化 -------- ： ");
-		um_free.setWidth("100%");
-		$(".edui-body-container").css("width", "98%");
-		$(".edui-body-container").css("z-index", "1");
-		//		um_free.setContent(enterprise_info.jczs);
 
 		form.render();
 
@@ -161,7 +162,7 @@
 			formData.append("message_pics", message_pics);
 			formData.append("video", video);
 			formData.append("jczs", um_free.getContent());
-//			alert("即将ajax");
+			//			alert("即将ajax");
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updateEnterpriseBasicInfoByID",
@@ -171,7 +172,7 @@
 				processData: false,
 				contentType: false,
 				success: function(data) {
-//					alert(data.response);
+					//					alert(data.response);
 					if(data.response == 1) {
 						layer.open({
 							type: 0,

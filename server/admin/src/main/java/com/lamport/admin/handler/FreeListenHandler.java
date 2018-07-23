@@ -37,7 +37,7 @@ public class FreeListenHandler {
 	@RequestMapping(value="/admin/saveFreeListen")
 	@ResponseBody
 	public String saveFreeListen(FreeListen freeListen, MultipartFile imgFile, HttpServletRequest request) throws Exception{
-		System.out.println("..........FreeListenHandler..........saveFreeListen()..........freeListen:" + freeListen.getTitle() + " imgFile" + imgFile);
+		System.out.println("..........FreeListenHandler..........saveFreeListen()..........freeListen:" + freeListen.getTitle() + " imgFile" + imgFile + " " + freeListen.getCategory() + freeListen.getStatus());
 		String result = null;
 		
 		HttpSession session = request.getSession();
