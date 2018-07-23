@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lamport.education.mapper.FreeListenMapper">
+	<select id="selectFreeListenByFid" parameterType="int" resultType="com.lamport.education.vo.LessonInfoVo" >
+		    select freelisten.id as id,title,imgurl ,fdesc as lessonDesc,category ,address,branch
+			from freelisten,address 
+			where freelisten.branchid = address.id
+				  and freelisten.id = #{fid}
+	</select>
+	<select id="selectFreeListenPageByBidAndCategory" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.FreeListen">
+           SELECT * from freelisten
+            where userdeletekey = 0 
+            <if test='page.startRowId !=-1'>
+				and #{page.startRowId}>id
+			</if>
+			<if test='bid !=-1'>
+				and branchid= #{bid}
+			</if>
+			<if test='category!=""'>
+				and category =#{category}
+			</if>  
+			 order by pubtime desc
+             limit 0,#{page.pageSize}
+	</select> 
+	<select id="selectFreeListenByPage" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.FreeListen" >
+		    select * from freelisten where qid = #{qid}  
+			<if test='page.startRowId !=-1'>
+				and #{page.startRowId}>id
+			</if>
+		    order by pubtime desc
+            limit 0,#{page.pageSize}
+	</select>
+	<select id="selectFreeListenPageByBranchNameAndCategory" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.FreeListen">
+          SELECT * from freelisten,address 
+			where freelisten.deletekey = 0 
+				and freelisten.branchid = address.id  
+				and freelisten.qid=#{qid}
+			<if test='page.startRowId !=-1'>
+				and #{page.startRowId}>freelisten.id
+			</if>
+			<if test='branchName !=""'>
+				and address.branch= #{branchName}
+			</if>
+			<if test='category!=""'>
+				and category =#{category}
+			</if>  
+			 order by pubtime desc
+             limit 0,#{page.pageSize}
+	</select> 
+
+</mapper>
+
+	

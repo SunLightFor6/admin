@@ -1,0 +1,107 @@
+<div class="body-in" id="top">
+	<div class="layui-card-body">
+		<form class="layui-form" id="teacher_form" name="teacher_form" lay-filter="teacher_form" action="" method="post">
+			<p class="form-label">讲师姓名</p>
+			<input type="text" name="tname" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+			<p class="form-label">讲师图片</p>
+			<div class="layui-upload">
+				<div class="layui-upload-drag" id="uploadpic">
+					<i class="layui-icon">&#xe681;</i>
+					<p>点击上传，或将图片拖拽到此处</p>
+				</div>
+				<div class="layui-upload-list" id="pic-div" style="display: none;">
+					<img class="layui-upload-img" style="height: 250px; width: 150px;" id="pic">
+					<p id="demoText"></p>
+				</div>
+			</div>
+			<p class="form-label">讲师简介</p>
+			<textarea name="introduction" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
+			<div style="margin: 10px;">
+				<button type="button" id="teacher_submit_btn" class="layui-btn">提交讲师信息</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+
+	});
+</script>
+<script>
+	var teacher_img;
+	layui.use('upload', function() {
+		var upload = layui.upload;
+		
+		upload.render({
+			elem: '#uploadpic',
+			url: '/upload/',
+			auto: false,
+			acceptMime: 'image/*',
+			size: 1000 //限制文件大小，单位 KB
+				,
+			choose: function(obj) {
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result) {
+					teacher_img = file;
+					$('#pic-div').show();
+					$('#pic').attr('src', result); //图片链接（base64）
+				});
+			}
+		});
+	});
+
+	$("#teacher_submit_btn").click(function() {
+		var formData = new FormData($("#teacher_form")[0]);
+		formData.append("teacher_img", teacher_img);
+		jqxhr = $.ajax({
+			type: "post",
+			url: PREPATH + "/admin/saveTeacher",
+			async: true,
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				if(data.response = 1) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '新增成功！'
+					});
+					window.location.href = "#31";
+				} else {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '新增失败，请稍后重试'
+					});
+				}
+				//上传成功
+			},
+			error: function() {
+				layer.open({
+					type: 0,
+					btn: false,
+					title: false,
+					icon: 5,
+					closeBtn: 0,
+					shadeClose: true,
+					time: 1500,
+					content: '服务器错误，请稍后重试'
+				});
+			}
+		});
+	});
+</script>

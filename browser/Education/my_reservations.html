@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Education</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="js/loading.animation.js" type="text/javascript"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+	</head>
+	<!--loading页开始-->
+	<div class="loading">
+		<div class="loader">
+	        <div class="loader-inner pacman">
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	        </div>
+		</div>
+	</div>
+	<!--loading页结束-->
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: #EFEFF4;
+				min-height: 580px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			.mui-scroll-wrapper {
+				height: 100%;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的预约</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">				
+				
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1">
+						全部预约
+					</a>
+					<a class="mui-control-item" href="#item2">
+						待处理
+					</a>
+					<a class="mui-control-item" href="#item3">
+						已处理
+					</a>
+				</div>				
+				
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll" id ="item1_mui-scroll">			
+							</div>
+						</div>
+					</div>								
+					<div id="item2" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll" id ="item2_mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner" id ="item2_mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="item3" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll" id ="item3_mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner" >
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+	   	<script src="js/mui.pullToRefresh.material.js"></script>
+		<script>
+			var orderStatus ="";
+			var rowId= -1;
+			var itemName ="#item1_mui-scroll";
+
+			function getItemStr(order_time,order_state,img_name,order_name,order_no)
+			{
+				var html_content = '';
+				html_content += '<div class="mui-card">';
+				html_content += '	<div class="mui-card-header">';
+				html_content += '		<table width="100%">';
+				html_content += '			<tr>';
+				html_content += '				<td width="50%">'+order_time+'</td>';
+				html_content += '				<td width="50%" align="right">'+order_state+'</td>';
+				html_content += '			</tr>';
+				html_content += '		</table>';
+				html_content += '	</div>';
+				html_content += '	<div class="mui-card-content">';
+				html_content += '		<div class="mui-card-content-inner">';
+				html_content += '			<table width="100%">';
+				html_content += '				<tr>';
+				html_content += '					<td width="50%">';
+				html_content += '						<img class="mui-media-object mui-pull-left" src="'+ IMGPATH +img_name+'">';
+				html_content += '					</td>';
+				html_content += '					<td width="50%" align="right">';
+				html_content += '						<p align="center" style="color: #333;">'+order_name+'</p>';
+				html_content += '						<p align="center" style="color: #333;">'+order_no+'</p>';
+				html_content += '					</td>';
+				html_content += '				</tr>';
+				html_content += '			</table>';
+				html_content += '		</div>';
+				html_content += '	</div>';
+				html_content += '</div>';
+				return html_content;
+			}
+			
+			function getAllOrderByStatus(uid,status,divId){
+				//获取所有订单
+				mui.ajax(PREPATH+"/selectAllFreeListenBookByPageAndStatusAndUid",{
+					type:"post",
+					async:true,
+					data:{status:status,uid:uid,rowId:rowId},
+					dataType:"json",
+					xhrFields: {  
+						withCredentials: true  
+					},  
+					crossDomain: true,
+					success:function(data){
+						var fatherDiv = $(divId);						  
+						for(var i = 0; i < data.length; i++) {		
+							var content = getItemStr(data[i].booktime.substring(0,10),data[i].status,data[i].freeListen.imgurl,data[i].freeListen.title,data[i].id);
+							fatherDiv.append(content);
+							if(data.length!=0)
+								rowId = data[data.length-1].id;
+							else
+								rowId = -2;
+						}						
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+    				}
+
+				});
+				
+			};
+		</script>
+		
+		<script>
+			mui.init({
+				swipeBack: false
+				
+			});
+			mui.ready(function() {
+				getAllOrderByStatus(1,orderStatus,itemName);
+			});
+						
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var item1 = document.getElementById('item1');
+				var item2 = document.getElementById('item2');
+				var item3 = document.getElementById('item3');
+				document.getElementById('slider').addEventListener('slide', function(e) {					
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								rowId =-1;
+								orderStatus ="待处理";
+								itemName = '#item2_mui-scroll';
+								getAllOrderByStatus(1,"待处理",'#item2_mui-scroll');
+								jQuery('#item2 .mui-loading').hide();
+							}, 500);
+						}
+					}
+					else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {	
+								rowId =-1;
+								orderStatus="已处理";
+								itemName = '#item3_mui-scroll';
+								getAllOrderByStatus(1,"已处理",'#item3_mui-scroll');							 
+							    jQuery('#item3 .mui-loading').hide();
+							}, 500);
+						}
+					}
+				});
+				
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});				
+				
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.0009;
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration
+				});
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+						$(pullRefreshEl).pullToRefresh({
+							down: {
+								callback: function() {
+									var self = this;
+									setTimeout(function() {
+										self.endPullDownToRefresh();
+									}, 1000);
+								}
+							},
+							up: {
+								callback: function() {
+									var self = this;
+									setTimeout(function() {
+										console.log("bound=" + rowId);
+										getAllOrderByStatus(1, orderStatus, itemName);
+										self.endPullUpToRefresh();
+									}, 1000);
+								}
+							}
+						});
+					});			 
+				});
+			})(mui);
+			
+		</script>
+
+	</body>
+
+</html>

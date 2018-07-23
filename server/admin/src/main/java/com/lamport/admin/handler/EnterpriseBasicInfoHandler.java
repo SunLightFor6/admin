@@ -36,7 +36,8 @@ public class EnterpriseBasicInfoHandler {
 	@RequestMapping(value="/admin/updateEnterpriseBasicInfoByID")
 	@ResponseBody
 	public String updateEnterpriseBasicInfoByID(Enterprise enterprise, @RequestParam("message_pics") MultipartFile[] message_pics, MultipartFile video, HttpServletRequest request) throws Exception{
-		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........enterprise:" + enterprise + " message_pics" + message_pics.length + " video" + video);
+		System.out.println("..........EnterpriseBasicInfoHandler..........updateEnterpriseBasicInfoByID()..........");
+		System.out.println("enterprise = "+enterprise + "\t message_pics = "+message_pics +"\t video = " + video);
 		String result = null;
 
 		HttpSession session = request.getSession();

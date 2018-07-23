@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Education</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="js/loading.animation.js" type="text/javascript"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+		</style>
+	</head>
+	<!--loading页开始-->
+		<div class="loading">
+			<div class="loader">
+		        <div class="loader-inner pacman">
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		        </div>
+			</div>
+		</div>
+	<!--loading页结束-->
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">试听课程预约</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 10px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row" style="height: 50px; padding: 8px;">
+						<label>试听课程</label>
+						<input id="lname" type="text" value="PHP项目实战" readonly>
+					</div>
+					<div class="mui-input-row" style="height: 50px; padding: 8px;">
+						<label>真实姓名</label>
+						<input id="userName" type="text" class="mui-input-clear" placeholder="千万别输入微信昵称哟">
+					</div>
+					<div class="mui-input-row" style="height: 50px; padding: 8px;">
+						<label>联系方式</label>
+						<input id="tel" type="text" class="mui-input-clear" placeholder="最好输入手机号码">
+					</div>
+					<div class="mui-input-row" style="height: 160px; padding: 8px;">
+						<label>备注</label>
+						<textarea id="comment" rows="5" placeholder="您有什么特殊的需求"></textarea>
+					</div>
+					<div class="mui-button-row" style="height: 60px; padding: 10px;">
+						<button  id="reserve" type="button" class="mui-btn mui-btn-primary" 
+							style="width: 40%; height: 40px; font-size: 16px;">
+							申请预约
+						</button>
+					</div>
+				</form>
+				<div id="info" align="center" style="padding-top: 10px; font-family: '宋体'; font-size: 17px;"></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});			 
+
+			var nativeWebview, imm, InputMethodManager;
+			
+			var showSoftInput = function() {
+				if (mui.os.android) {
+					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				} else {
+					nativeWebview.plusCallMethod({
+						"setKeyboardDisplayRequiresUserAction": false
+					});
+				}
+				setTimeout(function() {
+					var inputElem = document.querySelector('input');
+					inputElem.focus();
+					inputElem.parentNode.classList.add('mui-active'); //第一个是search，加上激活样式
+				}, 200);
+			};
+			
+			mui.plusReady(function() {
+				initNativeObjects();
+				showSoftInput();
+			});
+			
+			var parameters = ((window.location+'').split('?')[1]).split('&');// ?oid=0&lid=0
+			var fid = parameters[0].split('=')[1];
+			var fname = decodeURI(parameters[1].split('=')[1]);
+			$('#lname').val(fname);
+			var info = document.getElementById("info");
+			
+			document.getElementById("reserve").addEventListener('tap', function() {
+				var btnArray = ['是', '否'];
+				mui.confirm('您是否确认预约？', '准备预约', btnArray, function(e) {
+					if (e.index == 0) {
+						bookFreeListen(fid);
+					} 
+					else {
+						info.innerText = '预约失败';
+					}
+				})
+			});
+
+			function bookFreeListen(fid){
+				var userName = $('#userName').val();
+				var tel = $('#tel').val();
+				var comment = $('#comment').val();
+				mui.ajax(PREPATH+"/saveFreeListenByLid",{
+					type:"post",
+					async:true,
+					data:{fid:fid,userName:userName,tel:tel,comment:comment},
+					dataType:"json",
+					xhrFields: {  
+						withCredentials: true  
+					},  
+					crossDomain: true,
+					success:function(data){
+					   setTimeout(function() {
+							info.innerText = '支付成功';
+							mui.openWindow({
+								url: 'my_reservations.html',
+								id: 'my_reservations.html' 
+			            	});
+						}, 1000);
+					   
+					},
+					error:function(xhr,type,errorThrown){
+        				//异常处理；
+        				console.log(type);
+        				setTimeout(function() {
+							info.innerText = '支付失败q';
+							mui.openWindow({
+								url: 'my_reservations.html',
+								id: 'my_reservations.html' 
+			            	});
+						}, 1000);
+    			    }
+				});				
+			}
+			
+		</script>
+	</body>
+
+</html>

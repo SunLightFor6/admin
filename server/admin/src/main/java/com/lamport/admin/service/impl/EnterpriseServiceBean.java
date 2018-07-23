@@ -109,20 +109,22 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		List<String> imgurls = new ArrayList<String>();
 		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
+			System.out.println("Now imgs is not null");
 			for(int i=0; i<imgs.length; i++){
-//				Creator creator = new Creator();
-//				String filename = creator.createFilename();
 				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
 				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
 				imgurls.add(Const.ImgSwiperPath + "/" + filename);
 			}
-			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
+			swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){
 				Swiper swiper = new Swiper();
 				swiper.setCategory(qidAndCategory.getCategory());
 				swiper.setQid(qidAndCategory.getQid());
 				swiper.setImgurl(imgurls.get(i));
 				swiper.setDeletekey(0);
+				
+				System.out.println("imgurl = " + swiper.getImgurl());
+				
 				updateResult *= swiperMapper.saveSwiper(swiper);
 			}
 		}
@@ -138,6 +140,15 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		}
 		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
 		enterprise.setVideopath(videoPath);
+		
+		
+		
+		
+		System.out.println(enterprise.getVideopath());
+		
+		
+		
+		
 		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
 		if(imgurls != null){
 			for(int i=0; i<imgFiles.size(); i++){

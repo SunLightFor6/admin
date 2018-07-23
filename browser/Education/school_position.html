@@ -1,0 +1,172 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Education</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/extra-icons_modify.css" />
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=6wBDtjRUGlgoItGElUhNfuTrxzg7IkBG"></script>
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="js/loading.animation.js" type="text/javascript"></script>
+			<script src="js/config.js" type="text/javascript"></script>
+		<style>
+
+			#allmap{height:250px;width:100%;}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+		</style>
+	</head>
+	<!--loading页开始-->
+		<div class="loading">
+			<div class="loader">
+		        <div class="loader-inner pacman">
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		          <div></div>
+		        </div>
+			</div>
+		</div>
+		<!--loading页结束-->
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">学校位置</h1>
+		</header> 
+		<div class="mui-content" style="margin-top: 44px; padding-top: 0;">			
+		   	<div id="allmap" ></div>	
+			<ul class="mui-table-view"></ul>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+
+		findSchoolPostionByQid();
+		function getItemStr(data){
+			html =[];
+		    html.push('<li class="mui-table-view-cell">');
+			html.push('<h4>'+data.branch +'</h4>');
+			html.push(' <h4>联系商户 </h4>');
+			html.push('<a id="icon-phone "><span class="mui-icon mui-icon-phone"  style=" color:#007AFF; font-size:40px;"></span></a>');
+			html.push('<button type="button" class="mui-btn mui-btn-primary" style="height: 30%;width:20%;  font-size: 120%;" value="'+data.longitude+','+data.latitude+'" >');
+			html.push('<b>导航</b>');
+			html.push('</button>');
+			html.push('<table width="100%">');
+			html.push('<tr>');
+			html.push('<td style="width: 50%;">');
+			html.push(data.tel);
+			html.push('</td>');
+			html.push('<td style="width: 50%;" align="right">');
+			html.push( data.address);
+			html.push('</td>');
+			html.push('</tr>');
+			html.push('</table>');
+			html.push('</li>');
+			return html.join('');
+		}
+		
+		function findSchoolPostionByQid(){
+				mui.ajax(PREPATH+"/selectSchoolPostionByQidAndPage",{
+					type:"post",
+					async:true,
+					data:{},
+					dataType:"json",
+					withCredentials:true,
+					crossDomain: true,
+					success:function(data){
+						for(var i=0;i<data.length;i++){
+							jQuery('.mui-table-view').append(getItemStr(data[i]));		
+						}		
+								mui(".mui-table-view-cell").on('tap',"button",function(){
+									console.log(this.value);
+									var pos = (this.value).split(",");
+									var longitude = pos[0];
+									var latitude = pos[1];
+									console.log(longitude+','+latitude);
+									theLocation(longitude,latitude);
+								});
+					},
+					error:function(xhr,type,errorThrown){
+        							//异常处理；
+        							console.log(type);
+    				}
+
+				});
+			}
+			
+	</script>
+</html>
+
+<script type="text/javascript">
+	
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.enableScrollWheelZoom(true);
+	
+	//theLocation(123,42);
+	var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			alert('您的位置：'+r.point.lng+','+r.point.lat);
+			theLocation(r.point.lng,r.point.lat);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		 }        
+   	});
+	
+	// 用经纬度设置地图中心点
+	function theLocation(longitude,latitude){
+		map.clearOverlays(); 
+		var new_point = new BMap.Point(longitude,latitude);
+		map.centerAndZoom(new_point,13);
+		var marker = new BMap.Marker(new_point);  // 创建标注
+		map.addOverlay(marker);              // 将标注添加到地图中
+		map.panTo(new_point);
+	}
+	
+</script>
