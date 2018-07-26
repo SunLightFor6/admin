@@ -8,7 +8,7 @@
 				</ul>
 				<div class="layui-tab-content" style="height: 100px;">
 					<div class="layui-tab-item layui-show">
-						<form class="layui-form" name="new_course_form_formal" action="" method="post">
+						<form class="layui-form" name="new_course_form_formal" method="post">
 							<p class="form-label_sm">课程名称</p>
 							<input type="text" id="coursename" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 							<p class="form-label_sm">课程状态</p>
@@ -40,7 +40,7 @@
 								</blockquote>
 							</div>
 							<p class="form-label_sm">课程定价</p>
-							<input type="text" id="courseprice" name="courseprice" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">
+							<input type="text" id="courseprice" name="courseprice" lay-verify="price required" autocomplete="off" placeholder="￥" class="layui-input">
 							<p class="form-label_sm">开本课程的分部</p>
 							<div class="layui-input-block" id="branch_sel">
 								<input type="checkbox" name="fenbu1" title="实训中心">
@@ -119,9 +119,6 @@
 	<script>
 		var imgFile = null;
 		//JavaScript代码区域
-		layui.use('element', function() {
-			var element = layui.element;
-		});
 
 		//上传图片
 		layui.use('upload', function() {
@@ -186,6 +183,16 @@
 		});
 		$(function() {
 			$("#submit_pay_btn").click(function() {
+				
+				//验证
+				if(!/^\d+(\.\d+)?$/.test($("#courseprice").val())) {
+					layer_out("价钱格式不正确，请检查后重新输入");
+					return;
+				}
+				if(!(required_verify("课程名称", $('#coursename').val()))) {
+					return ;
+				}
+				
 				var formData = new FormData();
 				var branchs_s = $("#branch_sel input:checked");
 				var branch = new Array();
@@ -256,6 +263,11 @@
 				});
 			});
 			$("#submit_free_btn").click(function() {
+				
+				if(!(required_verify("课程名称", $('#coursename_f').val()))) {
+					return ;
+				}
+				
 				var formData = new FormData();
 				var branch = $("#fenbu_f input:selected").text();
 

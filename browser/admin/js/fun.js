@@ -14,12 +14,12 @@ $.ajaxSetup({
 
 function redirectedFunc(res) {
 	if((res != null) && ("REDIRECT" == res.getResponseHeader("REDIRECT"))) { //若HEADER中含有REDIRECT说明后端想重定向，
-			var win = window;
-			while(win != win.top) {
-				win = win.top;
-			}
-			win.location.href = res.getResponseHeader("CONTENTPATH"); //将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+		var win = window;
+		while(win != win.top) {
+			win = win.top;
 		}
+		win.location.href = res.getResponseHeader("CONTENTPATH"); //将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+	}
 }
 
 String.format = function(str) {
@@ -73,4 +73,27 @@ function layerphotos_dynamic(div_id) {
 function scroll_top() {
 	console.log("scroll");
 	$('.layui-body').scrollTop(0);
+}
+
+//表单验证弹出框的方法
+function layer_out(content) {
+	layui.use('layer', function() {
+		layer.open({
+			title: '',
+			content: content,
+			icon: 2,
+			closeBtn: false,
+			anim: 6,
+			btn: false,
+			time: 1200
+		});
+	});
+}
+//表单验证弹出框：必填项
+function required_verify(posi, value) {
+	if(value == "" || value == null) {
+		layer_out(posi + "是必填项哦！");
+		return 0;
+	}
+	return 1;
 }
