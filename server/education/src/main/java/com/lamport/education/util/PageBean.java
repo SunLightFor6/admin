@@ -1,29 +1,25 @@
 package com.lamport.education.util;
 
 public class PageBean {
-	private int pageSize;	 
-	private int startRowId;
+	private int pageSize;	//每页显示的条数
+	private int startId;	//每页的起始id
 	
-	public PageBean(int pageSize, int startRowId) {
+//	public PageBean(){}
+	public PageBean(int startId, int pageSize){
 		this.pageSize = pageSize;
-		this.startRowId = startRowId;
+		this.startId = startId;
 	}
-
+	
 	public int getPageSize() {
 		return pageSize;
 	}
-
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-
-	public int getStartRowId() {
-		return startRowId;
+	public int getStartId() {
+		return startId;
 	}
-
-	public void setStartRowId(int startRowId) {
-		this.startRowId = startRowId;
-	}
-
-	
+	public void setStartId(int startId) {
+		this.startId = startId;
+	}	
 }

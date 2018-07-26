@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.lamport.education.mapper.RefundMapper">
+
+	<!-- 创建Refund信息 -->
 	<insert id="saveRefund" parameterType="com.lamport.education.po.Refund" >
-			insert into refund(refundreason,refundtime,status,oid,userdeletekey,deletekey) values(#{refundreason}, sysdate(), '待处理',#{oid},0,0)
+		insert into refund(refundreason, refundtime, status, oid, deletekey, userdeletekey) 
+		values(#{refundreason}, sysdate(), #{status}, #{oid}, #{deletekey}, #{userdeletekey})
 	</insert>
-	<update id="deleteRefundRequestLogicallyByOid" parameterType="int">
-    		update refund set userdeletekey = 1 ,deletekey = 1  where oid=#{oid}
+
+	<!-- 通过oid逻辑删除Refund（只更改userdeletekey） -->
+	<update id="deleteRefundLogicallyByOID" parameterType="com.lamport.education.po.Refund">
+    	update refund set userdeletekey=#{userdeletekey}
+    	where oid = #{oid}
 	</update>
-	<select id="deleteFinalRefundLogicallyByOid" parameterType="int"  >
-		update refund set userdeletekey = 0   where oid=#{oid}
-	</select>
+
+	 <!-- 通过oid逻辑删除Refund（同时更改deletekey和userdeletekey） -->
+	<update id="deleteRefundPowerfullyByOID" parameterType="com.lamport.education.po.Refund">
+		update refund set userdeletekey=#{userdeletekey}, deletekey=#{deletekey} 
+		where oid = #{oid}
+	</update>
+
 </mapper>
 
 

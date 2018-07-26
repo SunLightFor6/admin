@@ -3,62 +3,80 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lamport.education.mapper.SorderMapper">
+	
+	<resultMap type="com.lamport.education.po.Sorder" id="_Sorder_Lesson">
+		<id column="oid" property="oid"/>
+		<result column="qid" property="qid"/>
+		<result column="lid" property="lid"/>
+		<result column="branchid" property="branchid"/>
+		<result column="uid" property="uid"/>
+		<result column="cid" property="cid"/>
+		<result column="total" property="total"/>
+		<result column="actual" property="actual"/>
+		<result column="status" property="status"/>
+		<result column="ordertime" property="ordertime"/>
+		<result column="transactionid" property="transactionid"/>
+		<result column="username" property="username"/>
+		<result column="tel" property="tel"/>
+		<association property="lesson" javaType="com.lamport.education.po.Lesson">
+			<id column="lid" property="lid"/>
+			<result column="lname" property="lname"/>
+			<result column="status" property="status"/>
+			<result column="imgurl" property="imgurl"/>
+		</association>
+	</resultMap>
+
+	<!-- 创建Sorder信息 -->
 	<insert id="saveSorder" parameterType="com.lamport.education.po.Sorder" >
-		insert into sorder(lid,branchid,uid,total,actual,status,ordertime,qid,transactionid,username,tel,deletekey,userdeletekey) 
-		values(#{lid}, #{branchid}, #{uid},#{total},#{actual},#{status},sysdate(),#{qid},#{transactionid},#{username},#{tel},0,0)
+		insert into sorder(lid, branchid, uid, total, actual, status, ordertime, qid, transactionid, username, tel, deletekey, userdeletekey) 
+		values(#{lid}, #{branchid}, #{uid}, #{total}, #{actual}, #{status}, sysdate(), #{qid}, #{transactionid}, #{username}, #{tel}, #{deletekey}, #{userdeletekey})
 	</insert>
-	<delete id="deleteSorderByOid" parameterType="int">
-    	delete from sorder where oid = #{oid}
-	</delete>
+
+	<!-- 通过oid逻辑删除sorder（只更改userdeletekey） -->
+	<update id="deleteSorderLogicallyByOID" parameterType="com.lamport.education.po.Sorder">
+		update sorder set userdeletekey=#{userdeletekey}
+		where oid = #{oid}
+	</update>
+
+	<!-- 通过oid逻辑删除sorder（同时更改deletekey和userdeletekey） -->
+	<update id="deleteSorderPowerfullyByOID" parameterType="com.lamport.education.po.Sorder">
+		update sorder set deletekey=#{deletekey}, userdeletekey=#{userdeletekey}
+		where oid = #{oid}
+	</update>
+
+
+
 
 	<update id="updatePaymentDetail" parameterType="com.lamport.education.po.Sorder">
-    	update sorder set username = #{username}, tel=#{tel},status='已付款' where oid=#{oid}
+    	update sorder set username = #{username}, tel = #{tel},status = '已付款' where oid = #{oid}
 	</update>
 
-	<update id="deleteObligationLogicallyByOid" parameterType="int">
-    	update sorder set deletekey=1,userdeletekey=1 where oid=#{oid}
-	</update>
-
-	<update id="deleteFinalSorderLogicallyByOid" parameterType="int">
-    	update sorder set userdeletekey = 1 where oid=#{oid}
-	</update>
-
-	<update id="updateStatusOfSorderByOid" parameterType="com.lamport.education.po.Sorder">
-    	update sorder set status = #{status} where oid=#{oid}
+	<!-- 通过oid修改Sorder的状态 -->
+	<update id="updateSorderStatusByOid" parameterType="com.lamport.education.po.Sorder">
+    	update sorder set status = #{status} where oid = #{oid}
 	</update>
 	
 	<select id="selectSorderByOid" parameterType="int" resultType="com.lamport.education.po.Sorder">
-    	select * from sorder where oid= #{oid} 
+    	select * from sorder where oid = #{oid} 
 	</select>
 	
-	<select id="selectSorderPageByUid" parameterType="com.lamport.education.vo.BusinessVo" resultType="com.lamport.education.vo.SorderInfoVo">
-    	select * from sorder where uid= #{uid} 
-		 <if test='page.startRowId !=-1'>
-				and #{page.startRowId}>oid
-		</if>
-    	order by oid desc
-    	limit 0,{page.pageSize}
-	</select>
-	
-	<select id="selectSorderPageByUidAndStatus" parameterType="com.lamport.education.vo.BusinessVo" resultType="com.lamport.education.vo.SorderInfoVo">
-    	 SELECT oid,total,ordertime,sorder.status,lesson.lname,lesson.imgurl ,lesson.lid
-		from sorder,lesson
-		where sorder.deletekey = 0
-		 	and sorder.userdeletekey = 0
-		 	and sorder.lid = lesson.lid
-		 	and sorder.uid = #{uid}	
-		 	 <if test='page.startRowId !=-1'>
-				and #{page.startRowId}>oid
-			</if>
-		 	<if test='status !=""'>
-				and sorder.status like '%${status}%'
-			</if>	
-			order by sorder.oid desc 
-			limit 0,#{page.pageSize}
-    
+
+	<!-- 通过多条件查询Sorder信息 -->
+	<select id="selectSorderBySorderQueryCondition" parameterType="com.lamport.education.vo.SorderQueryCondition" 
+			resultMap="_Sorder_Lesson" >
+    	select s.*, l.lname, l.imgurl
+		from sorder s left join lesson l on s.lid = l.lid
+		where s.userdeletekey = 0
+			  and s.uid = #{uid}	
+		 	  <if test='pageBean.startId != -1'>
+				  and #{pageBean.startId} > s.oid
+			  </if>
+		 	  <if test='status!=null and status!=""'>
+				  and s.status like '%${status}%'
+			  </if>	
+		order by s.oid desc 
+		limit 0,#{pageBean.pageSize}   
 	</select>
 
 </mapper>
-
-
 			 

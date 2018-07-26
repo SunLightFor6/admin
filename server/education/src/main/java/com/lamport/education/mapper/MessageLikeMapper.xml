@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lamport.education.mapper.MessageLikeMapper">
+	
+	<!-- 创建MessageLike信息 -->
+	<insert id="saveMessageLike" parameterType="com.lamport.education.po.MessageLike">
+		insert into messagelike(mid, uid, stime, deletekey) 
+		values(#{mid}, #{uid}, sysdate(), #{deletekey})
+	</insert>
+	
+	<!-- 通过mid和uid逻辑删除MessageLike信息 -->
+	<update id="deleteMessageLikeLogicallyByMidAndUid" parameterType="com.lamport.education.po.MessageLike">
+   		 update messagelike set deletekey = #{deletekey} 
+   		 where mid = #{mid} and uid = #{uid}
+	</update>
+	
+</mapper>

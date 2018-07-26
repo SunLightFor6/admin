@@ -72,7 +72,7 @@
   	<url-pattern>/lamport/admin/main/login.html/*</url-pattern>
   </filter-mapping>
   
-  <! Admin是否登录
+  <!Admin是否登录
   <filter>
   	<filter-name>AdminFilter</filter-name>
   	<filter-class>com.lamport.admin.filter.AdminFilter</filter-class>

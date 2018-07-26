@@ -6,6 +6,7 @@ package com.lamport.education.po;
  *
  */
 public class LessonBranch {
+	
 	private int lid;//Lesson表外键
 	private int branchid;//Address表外键
 	private int id;			//主键
@@ -14,25 +15,33 @@ public class LessonBranch {
 	public int getLid() {
 		return lid;
 	}
+	
 	public void setLid(int lid) {
 		this.lid = lid;
 	}
+	
 	public int getBranchid() {
 		return branchid;
 	}
+	
 	public void setBranchid(int branchid) {
 		this.branchid = branchid;
 	}
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public int getDeletekey() {
 		return deletekey;
 	}
+	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
+
 }

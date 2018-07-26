@@ -6,6 +6,7 @@ package com.lamport.education.po;
  *
  */
 public class Sorder {
+	
 	private int qid;//企业表外键
 	private int lid;//精品课表外键
 	private int branchid;//分部表外键
@@ -14,7 +15,7 @@ public class Sorder {
 	private int oid;				//订单主键
 	private double total;			//订单价格
 	private double actual;			//订单实付价格
-	private String status;			//订单状态	？数据库中用Char类型是否合适
+	private String status;			//订单状态
 	private String ordertime;		//下单时间
 	private String transactionid;	//订单流水号
 	private String username;		//下单的用户名字
@@ -23,6 +24,7 @@ public class Sorder {
 	private int userdeletekey;		//用户删除键
 	
 	private Refund refund;//退款订单
+	private Lesson lesson;//课程
 	
 	public int getQid() {
 		return qid;
@@ -120,4 +122,10 @@ public class Sorder {
 	public void setRefund(Refund refund) {
 		this.refund = refund;
 	}
+	public Lesson getLesson() {
+		return lesson;
+	}
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
+	}	
 }

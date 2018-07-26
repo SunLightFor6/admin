@@ -27,7 +27,12 @@
 			<p class="form-label_sm"></p>
 			<div style="position: relative;">
 				<!--<div id="longi_lati_show" style=" position: absolute; width: 20%; height: 200px; z-index: 999; margin-right:8%; margin-left: 77%; margin-top: 30px; background-color: #105F79;"></div>-->
+				<div id="r-result">
+					<input type="text" id="suggestId" size="24" placeholder="请输入待搜索的地点" style="width:240px;" />
+					<button type="button" id="search_button" >搜索</button>
+				</div>
 				<div id="allmap"></div>
+				<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none; z-index: 1000000;"></div>
 			</div>
 			<p class="form-label_sm">分部联系电话</p>
 			<input type="text" id="tel" name="tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
@@ -61,21 +66,31 @@
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
 	// 用经纬度设置地图中心点
-//	var mapPointer = new BMap.Point(123.445992, 41.711578)
-		var mapPointer = new BMap.Point(lng, lat);
+	var mapPointer = new BMap.Point(lng, lat);
 	map.centerAndZoom(mapPointer, 14);
 	map.enableScrollWheelZoom(true);
+	// 创建地理编码实例      
+	var myGeo = new BMap.Geocoder();  
+	var address;
+	// 根据坐标得到地址描述    
+	myGeo.getLocation(new BMap.Point(lng, lat), function(result){      
+    	if (result){
+    		address = result.address;
+			info = "<br><font size=\"1\">地址：" + address + "</font>";
+			var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
+			map.openInfoWindow(infoWindow, map.getCenter()); // 打开信息窗口
+    	}      
+	});
+	
 	var marker = new BMap.Marker(mapPointer); // 创建点
 	map.addOverlay(marker); //增加点
 
 	var opts = {
-		width: 200, // 信息窗口宽度    
-		height: 120, // 信息窗口高度    
-		title: "<h3>当前位置坐标值</h3>" // 信息窗口标题   
+		width: 160, // 信息窗口宽度    
+		height: 40, // 信息窗口高度    
+//		title: "<h5>当前位置</h5>" // 信息窗口标题   
 	}
-	var info = "<br>经度：" + parseFloat(sessionStorage.getItem("b_longitude")) + "<br>纬度：" + parseFloat(sessionStorage.getItem("b_latitude"));
-	var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
-	map.openInfoWindow(infoWindow, map.getCenter()); // 打开信息窗口
+	var info;
 
 	function add_point(e) {
 		lng = e.point.lng;
@@ -83,7 +98,13 @@
 		var currPoint = new BMap.Point(lng, lat);
 		var point = new BMap.Marker(currPoint); // 创建点
 		map.addOverlay(point); //增加点
-		var info = "<br>经度：" + lng + "<br>纬度：" + lat;
+		// 根据坐标得到地址描述    
+		myGeo.getLocation(currPoint, function(result){      
+	    	if (result){      
+				address = result.address;
+	    	}      
+		});
+		var info = "<br><font size=\"1\">地址：" + address + "</font>";
 		var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
 		map.openInfoWindow(infoWindow, currPoint); // 打开信息窗口
 	}
@@ -93,7 +114,76 @@
 	};
 	map.addEventListener("click", remove_point);
 	map.addEventListener("click", add_point);
+	
+	$(function(){
+		$('#search_button').click(function(){
+			var local = new BMap.LocalSearch(map, {
+			renderOptions:{map: map}
+			});
+			local.search($("#suggestId").val());
+		});
+	});
 </script>
+
+<script type="text/javascript">
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "suggestId"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 14);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+			myGeo.getLocation(pp, function(result){      
+		    	if (result){      
+					address = result.address;
+		    	}      
+			});
+			var info = "<br><font size=\"1\">地址：" + address + "</font>";
+			var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
+			map.openInfoWindow(infoWindow, pp); // 打开信息窗口
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+</script>
+
 <script>
 	$(function() {
 		layui.use('layer', function() {

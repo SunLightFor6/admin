@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.SwiperService;
 import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.Creator;
 import com.lamport.admin.vo.QIDAndCategory;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
  * implements SwiperService
@@ -25,6 +29,8 @@ public class SwiperServiceBean implements SwiperService {
 	
 	@Autowired
 	private SwiperMapper swiperMapper;
+//	@Autowired
+//	private JedisPool jedisPool;
 
 	@Override
 	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
@@ -76,6 +82,23 @@ public class SwiperServiceBean implements SwiperService {
 		System.out.println("..........SwiperServiceBean..........selectSwiperImgurlByQIDAndCategory()..........");
 
 		List<String> swiperImgurls = null;
+		
+//		Jedis jedis = jedisPool.getResource();
+//		Gson gson = new Gson();
+//		String imgurls = jedis.get("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory());
+//		if(imgurls == null){
+//			//redis没有，从mySQL中查询
+//			swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
+//			//将取出来的对象打包成json字符串
+//			String jsonString = gson.toJson(swiperImgurls);
+//			System.out.println(jsonString);
+//			//将json字符串放入redis中
+//			jedis.set("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory(), jsonString);
+//		}else{
+//			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
+//		}
+		
+		
 		
 		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
 		

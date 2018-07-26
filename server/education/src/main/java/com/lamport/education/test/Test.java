@@ -3,10 +3,8 @@ package com.lamport.education.test;
 import org.apache.ibatis.session.SqlSession;
 
 import com.lamport.education.mapper.EnterpriseMapper;
-import com.lamport.education.mapper.LessonMapper;
 import com.lamport.education.mybatis.SqlSessionUtil;
 import com.lamport.education.po.Enterprise;
-import com.lamport.education.po.Lesson;
 import com.lamport.education.po.Swiper;
 import com.lamport.education.util.PageBean;
 import com.lamport.education.vo.*;

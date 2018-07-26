@@ -12,28 +12,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lamport.education.po.Teacher;
 import com.lamport.education.service.TeacherService;
+import com.lamport.education.util.Config;
 import com.lamport.education.util.PageBean;
+import com.lamport.education.vo.QIDAndPage;
 
 @Controller
 public class TeacherHandler {
+	
 	@Autowired
 	TeacherService teacherService;
+	
 	/**
-	 * 
-	 * @param request  获取企业qid,然后查询
-	 * @return 返回老师对象列表
-	 * @throws Exception 
+	 * 通过qid和页码查询Teacher信息
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/selectAllTeachersByPageAndQid")
+	@RequestMapping("/selectTeacherByQIDAndPage")
 	@ResponseBody
-	public List<Teacher> getAllTeachers(HttpServletRequest request) throws Exception{
-		System.out.println("....EnterpriseHandler......selectAllTeachersByPageAndQid.......");
+	public String selectTeacherByQIDAndPage(HttpServletRequest request, QIDAndPage qidAndPage) throws Exception{
+		System.out.println("..........EnterpriseHandler..........selectTeacherByQIDAndPage..........");
+		String result = null;
+		
 		HttpSession session = request.getSession();
 		int qid = (Integer)session.getAttribute("qid");
-		PageBean page = new PageBean(5, -1);
-		List<Teacher> teachers = teacherService.selectTeacherPageByQid(page, qid);
-		return teachers;
+		qidAndPage.setQid(qid);
+		qidAndPage.initPageBean(Config.TeacherPageSize);
+		List<Teacher> teachers = teacherService.selectTeacherByQIDAndPage(qidAndPage);
+		//TODO
+		//不清楚返回格式
+		
+		
+		
+		
+		return result;
 	}
 	
- 
 }

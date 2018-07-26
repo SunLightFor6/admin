@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lamport.education.po.FreeListen;
 import com.lamport.education.po.FreeListenBook;
 import com.lamport.education.po.User;
 import com.lamport.education.service.FreeListenBookService;
@@ -19,6 +18,7 @@ import com.lamport.education.vo.FreeListenBookVo;
 
 @Controller
 public class FreeListenBookHandler {
+	
 	@Autowired
 	FreeListenBookService freeListenBookService;
 	
@@ -45,17 +45,16 @@ public class FreeListenBookHandler {
 		int uid = user.getUid();	
 		int fid = Integer.parseInt(request.getParameter("fid"));
 		String tel = request.getParameter("tel");
-		String userName = request.getParameter("userName");
+		String username = request.getParameter("userName");
 		String comment = request.getParameter("comment");
 		FreeListenBook freeListenBook = new FreeListenBook();
 		freeListenBook.setTel(tel);
+		freeListenBook.setUsername(username);
 		freeListenBook.setComment(comment);
 		freeListenBook.setUid(uid);
 		freeListenBook.setStatus("待处理");
 		freeListenBook.setFid(fid);
 	    freeListenBookService.saveFreeListenBook(freeListenBook);
-		
 	}
-	
 	
 }

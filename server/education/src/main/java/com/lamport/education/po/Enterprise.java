@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class Enterprise {
+	
 	private int qid;			//企业主键
 	private String name;		//企业名称
 	private String videopath;	//企业视频存放路径
@@ -24,67 +25,89 @@ public class Enterprise {
 	public int getQid() {
 		return qid;
 	}
+	
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getVideopath() {
 		return videopath;
 	}
+	
 	public void setVideopath(String videopath) {
 		this.videopath = videopath;
 	}
+	
 	public String getIntroduction() {
 		return introduction;
 	}
+	
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+	
 	public String getJczs() {
 		return jczs;
 	}
+	
 	public void setJczs(String jczs) {
 		this.jczs = jczs;
 	}
+	
 	public Admin getAdminister() {
 		return administer;
 	}
+	
 	public void setAdminister(Admin administer) {
 		this.administer = administer;
 	}
+	
 	public List<Address> getBranches() {
 		return branches;
 	}
+	
 	public void setBranches(List<Address> branches) {
 		this.branches = branches;
 	}
+	
 	public List<Teacher> getTeachers() {
 		return teachers;
 	}
+	
 	public void setTeachers(List<Teacher> teachers) {
 		this.teachers = teachers;
 	}
+	
 	public List<Message> getMessages() {
 		return messages;
 	}
+	
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
+	
 	public List<Swiper> getSwipers() {
 		return swipers;
 	}
+	
 	public void setSwipers(List<Swiper> swipers) {
 		this.swipers = swipers;
 	}
+	
 	public int getDeletekey() {
 		return deletekey;
 	}
+	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
+
 }
