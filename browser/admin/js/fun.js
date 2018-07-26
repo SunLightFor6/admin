@@ -1,20 +1,26 @@
 var PREPATH = "/lamport/api/admin";
+var PRESTAPATH = "/lamport/admin/main";
 var URL = "http://localhost:8083";
 var IMGPATH = "/lamport/upload_files";
+var IMG_NUM = 4;
 
- //设置ajax请求完成后运行的函数,
+//设置ajax请求完成后运行的函数,
 var jqxhr;
-$.ajaxSetup({ 
-    complete:function(){
-        if((jqxhr != null) && ("REDIRECT" == jqxhr.getResponseHeader("REDIRECT"))){ //若HEADER中含有REDIRECT说明后端想重定向，
-            var win = window;
-            while(win != win.top){
-                win = win.top;
-            }
-            win.location.href = jqxhr.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
-        }
-    }
+$.ajaxSetup({
+	complete: function() {
+		redirectedFunc(jqxhr);
+	}
 });
+
+function redirectedFunc(res) {
+	if((res != null) && ("REDIRECT" == res.getResponseHeader("REDIRECT"))) { //若HEADER中含有REDIRECT说明后端想重定向，
+			var win = window;
+			while(win != win.top) {
+				win = win.top;
+			}
+			win.location.href = res.getResponseHeader("CONTENTPATH"); //将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+		}
+}
 
 String.format = function(str) {
 	var args = arguments,
@@ -62,3 +68,9 @@ function layerphotos_dynamic(div_id) {
 	});
 	console.log("layer.layerphotos_dynamic() end.");
 };
+
+//回到页面顶部
+function scroll_top() {
+	console.log("scroll");
+	$('.layui-body').scrollTop(0);
+}

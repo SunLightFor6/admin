@@ -92,7 +92,10 @@
 					toolbar: '#barDemo'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 		});
 
 		$("#book_handle_btn").click(function() {
@@ -145,7 +148,10 @@
 						toolbar: '#barDemo'
 					}]
 				],
-				page: true
+				page: true,
+				error: function(t, e) {
+					redirectedFunc(e);
+				}
 			});
 
 		});
@@ -232,7 +238,10 @@
 														toolbar: '#barDemo'
 													}]
 												],
-												page: true
+												page: true,
+												error: function(t, e) {
+													redirectedFunc(e);
+												}
 											});
 										}
 									});

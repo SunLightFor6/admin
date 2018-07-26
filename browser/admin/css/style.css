@@ -210,6 +210,14 @@ img.layui-upload-img {
 	margin: 5px;
 }
 
+img.swiper-img {
+	min-height: 160px;
+	max-height: 160px;
+	min-width: 256px;
+	max-width: 256px;
+	margin: 5px;
+}
+
 img.enter_face {
 	width: 90%;
 	margin-right: 3px;
@@ -217,6 +225,11 @@ img.enter_face {
 
 .layui-card-body {
 	padding: 7px, 12px;
+}
+
+/*精彩展示的图片规格*/
+#enterprise_show>p {
+	max-width:-webkit-fill-available;
 }
 
 

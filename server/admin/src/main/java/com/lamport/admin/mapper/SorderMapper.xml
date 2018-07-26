@@ -121,7 +121,7 @@
 
 	<!-- 根据qid查询Sorder的订单总额 -->
 	<select id="selectCountSorderActualByQID" parameterType="int"
-			resultType="double">
+			resultType="java.lang.Double">
 		select ROUND(SUM(actual), 2) from sorder where qid = #{qid} and deletekey=0
 	</select>
 

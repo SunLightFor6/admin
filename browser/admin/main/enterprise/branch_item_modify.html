@@ -78,9 +78,9 @@
 	map.openInfoWindow(infoWindow, map.getCenter()); // 打开信息窗口
 
 	function add_point(e) {
-		lnt = e.point.lng;
+		lng = e.point.lng;
 		lat = e.point.lat;
-		var currPoint = new BMap.Point(lnt, lat);
+		var currPoint = new BMap.Point(lng, lat);
 		var point = new BMap.Marker(currPoint); // 创建点
 		map.addOverlay(point); //增加点
 		var info = "<br>经度：" + lng + "<br>纬度：" + lat;

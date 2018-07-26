@@ -9,7 +9,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="#top">
+			<a href="javascript: scroll_top()">
 				<img src="../../img/top.png" />
 				<!--<br>返回顶部-->
 			</a>
@@ -21,46 +21,32 @@
 	//删除整个朋友圈item
 	function deletemessage(id) {
 		layer.confirm('确认删除？', function(index) {
-				//	var message_id = data[d].id.split('_')[1];
-				console.log('#item_' + id + "clicked---");
-				var formData = new FormData();
-				formData.append("id", id);
-				jqxhr = $.ajax({
-					type: "post",
-					url: PREPATH + "/admin/deleteMessageLogicallyByID",
-					data: formData,
-					async: true,
-					processData: false, //告诉jQuery不要处理数据
-					contentType: false, //告诉jQuery不要修改请求头
-					dataType: "json",
-					success: function(data) {
-						if(data.response == 1) {
-							$('#item_' + id).parents('.layui-card').remove();
-							layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 1,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '删除成功'
-							});
-						} else {
-							layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 2,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '删除失败，请稍后重试'
-							});
-						}
-					},
-					error: function() {
-						//					$('#item_' + id).parents('.layui-card').remove();
+			//	var message_id = data[d].id.split('_')[1];
+			console.log('#item_' + id + "clicked---");
+			var formData = new FormData();
+			formData.append("id", id);
+			jqxhr = $.ajax({
+				type: "post",
+				url: PREPATH + "/admin/deleteMessageLogicallyByID",
+				data: formData,
+				async: true,
+				processData: false, //告诉jQuery不要处理数据
+				contentType: false, //告诉jQuery不要修改请求头
+				dataType: "json",
+				success: function(data) {
+					if(data.response == 1) {
+						$('#item_' + id).parents('.layui-card').remove();
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 1,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '删除成功'
+						});
+					} else {
 						layer.open({
 							type: 0,
 							btn: false,
@@ -69,218 +55,232 @@
 							closeBtn: 0,
 							shadeClose: true,
 							time: 1500,
-							content: '服务器错误，请稍后重试'
+							content: '删除失败，请稍后重试'
 						});
 					}
-				});
-			}
-		}
+				},
+				error: function() {
+					//					$('#item_' + id).parents('.layui-card').remove();
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 2,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '服务器错误，请稍后重试'
+					});
+				}
+			});
+		});
+	}
 
-		function deletecomment(id_comment, id_message) {
-			layer.confirm('确认删除？', function(index) {
-					console.log('#comment_item_' + id_comment + " id_message " + id_message + "clicked---");
-					var formData = new FormData();
-					formData.append("id_comment", id_comment);
-					formData.append("id_message", id_message);
+	function deletecomment(id_comment, id_message) {
+		layer.confirm('确认删除？', function(index) {
+			console.log('#comment_item_' + id_comment + " id_message " + id_message + "clicked---");
+			var formData = new FormData();
+			formData.append("id_comment", id_comment);
+			formData.append("id_message", id_message);
+			jqxhr = $.ajax({
+				type: "post",
+				url: PREPATH + "/admin/deleteMessageReplyLogicallyByID",
+				data: formData,
+				async: true,
+				processData: false, //告诉jQuery不要处理数据
+				contentType: false, //告诉jQuery不要修改请求头
+				dataType: "json",
+				success: function(data) {
+					if(data.response == 1) {
+
+						$('#comment_item_' + id_comment + '_in_' + id_message).parents('.comments-item').remove();
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 1,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '删除成功'
+						});
+					} else {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 2,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '删除失败，请稍后重试'
+						});
+					}
+				},
+				error: function() {
+					//				$('#comment_item_' + id_comment + '_in_' + id_message).parents('.comments-item').remove();
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 2,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '服务器错误，请稍后重试'
+					});
+				}
+			});
+		});
+	}
+
+	//JavaScript代码区域
+	layui.use('form', function() {
+		var form = layui.form;
+	});
+	var friendpicsdiv_num = 0;
+	//	var n = 0;
+	$(function() {
+
+		var col1 = '<div name="img" class="layui-col-md1"><p style="font-weight: bold;" id="user">%1</p></div>';
+		//		var col1 = '<div name="img" class="layui-col-md1"><img src="%1" class="enter_face" /></div>';
+		var col2 = '<div name="item" class="layui-col-md4">' +
+
+			//			'		<p style="font-weight: bold;" id="user">%1</p>' +
+			'		<br>' +
+			'		<div name="content">' +
+			'			<p name="description">%1</p>' +
+			'				%2' +
+			'			<p class="show-time" id="show-time">%3</p>' +
+			'		</div>' +
+			'	</div>' +
+			'	<div class="layui-col-md1">' +
+			'		<i id="item_%4" class="layui-icon layui-icon-delete" style="cursor: pointer; font-size: 24px; color: #009F95;" onclick="deletemessage(%4)"></i>' +
+			'	</div>';
+		var col4 = '<div class="layui-col-md5 comments">' +
+			'		<br>' +
+			'		<p style="font-weight: bold;" name="user">评论管理</p>' +
+			'		%1' +
+			'	</div>';
+		var commentitem = '<div class="comments-item layui-row">' +
+			'			<div class="layui-col-md11 comment-item ">' +
+			'				<span class="comment-name">%1</span>：' +
+			'				<span class="comment-content">%2</span>' +
+			'			</div>' +
+			'			<div class="layui-col-md1">' +
+			'				<i id="comment_item_%3_in_%4" class="layui-icon layui-icon-delete" style="cursor: pointer; font-size: 20px; color: #009F95;" onclick="deletecomment(%3, %4)"></i>' +
+			'			</div>' +
+			'		</div>';
+		var layuicard = '<div class="layui-card"><div class="layui-card-body"><div class="layui-row">%1 %2 %3</div></div></div>';
+
+		layui.use(['flow', 'layer', 'element'], function() {
+			var flow = layui.flow,
+				element = layui.element,
+				layer = layui.layer;
+
+			flow.load({
+				elem: '#top',
+				scrollElem: '#top',
+				isAuto: true,
+				done: function(page, next) {
+					console.log("---当前页：" + page);
 					jqxhr = $.ajax({
-						type: "post",
-						url: PREPATH + "/admin/deleteMessageReplyLogicallyByID",
-						data: formData,
-						async: true,
-						processData: false, //告诉jQuery不要处理数据
-						contentType: false, //告诉jQuery不要修改请求头
+						type: "get",
+						url: PREPATH + "/admin/selectMessageByQIDAndPage?page=" + page,
+						async: false,
 						dataType: "json",
 						success: function(data) {
-							if(data.response == 1) {
-							
-							$('#comment_item_' + id_comment + '_in_' + id_message).parents('.comments-item').remove();
-							layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 2,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '删除成功'
-							});
-							} else {
-									layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 2,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '删除失败，请稍后重试'
-							});
+							var innerHtml = "";
+							var messages = data.messages;
+							var length = 0;
+							var old = friendpicsdiv_num;
+							for(var d in messages) {
+								friendpicsdiv_num++;
+								console.log("-----friendpicsdiv_num = " + friendpicsdiv_num);
+								var imgs_content = '<div id="friendpics' + friendpicsdiv_num + '">';
+								var imgurls = messages[d].imgurls;
+								var img_class = 'messagelist-imgs' + imgurls.length;
+								var num = numperrow(imgurls.length);
+								for(var i in imgurls) {
+									imgs_content += '<span class="' + img_class + '" style="background-image: url(' + IMGPATH + imgurls[i] + ');"><img src="' + IMGPATH + imgurls[i] + '" style="opacity: 0;" /></span>';
+									//								imgs_content += '<span class="' + img_class + '"><img src="' + imgurls[i] + '" /></span>';
+									//								imgs_content += '<div style="background-image: url(' + imgurls[i] + ');"></div>';
+									if((i + 1) % num == 0) {
+										imgs_content += '<br>';
+										//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
+
+									} else {
+										//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
+									}
+								};
+								imgs_content += '</div>';
+
+								var comments = '';
+								var comments_data = messages[d].comments;
+								for(var i in comments_data) {
+									comments += String.format(
+										commentitem,
+										comments_data[i].name,
+										comments_data[i].comment,
+										comments_data[i].id,
+										messages[d].id
+									);
+								}
+								innerHtml += String.format(
+									layuicard,
+									String.format(
+										col1,
+										messages[d].name
+										//										messages[d].logo
+									),
+									String.format(
+										col2,
+										//										messages[d].name,
+										messages[d].content,
+										imgs_content,
+										messages[d].stime,
+										messages[d].id
+									),
+									String.format(
+										col4,
+										comments
+									)
+								);
+								//								n = d;
+								//					alert(n);
+								//					console.log('#item_' + data[d].id + "clicking---");
+								//注册删除事件
+								length = d;
+							}
+							//							$('#top').append(innerHtml);
+							//	这里！！！   循环就这几个新建的div
+							element.render();
+							console.log("循环执行完毕--friendpicsdiv_num=" + friendpicsdiv_num + " data.length=" + length)
+							// 				layer.msg("hhh");
+							next(innerHtml, page < data.pages);
+							for(var i = friendpicsdiv_num - length; i <= friendpicsdiv_num; i++) {
+								var id_ = '#friendpics' + i;
+								console.log("photos 方法启动 & id = " + id_);
+								console.log("这个div下一共有 " + $(id_).length + " 张图片，他们是：");
+								console.log($('#friendpics' + i).html());
+
+								layer.photos({
+									photos: id_,
+									anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+								});
+								element.render();
+								console.log("photos 方法执行完毕 & id = " + id_);
 							}
 						},
 						error: function() {
-							//				$('#comment_item_' + id_comment + '_in_' + id_message).parents('.comments-item').remove();
-							layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 2,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '服务器错误，请稍后重试'
-							});
+							alert("error");
 						}
 					});
+					console.log($('#friendpics1').html());;
 				}
-			}
-
-			//JavaScript代码区域
-			layui.use('form', function() {
-				var form = layui.form;
 			});
-			var friendpicsdiv_num = 0;
-			//	var n = 0;
-			$(function() {
+		});
 
-				var col1 = '<div name="img" class="layui-col-md1"><p style="font-weight: bold;" id="user">%1</p></div>';
-				//		var col1 = '<div name="img" class="layui-col-md1"><img src="%1" class="enter_face" /></div>';
-				var col2 = '<div name="item" class="layui-col-md4">' +
-
-					//			'		<p style="font-weight: bold;" id="user">%1</p>' +
-					'		<br>' +
-					'		<div name="content">' +
-					'			<p name="description">%1</p>' +
-					'				%2' +
-					'			<p class="show-time" id="show-time">%3</p>' +
-					'		</div>' +
-					'	</div>' +
-					'	<div class="layui-col-md1">' +
-					'		<i id="item_%4" class="layui-icon layui-icon-delete" style="cursor: pointer; font-size: 24px; color: #009F95;" onclick="deletemessage(%4)"></i>' +
-					'	</div>';
-				var col4 = '<div class="layui-col-md5 comments">' +
-					'		<br>' +
-					'		<p style="font-weight: bold;" name="user">评论管理</p>' +
-					'		%1' +
-					'	</div>';
-				var commentitem = '<div class="comments-item layui-row">' +
-					'			<div class="layui-col-md11 comment-item ">' +
-					'				<span class="comment-name">%1</span>：' +
-					'				<span class="comment-content">%2</span>' +
-					'			</div>' +
-					'			<div class="layui-col-md1">' +
-					'				<i id="comment_item_%3_in_%4" class="layui-icon layui-icon-delete" style="cursor: pointer; font-size: 20px; color: #009F95;" onclick="deletecomment(%3, %4)"></i>' +
-					'			</div>' +
-					'		</div>';
-				var layuicard = '<div class="layui-card"><div class="layui-card-body"><div class="layui-row">%1 %2 %3</div></div></div>';
-
-				layui.use(['flow', 'layer', 'element'], function() {
-					var flow = layui.flow,
-						element = layui.element,
-						layer = layui.layer;
-
-					flow.load({
-						elem: '#top',
-						scrollElem: '#top',
-						isAuto: true,
-						done: function(page, next) {
-							console.log("---当前页：" + page);
-							jqxhr = $.ajax({
-								type: "get",
-								url: PREPATH + "/admin/selectMessageByQIDAndPage?page=" + page,
-								async: false,
-								dataType: "json",
-								success: function(data) {
-									var innerHtml = "";
-									var messages = data.messages;
-									var length = 0;
-									var old = friendpicsdiv_num;
-									for(var d in messages) {
-										friendpicsdiv_num++;
-										console.log("-----friendpicsdiv_num = " + friendpicsdiv_num);
-										var imgs_content = '<div id="friendpics' + friendpicsdiv_num + '">';
-										var imgurls = messages[d].imgurls;
-										var img_class = 'messagelist-imgs' + imgurls.length;
-										var num = numperrow(imgurls.length);
-										for(var i in imgurls) {
-											imgs_content += '<span class="' + img_class + '" style="background-image: url(' + IMGPATH + imgurls[i] + ');"><img src="' + IMGPATH + imgurls[i] + '" style="opacity: 0;" /></span>';
-											//								imgs_content += '<span class="' + img_class + '"><img src="' + imgurls[i] + '" /></span>';
-											//								imgs_content += '<div style="background-image: url(' + imgurls[i] + ');"></div>';
-											if((i + 1) % num == 0) {
-												imgs_content += '<br>';
-												//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
-
-											} else {
-												//							console.log("(" + i + "+1 ) % " + num + " = " + (i + 1) % num);
-											}
-										};
-										imgs_content += '</div>';
-
-										var comments = '';
-										var comments_data = messages[d].comments;
-										for(var i in comments_data) {
-											comments += String.format(
-												commentitem,
-												comments_data[i].name,
-												comments_data[i].comment,
-												comments_data[i].id,
-												messages[d].id
-											);
-										}
-										innerHtml += String.format(
-											layuicard,
-											String.format(
-												col1,
-												messages[d].name
-												//										messages[d].logo
-											),
-											String.format(
-												col2,
-												//										messages[d].name,
-												messages[d].content,
-												imgs_content,
-												messages[d].stime,
-												messages[d].id
-											),
-											String.format(
-												col4,
-												comments
-											)
-										);
-										//								n = d;
-										//					alert(n);
-										//					console.log('#item_' + data[d].id + "clicking---");
-										//注册删除事件
-										length = d;
-									}
-									//							$('#top').append(innerHtml);
-									//	这里！！！   循环就这几个新建的div
-									element.render();
-									console.log("循环执行完毕--friendpicsdiv_num=" + friendpicsdiv_num + " data.length=" + length)
-									// 				layer.msg("hhh");
-									next(innerHtml, page < data.pages);
-									for(var i = friendpicsdiv_num - length; i <= friendpicsdiv_num; i++) {
-										var id_ = '#friendpics' + i;
-										console.log("photos 方法启动 & id = " + id_);
-										console.log("这个div下一共有 " + $(id_).length + " 张图片，他们是：");
-										console.log($('#friendpics' + i).html());
-
-										layer.photos({
-											photos: id_,
-											anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-										});
-										element.render();
-										console.log("photos 方法执行完毕 & id = " + id_);
-									}
-								},
-								error: function() {
-									alert("error");
-								}
-							});
-							console.log($('#friendpics1').html());;
-						}
-					});
-				});
-
-				return false;
-			});
+		return false;
+	});
 </script>

@@ -3,7 +3,7 @@
 		<form class="layui-form" name="enter-basic-info" lay-filter="enter-basic-info" action="" method="post">
 			<p class="form-label_sm">企业名称</p>
 			<input type="text" id="enter-name" name="enter-name" lay-verify="title required" autocomplete="off" placeholder="请输入企业名称" class="layui-input" />
-			<p class="form-label_sm">企业图片</p>
+			<p class="form-label_sm">企业轮播图设置</p>
 			<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 				现有的图：
 				<div id="current_pics"></div>
@@ -16,7 +16,6 @@
 				<blockquote id="preview_pics" class="layui-elem-quote layui-quote-nm" style="display:none; margin-top: 10px;">
 					预览图：
 					<div class="layui-row" id="pics_now"></div>
-					<p id="demoText"></p>
 				</blockquote>
 			</div>
 			<p class="form-label_sm">企业简介</p>
@@ -47,7 +46,7 @@
 	var data = JSON.parse(sessionStorage.getItem("enterpriser_info"));
 	$('#enter-name').val(data.name);
 	$.each(data.imgs, function(name, value) {
-		$('#current_pics').append('<img alt="' + name + '" src="' + IMGPATH + value + '"class="layui-upload-img" style="height: 120px;" />');
+		$('#current_pics').append('<img alt="' + name + '" src="' + IMGPATH + value + '"class="swiper-img" />');
 	});
 	$('#enter-des').val(data.introduction);
 	$('#preview_video').append('<video src="' + IMGPATH + data.videopath + '" controls="controls" height="256px" preload="auto">您的浏览器不支持视频播放。</video>');
@@ -71,26 +70,35 @@
 		var upload = layui.upload;
 		var enterprise_info = sessionStorage.getItem("enterprise_info");
 
+		layer.photos({
+			photos: "#current_pics",
+			anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+		});
+
 		form.render();
-
 		//以下是上传代码
-
 		upload.render({
 			elem: '#uploadpics',
 			auto: false,
 			multiple: true,
-			size: 5 * 1024 //限制文件大小，单位 KB
-				,
-			number: 5,
+			size: 4 * 1024, //限制文件大小，单位 KB
+			number: 4,
 			choose: function(obj) {
 				var fileLength = obj.fileLength_(); //获取本次上传的图片数量
 				pics_num_amount = pics_num_load + fileLength; //目前一共加载了的图片的数量
 				console.log("pics_num_amount = " + pics_num_amount + "， fileLength = " + fileLength);
 				$('#preview_pics').show(); //显示这div
 				//预读本地文件示例，不支持ie8
+				if(pics_num_amount > IMG_NUM) {
+					pics_num_amount -= fileLength;
+					layer.msg('轮播图不能超过4张图片', {
+						icon: 5
+					});
+					return;
+				}
 				obj.preview(function(index, file, result) {
-					$('#pics_now').append('<div class="layui-col-lg2"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
-						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img"></div>');
+					$('#pics_now').append('<div class="layui-col-lg4"><span class="layui-badge" style="position: absolute;" id="b_' + index + '">X</span>' +
+						'<img id="img_o_' + index + '" src="' + result + '" alt="' + file.name + '" class="swiper-img"></div>');
 					pics_cur++; //加载中  实时更新的已经加载了的图片总数
 					console.log("pics_num_amount = " + pics_num_amount + " pics_cur = " + pics_cur);
 					if(pics_cur == pics_num_amount) { //都加载完毕了
@@ -108,21 +116,10 @@
 						message_pics.splice(message_pics.indexOf(pics_map.get(index)), 1);
 						console.log(message_pics);
 						console.log(pics_map);
+						pics_num_load --;
 					});
 				});
 				pics_num_load += fileLength;
-			},
-			error: function(index) {
-				//				pics_cur++;
-				//				console.log(index + "num = " + pics_num + " temp = " + pics_cur);
-				//				if(pics_cur == pics_num) {
-				//					layerphotos();
-				//				}
-
-			},
-			done: function(res) {
-				//上传完毕
-				layerphotos();
 			}
 		});
 
@@ -131,9 +128,7 @@
 			url: '/upload/',
 			accept: 'video',
 			auto: false,
-			//					acceptMime: 'video', //video/* not include mp4
-			size: 100000 //限制文件大小，单位 KB
-				,
+			size: 100000,
 			choose: function(obj) {
 				$('#preview_video video').hide();
 				$('#preview_video_info').show();
@@ -159,7 +154,9 @@
 			var formData = new FormData();
 			formData.append("name", $('#enter-name').val());
 			formData.append("introduction", $('#enter-des').val());
-			formData.append("message_pics", message_pics);
+			for(var i in message_pics) {
+				formData.append("message_pics", message_pics[i]);
+			}
 			formData.append("video", video);
 			formData.append("jczs", um_free.getContent());
 			//			alert("即将ajax");

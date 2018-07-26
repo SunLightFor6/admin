@@ -21,7 +21,7 @@
 	layui.use('table', function() {
 		var table = layui.table;
 
-		table.render({
+		var a = table.render({
 			elem: '#teacher_list',
 			url: PREPATH + '/admin/selectTeacherByQIDAndPage',
 			dataType: 'jsonp',
@@ -52,8 +52,16 @@
 					toolbar: '#barDemo'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+//				console.log("e.getResponseHeader() = " + e.getResponseHeader("REDIRECT"));
+//				redirectedFunc(e.getResponseHeader("REDIRECT"));
+			}
 		});
+//		console.log(a);
+//		console.log("a.config.isRedirect = " + a.getRedirect());
+//		redirectedFunc(a.getRedirect());
 	});
 </script>
 
@@ -72,12 +80,12 @@
 			var data = obj.data;
 			if(obj.event === 'del') {
 				layer.confirm('确认删除' + data.teachername + '教师信息', function(index) {
-					jqxhr = $.ajax({
-						type:"post",
+					$.ajax({
+						type: "post",
 						url: PREPATH + "/admin/deleteTeacherLogicallyByID?id=" + data.id,
-						async:true,
-						dataType:"json",
-						success:function(data) {
+						async: true,
+						dataType: "json",
+						success: function(data) {
 							if(data.response == 1) {
 								layer.open({
 									type: 0,
@@ -105,15 +113,15 @@
 						},
 						error: function() {
 							layer.open({
-									type: 0,
-									btn: false,
-									title: false,
-									icon: 2,
-									closeBtn: 0,
-									shadeClose: true,
-									time: 1500,
-									content: '删除失败——服务器出错'
-								});
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '删除失败——服务器出错'
+							});
 						}
 					});
 					layer.close(index);

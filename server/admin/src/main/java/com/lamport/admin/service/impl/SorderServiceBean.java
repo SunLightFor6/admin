@@ -71,10 +71,14 @@ public class SorderServiceBean implements SorderService {
 	@Override
 	public double selectCountSorderActualByQID(int qid) throws Exception {
 		System.out.println("..........SorderServiceBean..........selectCountSorderActualByQID()..........");
-
 		double countSorderActual = 0;
 		
-		countSorderActual = sorderMapper.selectCountSorderActualByQID(qid);
+		Double count = sorderMapper.selectCountSorderActualByQID(qid);
+		if(count == null){
+			countSorderActual = 0;
+		}else{
+			countSorderActual = count.doubleValue();
+		}
 		
 		return countSorderActual;
 	}

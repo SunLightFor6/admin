@@ -127,6 +127,9 @@
 					console.log("afterload " + i);
 					afterload(i);
 				}
+			},
+			error: function(t, e) {
+				redirectedFunc(e);
 			}
 		});
 
@@ -184,6 +187,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			} else if(course_cat == "正式精品课") {
@@ -229,6 +235,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			}
@@ -292,6 +301,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			} else if(course_cat == "正式精品课") {
@@ -337,6 +349,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			}
@@ -418,7 +433,7 @@
 											obj.del();
 										}
 									});
-									
+
 								} else if(data.response == 0) {
 									layer.open({
 										type: 0,

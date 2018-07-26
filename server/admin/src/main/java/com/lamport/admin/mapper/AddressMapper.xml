@@ -57,7 +57,7 @@
 	<!-- 通过qid查询Address的总数 -->
 	<select id="selectCountAddressByQID" parameterType="int"
 			resultType="int">
-		select count(*) from address where qid = #{qid}
+		select count(*) from address where qid = #{qid} and deletekey=0
 	</select>
 
 	<!-- 通过qid和branch查询Address的id -->
