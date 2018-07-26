@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.lamport.education.mapper.EnterpriseMapper">
 	
 	<resultMap type="com.lamport.education.po.Enterprise" id="_Enterprise">
-		    <id column="qid" property="qid"/>
-		    <result column="name" property="name"/>
-		    <result column="videopath" property="videopath"/>
-		    <result column="introduction" property="introduction"/>
-		    <result column="jczs" property="jczs"/>
-		    <!-- column通常为 order表中的外键列 -->
-		    <collection property="swipers" ofType="com.lamport.education.po.Swiper" >
-		        <id column="id" property="id"/>
-		        <result column="imgurl" property="imgurl"/>
-		        <result column="category" property="category"/>
-		    </collection>
+	    <id column="qid" property="qid"/>
+	    <result column="name" property="name"/>
+	    <result column="videopath" property="videopath"/>
+	    <result column="introduction" property="introduction"/>
+	    <result column="jczs" property="jczs"/>
+	    <!-- column通常为 order表中的外键列 -->
+	    <collection property="swipers" ofType="com.lamport.education.po.Swiper" >
+	        <id column="id" property="id"/>
+	        <result column="imgurl" property="imgurl"/>
+	        <result column="category" property="category"/>
+	    </collection>
 	</resultMap>
 	
 	<select id="selectEnterpriseByQid" parameterType="int" resultMap="_Enterprise" >
-				select * from enterprise,swiper where enterprise.qid=#{qid} and swiper.qid = #{qid} and swiper.deletekey = 0
+		select * from enterprise, swiper 
+		where enterprise.qid = #{qid} and swiper.qid = #{qid} and swiper.deletekey = 0
 	</select>
 	
 </mapper>

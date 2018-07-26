@@ -1,31 +1,72 @@
+<style>
+	.label {
+		cursor: pointer;
+	}
+	
+	.progress {
+		display: none;
+		margin-bottom: 1rem;
+	}
+	
+	.alert {
+		display: none;
+	}
+	
+	.img-container img {
+		max-width: 100%;
+	}
+</style>
+
 <div class="body-in" id="top">
 	<div class="layui-card-body">
 		<form class="layui-form" id="teacher_form" name="teacher_form" lay-filter="teacher_form" action="" method="post">
 			<p class="form-label">讲师姓名</p>
 			<input type="text" name="tname" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
 			<p class="form-label">讲师图片</p>
-			<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-				目前的讲师图片
-				<div id="current_pic"></div>
-			</blockquote>
+
+			<label class="label" data-toggle="tooltip" title="点击上传教师图片">
+	      		<img class="rounded" id="avatar" src="" 
+	      			alt="avatar">
+	      		<input type="file" class="sr-only" id="input" name="image" accept="image/*">
+    		</label>
+			<!--<div class="progress">
+		      	<div class="progress-bar progress-bar-striped progress-bar-animated" 
+		      		role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+		    </div>-->
+			<div class="alert" role="alert"></div>
+			<!-- 图片裁切 -->
+			<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalLabel">裁剪图片</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			              		<span aria-hidden="true">&times;</span>
+			            	</button>
+						</div>
+
+						<div class="modal-body">
+							<div class="img-container">
+								<img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary" id="crop">裁剪</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- -------- -->
 			<script>
 				$(function() {
-					$('#current_pic').append('<img id="img_teacher" class="layui-upload-img" style="height: 120px; width: 200px" />');
+					//					$('#avatar').append('<img id="img_teacher" class="layui-upload-img" style="height: 120px; width: 200px" />');
 					if(sessionStorage.getItem("teacherimg")) {
-						$('#img_teacher').attr('src', sessionStorage.getItem("teacherimg"));
+						$('#avatar').attr('src', sessionStorage.getItem("teacherimg"));
 					}
 				});
 			</script>
-			<div class="layui-upload">
-				<div class="layui-upload-drag" id="uploadpic">
-					<i class="layui-icon">&#xe681;</i>
-					<p>点击上传，或将图片拖拽到此处</p>
-				</div>
-				<div class="layui-upload-list" id="pic-div" style="display: none;">
-					<img class="layui-upload-img" style="height: 250px; width: 150px;" id="pic">
-					<p id="demoText"></p>
-				</div>
-			</div>
+
 			<p class="form-label">讲师简介</p>
 			<textarea name="introduction" class="layui-textarea" placeholder="请输入讲师简介"></textarea>
 			<div style="margin: 10px;">
@@ -48,29 +89,86 @@
 		});
 	});
 </script>
+
 <script>
-	layui.use('upload', function() {
-		var $ = layui.jquery,
-			upload = layui.upload;
-		
-		upload.render({
-			elem: '#uploadpic',
-			url: '/upload/',
-			auto: false,
-			acceptMime: 'image/*',
-			size: 1000 //限制文件大小，单位 KB
-				,
-			choose: function(obj) {
-				//预读本地文件示例，不支持ie8
-				obj.preview(function(index, file, result) {
-					teacher_img = file;
-					$('#pic-div').show();
-					$('#pic').attr('src', result); //图片链接（base64）
+	var teacher_img;
+
+	$(function() {
+		var avatar = document.getElementById('avatar');
+		var image = document.getElementById('image');
+		var input = document.getElementById('input');
+		//var $progress = $('.progress');
+		//var $progressBar = $('.progress-bar');
+		var $alert = $('.alert');
+		var $modal = $('#modal');
+		var cropper;
+
+		//解决遮罩层覆盖问题
+		$("#top").parents("div.layui-body").attr('style', 'background-color: #FFFFFF;z-index: auto;');
+
+		$('[data-toggle="tooltip"]').tooltip();
+
+		input.addEventListener('change', function(e) {
+			var files = e.target.files;
+			var done = function(url) {
+				input.value = '';
+				image.src = url;
+				$alert.hide();
+				$modal.modal('show');
+			};
+			var reader;
+			var file;
+			var url;
+
+			if(files && files.length > 0) {
+				file = files[0];
+				if(Window.URL) {
+					done(Window.URL.createObjectURL(file));
+				} else if(FileReader) {
+					reader = new FileReader();
+					reader.onload = function(e) {
+						done(reader.result);
+					};
+					reader.readAsDataURL(file);
+				}
+			}
+		});
+
+		$modal.on('shown.bs.modal', function() {
+			cropper = new Cropper(image, {
+				aspectRatio: 0.7143,
+				//initialAspectRatio: 0.6,
+				viewMode: 3,
+			});
+		}).on('hidden.bs.modal', function() {
+			cropper.destroy();
+			cropper = null;
+		});
+
+		document.getElementById('crop').addEventListener('click', function() {
+			var initialAvatarURL;
+			var canvas;
+
+			$modal.modal('hide');
+
+			if(cropper) {
+				canvas = cropper.getCroppedCanvas({
+					width: 160,
+					height: 160,
+				});
+				initialAvatarURL = avatar.src;
+				avatar.src = canvas.toDataURL();
+				$alert.removeClass('alert-success alert-warning');
+
+				canvas.toBlob(function(blob) {
+					teacher_img = blob;
 				});
 			}
 		});
 	});
+</script>
 
+<script>
 	$("#teacher_modify_btn").click(function() {
 		var formData = new FormData($("#teacher_form")[0]);
 		formData.append("tid", sessionStorage.getItem("id"));

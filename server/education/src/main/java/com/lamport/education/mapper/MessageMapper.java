@@ -1,19 +1,18 @@
 package com.lamport.education.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.lamport.education.po.Message;
-import com.lamport.education.po.MessageLike;
-import com.lamport.education.po.MessageReply;
-import com.lamport.education.util.PageBean;
-import com.lamport.education.vo.EnterpriseInfoVo;
+import com.lamport.education.vo.QIDAndPage;
 
 public interface MessageMapper {
-
-	public List<Message> selectMessagePageByQid(EnterpriseInfoVo enterpriseInfoVo) throws Exception;
+	/**
+	 * 通过qid和页码查询Message信息
+	 * @param qidAndPage
+	 * @return List<Message>
+	 * @throws Exception
+	 */
+	public List<Message> selectMessageByQidAndPage(QIDAndPage qidAndPage) throws Exception;
 	public List<Message> selectMessageByQidDownFresh(int qid,int maxId) throws Exception;
-	public void saveMessageLike(MessageLike messageLike) throws Exception;
-	public void saveMessageReply(MessageReply messageReply) throws Exception;
-	public void deleteMessageLikeByMidAndUid(int mid, int uid) throws Exception;
+	
 }

@@ -5,13 +5,20 @@ import java.util.List;
 import com.lamport.education.po.Lesson;
 import com.lamport.education.util.PageBean;
 import com.lamport.education.vo.LessonInfoVo;
+import com.lamport.education.vo.LessonQueryCondition;
 
 public interface LessonService {
 	
 	public LessonInfoVo selectLessonByLid(int lid) throws Exception;
-	public List<Lesson> selectLessonPageByBidAndCategory(PageBean page, int bid, String category) throws Exception;
-	public List<Lesson> selectLessonsByQid(PageBean page, int qid) throws Exception;
-	public List<Lesson> selectLessonPageByBranchNameCategoryAndPage(int qid, String branchName, String category, PageBean pageBean);
-	public LessonInfoVo selectLessonByOid(int oid);
+	public LessonInfoVo selectLessonByOid(int oid) throws Exception;
+	
+	/**
+	 * 通过多条件查询Lesson信息
+	 * @param lessonQueryCondition
+	 * @return List<Lesson>
+	 * @throws Exception
+	 */
+	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception;
+	public List<Lesson> selectHomePageLessonByQid(PageBean pageBean, int qid)throws Exception;
 	 
 }

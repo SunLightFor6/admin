@@ -1,11 +1,8 @@
 package com.lamport.education.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.lamport.education.mapper.RefundMapper;
@@ -13,44 +10,75 @@ import com.lamport.education.mapper.SorderMapper;
 import com.lamport.education.po.Refund;
 import com.lamport.education.po.Sorder;
 import com.lamport.education.service.SorderService;
-import com.lamport.education.util.PageBean;
-import com.lamport.education.vo.BusinessVo;
-import com.lamport.education.vo.SorderInfoVo;
+import com.lamport.education.util.Config;
+import com.lamport.education.vo.SorderQueryCondition;
+
 @Service
 public class SorderServiceBean implements SorderService {
+
 	@Autowired
-	SorderMapper sorderMapper;
+	SorderMapper sorderMapper;	
 	@Autowired
 	RefundMapper refundMapper;
+	
 	@Override
-	public void saveObligation(Sorder sorder) throws Exception { 
-		sorderMapper.saveSorder(sorder);//添加待付款记录
+	public void saveSorder(Sorder sorder) throws Exception {
+		sorder.setDeletekey(0);
+		sorder.setUserdeletekey(0);
+		sorderMapper.saveSorder(sorder);
 	}
 
 	@Override
-	public void savePaymentInfo(Sorder sorder) throws Exception { 
-		//如果之前有待付款记录（参数sorder的id不为0），则更新status字段为“已付款”；如果之前没有待付款记录（参数sorder的id为0），则增添新的订单
-		sorder.setStatus("已付款");
-		if(sorder.getOid()==0) // 支付
-		{
-			sorderMapper.saveSorder(sorder);
-		}else{
-			sorderMapper.updatePaymentDetail(sorder);
-		}
-	}
-
-	@Override
-	public void saveRefundRequest(int oid) throws Exception {
-		Sorder sorder = new Sorder();
-		sorder.setOid(oid);
-		sorder.setStatus("退款中");
-		Refund refund = new Refund(); 
-		refund.setOid(oid);
+	public void saveRefund(Sorder sorder, Refund refund) throws Exception {
+		refund.setDeletekey(0);
 		refund.setUserdeletekey(0);
-		sorderMapper.updateStatusOfSorderByOid(sorder); // 更新sorder状态
+		sorderMapper.updateSorderStatusByOid(sorder); // 更新sorder状态
 		refundMapper.saveRefund(refund); //  添加退款记录
 	}
-
+	
+	@Override
+	public void deleteSorderLogicallyByOID(Sorder sorder) throws Exception{
+		sorder.setUserdeletekey(1);
+		sorderMapper.deleteSorderLogicallyByOID(sorder);
+	}
+	
+	@Override
+	public void deleteSorderPowerfullyByOID(Sorder sorder) throws Exception{
+		sorder.setDeletekey(1);
+		sorder.setUserdeletekey(1);
+		sorderMapper.deleteSorderPowerfullyByOID(sorder);
+	}
+	
+	@Override
+	public void deleteRefundLogicallyByOID(Refund refund, Sorder sorder) throws Exception{
+		refund.setUserdeletekey(1);
+		sorder.setUserdeletekey(1);
+		sorderMapper.deleteSorderLogicallyByOID(sorder);
+		refundMapper.deleteRefundLogicallyByOID(refund);
+	}
+	
+	@Override
+	public void deleteRefundPowerfullyByOID(Refund refund, Sorder sorder) throws Exception{
+		refund.setDeletekey(1);
+		refund.setUserdeletekey(1);
+		sorderMapper.updateSorderStatusByOid(sorder);
+		refundMapper.deleteRefundPowerfullyByOID(refund);
+	}
+	
+	
+	@Override
+	public void updateSorderStatusByOID(Sorder sorder) throws Exception{
+		sorderMapper.updateSorderStatusByOid(sorder);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public void deleteObligationLogicallyByOid(int oid) throws Exception { 
 		 //取消待付款，删除待付款记录，同时设置deletekey和userdeletekey
@@ -80,26 +108,18 @@ public class SorderServiceBean implements SorderService {
 	}
 
 	@Override
-	public List<SorderInfoVo> selectSorderPageByUid(PageBean page, int uid) throws Exception {
-		BusinessVo businessVo = new BusinessVo();
-		businessVo.setPage(page);
-		businessVo.setUid(uid);
-		businessVo.setStatus("");
-		return sorderMapper.selectSorderPageByUid(businessVo);
-	}
-
-	@Override
-	public List<SorderInfoVo> selectSorderPageByUidAndStatus(PageBean page, int uid, String status) throws Exception {
-		BusinessVo businessVo = new BusinessVo();
-		businessVo.setPage(page);
-		businessVo.setUid(uid);
-		businessVo.setStatus(status);
-		return sorderMapper.selectSorderPageByUidAndStatus(businessVo);
-	}
-
-	@Override
 	public Sorder selectSorderByOid(int oid) throws Exception {
 		return sorderMapper.selectSorderByOid(oid);	
+	}
+	
+
+	@Override
+	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception {
+		List<Sorder> sorders = null;
+		
+		sorders = sorderMapper.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		
+		return sorders;
 	}
 
 }

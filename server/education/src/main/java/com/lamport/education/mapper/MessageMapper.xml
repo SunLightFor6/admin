@@ -1,114 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    					"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lamport.education.mapper.MessageMapper">
 	
-	<insert id="saveMessageLike" parameterType="com.lamport.education.po.MessageLike">
-		insert into messagelike(mid, uid, stime,deletekey) values(#{mid}, #{uid}, sysdate(),0)
-	</insert>
-	<insert id="saveMessageReply" parameterType="com.lamport.education.po.MessageReply">
-		insert into messagereply(mid, uid, content, stime,deletekey) values(#{mid}, #{uid}, #{content}, sysdate(),0)
-	</insert>
-	<update id="deleteMessageLikeByMidAndUid" parameterType="int">
-   		 update messagelike set deletekey = 1  where mid=#{0} and uid=#{1}
-	</update>
 	<resultMap type="com.lamport.education.po.Message" id="_Message">
-		    <id column="mid" property="mid"/>
-		    <result column="mtitle" property="mtitle"/>
-		    <result column="mtime" property="mtime"/>
-		    <result column="qid" property="qid"/>
-		    <!-- column通常为 order表中的外键列 -->
-		    <collection property="replies" ofType="com.lamport.education.po.MessageReply" >
-		        <id column="replyid" property="id"/>
-		        <result column="replyContent" property="content"/>
-		        <result column="stime" property="stime"/>
-		    	<association property="user" javaType="com.lamport.education.po.User" >
-			        <id column="replyuid" property="uid"/>
-			        <result column="replyName" property="nickname"/>
-		    	</association>
-		    </collection>
-		     <collection property="likes" ofType="com.lamport.education.po.MessageLike" >
-		        <id column="likeId" property="id"/>
-		        <result column="mid" property="mid"/>
-		        <result column="stime" property="stime"/>
-		    	<association property="user" javaType="com.lamport.education.po.User" >
-			        <id column="likeUid" property="uid"/>
-			        <result column="likeUserName" property="nickname"/>
-		    	</association>
-		    </collection>
-		     <collection property="imgs" ofType="com.lamport.education.po.MessageImg" >
-		        <id column="imgid" property="id"/>
-		        <result column="mid" property="mid"/>
-		        <result column="imgurl" property="imgurl"/>
-		    </collection>
+		<id column="mid" property="mid"/>
+		<result column="mtitle" property="mtitle"/>
+		<result column="mtime" property="mtime"/>
+		<result column="qid" property="qid"/>
+		<collection property="replies" ofType="com.lamport.education.po.MessageReply" >
+			<id column="replyid" property="id"/>
+			<result column="replyContent" property="content"/>
+			<result column="stime" property="stime"/>
+			<association property="user" javaType="com.lamport.education.po.User" >
+				<id column="replyuid" property="uid"/>
+				<result column="replyName" property="nickname"/>
+			</association>
+		</collection>
+		<collection property="likes" ofType="com.lamport.education.po.MessageLike" >
+			<id column="likeId" property="id"/>
+			<result column="mid" property="mid"/>
+			<result column="stime" property="stime"/>
+			<association property="user" javaType="com.lamport.education.po.User" >
+				<id column="likeUid" property="uid"/>
+				<result column="likeUserName" property="nickname"/>
+			</association>
+		</collection>
+		<collection property="imgs" ofType="com.lamport.education.po.MessageImg" >
+			<id column="imgid" property="id"/>
+			<result column="mid" property="mid"/>
+			<result column="imgurl" property="imgurl"/>
+		</collection>
 	</resultMap>
 	
-	<select id="selectMessagePageByQid" parameterType="com.lamport.education.vo.EnterpriseInfoVo" resultMap="_Message">
-			select m.mid,m.mtitle,m.mtime,messageimg.imgurl,messageimg.id as imgid,
-				temp.nickname as likeUserName,temp.uid as likeUid,temp.id as likeId,
-				temp2.content as replyContent, temp2.nickname as replyName,temp2.uid as replyuid,temp2.id as replyid
-				from (((select * from message where 1=1
-						 <if test='page.startRowId !=-1'>
-							and #{page.startRowId}>mid
-						</if>
-						 order by mid desc
-						  limit 0,#{page.pageSize})m 
-				Left JOIN messageimg 
-								on messageimg.mid = m.mid) 
-				left JOIN (
-									select messagelike.mid ,u.nickname ,u.uid,messagelike.id
-									from messagelike,user u 
-									where messagelike.uid = u.uid and messagelike.deletekey = 0)temp 
-			          			on m.mid = temp.mid)
-				left JOIN (select messagereply.mid ,messagereply.content,u.nickname ,u.uid,messagereply.id
-									from messagereply ,user u 
-									where messagereply.uid = u.uid and messagereply.deletekey = 0)temp2 
-								 on m.mid = temp2.mid
-				where m.deletekey = 0 and qid = #{qid}
+	/**
+	 * 通过qid和页码查询Message信息
+	 * @param qidAndPage
+	 * @return List<Message>
+	 * @throws Exception
+	 */
+	public List<Message> selectMessageByQidAndPage(QIDAndPage qidAndPage) throws Exception;
 	
+	
+	<select id="selectMessageByQidAndPage" parameterType="com.lamport.education.vo.QIDAndPage" 
+			resultMap="_Message">
+		select m.mid, m.mtitle, m.mtime, messageimg.imgurl, messageimg.id as imgid,
+			   temp.nickname as likeUserName,temp.uid as likeUid,temp.id as likeId,
+			   temp2.content as replyContent, temp2.nickname as replyName, 
+			   temp2.uid as replyuid,temp2.id as replyid
+		from (((select * 
+				from message where 1 = 1
+				<if test='page.startRowId != -1'>
+					and #{page.startRowId} > mid
+				</if>
+				order by mid desc 
+				limit 0, #{page.pageSize}
+				) m 
+			    left join messageimg on messageimg.mid = m.mid
+			   ) 
+			   left join (select messagelike.mid, u.nickname, u.uid, messagelike.id
+						 from messagelike, user u 
+						 where messagelike.uid = u.uid 
+						   	   and messagelike.deletekey = 0
+						) temp 
+			   on m.mid = temp.mid
+			  )
+			  left join (select messagereply.mid, messagereply.content, u.nickname, u.uid, messagereply.id
+					   from messagereply ,user u
+					   where messagereply.uid = u.uid 
+					   and messagereply.deletekey = 0
+					   ) temp2 
+			  on m.mid = temp2.mid
+		where m.deletekey = 0 and qid = #{qid}
 	</select>
 	
 	<select id="selectMessageByQidDownFresh" parameterType="int" resultMap="_Message">
-			select m.mid,m.mtitle,m.mtime,messageimg.imgurl,messageimg.id as imgid,
-				temp.nickname as likeUserName,temp.uid as likeUid,temp.id as likeId,
-				temp2.content as replyContent, temp2.nickname as replyName,temp2.uid as replyuid,temp2.id as replyid
-				from (((select * from message where mid > #{1}
-						 order by mid desc)m 
-				Left JOIN messageimg 
-								on messageimg.mid = m.mid) 
-				left JOIN (
-									select messagelike.mid ,u.nickname ,u.uid,messagelike.id
-									from messagelike,user u 
-									where messagelike.uid = u.uid and messagelike.deletekey = 0)temp 
-			          			on m.mid = temp.mid)
-				left JOIN (select messagereply.mid ,messagereply.content,u.nickname ,u.uid,messagereply.id
-									from messagereply ,user u 
-									where messagereply.uid = u.uid and messagereply.deletekey = 0)temp2 
-								 on m.mid = temp2.mid
-				where m.deletekey = 0 and qid = #{0}
-	
-	</select>
-	
+		select m.mid, m.mtitle, m.mtime, messageimg.imgurl, messageimg.id as imgid, 
+			   temp.nickname as likeUserName, temp.uid as likeUid, temp.id as likeId, 
+			   temp2.content as replyContent, temp2.nickname as replyName, 
+			   temp2.uid as replyuid, temp2.id as replyid
+		from (((select * from message 
+		        where mid > #{1} 
+		        order by mid desc
+		       ) m 
+			   left join messageimg 
+			   on messageimg.mid = m.mid
+			  ) 
+			  left join (select messagelike.mid, u.nickname, u.uid, messagelike.id
+						 from messagelike,user u 
+						 where messagelike.uid = u.uid 
+						 and messagelike.deletekey = 0
+						) temp on m.mid = temp.mid
+			 )
+			 left join (select messagereply.mid, messagereply.content, u.nickname, u.uid, messagereply.id
+					    from messagereply ,user u 
+					    where messagereply.uid = u.uid 
+					    and messagereply.deletekey = 0
+					   ) temp2 
+			 on m.mid = temp2.mid
+		 where m.deletekey = 0 and qid = #{0}	
+	</select>	
 	
 </mapper>
-
-<!-- 
-
-
-select message.mid,message.mtitle,message.mtime,messageimg.imgurl,temp.nickname as likeUserName,temp2.content as replyContent, temp2.nickname as replyName
-from ((message left join messageimg on messageimg.mid = message.mid) 
-			left JOIN (
-									select messagelike.mid ,u.nickname 
-									from messagelike,user u 
-									where messagelike.uid = u.uid and messagelike.deletekey = 0)temp 
-			          on message.mid = temp.mid)
-			left JOIN (select messagereply.mid ,messagereply.content,u.nickname 
-									from messagereply ,user u 
-									where messagereply.uid = u.uid and messagereply.deletekey = 0)temp2 
-								 on message.mid = temp2.mid
-
-
- -->
-

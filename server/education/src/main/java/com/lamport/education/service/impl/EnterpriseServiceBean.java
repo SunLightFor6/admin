@@ -23,13 +23,10 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		return enterprise;
 	}
 	
-	/**
-	 * 查找企业轮播图 
-	 */
 	@Override
-	public List<String> selectEnterpriseSwiperByQid(int qid) throws Exception {
-		// TODO Auto-generated method stub
-		return swiperMapper.selectAllSwiperByQid(qid);
+	public List<String> selectEnterpriseSwipersByQid(int qid) throws Exception {
+		List<String> enterpriseSwipers = swiperMapper.selectEnterpriseSwipersByQid(qid);
+		return enterpriseSwipers;
 	}
 
 }

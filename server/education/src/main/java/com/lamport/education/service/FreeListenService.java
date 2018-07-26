@@ -9,8 +9,7 @@ import com.lamport.education.vo.LessonInfoVo;
 public interface FreeListenService {
 	
 	public LessonInfoVo  selectFreeListenByFid(int fid) throws Exception;
-	public List<FreeListen> selectFreeListenPage(PageBean page, int qid) throws Exception;
-	public List<FreeListen> selectFreeListenPageByBidAndCategory(PageBean page, int bid, String category) throws Exception;
-	public List<FreeListen> selectFreeListenPageByBranchNameAndCategory(PageBean page,int qid, String branchName, String category) throws Exception;
+	public List<FreeListen> selectFreeListenByBranchNameAndCategoryAndPage(PageBean page,int qid, String branchName, String category) throws Exception;
+	public List<FreeListen> selectHomePageFreeListenByQid(PageBean pageBean, int qid)throws Exception;
 
 }

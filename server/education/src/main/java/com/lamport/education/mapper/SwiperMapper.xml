@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.lamport.education.mapper.SwiperMapper">
-	<select id="selectAllSwiperByQid" parameterType="int" resultType="String" >
-		select imgurl from swiper where qid=#{qid} 
+
+	<select id="selectEnterpriseSwipersByQid" parameterType="int" resultType="String">
+		select imgurl from swiper where qid = #{qid} and category = 'E'
+	</select>
+	
+	<select id="selectTeacherSwipersByQid" parameterType="int" resultType="String">
+		select imgurl from swiper where qid = #{qid} and category = 'T'
 	</select>
 	
 </mapper>

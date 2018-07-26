@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class Address {
+	
 	private int qid;//企业表外键
 	private int id;				//分部主键
 	private String branch;		//分部名称
@@ -23,61 +24,81 @@ public class Address {
 	public int getQid() {
 		return qid;
 	}
+	
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getBranch() {
 		return branch;
 	}
+	
 	public void setBranch(String branch) {
 		this.branch = branch;
 	}
+	
 	public String getAddress() {
 		return address;
 	}
+	
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
 	public String getTel() {
 		return tel;
 	}
+	
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+	
 	public double getLongitude() {
 		return longitude;
 	}
+	
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	
 	public double getLatitude() {
 		return latitude;
 	}
+	
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+	
 	public List<FreeListen> getFreeListens() {
 		return freeListens;
 	}
+	
 	public void setFreeListens(List<FreeListen> freeListens) {
 		this.freeListens = freeListens;
 	}
+	
 	public List<Lesson> getLessons() {
 		return lessons;
 	}
+	
 	public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
 	}
+	
 	public int getDeletekey() {
 		return deletekey;
 	}
+	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
+
 }

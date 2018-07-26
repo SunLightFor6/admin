@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.lamport.education.mapper.UserMapper">
 
@@ -9,25 +8,25 @@
 		insert into user(qid, tel, nickname, userimg, deletekey) 
 		values(#{qid}, #{tel}, #{nickname}, #{userimg}, #{deletekey})
 	</insert>
-
+	
 	<update id="updateUser" parameterType="com.lamport.education.po.User">
-    	update user set tel = #{tel}, nickname = #{nickname}, username = #{username} where uid = #{uid}
+		update user 
+		set tel = #{tel}, nickname = #{nickname}, username = #{username} 
+		where uid = #{uid}
+	</update>
+	
+	<update id="updateUserimg" parameterType="com.lamport.education.po.User">
+		update user set userimg = #{userimg} where uid = #{uid}
 	</update>
 
-	<select id="selectUserByQidAndTel" parameterType="com.lamport.education.po.User" resultType="com.lamport.education.po.User" >
-		select * from user where qid = #{qid} and tel = #{tel}
-	</select>
-
-	<select id="selectUserByUId" parameterType="int" resultType="com.lamport.education.po.User" >
-		select * from user where uid=#{uid}
+	<select id="selectUserByUId" parameterType="int" 
+			resultType="com.lamport.education.po.User" >
+		select * from user where uid=#{uid} and deletekey=0
 	</select>
 	
-
-
+	<select id="selectUserByQidAndTel" parameterType="com.lamport.education.vo.QIDAndTel" 
+			resultType="com.lamport.education.po.User" >
+		select * from user where qid=#{qid} and tel=#{tel} and deletekey=0
+	</select>
+	
 </mapper>
-
-
-
-
-
-

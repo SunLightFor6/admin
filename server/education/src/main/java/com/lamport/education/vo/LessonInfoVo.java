@@ -1,5 +1,6 @@
 package com.lamport.education.vo;
 
+//待删
 public class LessonInfoVo {
 	private int qid;
 	private int bid;
@@ -11,7 +12,7 @@ public class LessonInfoVo {
 	private String address;
 	private String category;
 	private String lessonDesc;
-	private String status;
+	private String status;	
 	private double price;
 	public int getQid() {
 		return qid;
@@ -55,14 +56,18 @@ public class LessonInfoVo {
 	}
 	public void setCategory(String category) {
 		this.category = category;
-	}
-	 
-	 
+	}	 
 	public String getLessonDesc() {
 		return lessonDesc;
 	}
 	public void setLessonDesc(String lessonDesc) {
 		this.lessonDesc = lessonDesc;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public double getPrice() {
 		return price;

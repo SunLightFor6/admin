@@ -10,157 +10,198 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lamport.education.mapper.LessonMapper;
-import com.lamport.education.mapper.SorderMapper;
-import com.lamport.education.po.Lesson;
 import com.lamport.education.po.Refund;
 import com.lamport.education.po.Sorder;
 import com.lamport.education.po.User;
 import com.lamport.education.service.SorderService;
-import com.lamport.education.util.PageBean;
-import com.lamport.education.vo.LessonInfoVo;
-import com.lamport.education.vo.SorderInfoVo;
+import com.lamport.education.util.Config;
+import com.lamport.education.vo.SorderQueryCondition;
 
 @Controller
 public class SorderHandler {
+	
 	@Autowired
 	SorderService sorderService;
 	@Autowired
 	LessonMapper lessonMapper;
 	
 	/**
-	 * @param request 发来的请求，获取uid  currentPage status
-	 * @return 
-	 * @throws Exception 
-	 * 
+	 * 创建一条已付款的Sorder信息
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/selectOrdersByUidAndStatus")
+	@RequestMapping("/saveSorderPaid")
 	@ResponseBody
-	public  List<SorderInfoVo> selectOrdersByUidAndStatus(HttpServletRequest request) throws Exception{
-		System.out.println("....SorderHandler......selectOrdersByUidAndStatus......");
+	public String saveSorderPaid(Sorder sorder, HttpServletRequest request) throws Exception{
+		System.out.println("..........SorderHandler..........saveSorderPaid..........");
+		String result = null;
+		
 		HttpSession session = request.getSession();
+        int qid = Integer.parseInt((String)session.getAttribute("qid"));
 		User user = (User) session.getAttribute("user");
-		int uid = user.getUid();		
-		System.out.println("uid"+uid);
-		int rowId = Integer.parseInt(request.getParameter("rowId"));
-		PageBean pageBean = new PageBean(5, rowId );
-		String status =request.getParameter("status");
+		sorder.setQid(qid);
+		sorder.setUid(user.getUid());
+		sorder.setStatus(Config.SorderStatusPaid);
+		//TODO 加优惠券/transactionId/
 		
-		return sorderService.selectSorderPageByUidAndStatus(pageBean, uid, status);
+		sorderService.saveSorder(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
 		
+		return result;
 	}
-
 	
 	/**
-	 * @param request 发来的请求，获取uid  lid username tel  调用 savePaymentInfo //添加待付款记录
-	 * @return 
-	 * @throws Exception 
-	 * 
+	 * 创建一条待付款的Sorder信息
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/saveSorder")
+	@RequestMapping("/saveSorderUnpaid")
 	@ResponseBody
-	public  void saveSorder(HttpServletRequest request) throws Exception{
-		System.out.println("....LessionHandler.....saveSorder.......");
-		int lid = Integer.parseInt(request.getParameter("lessonId"));
-		int oid = Integer.parseInt(request.getParameter("oid"));
-		if(lid==0)
-			lid = sorderService.selectSorderByOid(oid).getLid();
-		String userName = request.getParameter("userName");
-		String tel = request.getParameter("tel");
-		Sorder sorder =new Sorder();
-		sorder.setOid(oid);
-		sorder.setLid(lid);
-		System.out.println("lid="+lid);
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-        int uid = user.getUid();	
-        int qid = Integer.parseInt((String)session.getAttribute("qid"));
-		sorder.setUid(uid);
-		sorder.setStatus("已付款");
-		LessonInfoVo lessonInfoVo = lessonMapper.selectLessonByLid(lid);
-		sorder.setActual(lessonInfoVo.getPrice());
-		sorder.setTotal(lessonInfoVo.getPrice());
-		sorder.setBranchid(lessonInfoVo.getBid());
-		sorder.setTel(tel);
-		sorder.setUsername(userName);
-		sorder.setQid(qid);
-		sorderService.savePaymentInfo(sorder);
-	}
-	
-
-	@RequestMapping("/bookSorder")
-	@ResponseBody
-	public  String bookSorder(HttpServletRequest request) throws Exception{
-		System.out.println("....SorderHandler.....bookSorder.....");
-		int lid = Integer.parseInt(request.getParameter("lid"));
-		int oid = 0;
+	public String saveSorderUnpaid(Sorder sorder, HttpServletRequest request) throws Exception{
+		System.out.println("..........SorderHandler..........saveSorderUnpaid..........");
+		String result = null;
+		
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		int qid = (Integer)session.getAttribute("qid");
-		int uid = user.getUid();	
-		Sorder sorder = new Sorder(); 
-		sorder.setOid(0);
-		sorder.setLid(lid);
-		sorder.setUid(uid);
-		sorder.setStatus("待付款");
-		LessonInfoVo lessonInfoVo =  lessonMapper.selectLessonByLid(lid);
-		sorder.setActual(0);
 		sorder.setQid(qid);
-		sorder.setTotal(lessonInfoVo.getPrice());
-		sorder.setBranchid(lessonInfoVo.getBid());
-		sorderService.saveObligation(sorder);
-		return null;
+		sorder.setUid(user.getUid());
+		sorder.setStatus(Config.SorderStatusUnPaid);
+		//TODO actual等如何设置
+		
+		sorderService.saveSorder(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
+		
+		return result;
 	}
 	
-	
-	
+	/**
+	 * 创建Refund信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/saveRefund")
+	@ResponseBody
+	public String saveRefund(Refund refund) throws Exception{
+		System.out.println("..........SorderHandler..........saveRefund..........");
+		String result = null;
+		
+		Sorder sorder = new Sorder();
+		sorder.setOid(refund.getOid());
+		sorder.setStatus(Config.SorderStatusRefunding);
+		refund.setStatus(Config.RefundStatusUnprocessed);
+		sorderService.saveRefund(sorder, refund);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
+		
+		return result;
+	}
 	
 	/**
-	 * @param request 发来的请求，获取mid  调用 deleteObligationLogicallyByOid// 来删除
-	 * @return 
-	 * @throws Exception 
-	 * 
+	 * 取消未付款的订单
+	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping("/cancelUnpaidSorder")
 	@ResponseBody
-	public  String cancelUnpaidSorder(HttpServletRequest request) throws Exception{
-		System.out.println("....SorderHandler.....cancelUnpaidSorder.....");
-		int oid = Integer.parseInt(request.getParameter("oid"));
-		sorderService.deleteObligationLogicallyByOid(oid);
-		return null;
+	public String cancelUnpaidSorder(Sorder sorder, HttpServletRequest request) throws Exception{
+		System.out.println("..........SorderHandler..........cancelUnpaidSorder..........");
+		String result = null;
+
+		sorderService.deleteSorderPowerfullyByOID(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
+		
+		return result;
 	}
-	
 	
 	/**
-	 * @param request 发来的请求，获取mid  调用 saveRefundRequest(Refund refund,Sorder sorder) // 来添加退款记录,并修改order状态
-	 * order状态修改在这里设置为退款中
-	 * @return 
-	 * @throws Exception 
-	 * 
+	 * 取消未处理的退款
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/addRefundRecord")
+	@RequestMapping("/cancelRefundUnprocessed")
 	@ResponseBody
-	public  void addRefundRecord(HttpServletRequest request) throws Exception{
-		System.out.println("....SorderHandler....addRefundRecord....");
-		int oid = Integer.parseInt(request.getParameter("oid"));
-		sorderService.saveRefundRequest(oid);
+	public String cancelRefundUnprocessed(Refund refund, HttpServletRequest request) throws Exception{
+		System.out.println("..........SorderHandler..........cancelRefundUnprocessed..........");
+		String result = null;
+		
+		Sorder sorder = new Sorder();
+		sorder.setOid(refund.getOid());
+		sorder.setStatus(Config.SorderStatusPaid);
+		sorderService.deleteRefundPowerfullyByOID(refund, sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
+		
+		return result;
 	}
-	
-	
+
 	/**
-	 * @param request 发来的请求，获取mid  调用 deleteRefundRequestLogicallyByOid // 来添加退款记录,并修改order状态
-	 * order状态修改在这里设置为退款中
-	 * @return 
-	 * @throws Exception 
-	 * 
+	 * 对未付款的订单进行付款
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping("/cancelRefundRequest")
+	@RequestMapping("/paySorderUnpaid")
 	@ResponseBody
-	public  void cancelRefundRequest(HttpServletRequest request) throws Exception{
-		System.out.println("....SorderHandler....cancelRefundRequest...");
-		int oid = Integer.parseInt(request.getParameter("oid"));
-		sorderService.deleteRefundRequestLogicallyByOid(oid);
+	public String paySorderUnpaid(Sorder sorder) throws Exception{
+		System.out.println("..........SorderHandler..........paySorderUnpaid..........");
+		String result = null;
+		
+		sorder.setStatus(Config.SorderStatusPaid);
+		sorderService.updateSorderStatusByOID(sorder);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("state", 1);
+		result = jsonObject.toString();
+		
+		return result;
 	}
-	
-	
+
+	/**
+	 * 通过多条件查询Sorder信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/selectOrdersByUidAndStatus")
+	@ResponseBody
+	public String selectOrdersByUidAndStatus(SorderQueryCondition sorderQueryCondition, HttpServletRequest request) throws Exception{
+		System.out.println("........SorderHandler........selectOrdersByUidAndStatus........");
+		String result = null;
+		
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		int uid = user.getUid();		
+		System.out.println("uid"+uid);						/*####################*/
+//		int rowId = Integer.parseInt(request.getParameter("rowId"));
+		sorderQueryCondition.initPageBean(Config.SorderPageSize);
+		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		if(sorders!=null && !sorders.isEmpty()){
+			for(Sorder sorder : sorders){
+				JsonObject object = new JsonObject();
+				object.addProperty("oid", sorder.getOid());
+				object.addProperty("lid", sorder.getLid());
+				object.addProperty("total", sorder.getActual());
+				object.addProperty("ordertime", sorder.getOrdertime());
+				object.addProperty("status", sorder.getStatus());
+				object.addProperty("lname", sorder.getLesson().getLname());
+				object.addProperty("imgurl", sorder.getLesson().getImgurl());
+				jsonArray.add(object);
+			}
+		}
+		jsonObject.add("sorders", jsonArray);
+		result = jsonObject.toString();
+		
+		return result;
+	}
 }
