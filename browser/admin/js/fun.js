@@ -12,6 +12,23 @@ $.ajaxSetup({
 	}
 });
 
+
+//将顶端导航栏弄消失  往上滚动出现  往下滚动消失
+var scrolltop = new Array();
+var i_sc = 0;
+scrolltop[0] = 0;
+$("#content_div").scroll(function() {
+	console.log("fade~");
+	i++;
+	scrolltop[i_sc] = $(document).scrollTop();
+	if(scrolltop[i_sc] > scrolltop[i_sc - 1]) {
+		$("header_").fadeOut()
+	} else {
+		$("header_").fadeIn()
+	};
+})
+
+
 function redirectedFunc(res) {
 	if((res != null) && ("REDIRECT" == res.getResponseHeader("REDIRECT"))) { //若HEADER中含有REDIRECT说明后端想重定向，
 		var win = window;

@@ -43,9 +43,9 @@
 							<input type="text" id="courseprice" name="courseprice" lay-verify="price required" autocomplete="off" placeholder="￥" class="layui-input">
 							<p class="form-label_sm">开本课程的分部</p>
 							<div class="layui-input-block" id="branch_sel">
-								<input type="checkbox" name="fenbu1" title="实训中心">
+								<!--<input type="checkbox" name="fenbu1" title="实训中心">
 								<input type="checkbox" name="fenbu2" title="学校基地">
-								<input type="checkbox" name="fenbu3" title="大连软件园">
+								<input type="checkbox" name="fenbu3" title="大连软件园">-->
 							</div>
 							<p class="form-label_sm">课程描述</p>
 							<script type="text/plain" id="myEditor_formal" style="height:240px;"></script>
@@ -94,10 +94,10 @@
 							<p class="form-label_sm">开本课程的分部</p>
 							<select id="fenbu_f" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
-								<option value="实训中心">实训中心</option>
+								<!--<option value="实训中心">实训中心</option>
 								<option value="大连软件园">大连软件园</option>
 								<option value="世纪路">世纪路</option>
-								<option value="学校基地">学校基地</option>
+								<option value="学校基地">学校基地</option>-->
 							</select>
 							<p class="form-label_sm">课程描述</p>
 							<script type="text/plain" id="myEditor_free" style="height:240px;"></script>
@@ -182,8 +182,27 @@
 			});
 		});
 		$(function() {
+			//获取分部信息，填充到下拉框的地方
+			$.ajax({
+				type:"get",
+				url:"/admin/getBranchesName",
+				async:true,
+				dataType: "json",
+				success: function(data) {
+					console.log("分部信息获取成功");
+					$.each(data.values, function(index, value) {
+						$("#fenbu_f").append('<option value="' + value + '">' + value + '</option>');
+						$("#branch_sel").append('<input type="checkbox" name="' + value + '" title="' + value + '">');
+					});
+				},
+				error:function() {
+					console.log("分部信息获取失败，服务器错误");
+					$("#fenbu_f").append('<option value="服务器错误，请重试或联系系统管理员" disabled>服务器错误，请重试或联系系统管理员</option>');
+					$("#branch_sel").append('<input type="checkbox" name="服务器错误" title="服务器错误，请重试或联系系统管理员" disabled />');
+				}
+			});
+
 			$("#submit_pay_btn").click(function() {
-				
 				//验证
 				if(!/^\d+(\.\d+)?$/.test($("#courseprice").val())) {
 					layer_out("价钱格式不正确，请检查后重新输入");

@@ -112,14 +112,31 @@ div.messagelist-imgs9 {
  */
 
 .body-in {
-	margin: 15px;
-	margin-left: 20px;
-	padding: 10px;
+	/*margin: 15px;*/
+	margin-left: 15px;
+	padding-left: 10px;
+	padding-top: 30px;
 	width: 95%;
 }
 
+.body-in-in {
+	/*margin: 15px;*/
+	margin-left: 15px;
+	padding-left: 10px;
+	padding-top: 5px;
+	width: 95%;
+}
+
+
 .layui-body {
 	background-color: #FFFFFF;
+	top: 0px;
+	padding-top: 60px;
+}
+
+.layui-side {
+	top: 0px;
+	/*padding-top: 60px;*/
 }
 
 
@@ -133,7 +150,7 @@ li.page-title {
 
 li#page-title {
 	vertical-align: bottom;
-	margin-top: 6%;
+	margin-top: 6px;
 }
 
 

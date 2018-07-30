@@ -1,7 +1,7 @@
 <div class="body-in" id="top">
 	<div class="layui-card-body">
 		<form class="layui-form" name="message_form" action="" method="post">
-			<p class="form-label">消息文字</p>
+			<p class="form-label">消息内容</p>
 			<input type="text" id="title" name="title" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
 			<p class="form-label">消息图片</p>
 			<input type="file" style="display: none;" name="message_pics" />
@@ -86,6 +86,11 @@
 
 		//表单提交的方法
 		$('#message_submit').click(function() {
+			
+			if(! required_verify("消息内容", $('#title').val())) {
+				return;
+			}
+			
 			var formData = new FormData();
 			formData.append("mtitle", $('#title').val());
 			for(var i in message_pics) {
