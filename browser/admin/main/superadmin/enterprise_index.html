@@ -103,7 +103,10 @@
 							toolbar: '#barDemo'
 						}]
 					],
-					page: true
+					page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 				});
 			});
 		</script>

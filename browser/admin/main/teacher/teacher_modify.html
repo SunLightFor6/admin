@@ -24,8 +24,8 @@
 			<input type="text" name="tname" lay-verify="title required" autocomplete="off" placeholder="请输入标题" class="layui-input">
 			<p class="form-label">讲师图片</p>
 
-			<label class="label" data-toggle="tooltip" title="点击上传教师图片">
-	      		<img class="rounded" id="avatar" src="" 
+			<label class="label_a" data-toggle="tooltip" title="点击上传教师图片">
+	      		<img class="rounded" style="min-width: 175px; max-width: 125px; cursor: pointer;" i id="avatar" src="" 
 	      			alt="avatar">
 	      		<input type="file" class="sr-only" id="input" name="image" accept="image/*">
     		</label>
@@ -47,12 +47,12 @@
 
 						<div class="modal-body">
 							<div class="img-container">
-								<img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+								<img id="image" src="">
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-							<button type="button" class="btn btn-primary" id="crop">裁剪</button>
+							<button type="button" class="layui-btn layui-btn-danger" data-dismiss="modal">取消</button>
+							<button type="button" class="layui-btn layui-btn-success" id="crop">裁剪</button>
 						</div>
 					</div>
 				</div>
@@ -104,8 +104,8 @@
 		var cropper;
 
 		//解决遮罩层覆盖问题
-		$("#top").parents("div.layui-body").attr('style', 'background-color: #FFFFFF;z-index: auto;');
-
+		$("#top").parents("div.layui-body").css("z-index", "auto");
+		
 		$('[data-toggle="tooltip"]').tooltip();
 
 		input.addEventListener('change', function(e) {

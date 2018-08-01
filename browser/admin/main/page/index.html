@@ -6,12 +6,13 @@
 		<meta name="renderer" content="webkit">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>企业管理</title>
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../../css/layui.css">
-		<link rel="stylesheet" href="../../css/style.css">
 		<link rel="stylesheet" href="../../umeditor/themes/default/_css/umeditor.css" />
 		<link rel="stylesheet" href="../../cropperjs-master/dist/cropper.css">
-		<link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../../css/style.css">
 
+		<script type="text/javascript" async="!0" charset="UTF-8" src="../../js/pp-library.min.js"></script>
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript" src="../../cropperjs-master/dist/cropper.js"></script>
@@ -20,14 +21,12 @@
 		<script type="text/javascript" charset="UTF-8" src="../../umeditor/lang/zh-cn/zh-cn.js"></script>
 		<script src="../../layui.js"></script>
 		<script src="../../js/fun.js"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
-		<!--<script>
-			jqxhr = $.ajax({
-					type:"post",
-					url: PREPATH + "/login/isAnyoneLogin",
-					async:false
-				});
-		</script>-->
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>-->
+		<script>
+			window.ppSettings = {
+				app_uuid: 'b81d6202-926c-11e8-b3cf-00163e0c79f6'
+			};
+		</script>
 	</head>
 
 	<body class="layui-layout-body" onhashchange="getHash()">
@@ -37,6 +36,7 @@
 			<div class="layui-header" id="header_"></div>
 			<script>
 				$('#header_').load('../header.html', function() {
+
 					$('#header_logo').attr('src', "../../img/logo.png");
 					$('#enterprise_name').text('东软睿道');
 					$('#page-title').text('我们的企业');
@@ -48,17 +48,26 @@
             	时间：2018-06-27
             	描述：左侧导航区域
             -->
-			<div class="layui-side layui-bg-black">
+			<div class="layui-side layui-bg-black" style="top: 0px;">
 				<div id="side_nav"></div>
 			</div>
 			<script>
 				$('#side_nav').load('../side_nav.html', function() {
+					$('#side_logo').attr('src', "../../img/logo.png");
 					//$('#2').attr("class", "layui-nav-item layui-nav-itemed");
 					//$('#22').attr("class", "layui-this");
+					//鼠标在左侧导航栏经过的时候显示滚动条
+					$("#scoller_nav").hover(function() {
+						console.log("hover");
+						$("#scoller_nav").attr("style", "overflow: auto;");
+					}, function() {
+						$("#scoller_nav").attr("style", "overflow: hidden;");
+					});
+
 				});
 			</script>
 
-			<div class="layui-body" style="background-color: #FFFFFF;">
+			<div class="layui-body" id="content_div" style="top: 0px; padding-top: 60px; background-color: #FFFFFF; ">
 				<p id="content_page"></p>
 			</div>
 
@@ -71,6 +80,10 @@
 			</div>
 		</div>
 		<script>
+			var scrolltop = new Array();
+			var i_sc = 0;
+			scrolltop[0] = 0;
+
 			//JavaScript代码区域
 			layui.use('element', function() {
 				var element = layui.element;
@@ -96,8 +109,21 @@
 					var id_p = '#' + hash.charAt(1);
 					//					console.log("id = " + id + " id_p = " + id_p);
 					$(id_p).attr("class", "layui-nav-item layui-nav-itemed");
-					$(id).attr("class", "layui-this")
+					$(id).attr("class", "layui-this");
 				}
+
+				$("#content_div").scroll(function() {
+					//					console.log("fade~");
+					i_sc++;
+					scrolltop[i_sc] = $("#content_div").scrollTop();
+					//					console.log("i = " + i_sc);
+					//					console.log("---------- " + scrolltop[i_sc] + "  ----  " + scrolltop[i_sc - 1]);
+					if(scrolltop[i_sc] > scrolltop[i_sc - 1]) {
+						$("#header_").fadeOut()
+					} else {
+						$("#header_").fadeIn()
+					};
+				})
 			});
 
 			function getHash() {
@@ -175,26 +201,38 @@
 						$('#content_page').load("../teacher/teacher_modify.html");
 						break;
 					case '#41':
+						$('#page-title').text('优惠券查询');
+						$('#content_page').load("../coupon/coupon_list.html");
+						break;
+					case '#42':
+						$('#page-title').text('新增优惠券');
+						$('#content_page').load("../coupon/coupon_new.html");
+						break;
+					case '#43':
+						$('#page-title').text('发放优惠券');
+						$('#content_page').load("../coupon/coupon_release.html");
+						break;
+					case '#51':
 						$('#page-title').text('预约查询');
 						$('#content_page').load("../book/book_query_list.html");
 						break;
-					case '#42':
+					case '#52':
 						$('#page-title').text('预约处理');
 						$('#content_page').load("../book/book_handle.html");
 						break;
-					case '#51':
+					case '#61':
 						$('#page-title').text('订单查询');
 						$('#content_page').load("../order/order_query_list.html");
 						break;
-					case '#52':
+					case '#62':
 						$('#page-title').text('退款处理');
 						$('#content_page').load("../order/order_refund.html");
 						break;
-					case '#53':
+					case '#63':
 						$('#page-title').text('订单核销');
 						$('#content_page').load("../order/order_cav.html");
 						break;
-					case '#61':
+					case '#71':
 						$('#page-title').text('朋友圈消息管理');
 						$('#content_page').load("../friend/friend_comment_management.html");
 						break;
@@ -202,7 +240,7 @@
 						//						$('#page-title').text('朋友圈首页设置');
 						//						$('#content_page').load("../friend/friend_homepage_setting.html");
 						//						break;
-					case '#62':
+					case '#72':
 						$('#page-title').text('朋友圈发布信息');
 						$('#content_page').load("../friend/friend_new_message.html");
 						break;

@@ -50,7 +50,10 @@
 					toolbar: '#barDemo'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 		});
 	});
 </script>
@@ -77,7 +80,11 @@
 
 				window.location.href = '#14';
 			} else if(obj.event === 'del') {
-				layer.confirm('确认删除分部' + data.branch + '?', {icon: 3, title:'', closeBtn: false}, function(index) {
+				layer.confirm('确认删除分部' + data.branch + '?', {
+					icon: 3,
+					title: '',
+					closeBtn: false
+				}, function(index) {
 					jqxhr = $.ajax({
 						type: "post",
 						url: PREPATH + "/admin/deleteBranchLogicallyByID?id=" + data.id,

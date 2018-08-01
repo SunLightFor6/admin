@@ -69,5 +69,5 @@ public interface SorderMapper {
 	 * @return double
 	 * @throws Exception
 	 */
-	public double selectCountSorderActualByQID(int qid) throws Exception;
+	public Double selectCountSorderActualByQID(int qid) throws Exception;
 }

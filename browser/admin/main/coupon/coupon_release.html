@@ -1,0 +1,221 @@
+<div class="body-in" id="top" style="width: 95%;">
+	<div class="layui-row">
+		<div class="layui-col-lg7">
+			<div class="layui-card-body">
+				<form class="layui-form" id="su_form">
+					<ul class="layui-timeline">
+						<li class="layui-timeline-item">
+							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+							<div class="layui-timeline-content layui-text">
+								<h3 class="layui-timeline-title">此优惠券所剩数量：<span id="remaining">22</span></h3>
+							</div>
+						</li>
+						<li class="layui-timeline-item">
+							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+							<div class="layui-timeline-content layui-text">
+								<h3 class="layui-timeline-title">请选择要发放优惠券的用户特征<span style="font-size: 14px; color: #ABABAB; padding-left: 10px;">以下内容根据需要选填</span></h3>
+								<ul class="layui-timeline" style="list-style: none;">
+									<li class="layui-timeline-item" style="padding-bottom: 10px;">
+										<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+										<div class="layui-timeline-content layui-text">
+											<h4 class="layui-timeline-title">课程关联度</h4>
+											<div class="layui-form-item">
+												<p style="width: auto; margin-left: 20px;">用户购买过/预约过的课程类型</p>
+												<div id="su_category" name="su_category" class="layui-input-block" style="margin: 10px 15px 0px 20px;">
+													<!--<input type="checkbox" name="JAVA" title="JAVA">
+													<input type="checkbox" name="C++" title="C++">
+													<input type="checkbox" name="AI" title="AI">-->
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="layui-timeline-item" style="padding-bottom: 8px;">
+										<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+										<div class="layui-timeline-content layui-text">
+											<h4 class="layui-timeline-title">用户忠实度</h4>
+											<div class="layui-form-item">
+												<label class="layui-form-label" style="width: auto; margin-left: 5px;">用户积分超过</label>
+												<div class="layui-input-inline">
+													<input id="su_points" name="su_points" type="text" style="height: 30px; width: 128px;" class="layui-input	" />
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="layui-timeline-item" style="padding-bottom: 8px;">
+										<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+										<div class="layui-timeline-content layui-text">
+											<h4 class="layui-timeline-title">随机选择</h4>
+											<div class="layui-form-item">
+												<label class="layui-form-label" style="width: auto; margin-left: 5px;">随机选择用户：</label>
+												<div class="layui-input-inline">
+													<input id="su_amount" name="su_amount" type="text" style="height: 30px;" class="layui-input	" />
+												</div>
+												<label class="layui-form-mid" style="width: auto; margin-left: 5px;">位</label>
+											</div>
+										</div>
+									</li>
+									<li class="layui-timeline-item">
+										<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+										<div class="layui-timeline-content layui-text">当前符合条件的用户数量：<button id="su_select_amount_btn" class="layui-btn layui-btn-xs">点击查看</button></div>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="layui-timeline-item">
+							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+							<div class="layui-timeline-content layui-text">
+								<h3 class="layui-timeline-title">每个用户发放<input type="text" id="su_per" name="su_per" style="margin: 1px 2px; width: 10px;" class="form-control-sm" placeholder="1" style="width: 30px;" value="1" />张优惠券</h3>
+							</div>
+						</li>
+						<li class="layui-timeline-item">
+							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+							<div class="layui-timeline-content layui-text">
+								<div class="layui-timeline-title">确认以上内容</div>
+							</div>
+						</li>
+					</ul>
+					<button type="button" id="handout_coupon_btn" style="color: #009688;" class="layui-btn layui-btn-disabled" disabled="disabled">发放优惠券</button>
+				</form>
+			</div>
+		</div>
+		<div class="layui-col-lg5">
+			<div class="layui-card-body">
+				<fieldset class="layui-elem-field">
+					<legend>即将发放的优惠券</legend>
+					<div class="layui-field-box" id="coupon_show">
+						<p><span>优惠券对应的课程类别：</span><span id="category">C++</span></p>
+						<p><span>优惠券面额：</span><span id="money">￥200</span></p>
+						<p><span>优惠券使用门槛：</span><span id="needmoney">￥5000</span></p>
+						<p><span>使用截止日期：</span><span id="deadline">2018年12月31日</span></p>
+						<p><span>已发数量/总数量：</span><span id="amount">33/200</span></p>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script>
+	$(function() {
+		getCategories("su_category", 2);
+		$("#category").text(sessionStorage.getItem("category"));
+		$("#money").text(sessionStorage.getItem("money"));
+		$("#needmoney").text(sessionStorage.getItem("needmoney"));
+		$("#deadline").text(sessionStorage.getItem("deadline"));
+		var remaining = parseInt(sessionStorage.getItem("total")) - parseInt(sessionStorage.getItem("get"));
+		$("#amount").text(sessionStorage.getItem("get") + '/' + sessionStorage.getItem("total"));
+		$("#remaining").text(remaining);
+		var amount = 0;
+	})
+</script>
+<script>
+	layui.use(['form', 'layer'], function() {
+		var form = layui.form,
+			layer = layui.layer;
+
+		form.render();
+
+		//查看已选择的用户数量
+		$("#su_select_amount_btn").click(function() {
+			var formData = new FormData($("#su_form")[0]);
+			jqxhr = $.ajax({
+				type: "post",
+				url: "/admin/selectAmountMeetingCondition",
+				async: true,
+				data: formData,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					$("#su_select_amount_btn").text(data.amount);
+					amount = data.amount;
+					if(data.amount <= remaining) {
+						enableHandleBtn();
+					}
+				},
+				error: function() {
+					$("#su_select_amount_btn").text("点击重试");
+//						enableHandleBtn();
+					
+				}
+			});
+		});
+
+		$("#su_per").onchange(function() {
+			amount *= parseInt($("#su_per").val());
+			if(amount <= remaining) {
+				enableHandleBtn();
+			} else {
+				layer.open({
+					type: 0,
+					btn: false,
+					title: false,
+					icon: 5,
+					closeBtn: 0,
+					shadeClose: true,
+					time: 1500,
+					content: '优惠券剩余：' + remaining + '<br>' + '即将发放的优惠券数量：' + amount,
+				});
+			}
+		});
+		
+		
+		$("#handout_coupon_btn").click(function() {
+			var formData = new FormData($("#su_form")[0]);
+			jqxhr = $.ajax({
+				type: "post",
+				url: "/admin/handoutCoupon",
+				async: true,
+				data: formData,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					if(data.response == 1) {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 6,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '发放成功，共计发放张优惠券'
+						});
+					} else {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 5,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '发放失败，请稍后重试或联系系统管理员'
+						});
+					}
+				},
+				error: function() {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '服务器错误，请稍后重试或联系系统管理员'
+					});
+				}
+			});
+		});
+
+	});
+	
+	function enableHandleBtn() {
+		$("#handout_coupon_btn").attr("class", "layui-btn");
+		$("#handout_coupon_btn").attr("disabled", "false");
+		$("#handout_coupon_btn").attr("style", "");
+	}
+</script>

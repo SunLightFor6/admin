@@ -1,5 +1,4 @@
-<div class="body-lz-in" style="margin-left: 30px; width: 95%;" id="top">
-	<div style="margin-top: 36px;">
+<div class="body-in" style="margin-left: 30px; width: 95%;" id="top">
 		<form class="layui-form" id="order_query_form">
 			<div class="layui-form-item">
 				<div class="layui-inline">
@@ -12,12 +11,12 @@
 					<label class="layui-lz-form-label">订单状态：</label>
 					<div class="layui-lz-select-inline">
 						<select name="status_sel" id="status_sel" lay-verify="required" lay-search="">
-							<option value="0">全部</option>
-							<option value="1">已付款</option>
-							<option value="2">待付款</option>
-							<option value="3">退款中</option>
-							<option value="4">已退款</option>
-							<option value="5">已核销</option>
+							<option value="">全部</option>
+							<option value="已付款">已付款</option>
+							<option value="待付款">待付款</option>
+							<option value="退款中">退款中</option>
+							<option value="已退款">已退款</option>
+							<option value="已核销">已核销</option>
 						</select>
 					</div>
 				</div>
@@ -36,7 +35,6 @@
 				</div>
 			</div>
 		</form>
-	</div>
 	<table class="layui-hide" id="order_query_list" lay-filter="order_query_list" lay-data="{id: 'order_query_list'}" ></table>
 </div>
 
@@ -106,7 +104,10 @@
 					title: '交易流水号'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 		});
 
 		$("#order_query_btn").click(function() {
@@ -123,6 +124,7 @@
 			//				status = "已退款";
 			//			}
 			status = $('#status_sel option:selected').text();
+			status = status=="全部"? "" : status;
 			oid = ($('#oid').val() != null && $('#oid').val() != "" ? parseInt($('#oid').val()) : 0);
 			beginTime = $('#beginTime').val();
 			endTime = $('#endTime').val();

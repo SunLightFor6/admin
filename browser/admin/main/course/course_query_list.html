@@ -1,7 +1,7 @@
 <div id="top" style="width: 98%;">
 	<form class="layui-form" id="course_query_form" lay-filter="course_query_form">
 		<div class="layui-row body-head-in">
-			<div class="layui-col-md-offset3">
+			<div class="layui-col-md-offset6">
 				<div class="layui-col-lg4">
 					<div class="layui-inline">
 						<div class="layui-input-inline">
@@ -25,13 +25,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="layui-col-lg3" align="center">
+				<div class="layui-col-lg2" align="center">
 					<h4 style="margin-top: 20px;"><a href="#22" class="lz-font-color-blue">+添加课程</a></h4>
 				</div>
 			</div>
 		</div>
 	</form>
-	<div class="body-in" style="width: 95%; margin-top: 1px;">
+	<div class="body-in-in" style="width: 95%; margin-top: 1px;">
 		<table class="layui-hide" id="course_list" lay-filter="course_list" lay-data="{id: 'imgs_col'}"></table>
 	</div>
 </div>
@@ -127,6 +127,9 @@
 					console.log("afterload " + i);
 					afterload(i);
 				}
+			},
+			error: function(t, e) {
+				redirectedFunc(e);
 			}
 		});
 
@@ -184,6 +187,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			} else if(course_cat == "正式精品课") {
@@ -229,6 +235,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			}
@@ -292,6 +301,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			} else if(course_cat == "正式精品课") {
@@ -337,6 +349,9 @@
 							console.log("afterload " + i);
 							afterload(i);
 						}
+					},
+					error: function(t, e) {
+						redirectedFunc(e);
 					}
 				});
 			}
@@ -418,7 +433,7 @@
 											obj.del();
 										}
 									});
-									
+
 								} else if(data.response == 0) {
 									layer.open({
 										type: 0,

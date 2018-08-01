@@ -112,14 +112,31 @@ div.messagelist-imgs9 {
  */
 
 .body-in {
-	margin: 15px;
-	margin-left: 20px;
-	padding: 10px;
+	/*margin: 15px;*/
+	margin-left: 15px;
+	padding-left: 10px;
+	padding-top: 30px;
 	width: 95%;
 }
 
+.body-in-in {
+	/*margin: 15px;*/
+	margin-left: 15px;
+	padding-left: 10px;
+	padding-top: 5px;
+	width: 95%;
+}
+
+
 .layui-body {
 	background-color: #FFFFFF;
+	top: 0px;
+	padding-top: 60px;
+}
+
+.layui-side {
+	top: 0px;
+	/*padding-top: 60px;*/
 }
 
 
@@ -133,7 +150,7 @@ li.page-title {
 
 li#page-title {
 	vertical-align: bottom;
-	margin-top: 6%;
+	margin-top: 6px;
 }
 
 
@@ -210,6 +227,14 @@ img.layui-upload-img {
 	margin: 5px;
 }
 
+img.swiper-img {
+	min-height: 160px;
+	max-height: 160px;
+	min-width: 256px;
+	max-width: 256px;
+	margin: 5px;
+}
+
 img.enter_face {
 	width: 90%;
 	margin-right: 3px;
@@ -217,6 +242,11 @@ img.enter_face {
 
 .layui-card-body {
 	padding: 7px, 12px;
+}
+
+/*精彩展示的图片规格*/
+#enterprise_show>p {
+	max-width:-webkit-fill-available;
 }
 
 
@@ -334,7 +364,7 @@ div.layui-card-header {
 .layui-lz-input-inline {
 	float: left;
 	width: 128px;
-	margin-right: 10px;
+	margin-right: 2px;
 }
 
 .layui-lz-select-inline {
@@ -505,4 +535,38 @@ textarea{
 	min-height: 120px;
 	font-size: 16px;
 	padding: 10px;
+}
+
+#coupon_show {
+	font-size: 16px; 
+	padding: 5px 10px;
+}
+
+#coupon_show p {
+	font-size: 16px; 
+	padding: 1px 1px;
+}
+
+#coupon_show p>span {
+	margin: 6px 3px;
+	width: 180px;
+	text-align: right;
+	display:inline-block;
+}
+#coupon_show p>span+span {
+	margin: 6px 3px;
+	width: auto;
+	text-align: left;
+	display:inline-block;
+}
+h4.layui-timeline-title {
+	font-weight: 600;
+	font-size: 16px;
+}
+
+#scoller_nav {
+	bottom: 40px; 
+	top: 60px; 
+	position: fixed; 
+	height: auto;
 }

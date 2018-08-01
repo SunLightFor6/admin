@@ -28,7 +28,7 @@
 			</div>
 		</div>
 	</form>
-	<div class="body-in" style="width: 96%;">
+	<div class="body-in-in" style="width: 96%;">
 		<table class="layui-hide" id="book_handle_list" lay-filter="book_handle_list" style="word-wrap:break-word; word-break:break-all;"></table>
 	</div>
 </div>
@@ -92,7 +92,10 @@
 					toolbar: '#barDemo'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 		});
 
 		$("#book_handle_btn").click(function() {
@@ -145,7 +148,10 @@
 						toolbar: '#barDemo'
 					}]
 				],
-				page: true
+				page: true,
+				error: function(t, e) {
+					redirectedFunc(e);
+				}
 			});
 
 		});
@@ -232,7 +238,10 @@
 														toolbar: '#barDemo'
 													}]
 												],
-												page: true
+												page: true,
+												error: function(t, e) {
+													redirectedFunc(e);
+												}
 											});
 										}
 									});

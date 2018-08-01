@@ -10,11 +10,11 @@
 			<div class="layui-inline">
 				<label class="layui-lz-form-label">下单日期：</label>
 				<div class="layui-lz-input-inline">
-					<input name="beginTime" class="layui-input" id="startdate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
+					<input name="beginTime" class="layui-input" id="beginTime" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="startdate">
 				</div>
 				<div class="layui-form-mid">-</div>
 				<div class="layui-lz-input-inline">
-					<input name="endTime" class="layui-input" id="enddate" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
+					<input name="endTime" class="layui-input" id="endTime" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="enddate">
 				</div>
 			</div>
 			<div class="layui-inline">
@@ -42,7 +42,6 @@
 		table.render({
 			elem: '#cav_query',
 			url: PREPATH + "/admin/selectSorderUnverifiedBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
-
 			dataType: 'jsonp',
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -88,7 +87,10 @@
 					toolbar: '#barDemo'
 				}]
 			],
-			page: true
+			page: true,
+			error: function(t, e) {
+				redirectedFunc(e);
+			}
 		});
 	});
 </script>
@@ -100,7 +102,62 @@
 		beginTime = $('#beginTime').val();
 		endTime = $('#endTime').val();
 		console.log("oid=" + oid + "&status=" + status + "&beginTime=" + beginTime + "&endTime=" + endTime);
-		table.render();
+		layui.use('table', function() {
+			var table = layui.table;
+			table.render({
+				elem: '#cav_query',
+				url: PREPATH + "/admin/selectSorderUnverifiedBySorderQueryCondition?oid=" + oid + "&beginTime=" + beginTime + "&endTime=" + endTime,
+				dataType: 'jsonp',
+				skin: 'nob',
+				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					,
+				cols: [
+					[{
+						field: 'orderid',
+						width: '9%',
+						title: '订单id',
+						sort: true
+					}, {
+						field: 'courseid',
+						width: '9%',
+						title: '课程id',
+						sort: true
+					}, {
+						field: 'usernickname',
+						width: '9%',
+						title: '用户昵称'
+					}, {
+						field: 'usertel',
+						width: '14%',
+						title: '用户电话'
+					}, {
+						field: 'total',
+						width: '10%',
+						title: '订单金额'
+					}, {
+						field: 'actual',
+						width: '10%',
+						title: '实付金额'
+					}, {
+						field: 'orderstatus',
+						width: '10%',
+						title: '预约状态'
+					}, {
+						field: 'ordertime',
+						width: '16%',
+						title: '下单时间'
+					}, {
+						width: '13%',
+						align: 'center',
+						toolbar: '#barDemo'
+					}]
+				],
+				page: true,
+				error: function(t, e) {
+					redirectedFunc(e);
+				}
+			});
+		});
 	});
 	layui.use(['form', 'layedit', 'laydate'], function() {
 		var form = layui.form,
@@ -135,18 +192,20 @@
 		table.on('tool(cav_query)', function(obj) {
 			var data = obj.data;
 			if(obj.event === 'verify') {
-				//				layer.msg('ID：' + data.id + ' 的查看操作'); //在这里跳入查看界面
-				layer.open({
+				//按钮【按钮一】的回调
+				layer.confirm('订单编号：' + data.courseid + '\n用户：' + data.usernickname + '\n实际付款:' + data.actual + '\n交易流水号：' + data.transactionid, {
+					icon: 3,
 					title: '确认订单核销',
-					content: '订单编号：' + data.oid + '\n用户：' + data.usernickname + '\n实际付款:' + data.actual + '\n交易流水号：' + data.transactionid,
-					btn: ['确认处理', '取消'],
-					yes: function(index, layero) {
-						//按钮【按钮一】的回调
-						jqxhr = $.ajax({
-							type: "post",
-							url: PREPATH + "/admin/verifySorderByID?oid=" + data.oid,
-							async: true,
-							success: function() {
+					closeBtn: false
+				}, function(index) {
+					jqxhr = $.ajax({
+						type: "post",
+						url: PREPATH + "/admin/verifySorderByID?oid=" + data.orderid,
+						dataType: "json",
+						async: true,
+						success: function(data) {
+
+							if(data.response == 1) {
 								layer.open({
 									type: 0,
 									btn: false,
@@ -157,8 +216,8 @@
 									time: 1500,
 									content: '核销成功'
 								});
-							},
-							error: function() {
+								obj.del();
+							} else if(data.response == 0) {
 								layer.open({
 									type: 0,
 									btn: false,
@@ -170,12 +229,20 @@
 									content: '核销失败，请稍后重试'
 								});
 							}
-						});
-					},
-					btn2: function(index, layero) {
-						//按钮【按钮二】的回调
-					},
-					cancel: function() {}
+						},
+						error: function() {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '服务器错误，请稍后重试或联系系统管理员'
+							});
+						}
+					});
 				});
 			}
 		});
