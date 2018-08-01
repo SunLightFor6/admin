@@ -114,3 +114,39 @@ function required_verify(posi, value) {
 	}
 	return 1;
 }
+
+//从服务器请求category的方法，传入的参数是要append下拉框的select标签id
+function getCategories(id_) {
+	jqxhr = $.ajax({
+		type:"post",
+		url:"/admin/getCategories",
+		async:true,
+		dataType: "json",
+		success: function(data) {
+			var values = data.values;
+			$.each(values, function(index) {
+				$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
+			});
+		}
+	});	
+}
+
+function getCategories(id_, type) {
+	jqxhr = $.ajax({
+		type:"post",
+		url:"/admin/getCategories",
+		async:true,
+		dataType: "json",
+		success: function(data) {
+			var values = data.values;
+			$.each(values, function(index) {
+				if(type == 1) {
+					$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
+				} else if (type == 2) {
+					$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + 'C++">"');			
+				}
+			});
+		}
+	});	
+}
+

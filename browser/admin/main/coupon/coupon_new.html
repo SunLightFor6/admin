@@ -1,0 +1,139 @@
+<div class="body-in" id="top" style="width: 80%; padding-left: 25px;">
+	<p style="margin: 20px 5px">根据需要，填写以下关于优惠券的信息</p>
+	<form class="layui-form layui-form-pane" id="coupon_add_form">
+		<div class="layui-form-item">
+			<label class="layui-form-label">课程类别</label>
+			<div class="layui-input-block">
+				<select name="category" id="category" lay-filter="category">
+					<option value="" selected>所有类别</option>
+					<option value="前端">前端</option>
+					<option value="Java">Java</option>
+					<option value="Java Web">Java Web</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">优惠券面额</label>
+			<div class="layui-input-block">
+				<input type="text" name="money" id="money" autocomplete="off" placeholder="请输入优惠券能抵用多少钱" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">使用门槛</label>
+			<div class="layui-input-block">
+				<input type="text" name="needmoney" id="needmoney" autocomplete="off" placeholder="请输入优惠券的使用门槛" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">优惠券数量</label>
+			<div class="layui-input-block">
+				<input type="text" name="total" id="total" autocomplete="off" placeholder="请输入此种优惠券初始数量" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">截止日期</label>
+			<div class="layui-input-block">
+				<input type="text" name="deadline" id="deadline" placeholder="YYYY-MM-DD" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<button id="coupon_add_btn" class="layui-btn layui-btn-success">新建优惠券</button>
+		</div>
+	</form>
+</div>
+<script>
+	layui.use(['form', 'laydate', 'layer'], function() {
+		var form = layui.form;
+		var laydate = layui.laydate;
+		var layer = layui.layer;
+
+		form.render();
+
+		//执行一个laydate实例
+		laydate.render({
+			elem: '#deadline' //指定元素
+		});
+
+		var formData = new FormData($("#coupon_add_form")[0]);
+
+		$("#coupon_add_btn").click(function() {
+			jqxhr = $.ajax({
+				type: "post",
+				url: PREPATH + "/admin/saveCoupon",
+				async: true,
+				data: formData,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					if(data.response == 1) {
+						sessionStorage.setItem("courseCategory", $("#courseCategory").val());
+						sessionStorage.setItem("money", $("#money").val());
+						sessionStorage.setItem("needmoney", $("#needmoney").val());
+						sessionStorage.setItem("deadline", $("#deadline").val());
+						var amount = $("#amount").val();
+						var get = amount.split('/')[0];
+						var total = amount.split('/')[1];
+						sessionStorage.setItem("get", get);
+						sessionStorage.setItem("total", total);
+						layer.open({
+							content: '您创建了 ' + $("#total").val() + ' 张优惠券，<br>优惠券类型：' +
+								($("#needmoney").val() == '' || $("#needmoney").val() == '0' ? "无门槛优惠券，面额" + $("#money").val() : "满减优惠券，满" + $("#needmoney").val() + "元减" + $("#money").val()) +
+								'元<br>截止日期：' + $("#deadline").val(),
+							time: 0,
+							closeBtn: false,
+							btn: ['现在就去发放优惠券', '取消'],
+							yes: function(index, layero) {
+								window.location.href = "#43";
+							},
+							btn2: function(index, layero) {
+								window.location.href = "#41";
+							}
+						});
+					} else {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 5,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '新增失败，请稍后重试或联系系统管理员'
+						});
+					}
+				},
+				error: function() {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '服务器错误，请稍后重试或联系系统管理员'
+					});
+//					layer.open({
+//							content: '您创建了 ' + $("#total").val() + ' 张优惠券，<br>优惠券类型：' +
+//								($("#needmoney").val() == '' || $("#needmoney").val() == '0' ? "无门槛优惠券，面额" + $("#money").val() : "满减优惠券，满" + $("#needmoney").val() + "元减" + $("#money").val()) +
+//								'元<br>截止日期：' + $("#deadline").val(),
+//							time: 0,
+//							closeBtn: false,
+//							btn: ['现在就去发放优惠券', '取消'],
+//							yes: function(index, layero) {
+//								window.location.href = "#43";
+//							},
+//							btn2: function(index, layero) {
+//								window.location.href = "#41";
+//							}
+//						});
+				}
+			});
+		});
+
+	});
+</script>

@@ -225,7 +225,7 @@
 	
 --------------————————————————————————————---------------
 # 获取现在有多少 个分部，以及其名字
-	-->/admin/getBranchesName
+	--> /admin/getBranchesName
 	<-- {
 		    "count":3,
 		    "values":[
@@ -234,8 +234,106 @@
 		        "cc"
 		    ]
 		}
-}
+
+# 获取现在的课程类别有几个，分别是哪些哪些
+	--> /admin/getCategories
+	<-- {
+			"count":3,
+		    "values":[
+		        "aa",
+		        "bb",
+		        "cc"
+		    ]
+		}
 --------------————————————————————————————---------------
+#优惠券管理
+##获取优惠券列表
+	###
+	--> /admin/selectCouponsByCouponQueryCondition
+		{
+			cid	优惠券编号
+			category 课程类别 空值表示全部
+			queryBasis  排序依据  有四种:截止日期 使用门槛 面额 剩余数量
+			queryOrderBasis  ：有两种：升序 降序
+			showDisabled： "显示" 表示显示已经失效的优惠券   ""表示不显示 
+			page 
+			limit
+		}
+	<-- {
+			cid
+			category
+			money		"￥10"
+			needmoney	"￥200"
+			amount		"122/322" 已发放数量/总数量
+			deadline
+		}
+	
+	### 删除优惠券
+	--> /admin/deleteCouponByCid
+		{cid}
+	<-- {1, 0}	
+	
+	### 延长优惠券时限
+	--> /admin/prolongCouponDeadLineByCidAndProlongdays
+		{
+			cid
+			prolong_days	延长多少天
+		}
+	<-- {
+			response	0 1
+			deadline	返回延长后的截止日期
+		}
+	
+	### 增加优惠券数量
+	--> /admin/addCouponTotalByCidAndNum
+		{
+			cid
+			num		优惠券总数增加多少张
+		}
+	<-- {1, 0}
+
+##新建优惠券
+	--> /admin/saveCoupon
+		{
+			category
+			money
+			needmoney	//门槛
+			total
+			deadline
+		}
+	<-- {0, 1}
+
+##发放优惠券
+###查看符合条件的用户数量
+	--> /admin/selectAmountMeetingCondition
+		{
+			su_category  用户购买过/预约过的课程类型
+			su_points	用户积分超过
+			su_amount	随机选择用户数量
+		}
+	<-- {"amount": 66}
+
+###发放优惠券
+	--> /admin/handoutCoupon
+		{
+			su_category  用户购买过/预约过的课程类型
+			su_points	用户积分超过
+			su_amount	随机选择用户数量
+			su_per		每个用户发放几张优惠券
+		}
+	<-- {1, 0}
+
+
+
+
+
+
+
+
+
+
+
+
 
 $(function() {
 	$.ajax({
