@@ -35,7 +35,6 @@ public class BranchHanler {
 		if(addresses!=null && !addresses.isEmpty()){
 			for(Address address : addresses){
 				JsonObject object = new JsonObject();
-				object.addProperty("id", address.getId());
 				object.addProperty("branch", address.getBranch());
 				object.addProperty("address", address.getAddress());
 				object.addProperty("tel", address.getTel());
@@ -44,9 +43,9 @@ public class BranchHanler {
 				jsonArray.add(object);
 			}
 		}
-		jsonObject.add("addresses", jsonArray);
+		jsonObject.add("branches", jsonArray);
 		result = jsonObject.toString();
-
+		
 		return result;
 	}
 

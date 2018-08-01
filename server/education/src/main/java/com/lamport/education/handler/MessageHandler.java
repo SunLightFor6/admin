@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lamport.education.po.Message;
+import com.lamport.education.po.MessageImg;
 import com.lamport.education.po.MessageLike;
 import com.lamport.education.po.MessageReply;
 import com.lamport.education.po.User;
@@ -110,48 +112,128 @@ public class MessageHandler {
 		qidAndPage.setQid(qid);
 		qidAndPage.initPageBean(Config.MessagePageSize);
 		List<Message> messages =  messageService.selectMessageByQidAndPage(qidAndPage);
-		
-		//TODO 为什么要remove(0)?
-		//TODO json返回格式不详
-		
-		
-		for(Message message:messages){
-			if(message.getImgs().size()>0&&message.getImgs().get(0).getImgurl()==null)
-				message.getImgs().remove(0);
-			if(message.getLikes().size()>0&&(message.getLikes().get(0).getUser()==null||message.getLikes().get(0).getUser().getNickname()==null))
-				message.getLikes().remove(0);
-			if(message.getReplies().size()>0&&message.getReplies().get(0)==null)
-				message.getReplies().remove(0);
+		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		if(messages!=null && !messages.isEmpty()){
+			for(Message message : messages){
+				JsonObject object = new JsonObject();
+				object.addProperty("mid", message.getMid());
+				object.addProperty("mtitle", message.getMtitle());
+				object.addProperty("mtime", message.getMtime());
+				JsonArray imgArray = new JsonArray();
+				if(message.getImgs()!=null && !message.getImgs().isEmpty()){
+					for(MessageImg img : message.getImgs()){
+						JsonObject imgObject = new JsonObject();
+						imgObject.addProperty("imgurl", img.getImgurl());
+						imgArray.add(imgObject);
+					}
+				}
+				object.add("messageimgs", imgArray);
+				JsonArray likeArray = new JsonArray();
+				if(message.getLikes()!=null && !message.getLikes().isEmpty()){
+					for(MessageLike like : message.getLikes()){
+						JsonObject likeObject = new JsonObject();
+						likeObject.addProperty("nickname", like.getUser().getNickname());
+						likeArray.add(likeObject);
+					}
+				}
+				object.add("messagelikes", likeArray);
+				JsonArray replyArray = new JsonArray();
+				if(message.getReplies()!=null && !message.getReplies().isEmpty()){
+					for(MessageReply reply : message.getReplies()){
+						JsonObject replyObject = new JsonObject();
+						replyObject.addProperty("nickname", reply.getUser().getNickname());
+						replyObject.addProperty("content", reply.getContent());
+						replyArray.add(replyObject);
+					}
+				}
+				object.add("messagereply", replyArray);
+				jsonArray.add(object);
+			}
 		}
+		jsonObject.add("messages", jsonArray);
+		result = jsonObject.toString();
+		
+//为什么要remove(0)?
+//		for(Message message:messages){
+//			if(message.getImgs().size()>0&&message.getImgs().get(0).getImgurl()==null)
+//				message.getImgs().remove(0);
+//			if(message.getLikes().size()>0&&(message.getLikes().get(0).getUser()==null||message.getLikes().get(0).getUser().getNickname()==null))
+//				message.getLikes().remove(0);
+//			if(message.getReplies().size()>0&&message.getReplies().get(0)==null)
+//				message.getReplies().remove(0);
+//		}
 //		return messages;
 		
 		return result;
 	}
 	
-	@RequestMapping("/selectAllMessageByQidDownFresh")
+	/**
+	 * 通过下拉刷新查询Message信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/selectMessageByQidDownFresh")
 	@ResponseBody
-	public String selectAllMessageByQidDownFresh(HttpServletRequest request) throws Exception{
-		System.out.println("..........MessageHandler..........selectAllMessageByQidDownFresh..........");
+	public String selectMessageByQidDownFresh(int startId, HttpServletRequest request) throws Exception{
+		System.out.println("..........MessageHandler..........selectMessageByQidDownFresh..........");
 		String result = null;
 		
 		int maxId = Integer.parseInt(request.getParameter("maxId"));
 		HttpSession session = request.getSession();	
 		int qid = (Integer)session.getAttribute("qid");
 		System.out.println("maxId = " + maxId);							/*####################*/
-		
 		List<Message> messages =messageService.selectMessageByQidDownFresh(qid, maxId);
-		
-		//TODO 为什么要remove(0)?
-		//TODO json返回格式不详
-		
-		for(Message message:messages){
-			if(message.getImgs().size()>0&&message.getImgs().get(0).getImgurl()==null)
-				message.getImgs().remove(0);
-			if(message.getLikes().size()>0&&message.getLikes().get(0).getUser()==null)
-				message.getLikes().remove(0);
-			if(message.getReplies().size()>0&&message.getReplies().get(0)==null)
-				message.getReplies().remove(0);
+		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		if(messages!=null && !messages.isEmpty()){
+			for(Message message : messages){
+				JsonObject object = new JsonObject();
+				object.addProperty("mid", message.getMid());
+				object.addProperty("mtitle", message.getMtitle());
+				object.addProperty("mtime", message.getMtime());
+				JsonArray imgArray = new JsonArray();
+				if(message.getImgs()!=null && !message.getImgs().isEmpty()){
+					for(MessageImg img : message.getImgs()){
+						JsonObject imgObject = new JsonObject();
+						imgObject.addProperty("imgurl", img.getImgurl());
+						imgArray.add(imgObject);
+					}
+				}
+				object.add("messageimgs", imgArray);
+				JsonArray likeArray = new JsonArray();
+				if(message.getLikes()!=null && !message.getLikes().isEmpty()){
+					for(MessageLike like : message.getLikes()){
+						JsonObject likeObject = new JsonObject();
+						likeObject.addProperty("nickname", like.getUser().getNickname());
+						likeArray.add(likeObject);
+					}
+				}
+				object.add("messagelikes", likeArray);
+				JsonArray replyArray = new JsonArray();
+				if(message.getReplies()!=null && !message.getReplies().isEmpty()){
+					for(MessageReply reply : message.getReplies()){
+						JsonObject replyObject = new JsonObject();
+						replyObject.addProperty("nickname", reply.getUser().getNickname());
+						replyObject.addProperty("content", reply.getContent());
+						replyArray.add(replyObject);
+					}
+				}
+				object.add("messagereply", replyArray);
+				jsonArray.add(object);
+			}
 		}
+		jsonObject.add("messages", jsonArray);
+		result = jsonObject.toString();
+		
+//		for(Message message:messages){
+//			if(message.getImgs().size()>0&&message.getImgs().get(0).getImgurl()==null)
+//				message.getImgs().remove(0);
+//			if(message.getLikes().size()>0&&message.getLikes().get(0).getUser()==null)
+//				message.getLikes().remove(0);
+//			if(message.getReplies().size()>0&&message.getReplies().get(0)==null)
+//				message.getReplies().remove(0);
+//		}
 //		return messages;
 		
 		return result;

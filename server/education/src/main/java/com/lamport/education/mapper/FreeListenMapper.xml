@@ -4,28 +4,59 @@
 
 <mapper namespace="com.lamport.education.mapper.FreeListenMapper">
 
-	<select id="selectFreeListenByFid" parameterType="int" resultType="com.lamport.education.vo.LessonInfoVo" >
-	    select freelisten.id as id,title,imgurl ,fdesc as lessonDesc,category ,address,branch
-		from freelisten,address 
-		where freelisten.branchid = address.id and freelisten.id = #{fid}
+	<resultMap type="com.lamport.education.po.FreeListen" id="_FreeListen_Address">
+		<id column="id" property="id"/>
+		<result column="qid" property="qid"/>
+		<result column="branchid" property="branchid"/>
+		<result column="title" property="title"/>
+		<result column="imgurl" property="imgurl"/>
+		<result column="fdesc" property="fdesc"/>
+		<result column="status" property="status"/>
+		<result column="category" property="category"/>
+		<result column="pubtime" property="pubtime"/>
+		<association property="address" javaType="com.lamport.education.po.Address">
+			<id column="branchid" property="id"/>
+			<result column="branch" property="branch"/>
+			<result column="address" property="address"/>
+			<result column="tel" property="tel"/>
+		</association>
+	</resultMap>
+
+	<!-- 通过fid查询FreeListen信息 -->
+	<select id="selectFreeListenByFid" parameterType="int" 
+			resultMap="_FreeListen_Address">
+	    select *
+		from freelisten f left join address a on f.branchid = a.id
+		where f.id=#{fid} and f.deletekey=0
 	</select>
 	
-	<select id="selectFreeListenPageByBranchNameAndCategory" parameterType="com.lamport.education.vo.LessonVo" resultType="com.lamport.education.po.FreeListen">
+	<!-- 通过多条件查询FreeListen信息 -->
+	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.education.vo.FreeListenQueryCondition" 
+			resultType="com.lamport.education.po.FreeListen">
 		select * from freelisten,address 
 		where freelisten.deletekey = 0 and freelisten.branchid = address.id and freelisten.qid=#{qid}
-		<if test='page.startRowId != -1'>
-			and #{page.startRowId}>freelisten.id
+		<if test='pageBean.startId != -1'>
+			and #{pageBean.startId} > freelisten.id
 		</if>
-		<if test='branchName != ""'>
-			and address.branch= #{branchName}
+		<if test='branch!="" and branch!=null'>
+			and address.branch= #{branch}
 		</if>
-		<if test='category != ""'>
+		<if test='category!="" and category!=null'>
 			and category =#{category}
 		</if>  
 		order by pubtime desc
-		limit 0, #{page.pageSize}
+		limit 0, #{pageBean.pageSize}
 	</select> 
 
+	<!-- 通过qid和页码查询FreeListen信息 -->
+	<select id="selectFreeListenByQIDAndPage" parameterType="com.lamport.education.vo.QIDAndPage" 
+			resultType="com.lamport.education.po.FreeListen">
+		select * from freelisten
+		where qid = #{qid} and deletekey=0
+		order by id desc
+		limit 0, #{pageBean.pageSize}
+	</select>
+	
 </mapper>
 
 	

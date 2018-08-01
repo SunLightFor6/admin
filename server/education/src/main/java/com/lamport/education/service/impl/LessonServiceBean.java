@@ -10,10 +10,7 @@ import redis.clients.jedis.JedisPool;
 import com.lamport.education.mapper.LessonMapper;
 import com.lamport.education.po.Lesson;
 import com.lamport.education.service.LessonService;
-import com.lamport.education.util.PageBean;
-import com.lamport.education.vo.LessonInfoVo;
 import com.lamport.education.vo.LessonQueryCondition;
-import com.lamport.education.vo.LessonVo;
 
 @Service
 public class LessonServiceBean implements LessonService {
@@ -24,21 +21,21 @@ public class LessonServiceBean implements LessonService {
 	JedisPool jedisPool;
 	
 	@Override
-	public LessonInfoVo selectLessonByLid(int lid) throws Exception {
-		return lessonMapper.selectLessonByLid(lid);
+	public Lesson selectLessonByLid(int lid) throws Exception {
+		Lesson lesson = null;
+		
+		lesson = lessonMapper.selectLessonByLid(lid);
+		
+		return lesson;
 	}
 
 	@Override
-	public LessonInfoVo selectLessonByOid(int oid) throws Exception{
-		return lessonMapper.selectLessonByOid(oid);
-	}
-	
-	@Override
-	public List<Lesson> selectHomePageLessonByQid(PageBean page, int qid) throws Exception {
-		LessonVo lessonVo = new LessonVo();
-		lessonVo.setQid(qid);
-		lessonVo.setPage(page);
-		return lessonMapper.selectHomePageLessonByQid(lessonVo);
+	public Lesson selectLessonByOid(int oid) throws Exception{
+		Lesson lesson = null;
+		
+		lesson = lessonMapper.selectLessonByOid(oid);
+		
+		return lesson;
 	}
 
 	@Override

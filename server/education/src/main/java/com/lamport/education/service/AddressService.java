@@ -15,5 +15,4 @@ public interface AddressService {
 	
 	
 	public String selectAllCategoryByQid(int qid) throws Exception;
-	
 }

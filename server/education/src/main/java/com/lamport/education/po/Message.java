@@ -1,5 +1,6 @@
 package com.lamport.education.po;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,84 +22,72 @@ public class Message {
 	private Enterprise enterprise;//企业，需要其中的name
 	private Swiper swiper;//选取一张企业轮播图作为该企业的LOGO
 	
+	public Message(){
+		imgs = new ArrayList<MessageImg>();
+		likes = new ArrayList<MessageLike>();
+		replies = new ArrayList<MessageReply>();
+		enterprise = new Enterprise();
+		swiper = new Swiper();
+	}
+	
 	public int getQid() {
 		return qid;
 	}
-	
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
-	
 	public int getMid() {
 		return mid;
 	}
-	
 	public void setMid(int mid) {
 		this.mid = mid;
 	}
-	
 	public String getMtitle() {
 		return mtitle;
 	}
-	
 	public void setMtitle(String mtitle) {
 		this.mtitle = mtitle;
 	}
-	
 	public String getMtime() {
 		return mtime;
 	}
-	
 	public void setMtime(String mtime) {
 		this.mtime = mtime;
 	}
-	
 	public List<MessageImg> getImgs() {
 		return imgs;
 	}
-	
 	public void setImgs(List<MessageImg> imgs) {
 		this.imgs = imgs;
 	}
-	
 	public List<MessageLike> getLikes() {
 		return likes;
 	}
-	
 	public void setLikes(List<MessageLike> likes) {
 		this.likes = likes;
 	}
-	
 	public List<MessageReply> getReplies() {
 		return replies;
 	}
-	
 	public void setReplies(List<MessageReply> replies) {
 		this.replies = replies;
 	}
-	
 	public int getDeletekey() {
 		return deletekey;
 	}
-	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
-	
 	public Swiper getSwiper() {
 		return swiper;
 	}
-	
 	public void setSwiper(Swiper swiper) {
 		this.swiper = swiper;
 	}
-	
 	public Enterprise getEnterprise() {
 		return enterprise;
 	}
-	
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
 	}
-
 }

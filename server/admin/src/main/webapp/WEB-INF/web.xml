@@ -48,31 +48,32 @@
   </filter-mapping>
   
 
-
+<!-- 
   <filter>
   	<filter-name>LoginFilter</filter-name>
   	<filter-class>com.lamport.admin.filter.LoginFilter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>LoginFilter</filter-name>
-  	<url-pattern>/testFile.html/*</url-pattern>
+  	<url-pattern>/*</url-pattern>
   </filter-mapping>
+ -->
 
 
 
 
-
-  <!-- 是否登录 
+  <!-- 是否登录  -->
   <filter>
   	<filter-name>LoginFilter</filter-name>
   	<filter-class>com.lamport.admin.filter.LoginFilter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>LoginFilter</filter-name>
-  	<url-pattern>/lamport/admin/main/login.html/*</url-pattern>
+  	<url-pattern>/dasds/*</url-pattern>
+  	<!-- <url-pattern>/lamport/api/admin/main/login.html/*</url-pattern> -->
   </filter-mapping>
   
-  <!Admin是否登录
+  <!-- Admin是否登录  -->
   <filter>
   	<filter-name>AdminFilter</filter-name>
   	<filter-class>com.lamport.admin.filter.AdminFilter</filter-class>
@@ -110,7 +111,7 @@
   	<url-pattern>/main/teacher/*</url-pattern>
   </filter-mapping>
   
-  <! SuperAdmin是否登录 
+  <!-- SuperAdmin是否登录   -->
   <filter>
   	<filter-name>SuperAdminFilter</filter-name>
   	<filter-class>com.lamport.admin.filter.SuperAdminFilter</filter-class>
@@ -119,7 +120,7 @@
   	<filter-name>SuperAdminFilter</filter-name>
   	<url-pattern>/main/superadmin/*</url-pattern>
   </filter-mapping>
-  -->
+ 
   
   
   

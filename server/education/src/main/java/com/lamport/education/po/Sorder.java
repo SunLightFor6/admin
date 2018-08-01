@@ -25,6 +25,12 @@ public class Sorder {
 	
 	private Refund refund;//退款订单
 	private Lesson lesson;//课程
+	private String branch;//分部名称
+	
+	public Sorder(){
+		refund = new Refund();
+		lesson = new Lesson();
+	}
 	
 	public int getQid() {
 		return qid;
@@ -127,5 +133,11 @@ public class Sorder {
 	}
 	public void setLesson(Lesson lesson) {
 		this.lesson = lesson;
-	}	
+	}
+	public String getBranch() {
+		return branch;
+	}
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
 }

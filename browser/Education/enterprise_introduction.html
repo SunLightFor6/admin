@@ -276,16 +276,18 @@
 				</div>
 			</div>
 
-			<div class="mui-content-padded" id="showContent" >
+			<div class="mui-content-padded">
 				<p>
-					<h4 align="center">机构简介</h4></p>
-				    <p id="introduction">					
+					<h4 align="center">机构简介</h4>
+				</p>
+				<p id="introduction">					
 				</p>
 				<hr>
-				
+				<p>
 					<h4 align="center" >精彩展示</h4>
-				<div id="jcms"></div>
-				
+				</p>
+				<div id="jczs">
+				</div>				
 			</div>
 		</div>
 	</body>
@@ -296,29 +298,28 @@
 	<script>
 		mui.init();
 		mui.previewImage();
-
 		var video_path="";
 		$(function(){
-				mui.ajax(PREPATH+"/selectEnterPriseByQid",{
-					type:"get",
-					async:true,
-					data:{},
-					dataType:"json",
-					xhrFields: {  
-						withCredentials: true  
-					},  
-					crossDomain: true,
-					success:function(data){
-						var name = data.name;
-						video_path = IMGPATH+data.videopath;
-						var introduction = data.introduction;
-						var jczs =  data.jczs;
-						$('#introduction').text(introduction);
-						$('#jcms').append(jczs);						
-						var htmlvideo = Html5video("#video_Container", {
+			mui.ajax(PREPATH+"/selectEnterpriseByQid",{
+				type: "get",
+				async: true,
+				data:{qid:1},
+				dataType:"json",
+				xhrFields: {  
+					withCredentials: true  
+				},  
+				crossDomain: true,
+				success:function(data){
+					var name = data.name;
+					video_path = data.videopath;
+					var introduction = data.introduction;
+					var jczs =  data.jczs;
+					$('#introduction').text(introduction);
+					$('#jczs').append(jczs);						
+					var htmlvideo = Html5video("#video_Container", {
 						title: "企业介绍", //视频标题，当全屏时会显示
 						url:  video_path, //支持本地视频和网络视频，格式MP4
-						img: IMGPATH+"videoimg.png", //视频截图封面
+						img: "images/videoimg.png", //视频截图封面
 						time: "05:29", //视频总时间以分钟单位，当网络缓慢时，没办法及时加载出来，如已知可以填写，可不填。
 						autoplay: false, //是否自动播放视频
 						isMobile: true, //是否开启当处于移动网络时，提示用户是否继续播放视频。,不支持浏览器环境
@@ -335,15 +336,11 @@
 							}, "div");
 						}
 					});
-						
-						
-					},
-					error:function(xhr,type,errorThrown){
-        							//异常处理；
-        							console.log(type);
-    				}
-
-				});
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast("信息获取失败");
+				}
+			});
 		 	
 		 })
 		 

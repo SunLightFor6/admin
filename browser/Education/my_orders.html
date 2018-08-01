@@ -2,6 +2,7 @@
 <html>
 
 	<head>
+		
 		<meta charset="utf-8">
 		<title>Education</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -11,11 +12,10 @@
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<!--App自定义的css-->
-		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
-		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
-		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
 		<script src="js/jquery.min.js" type="text/javascript"></script>
-		<script src="js/loading.animation.js" type= "text/javascript"></script>
+		<script src="js/loading.animation.js" type="text/javascript"></script>
 		<script src="js/config.js" type="text/javascript"></script>
 	</head>
 	<!--loading页开始-->
@@ -35,6 +35,7 @@
 	<body>
 
 		<style>
+			
 			.mui-control-content {
 				background-color: #EFEFF4;
 				min-height: 580px;
@@ -47,7 +48,104 @@
 			.mui-scroll-wrapper {
 				height: 100%;
 			}
+			
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				margin: 0;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+						
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			
 		</style>
+	
+	</head>
+	
+		
+	<!--loading页开始-->
+	<div class="loading">
+		<div class="loader">
+			<div class="loader-inner pacman">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+	<!--loading页结束-->
+
+	<body>
+
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">我的订单</h1>
@@ -76,6 +174,8 @@
 					<div id="item1" class="mui-slider-item mui-control-content mui-active">
 						<div id="scroll1" class="mui-scroll-wrapper">
 							<div class="mui-scroll">
+								<div class="orderContentDiv">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -85,6 +185,8 @@
 								<div class="mui-loading">
 									<div class="mui-spinner">
 									</div>
+								</div>
+								<div class="orderContentDiv">
 								</div>
 							</div>
 						</div>
@@ -96,10 +198,11 @@
 									<div class="mui-spinner">
 									</div>
 								</div>
+								<div class="orderContentDiv">
+								</div>
 							</div>
 						</div>
 					</div>
-
 					<div id="item4" class="mui-slider-item mui-control-content">
 						<div id="scroll4" class="mui-scroll-wrapper">
 							<div class="mui-scroll">
@@ -107,16 +210,19 @@
 									<div class="mui-spinner">
 									</div>
 								</div>
+								<div class="orderContentDiv">
+								</div>
 							</div>
 						</div>
 					</div>
-
 					<div id="item5" class="mui-slider-item mui-control-content">
 						<div id="scroll5" class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<div class="mui-loading">
 									<div class="mui-spinner">
 									</div>
+								</div>
+								<div class="orderContentDiv">
 								</div>
 							</div>
 						</div>
@@ -125,80 +231,111 @@
 			</div>
 		</div>
 	</body>
+
 	<script src="js/mui.min.js"></script>
 	<script src="js/mui.pullToRefresh.js"></script>
 	<script src="js/mui.pullToRefresh.material.js"></script>
+
 	<script>
-		
 		var rowId = -1;
 		var itemName = "item1";
-		var orderStatus="";
-		
+		var orderStatus = "";
+
 		mui.init();
-		 
+
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						up: {
+							callback: function() {
+								var self = this;
+								setTimeout(function() {
+									console.log("bound=" + rowId);
+									getOrderByUidAndStatus(orderStatus, itemName, 0);
+									self.endPullUpToRefresh(rowId == -2);
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
 		mui.ready(function() {
-			getOrderByUidAndStatus( "", 'item1');
+			getOrderByUidAndStatus("", 'item1', 1);
 		});
 
-		function getOrderByUidAndStatus(status, itemId) {
-			    mui.ajax(PREPATH+"/selectOrdersByUidAndStatus", {
+		function getOrderByUidAndStatus(status, itemId, firstTimeFlag) {
+			mui.ajax(PREPATH + "/selectOrdersByUidAndStatus", {
 				type: "post",
-				async: true,
+				async: false,
 				data: {
 					status: status,
 					rowId: rowId
 				},
 				dataType: "json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
+				xhrFields: {
+					withCredentials: true
+				},
 				crossDomain: true,
 				success: function(data) {
+					if(firstTimeFlag == 1) {
+						jQuery('#' + itemId + ' .mui-loading').hide();
+					}
 					var item = "";
 					for(var i = 0; i < data.length; i++) {
 						var html = "";
 						html = getItemStr(data[i]);
-						$('#' + itemId + ' .mui-scroll').append(html);
+						$('#' + itemId + ' .orderContentDiv').append(html);
 					}
-						if(data.length!=0)
-							rowId = data[data.length-1].oid;
-						else
-							rowId = -2;
+					if(data.length != 0)
+						rowId = data[data.length - 1].oid;
+					else
+						rowId = -2;
 					console.log(rowId);
 					mui('#' + itemId + ' .mui-scroll').on('tap', 'button', function() {
 						console.log(this.innerText);
-					 
 						buttonActionControl(this.innerText, this.value)
 					});
 				},
 				error: function(xhr, type, errorThrown) {
-					//异常处理；
-					console.log(type);
+					mui.toast("信息加载失败");
 				}
 
 			});
 		}
 
-		function requestServer(url, oid, target) {
-			    mui.ajax(url, {
+		function changeOrderStatus(url, oid) {
+			mui.ajax(url, {
 				type: "post",
 				async: true,
 				data: {
 					oid: oid
 				},
 				dataType: "json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
+				xhrFields: {
+					withCredentials: true
+				},
 				crossDomain: true,
 				success: function(data) {
-					mui.alert('操作成功', '提示', function() {
-						window.location.reload();
-					});
+					if(data==1){
+						mui.alert('操作成功', '提示', function() {
+							window.location.reload();
+						});
+					}else{
+						mui.toast("操作失败");
+					}
 				},
 				error: function(xhr, type, errorThrown) {
-					//异常处理；
-					console.log(type);
+					mui.toast("操作失败");
 				}
 			});
 		}
@@ -206,31 +343,31 @@
 		function buttonActionControl(text, oid) {
 			var requestUrl = " ";
 			var btnArray = ['否', '是'];
-			var targetDiv = "";
+			var orderStatus = $("#status" + oid).text();
+			var alertMsg = "";
 			if(text == "取消") {
-				requestUrl = PREPATH+"/cancelUnpaidSorder";
-				targetDiv = "item1";
-			}
-			else if(text == "付款") {
+				if(orderStatus == "待付款") {
+					requestUrl = PREPATH + "/cancelUnpaidSorder";
+					alertMsg = "您确定要取消付款，并删除订单？";
+				} else {
+					requestUrl = PREPATH + "/cancelRefundRequest";
+					alertMsg = "您确定要取消退款？";
+				}
+			} else if(text == "付款") {
 				mui.openWindow({
 					url: 'order_lesson.html?lid=0&oid=' + oid + '',
 					id: 'order_lesson.html'
 				});
+			} else if(text == "退款") {
+				requestUrl = PREPATH + "/addRefundRecord";
+				alertMsg = "您确定要退款？";
+			} else if(text == "删除") {
+				requestUrl = PREPATH + "/deleteSorderRecord";
+				alertMsg = "您确定要记录？";
 			}
-			else if(text == "取消退款") {
-				requestUrl = PREPATH+"/cancelRefundRequest";
-				targetDiv = "item2";
-			}
-			else if(text == "退款") {
-				requestUrl = PREPATH+"/addRefundRecord";
-				targetDiv = "item4";
-			}
-			mui.confirm("您确定要取消付款，并删除订单？", '提示', btnArray, function(e) {
+			mui.confirm(alertMsg, '提示', btnArray, function(e) {
 				if(e.index == 1) {
-					requestServer(requestUrl, oid, targetDiv);
-				}
-				else {
-					mui.alert('操作失败', '提示', function() {});
+					changeOrderStatus(requestUrl, oid);
 				}
 			});
 		}
@@ -242,7 +379,7 @@
 			html_content += '		<table width="100%">';
 			html_content += '			<tr>';
 			html_content += '				<td width="50%">订单编号' + data.oid + '</td>';
-			html_content += '				<td width="50%" align="right">' + data.status + '</td>';
+			html_content += '				<td width="50%" align="right" id="status' + data.oid + '">' + data.status + '</td>';
 			html_content += '			</tr>';
 			html_content += '		</table>';
 			html_content += '	</div>';
@@ -250,7 +387,7 @@
 			html_content += '		<div class="mui-card-content-inner">';
 			html_content += '			<table width="100%">';
 			html_content += '				<tr>';
-			html_content += '					<td width="50%"><img class="mui-media-object mui-pull-left" src="'+IMGPATH + data.imgurl + '"></td>';
+			html_content += '					<td width="50%"><img class="mui-media-object mui-pull-left" src="' + IMGPATH + data.imgurl + '"></td>';
 			html_content += '					<td width="50%" align="right">';
 			html_content += '						<p align="center" style="color: #333;">' + data.lname + '</p>';
 			html_content += '						<p align="center" style="color: #333;">' + data.total + '</p>';
@@ -272,16 +409,32 @@
 				html_content += '	<div class="mui-card-footer">';
 				html_content += '		<div style="position: relative; left: 65%; width: 20%;">';
 				html_content += '		</div>';
-				html_content += '		<div style="position: relative; left: 0%; width: 20%;">';
+				html_content += '		<div style="position: relative; left: 5%; width: 20%;">';
 				html_content += '			<button type="button" class="mui-btn mui-btn-danger" value="' + data.oid + '">退款</button>';
 				html_content += '		</div>';
 				html_content += '	</div>';
 			} else if(data.status == "退款中") {
 				html_content += '	<div class="mui-card-footer">';
-				html_content += '		<div style="position: relative; left: 50%; width: 20%;">';
+				html_content += '		<div style="position: relative; left: 65%; width: 20%;">';
 				html_content += '		</div>';
-				html_content += '		<div style="position: relative; right: 10%; width: 20%;">';
-				html_content += '			<button type="button" class="mui-btn mui-btn-danger" value="' + data.oid + '">取消退款</button>';
+				html_content += '		<div style="position: relative; left: 5%; width: 20%;">';
+				html_content += '			<button type="button" class="mui-btn mui-btn-danger" value="' + data.oid + '">取消</button>';
+				html_content += '		</div>';
+				html_content += '	</div>';
+			} else if(data.status == "已使用") {
+				html_content += '	<div class="mui-card-footer">';
+				html_content += '		<div style="position: relative; left: 65%; width: 20%;">';
+				html_content += '		</div>';
+				html_content += '		<div style="position: relative; left: 5%; width: 20%;">';
+				html_content += '			<button type="button" class="mui-btn mui-btn-danger" value="' + data.oid + '">删除</button>';
+				html_content += '		</div>';
+				html_content += '	</div>';
+			} else if(data.status == "已退款") {
+				html_content += '	<div class="mui-card-footer">';
+				html_content += '		<div style="position: relative; left: 65%; width: 20%;">';
+				html_content += '		</div>';
+				html_content += '		<div style="position: relative; left: 5%; width: 20%;">';
+				html_content += '			<button type="button" class="mui-btn mui-btn-danger" value="' + data.oid + '">删除</button>';
 				html_content += '		</div>';
 				html_content += '	</div>';
 			}
@@ -302,46 +455,30 @@
 				if(e.detail.slideNumber === 1) {
 					if(item2.querySelector('.mui-loading')) {
 						itemName = 'item2';
-						orderStatus ="待付款";
+						orderStatus = "待付款";
 						rowId = -1;
-						getOrderByUidAndStatus("待付款", itemName);
-						
-						setTimeout(function() {
-							jQuery('#item2 .mui-loading').hide();
-						}, 500);
+						getOrderByUidAndStatus("待付款", itemName, 1);
 					}
-				}
-				else if(e.detail.slideNumber === 2) {
+				} else if(e.detail.slideNumber === 2) {
 					if(item3.querySelector('.mui-loading')) {
 						itemName = 'item3';
 						rowId = -1;
-						orderStatus ="已付款";
-						getOrderByUidAndStatus("已付款", itemName);
-						setTimeout(function() {
-							jQuery('#item3 .mui-loading').hide();
-						}, 500);
+						orderStatus = "已付款";
+						getOrderByUidAndStatus("已付款", itemName, 1);
 					}
-				}
-				else if(e.detail.slideNumber === 3) {
+				} else if(e.detail.slideNumber === 3) {
 					if(item4.querySelector('.mui-loading')) {
 						itemName = 'item4';
-							orderStatus ="已付款";
+						orderStatus = "已付款";
 						rowId = -1;
-						getOrderByUidAndStatus("已付款", itemName);
-						setTimeout(function() {
-							jQuery('#item4 .mui-loading').hide();
-						}, 500);
+						getOrderByUidAndStatus("已付款", itemName, 1);
 					}
-				}
-				else if(e.detail.slideNumber === 4) {
+				} else if(e.detail.slideNumber === 4) {
 					if(item5.querySelector('.mui-loading')) {
 						itemName = 'item5';
 						rowId = -1;
-						orderStatus ="退款";
-						getOrderByUidAndStatus("退款", itemName);
-						setTimeout(function() {
-							jQuery('#item5 .mui-loading').hide();
-						}, 500);
+						orderStatus = "退款";
+						getOrderByUidAndStatus("退款", itemName, 1);
 					}
 				}
 			});
@@ -352,40 +489,8 @@
 					//force repaint
 					sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
 				}
-			});			
-			//阻尼系数
-			var deceleration = mui.os.ios?0.003:0.0009;
-			$('.mui-scroll-wrapper').scroll({
-				bounce: false,
-				indicators: true, //是否显示滚动条
-				deceleration:deceleration
-			});
-			$.ready(function() {
-				//循环初始化所有下拉刷新，上拉加载。
-				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-					$(pullRefreshEl).pullToRefresh({
-						down: {
-							callback: function() {
-								var self = this;
-								setTimeout(function() {
-									self.endPullDownToRefresh();
-								}, 1000);
-							}
-						},
-						up: {
-							callback: function() {
-								var self = this;
-								setTimeout(function() {
-									console.log("bound=" + rowId);
-									getOrderByUidAndStatus(orderStatus, itemName);
-									self.endPullUpToRefresh();
-								}, 1000);
-							}
-						}
-					});
-				});			 
 			});
 		})(mui);
-		
 	</script>
+
 </html>

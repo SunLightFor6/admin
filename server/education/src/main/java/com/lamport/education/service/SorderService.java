@@ -5,6 +5,7 @@ import java.util.List;
 import com.lamport.education.po.Refund;
 import com.lamport.education.po.Sorder;
 import com.lamport.education.vo.SorderQueryCondition;
+import com.lamport.education.vo.UIDAndStatus;
 
 public interface SorderService {
 	/**
@@ -33,36 +34,42 @@ public interface SorderService {
 	
 	/**
 	 * 通过oid逻辑删除sorder（同时更改deletekey和userdeletekey）
-	 * @param oid
+	 * @param sorder
 	 * @throws Exception
 	 */
 	public void deleteSorderPowerfullyByOID(Sorder sorder) throws Exception;
 	
 	/**
 	 * 通过oid逻辑删除Refund（只更改userdeletekey）
-	 * @param oid
+	 * @param refund
+	 * @param sorder
 	 * @throws Exception
 	 */
 	public void deleteRefundLogicallyByOID(Refund refund, Sorder sorder) throws Exception;
 	
 	/**
 	 * 通过oid逻辑删除Refund（同时更改deletekey和userdeletekey）
-	 * @param oid
+	 * @param refund
+	 * @param sorder
 	 * @throws Exception
 	 */
 	public void deleteRefundPowerfullyByOID(Refund refund, Sorder sorder) throws Exception;
 	
 	/**
-	 * 通过oid修改Sorder的状态
+	 * 通过oid更新Sorder信息
+	 * @param sorder
+	 * @throws Exception
+	 */
+	public void updateSorderByOID(Sorder sorder) throws Exception;
+
+	/**
+	 * 通过oid更新Sorder的状态
 	 * @param sorder
 	 * @throws Exception
 	 */
 	public void updateSorderStatusByOID(Sorder sorder) throws Exception;
 	
-	
-	
-	public Sorder selectSorderByOid(int oid)throws Exception;
-	
+	public Sorder selectSorderByOid(int oid) throws Exception;
 	
 	/**
 	 * 通过多条件查询Sorder信息
@@ -71,5 +78,12 @@ public interface SorderService {
 	 * @throws Exception
 	 */
 	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
-	
+
+	/**
+	 * 通过uid和status查询Soder的总数
+	 * @param uidAndStatus
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountSorderByUIDAndStatus(UIDAndStatus uidAndStatus) throws Exception;
 }

@@ -2,6 +2,7 @@ package com.lamport.education.vo;
 
 import java.util.List;
 
+
 public class EnterpriseCategoryVo {
 	
 	private int qid;

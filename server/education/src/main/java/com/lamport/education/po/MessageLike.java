@@ -15,52 +15,44 @@ public class MessageLike {
 
 	private User user;//用户
 	
+	public MessageLike(){
+		user = new User();
+	}
+	
 	public int getMid() {
 		return mid;
 	}
-	
 	public void setMid(int mid) {
 		this.mid = mid;
 	}
-	
 	public int getUid() {
 		return uid;
 	}
-	
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
-	
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 	public String getStime() {
 		return stime;
 	}
-	
 	public void setStime(String stime) {
 		this.stime = stime;
 	}
-	
 	public User getUser() {
 		return user;
 	}
-	
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
 	public int getDeletekey() {
 		return deletekey;
 	}
-	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
-
 }

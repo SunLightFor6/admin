@@ -23,6 +23,7 @@ public class AdminFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		System.out.println(".....AdminFilter.........destroy()........销毁....");
 		// TODO Auto-generated method stub
 
 	}
@@ -31,19 +32,22 @@ public class AdminFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		System.out.println(".....AdminFilter.........doFilter()........过滤....");
+		StringBuffer url = ((HttpServletRequest)request).getRequestURL();
+		System.out.println(url.toString());
 		
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		if(admin != null){
 			chain.doFilter(request, response);
 		}else{
-			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/main/login.html");
+			((HttpServletResponse)response).sendRedirect("/main/login.html");
 		}
 
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
+		System.out.println(".....AdminFilter.........init()........初始化....");
 		// TODO Auto-generated method stub
 
 	}

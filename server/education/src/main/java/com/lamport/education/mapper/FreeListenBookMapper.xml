@@ -4,26 +4,43 @@
 
 <mapper namespace="com.lamport.education.mapper.FreeListenBookMapper">
 
-	<resultMap type="com.lamport.education.vo.FreeListenBookVo" id="_freeListenBookVo">
-		<id property="id" column="id"></id>
-		<result property="booktime" column="booktime"/> 
-		<result property="username" column="username"/> 
-		<result property="status" column="status"/>
-		<result property="tel" column="tel"/>
-		<result property="comment" column="comment"/>
+	<resultMap type="com.lamport.education.po.FreeListenBook" id="_FreeListenBook_FreeListen">
+		<id column="id" property="id"/>
+		<result column="fid" property="fid"/>
+		<result column="uid" property="uid"/>
+		<result column="username" property="username"/>
+		<result column="tel" property="tel"/>
+		<result column="status" property="status"/>
+		<result column="booktime" property="booktime"/>
+		<result column="comment" property="comment"/>
 		<association property="freeListen" javaType="com.lamport.education.po.FreeListen">
-			<id property="id" column="fid"></id>
-			<result property="title" column="title"/>
-			<result property="imgurl" column="imgurl"/>
-		</association> 
+			<id column="fid" property="id"/>
+			<result column="title" property="title"/>
+			<result column="imgurl" property="imgurl"/>
+		</association>
 	</resultMap>
 	
+	<!-- 创建FreeListenBook信息 -->
 	<insert id="saveFreeListenBook" parameterType="com.lamport.education.po.FreeListenBook" >
 		insert into freelistenbook(fid, username, tel, booktime, status, comment, uid, deletekey, userdeletekey) 
-		values(#{fid}, #{username}, #{tel}, sysdate(), #{status}, #{comment}, #{uid}, 0, 0)
+		values(#{fid}, #{username}, #{tel}, sysdate(), #{status}, #{comment}, #{uid}, #{deletekey}, #{userdeletekey})
 	</insert>
 	
-	<select id="selectFreeListenBookPageByUid" parameterType="com.lamport.education.vo.BusinessVo" resultMap="_freeListenBookVo">
+	<!-- 通过id逻辑删除FreeListenBook信息（只更改userdeletekey） -->
+	<update id="deleteFreeListenBookLogicallyById" parameterType="com.lamport.education.po.FreeListenBook">
+    	update freelistenbook 
+    	set userdeletekey=#{userdeletekey} 
+    	where id=#{id}
+	</update>
+
+	<!-- 通过id逻辑删除FreeListenBook信息（同时更改deletekey和userdeletekey） -->
+	<update id="deleteFreeListenBookPowerfullyById" parameterType="com.lamport.education.po.FreeListenBook">
+    	update freelistenbook 
+    	set userdeletekey=#{userdeletekey}, deletekey=#{deletekey} 
+    	where id=#{id}
+	</update>
+	
+	<!-- <select id="selectFreeListenBookPageByUid" parameterType="com.lamport.education.vo.BusinessVo" resultMap="_freeListenBookVo">
 		select * from freelistenbook, freelisten 
 		where uid = #{uid} and freelistenbook.fid = freelisten.id and userdeletekey = 0 
 		<if test='page.startRowId != -1'>
@@ -31,31 +48,32 @@
 		</if>
 		order by booktime desc 
 		limit 0, #{page.pageSize}
-	</select> 
+	</select> --> 
 	
-	<select id="selectFreeListenBookPageByUidAndStatus" parameterType="com.lamport.education.vo.BusinessVo" resultMap="_freeListenBookVo">
+	<!-- 通过多条件查询FreeListenBook信息 -->
+	<select id="selectFreeListenBookByBookQueryCondition" parameterType="com.lamport.education.vo.BookQueryCondition" 
+			resultMap="_FreeListenBook_FreeListen">
 		select * from freelistenbook, freelisten
 		where userdeletekey = 0 and freelistenbook.fid = freelisten.id 
-		<if test='page.startRowId != -1'>
-			and #{page.startRowId} > freelistenbook.id 
+		<if test='pageBean.startId != -1'>
+			and #{pageBean.startId} > freelistenbook.id 
 		</if>
 		<if test='uid != 0'>
 			and uid = #{uid}
 		</if>
-		<if test='status != ""'> 
+		<if test='status!="" and status!=null'> 
 			and freelistenbook.status = #{status}
 		</if>    
-		order by booktime desc
-		limit 0, #{page.pageSize}
+		<!-- order by booktime desc -->
+		order by freelistenbook.id desc
+		limit 0, #{pageBean.pageSize}
 	</select> 
-	
-	<update id="deleteBookRequestLogicallyByFbid" parameterType="int">
-    	update freelistenbook set userdeletekey =0, deletekey =0 where id=#{fbid}
-	</update>
-	
-	<update id="deleteFinalFreeListenBookLogicallyByFbid" parameterType="int">
-    	update freelistenbook set userdeletekey =0 where id=#{fbid}
-	</update>
-	
+
+	<!-- 通过uid和status查询预约的总数 -->
+	<select id="selectCountBookByUIDAndStatus" parameterType="com.lamport.education.vo.UIDAndStatus"
+			resultType="int">
+		select count(*) from freelistenbook 
+		where uid=#{uid} and status=#{status} and userdeletekey=0
+	</select>
 </mapper>
 	

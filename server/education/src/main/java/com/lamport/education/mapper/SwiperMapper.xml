@@ -4,12 +4,11 @@
 
 <mapper namespace="com.lamport.education.mapper.SwiperMapper">
 
-	<select id="selectEnterpriseSwipersByQid" parameterType="int" resultType="String">
-		select imgurl from swiper where qid = #{qid} and category = 'E'
-	</select>
-	
-	<select id="selectTeacherSwipersByQid" parameterType="int" resultType="String">
-		select imgurl from swiper where qid = #{qid} and category = 'T'
+	<!-- 通过qid和category查询Swiper(轮播图)的imgurl信息 -->
+	<select id="selectSwiperImgurlByQIDAndCategory" parameterType="com.lamport.education.vo.QIDAndCategory" 
+			resultType="java.lang.String">
+		select imgurl from swiper 
+		where qid=#{qid} and category=#{category} and deletekey=0
 	</select>
 	
 </mapper>

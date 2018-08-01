@@ -1,5 +1,6 @@
 package com.lamport.education.po;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,11 @@ public class Address {
 	
 	private List<FreeListen> freeListens;//免费试听课
 	private List<Lesson> lessons;//精品课
+	
+	public Address(){
+		freeListens = new ArrayList<FreeListen>();
+		lessons = new ArrayList<Lesson>();
+	}
 	
 	public int getQid() {
 		return qid;

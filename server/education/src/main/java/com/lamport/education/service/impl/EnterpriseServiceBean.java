@@ -1,7 +1,5 @@
 package com.lamport.education.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +17,10 @@ public class EnterpriseServiceBean implements EnterpriseService {
 	
 	@Override
 	public Enterprise selectEnterpriseByQid(int qid) throws Exception {
-		Enterprise enterprise = enterpriseMapper.selectEnterpriseByQid(qid);
+		Enterprise enterprise = null;
+
+		enterprise = enterpriseMapper.selectEnterpriseByQid(qid);
+		
 		return enterprise;
 	}
-	
-	@Override
-	public List<String> selectEnterpriseSwipersByQid(int qid) throws Exception {
-		List<String> enterpriseSwipers = swiperMapper.selectEnterpriseSwipersByQid(qid);
-		return enterpriseSwipers;
-	}
-
 }

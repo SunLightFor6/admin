@@ -60,26 +60,28 @@
 		</style>
 		
 	</head>
+	
 	<!--loading页开始-->
-		<div class="loading">
-			<div class="loader">
-		        <div class="loader-inner pacman">
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		        </div>
-			</div>
+	<div class="loading">
+		<div class="loader">
+	        <div class="loader-inner pacman">
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	        </div>
 		</div>
-		<!--loading页结束-->
+	</div>
+	<!--loading页结束-->
+	
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">课程</h1>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
-			<a class="mui-tab-item" id="home" href="home.html">
+			<a class="mui-tab-item" id="home">
 				<span class="mui-icon mui-icon-home" style="font-size: 25px;"></span>
 				<span class="mui-tab-label">首页</span>
 			</a>
@@ -87,7 +89,7 @@
 				<span class="mui-icon mui-icon-extra mui-icon-extra-class" style="font-size: 25px;"></span>
 				<span class="mui-tab-label">课程</span>
 			</a>
-			<a class="mui-tab-item" id="moments" href="moments.html">
+			<a class="mui-tab-item" id="moments">
 				<span class="mui-icon mui-icon-search" style="font-size: 25px;"></span>
 				<span class="mui-tab-label">发现</span>
 			</a>
@@ -100,7 +102,11 @@
 			<p style="margin-bottom: 0px;">
 				<img src="images/curriculum.png" height="10%" width="100%" />
 			</p>
-			<button id='showLessionPicker' class="mui-btn mui-btn-block" type='button'>地点-方向-类别</button>
+			<button id='showLessonPicker' class="mui-btn mui-btn-block" type='button'>
+				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">开课分部</span>&nbsp;-&nbsp;
+				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">课程类别</span>&nbsp;-&nbsp;
+				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">学习方向</span>
+			</button>
 			<div id="pullrefresh" class="mui-row ">
 				<div id="segmentedControlContents" class="mui-col-xs-12" style="border-left: 1px solid #c8c7cc;">
 				</div>
@@ -108,25 +114,41 @@
 
 		</div>
 	</body>
+	
 	<script src="js/mui.min.js"></script>
 	<script type="text/javascript" src="js/mui.poppicker.js"></script>
 	<script type="text/javascript" src="js/mui.picker.js"></script>
 
-	 
 	<script>
+
 		mui.init({
 			swipeBack: true ,//启用右滑关闭功能,
 			pullRefresh: {
 				container: '#pullrefresh',
-				down: {
-					callback: pulldownRefresh
-				},
 				up: {
 					contentrefresh: '正在加载...',
 					callback: pullupRefresh
 				}
 			}
 		});
+		
+		//注册点击事件
+		mui("nav").on("tap", "#home", function() {
+			mui.openWindow({
+				url: "home.html"
+			})
+		});
+		mui("nav").on("tap", "#moments", function() {
+			mui.openWindow({
+				url: "moments.html"
+			})
+		});
+		mui("nav").on("tap", "#my_own", function() {
+			mui.openWindow({
+				url: "my_own.html"
+			})
+		});
+		
 		var branchName="";
 		var freeOrNot="";
 		var category="";
@@ -135,19 +157,8 @@
 		(function($, doc) {
 			$.init();
 			$.ready(function() {
-				/*mui("nav").on("tap",'#home',function(){
-					console.log("xxxx");
-					mui.openWindow({
-						url: 'home.html',
-						id: 'home.html'
-				    });
-				  	console.log("xxxx");
-				
-				},false);*/
-				
-				
 				//级联示例
-				var lessionPicker = new $.PopPicker({
+				var lessonPicker = new $.PopPicker({
 					layer: 3
 				});			 
 				mui.ajax(PREPATH+"/selectAllCategoryByQid",{
@@ -160,68 +171,43 @@
 					},  
 					crossDomain: true,
 					success:function(data){
-						 lessionPicker.setData(data); 
-						 lessonRequestUrl= PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQid";
-						 getLessonByBranchNameCategoryAndPage(lessonRequestUrl,1,data[0].text,"",-1);
+						 lessonPicker.setData(data); 
+						 lessonRequestUrl= PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQidAndPage";
+						 getLessonByBranchNameCategoryAndPage(lessonRequestUrl,data[0].text,"",-1);
 					},
 					error:function(xhr,type,errorThrown){
-        							//异常处理；
-        							console.log(type);
+        				mui.toast("信息获取失败");
     				}
-			    });
-		 		var showCityPickerButton = doc.getElementById('showLessionPicker');
-				var lessionResult = doc.getElementById('segmentedControlContents'); 	 
+				});
+		 		var showCityPickerButton = $('#showlessonPicker');
+				var lessonResult = $('#segmentedControlContents'); 	 
 				showCityPickerButton.addEventListener('tap', function(event) {
-					lessionPicker.show(function(items) {
-						showCityPickerButton.innerText = items[0].text + "-" + items[1].text + "-" + items[2].text;
-						 branchName = items[0].text;
-						 freeOrNot = items[1].text;
-						 category = items[2].text;
-						 if("精品课"==items[1].text){
-						 	lessonRequestUrl = PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQid";
-						 }else{
-						 	lessonRequestUrl = PREPATH+"/selectAllFreeListenByBranchNameAndCategoryAndQid";
-						 }
-						 boundaryId = -1;
-						 console.log(boundaryId);
-						 getLessonByBranchNameCategoryAndPage(lessonRequestUrl,1,items[0].text,items[2].text,boundaryId);
- 						
+					lessonPicker.show(function(items) {
+						var pickResult = "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[0].text + "</span>&nbsp;-&nbsp;";
+						pickResult += "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[1].text + "</span>&nbsp;-&nbsp;";
+						pickResult += "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[2].text;
+						showCityPickerButton.text(pickResult);
+						branchName = items[0].text;
+						freeOrNot = items[1].text;
+						category = items[2].text;
+						if("精品课"==items[1].text){
+							lessonRequestUrl = PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQidAndPage";
+						}
+						else{
+							lessonRequestUrl = PREPATH+"/selectFreeListenByBranchNameAndCategoryAndQidAndPage";
+						}
+						boundaryId = -1;
+						getLessonByBranchNameCategoryAndPage(lessonRequestUrl,items[0].text,items[2].text,boundaryId);
 					});
 				}, false);
 			});
 		})(mui, document);
 		
-		/*
-		//注册点击事件
-		document.getElementById("home").addEventListener("tap", function() {
-			window.location.href = "home.html";
-			/*mui.openWindow({
-				url: 'home.html',
-				id: 'home.html'
-			});
-		});
-		document.getElementById("moments").addEventListener("tap", function() {
-			mui.openWindow({
-				url: 'moments.html',
-				id: 'moments.html'
-			});
-		});
-		document.getElementById("my_own").addEventListener("tap", function() {
-			mui.openWindow({
-				url: 'my_own.html',
-				id: 'my_own.html'
-			});
-		});		
-		
-		*/
-		
-		
-		
-		function getLessonByBranchNameCategoryAndPage(requestUrl,qid,branchName,category,rowId){
+		function getLessonByBranchNameCategoryAndPage(requestUrl,branchName,category,rowId){
 	    	mui.ajax(requestUrl,{
 				type:"post",
 				async:true,
-				data:{qid:qid,branchName:branchName,category:category,rowId:rowId},
+				data:{branchName:branchName,category:category,rowId:rowId},
 				dataType:"json",
 				withCredentials:true,
 				crossDomain: true,
@@ -248,53 +234,19 @@
 					}else{
 						boundaryId =-2;
 					}
-					
 					html.push('</ul></div>');
-					if(rowId ==-1)
-						jQuery('#segmentedControlContents').empty();
-					jQuery('#segmentedControlContents').append(html.join(''));
-					mui('body').on('tap','a',function(){document.location.href=this.href;});
-					
+					if(rowId ==-1) {
+						$('#segmentedControlContents').empty();
+					}						
+					$('#segmentedControlContents').append(html.join(''));
 				},
 				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
+					mui.toast("信息获取失败");
 				}
 	    	});
 		}
-		
-		/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
-			}
-		
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。				
-					console.log(lessonRequestUrl);
-					console.log("bound="+boundaryId);
-					getLessonByBranchNameCategoryAndPage(lessonRequestUrl,1,branchName,category,boundaryId);
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh(boundaryId==-2);
-				}, 1500);
-			}
-		
-		/**
+
+	    /**
 		 * 下拉刷新具体业务实现
 		 */
 		function pulldownRefresh() {
@@ -311,21 +263,20 @@
 				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 			}, 1500);
 		}
-	
+
 		/**
 		 * 上拉加载具体业务实现
 		 */
 		function pullupRefresh() {
 			setTimeout(function() {
-				//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-				console.log('345');
+				//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。				
 				console.log(lessonRequestUrl);
 				console.log("bound="+boundaryId);
-				getLessonByBranchNameCategoryAndPage(lessonRequestUrl,1,branchName,category,boundaryId);
-				mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+				getLessonByBranchNameCategoryAndPage(lessonRequestUrl,branchName,category,boundaryId);
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(boundaryId==-2);
 			}, 1500);
 		}
-		
+
 	</script>
 
 </html>

@@ -18,9 +18,10 @@
 	    </collection>
 	</resultMap>
 	
-	<select id="selectEnterpriseByQid" parameterType="int" resultMap="_Enterprise" >
-		select * from enterprise, swiper 
-		where enterprise.qid = #{qid} and swiper.qid = #{qid} and swiper.deletekey = 0
+	<select id="selectEnterpriseByQid" parameterType="int" 
+			resultMap="_Enterprise" >
+		select * from enterprise
+		where qid = #{qid} and deletekey = 0
 	</select>
 	
 </mapper>

@@ -28,7 +28,13 @@
 		where qid = #{qid} and deletekey = 0 
 	</select>
 	
-	
+	<!-- 通过qid和branch查询Address的id -->
+	<select id="selectAddressIDByQIDAndBranch" parameterType="com.lamport.education.vo.QIDAndBranch"
+			resultType="com.lamport.education.po.Address">
+		select * from address 
+		where qid=#{qid} and branch=#{branch} and deletekey=0
+		limit 0, 1
+	</select>
 	
 	
 	<select id="selectAllCategoryByQid" parameterType="int" resultMap="_EnterpriseCategoryVo" >

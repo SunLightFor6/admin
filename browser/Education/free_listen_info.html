@@ -47,25 +47,25 @@
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded">
-				<img id="lessonImg"   src="" data-preview-src="" data-preview-group="1" width="100%" height="25%"/>
+				<img id="lessonImg" src="images/php.jpg" data-preview-src="" data-preview-group="1" width="100%" height="25%"/>
 			</div>			
 			<div id="lessonTitle" class="title">
-				 
+				PHP免费试听课
 			</div>
 			<div class="mui-card">
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-media">
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">
-							开课分校
+							开课分部
 							<p id="schoolLoaction"  class='mui-ellipsis'>实训中心</p>
 						</div>						
 					</li>
 					<li class="mui-table-view-cell mui-media">
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">	
-							课程方向
-							<p id="studyDirection"  class='mui-ellipsis'>进行中</p>
+							学习方向
+							<p id="studyDirection"  class='mui-ellipsis'>Java Web 方向</p>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media">
@@ -80,7 +80,8 @@
 			<div class="mui-card" style="margin-top: 20px;">
 				<div class="mui-content-padded" style="background-color: #FFFFFF;">
 					<p id="lessonDesc">
-						 
+						用PHP做出的动态页面与其他的编程语言相比，PHP是将程序嵌入到HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成HTML标记的CGI要高许多；
+						PHP还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。
 					</p>
 				</div>
 			</div>
@@ -103,7 +104,6 @@
 				console.log(fid);				
 				var skpiUrl = 'reserve_free_listen.html?fid='+fid+"&fname="+$("#lessonTitle").html();
 				encodeURI(skpiUrl);
-				console.log(skpiUrl);
 				mui.openWindow({
 					url:skpiUrl ,
 					id: 'reserve_free_listen.html' 
@@ -116,31 +116,29 @@
 		var requestUrl = PREPATH+"/selectFreeListenByFid";
 	    getFreeListenInfo(requestUrl,1,fid);
 		function getFreeListenInfo(url,qid,fid){
-				//获取所有订单
-				   mui.ajax(url,{
-					type:"post",
-					async:true,
-					data:{fid:fid},
-					dataType:"json",
-					xhrFields: {  
-						withCredentials: true  
-					},  
-					crossDomain: true,
-					success:function(data){
-						$("#lessonImg").attr('src',IMGPATH +data.imgurl) ;
-						$("#studyDirection").text(data.category)
-					    $("#lessonTitle").html(data.title);
-					    $("#schoolLoaction").text(data.branch + data.address);
-					    $("#lessonDesc").text(data.lessonDesc);
-					    $("#reserve").val(fid);
-					},
-					error:function(xhr,type,errorThrown){
-						//异常处理；
-						console.log(type);
-    				}
+			//获取所有订单
+			   mui.ajax(url,{
+				type:"post",
+				async:true,
+				data:{fid:fid},
+				dataType:"json",
+				xhrFields: {  
+					withCredentials: true  
+				},  
+				crossDomain: true,
+				success:function(data){
+					$("#lessonImg").attr('src',IMGPATH +data.imgurl) ;
+					$("#studyDirection").text(data.category)
+				    $("#lessonTitle").html(data.title);
+				    $("#schoolLoaction").text(data.branch + data.address);
+				    $("#lessonDesc").text(data.lessonDesc);
+				    $("#reserve").val(fid);
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast("信息获取失败，服务器异常");
+				}
 
-				});
-				
+			});				
 		};
 		
 	</script>

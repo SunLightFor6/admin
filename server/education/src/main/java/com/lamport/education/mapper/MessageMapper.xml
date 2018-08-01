@@ -34,15 +34,7 @@
 		</collection>
 	</resultMap>
 	
-	/**
-	 * 通过qid和页码查询Message信息
-	 * @param qidAndPage
-	 * @return List<Message>
-	 * @throws Exception
-	 */
-	public List<Message> selectMessageByQidAndPage(QIDAndPage qidAndPage) throws Exception;
-	
-	
+	<!-- 通过qid和页码查询Message信息 -->
 	<select id="selectMessageByQidAndPage" parameterType="com.lamport.education.vo.QIDAndPage" 
 			resultMap="_Message">
 		select m.mid, m.mtitle, m.mtime, messageimg.imgurl, messageimg.id as imgid,
@@ -51,11 +43,11 @@
 			   temp2.uid as replyuid,temp2.id as replyid
 		from (((select * 
 				from message where 1 = 1
-				<if test='page.startRowId != -1'>
-					and #{page.startRowId} > mid
+				<if test='pageBean.startId != -1'>
+					and #{pageBean.startId} > mid
 				</if>
 				order by mid desc 
-				limit 0, #{page.pageSize}
+				limit 0, #{pageBean.pageSize}
 				) m 
 			    left join messageimg on messageimg.mid = m.mid
 			   ) 
@@ -75,6 +67,7 @@
 		where m.deletekey = 0 and qid = #{qid}
 	</select>
 	
+	<!-- 通过下拉刷新查询Message信息 -->
 	<select id="selectMessageByQidDownFresh" parameterType="int" resultMap="_Message">
 		select m.mid, m.mtitle, m.mtime, messageimg.imgurl, messageimg.id as imgid, 
 			   temp.nickname as likeUserName, temp.uid as likeUid, temp.id as likeId, 

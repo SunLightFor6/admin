@@ -35,6 +35,8 @@ public class AddressServiceBean implements AddressService {
 		EnterpriseCategoryVo enterpriseCategoryVo = addressMapper.selectAllCategoryByQid(qid);
 		List<BranchCategoryVo> branchCategoryVos = enterpriseCategoryVo.getBranchCategoryVo();
 		JsonArray jsonArray = new JsonArray(); //
+		
+		
 		for(BranchCategoryVo branchCategoryVo:branchCategoryVos){
 			JsonObject branchObj = new JsonObject(); // 添加分支
 			branchObj.addProperty("text", branchCategoryVo.getBranch());	

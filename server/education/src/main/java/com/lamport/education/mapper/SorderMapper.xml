@@ -44,11 +44,12 @@
 		where oid = #{oid}
 	</update>
 
-
-
-
-	<update id="updatePaymentDetail" parameterType="com.lamport.education.po.Sorder">
-    	update sorder set username = #{username}, tel = #{tel},status = '已付款' where oid = #{oid}
+	<!-- 通过oid更新Sorder信息 -->
+	<update id="updateSorderByOID" parameterType="com.lamport.education.po.Sorder">
+    	update sorder set 
+    	username = #{username}, tel = #{tel},
+    	status = #{status}, actual=#{actual}, branchid=#{branchid}
+    	where oid = #{oid}
 	</update>
 
 	<!-- 通过oid修改Sorder的状态 -->
@@ -56,11 +57,14 @@
     	update sorder set status = #{status} where oid = #{oid}
 	</update>
 	
-	<select id="selectSorderByOid" parameterType="int" resultType="com.lamport.education.po.Sorder">
-    	select * from sorder where oid = #{oid} 
+	<!-- 通过oid查询Sorder信息 -->
+	<select id="selectSorderByOid" parameterType="int" 
+			resultMap="_Sorder_Lesson">
+    	select s.*, l.lname, l.imgurl, l.ldesc, l.lprice 
+    	from sorder s left join lesson l on s.lid=l.lid
+		where s.oid = #{oid} and s.userdeletekey=0
 	</select>
 	
-
 	<!-- 通过多条件查询Sorder信息 -->
 	<select id="selectSorderBySorderQueryCondition" parameterType="com.lamport.education.vo.SorderQueryCondition" 
 			resultMap="_Sorder_Lesson" >
@@ -78,5 +82,11 @@
 		limit 0,#{pageBean.pageSize}   
 	</select>
 
+	<!-- 通过uid和status查询Soder的总数 -->
+	<select id="selectCountSorderByUIDAndStatus" parameterType="com.lamport.education.vo.UIDAndStatus"
+			resultType="int">
+		select count(*) from sorder
+		where uid=#{uid} and status=#{status} and userdeletekey=0
+	</select>
 </mapper>
 			 

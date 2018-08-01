@@ -15,33 +15,25 @@ public class MessageImg {
 	public int getMid() {
 		return mid;
 	}
-	
 	public void setMid(int mid) {
 		this.mid = mid;
 	}
-	
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 	public String getImgurl() {
 		return imgurl;
 	}
-	
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}
-	
 	public int getDeletekey() {
 		return deletekey;
 	}
-	
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
 	}
-
 }

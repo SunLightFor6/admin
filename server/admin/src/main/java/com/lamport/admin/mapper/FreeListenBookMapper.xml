@@ -61,7 +61,7 @@
 		where qid = #{qid} and fb.deletekey=0
 	</select>
 	
-	<!-- 通过BookQueryCondition查询FreeListenBook信息 -->
+	<!-- 通过BookQueryCondition查询FreeListenBook的总条数 -->
 	<select id="selectCountFreeListenBookByBookQueryCondition" parameterType="com.lamport.admin.vo.BookQueryCondition"
 			resultType="int">
 		select count(*) from freelistenbook b left join freelisten f on f.id= b.fid

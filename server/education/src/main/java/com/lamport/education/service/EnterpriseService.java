@@ -1,12 +1,14 @@
 package com.lamport.education.service;
 
-import java.util.List;
-
 import com.lamport.education.po.Enterprise;
 
 public interface EnterpriseService {
 
+	/**
+	 * 通过qid查询Enterprise信息
+	 * @param qid
+	 * @return Enterprise
+	 * @throws Exception
+	 */
 	public Enterprise selectEnterpriseByQid(int qid) throws Exception;
-	public List<String> selectEnterpriseSwipersByQid(int qid) throws Exception;
-	
 }

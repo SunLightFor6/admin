@@ -33,6 +33,9 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		System.out.println(".....LoginFilter.........doFilter()........过滤....");
 		
+		StringBuffer url = ((HttpServletRequest)request).getRequestURL();
+		System.out.println(url.toString());
+		
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		Admin superAdmin = (Admin)session.getAttribute("superAdmin");
@@ -41,9 +44,9 @@ public class LoginFilter implements Filter {
 			System.out.println("Ready to Chain");
 			chain.doFilter(request, response);
 		}else if(admin != null){
-			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/main/page/index.html");
+			((HttpServletResponse)response).sendRedirect("/main/page/index.html");
 		}else{
-			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/main/superadmin/enterprise_index.html");
+			((HttpServletResponse)response).sendRedirect("/main/superadmin/enterprise_index.html");
 		}	
 	}
 

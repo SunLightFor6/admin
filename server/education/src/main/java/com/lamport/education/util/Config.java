@@ -14,13 +14,17 @@ public class Config {
 	public static final String RESP_DATA_TYPE = "json";
 	
 	//每页显示的条数
+	public static final int HomeLessonPageSize = 3;
+	public static final int HomeFreeListenPageSize = 3;
 	public static final int TeacherPageSize = 3;
 	public static final int SorderPageSize = 5;
+	public static final int BookPageSize = 5;
 	public static final int MessagePageSize = 2;
 	public static final int LessonPageSize = 3;
+	public static final int FreeListenPageSize = 3;
 	
 	//订单(Sorder)相关状态
-	public static final String SorderStatusUnPaid = "待付款";
+	public static final String SorderStatusUnpaid = "待付款";
 	public static final String SorderStatusPaid = "已付款";
 	public static final String SorderStatusRefunding = "退款中";
 	public static final String SorderStatusRefunded = "已退款";
@@ -29,4 +33,12 @@ public class Config {
 	//退款记录(Refund)相关状态
 	public static final String RefundStatusUnprocessed = "待处理";
 	public static final String RefundStatusProcessed = "已处理";
+	
+	//轮播图的类型
+	public static final String EnterpriseSwiper = "E";
+	public static final String TeacherSwiper = "T";
+	
+	//免费试听课相关状态
+	public static final String BookStatusUnprocessed = "待处理";
+	public static final String BookStatusProcessed = "已处理";
 }

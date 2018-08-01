@@ -13,6 +13,14 @@ public interface MessageMapper {
 	 * @throws Exception
 	 */
 	public List<Message> selectMessageByQidAndPage(QIDAndPage qidAndPage) throws Exception;
+	
+	/**
+	 * 通过下拉刷新查询Message信息
+	 * @param qid
+	 * @param maxId
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Message> selectMessageByQidDownFresh(int qid,int maxId) throws Exception;
 	
 }

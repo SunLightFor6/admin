@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import com.lamport.education.mapper.FreeListenMapper;
 import com.lamport.education.po.FreeListen;
 import com.lamport.education.service.FreeListenService;
-import com.lamport.education.util.PageBean;
-import com.lamport.education.vo.LessonInfoVo;
-import com.lamport.education.vo.LessonVo;
+import com.lamport.education.vo.FreeListenQueryCondition;
 
 @Service
 public class FreeListenServiceBean implements FreeListenService {
@@ -19,26 +17,21 @@ public class FreeListenServiceBean implements FreeListenService {
     FreeListenMapper freeListenMapper;
 	
 	@Override
-	public LessonInfoVo selectFreeListenByFid(int fid) throws Exception {
-		return freeListenMapper.selectFreeListenByFid(fid);
+	public FreeListen selectFreeListenByFid(int fid) throws Exception {
+		FreeListen freeListen = null;
+		
+		freeListen = freeListenMapper.selectFreeListenByFid(fid);
+		
+		return freeListen;
 	}
 
 	@Override
-	public List<FreeListen> selectHomePageFreeListenByQid(PageBean page, int qid) throws Exception {
-		LessonVo lessonVo = new LessonVo();
-		lessonVo.setQid(qid);
-		lessonVo.setPage(page);
-		return freeListenMapper.selectFreeListenPage(lessonVo);
-	}
-
-	@Override
-	public List<FreeListen> selectFreeListenByBranchNameAndCategoryAndPage(PageBean page,int qid, String branchName, String category) throws Exception {
-		LessonVo lessonVo = new LessonVo();
-		lessonVo.setBranchName(branchName);
-		lessonVo.setPage(page);
-		lessonVo.setQid(qid);
-		lessonVo.setCategory(category);
-		return  freeListenMapper.selectFreeListenPageByBranchNameAndCategory(lessonVo);
+	public List<FreeListen> selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition) throws Exception {
+		List<FreeListen> freeListens = null;
+		
+		freeListens = freeListenMapper.selectFreeListenByFreeListenQueryCondition(freeListenQueryCondition);
+		
+		return  freeListens;
 	}
 
 }

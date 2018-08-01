@@ -25,11 +25,9 @@ public class AddressHandler {
 		HttpSession session = request.getSession();	
 		int qid = (Integer)session.getAttribute("qid");
 		System.out.println("qid = " + qid);					/*####################*/
-		
-		
+		result = addressService.selectAllCategoryByQid(qid);
 		
 		return result;
-//		return addressService.selectAllCategoryByQid(qid);
 	}
 	
 }

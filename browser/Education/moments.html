@@ -15,32 +15,36 @@
 		<!--App自定义的css-->
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 		<link rel="stylesheet" type="text/css" href="css/moment.css" />
-		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
-		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
 		<script src="js/jquery.min.js" type="text/javascript"></script>
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/loading.animation.js" type="text/javascript"></script>
 		<style>
+			
+			/*朋友圈图片预览样式*/
 			.mui-content-padded a .mui-icon-extra {
 				margin-top: 12px;
 			}
-			.mui-spinner, .mui-spinner-white {
-				margin-top: 12px
-			}
-			.active	.mui-spinner-indicator {
+			
+			.active .mui-spinner-indicator {
 				background: #007AFF;
-			}			
+			}
+			
 			.mui-content a {
 				color: #8F8F94;
 			}
+			
 			.mui-content a.active {
 				color: #007aff;
 			}
+			
 			.mui-preview-image.mui-fullscreen {
 				position: fixed;
 				z-index: 20;
 				background-color: #000;
 			}
+			
 			.mui-preview-header,
 			.mui-preview-footer {
 				position: absolute;
@@ -48,14 +52,17 @@
 				left: 0;
 				z-index: 10;
 			}
+			
 			.mui-preview-header {
 				height: 44px;
 				top: 0;
 			}
+			
 			.mui-preview-footer {
 				height: 50px;
 				bottom: 0px;
 			}
+			
 			.mui-preview-header .mui-preview-indicator {
 				display: block;
 				line-height: 25px;
@@ -67,6 +74,7 @@
 				border-radius: 12px;
 				font-size: 16px;
 			}
+			
 			.mui-preview-image {
 				display: none;
 				-webkit-animation-duration: 0.5s;
@@ -74,19 +82,23 @@
 				-webkit-animation-fill-mode: both;
 				animation-fill-mode: both;
 			}
+			
 			.mui-preview-image.mui-preview-in {
 				-webkit-animation-name: fadeIn;
 				animation-name: fadeIn;
 			}
+			
 			.mui-preview-image.mui-preview-out {
 				background: none;
 				-webkit-animation-name: fadeOut;
 				animation-name: fadeOut;
 			}
+			
 			.mui-preview-image.mui-preview-out .mui-preview-header,
 			.mui-preview-image.mui-preview-out .mui-preview-footer {
 				display: none;
 			}
+			
 			.mui-zoom-scroller {
 				position: absolute;
 				display: -webkit-box;
@@ -107,26 +119,32 @@
 				margin: 0;
 				-webkit-backface-visibility: hidden;
 			}
+			
 			.mui-zoom {
 				-webkit-transform-style: preserve-3d;
 				transform-style: preserve-3d;
 			}
+			
 			.mui-slider .mui-slider-group .mui-slider-item img {
 				width: auto;
 				height: auto;
 				max-width: 100%;
 				max-height: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
 				width: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
 				display: inline-table;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
 				display: table-cell;
 				vertical-align: middle;
 			}
+			
 			.mui-preview-loading {
 				position: absolute;
 				width: 100%;
@@ -135,9 +153,11 @@
 				left: 0;
 				display: none;
 			}
+			
 			.mui-preview-loading.mui-active {
 				display: block;
 			}
+			
 			.mui-preview-loading .mui-spinner-white {
 				position: absolute;
 				top: 50%;
@@ -147,10 +167,12 @@
 				height: 50px;
 				width: 50px;
 			}
+			
 			.mui-preview-image img.mui-transitioning {
 				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
 				transition: transform 0.5s ease, opacity 0.5s ease;
 			}
+			
 			@-webkit-keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -159,6 +181,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -167,6 +190,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@-webkit-keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -175,6 +199,7 @@
 					opacity: 0;
 				}
 			}
+			
 			@keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -183,25 +208,29 @@
 					opacity: 0;
 				}
 			}
+			
 			p img {
 				max-width: 100%;
 				height: auto;
-			}			
+			}
+			
 		</style>
 	</head>
+
 	<!--loading页开始-->
-		<div class="loading">
-			<div class="loader">
-		        <div class="loader-inner pacman">
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		          <div></div>
-		        </div>
+	<div class="loading">
+		<div class="loader">
+			<div class="loader-inner pacman">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
 			</div>
 		</div>
-		<!--loading页结束-->
+	</div>
+	<!--loading页结束-->
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
@@ -226,10 +255,16 @@
 				<span class="mui-tab-label">我的</span>
 			</a>
 		</nav>
-		<div id="content" class="mui-content">			
-			<p>
-				<img src="images/moment_background.jpg" height="230px" width="100%"/>
-			</p>
+
+		<div id="content" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<p>
+					<img src="images/moment_background.jpg" height="230px" width="100%" />
+				</p>
+				<div id="messageDiv">
+				</div>
+			</div>
 		</div>
 		<div id="comment" class="mui-popover mui-popover-action mui-popover-bottom">
 			<ul class="mui-table-view">
@@ -242,24 +277,28 @@
 						</button>
 					</span>
 				</li>
-			</ul>			
+			</ul>
 		</div>
 	</body>
+
 	<script src="js/mui.min.js"></script>
 	<script src="js/mui.zoom.js"></script>
 	<script src="js/mui.pullToRefresh.material.js"></script>
 	<script src="js/mui.pullToRefresh.js"></script>
 	<script src="js/mui.previewimage.js"></script>
+
 	<script>
 		
 		mui.previewImage();
+
 		var boundaryId = -1;
-		var maxId =0;
+		var maxId = 0;
 		var mid = 0;
 		var nickName = "";
 		var uid = "";
+
 		mui.init({
-			swipeBack: true ,//启用右滑关闭功能,
+			swipeBack: true, //启用右滑关闭功能,
 			pullRefresh: {
 				container: '#content',
 				down: {
@@ -271,314 +310,295 @@
 				}
 			}
 		});
-		
+
 		document.getElementById("home").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'home.html',
-				id: 'home.html' 
-	    	});
+				id: 'home.html'
+			});
 		})
 		document.getElementById("lesson").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'lesson.html',
-				id: 'lesson.html' 
-	    	});
+				id: 'lesson.html'
+			});
 		})
 		document.getElementById("my_own").addEventListener("tap", function() {
 			mui.openWindow({
 				url: 'my_own.html',
-				id: 'my_own.html' 
-	    	});
+				id: 'my_own.html'
+			});
 		})
-		
-		var boundaryId = -1;
-		var maxId =0;
-		var mid = 0;
-		mui.init({
-			swipeBack: true ,//启用右滑关闭功能,
-			pullRefresh: {
-				container: '#content',
-				down: {
-					callback: pulldownRefresh
-				},
-				up: {
-					contentrefresh: '正在加载...',
-					callback: pullupRefresh
-				}
-			}
-		});
- 
-		var contents = document.getElementById("content");
-		var prePend = document.getElementById("backImg");
-		getMessageByQid(-1);
-		getNickName();
-		
-		function getNickName(){
-			   mui.ajax(PREPATH+"/selectUserByUid",{
-				type:"post",
-				async:true,
-				data:{},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					 nickName = data.nickname;
-					 uid = data.uid;
-					 console.log(nickName);
-				},
-				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
-				}
-			});
-		}
-		
-		
-		function getMessageByQidDownFresh(){
-			    mui.ajax(PREPATH+"/selectAllMessageByQidDownFresh",{
-				type:"post",
-				async:true,
-				data:{maxId:maxId},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					for(var i=data.length-1;i>=0;i--){
-						jQuery(prePend).after(showComment(data[i]));		
-					}
-					if(data.length>0){
-							maxId = data[0].mid;
-					}
-				},
-				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
-				}
-			});
-		}
-	
-		function getMessageByQid(rowId){
-			mui.ajax(PREPATH+"/selectAllMessageByPageAndQid",{
-				type:"post",
-				async:true,
-				data:{rowId:rowId},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					for(var i=0;i<data.length;i++){
-					//	console.log(data.length);
-						jQuery(contents).append(showComment(data[i]));		
-					}
-					
-					if(data.length!=0)
-						boundaryId = data[data.length-1].mid;
-					else
-						boundaryId = -2;
-					if(rowId==-1)
-						maxId = data[0].mid;
-					
-					setDisplayNone();
-				},
-				done:function(){
-					setDisplayNone();
-				},
-				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
-				}
-			});
-		}
-		
-		function showComment(data){
-			html = [];
-			html.push('<div class="mui-card" id="card'+ data.mid +'" style="margin-bottom: 20px;">');
-			html.push('<div class="mui-card-header">');
-			html.push(data.mtitle);
-			html.push('</div><div class="mui-card-content">');
-			html.push('<div class="mui-card-content-inner">');				 
-			for(var j=0;j<data.imgs.length;j++){
-				html.push('<span class="messagelist-imgs'+data.imgs.length+'" style="background-image: url('+'images/'+ data.imgs[j].imgurl+ ');">');
-				html.push('<img src="'+IMGPATH+data.imgs[j].imgurl+'" data-preview-src="" data-preview-group="1"  style="opacity: 0;width: 100%;height: 100%;"/></span>');
-			}
-			html.push('<p align="right">');
-			html.push(data.mtime);
-			html.push('</p>');
-			html.push('</div></div>');
-			if (data.likes.length > 0 && data.replies.length > 0) {
-				html.push('<div class="mui-card-footer">');
-				var redOrNot ='';
-				for(var j=0;j<data.likes.length;j++){
-					if(data.likes[j].user.uid ==uid)
-					{
-						redOrNot= 'red';
-					}
-				}
-				html.push('<a class="mui-card-link"><span style="color:'+redOrNot +'" class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" value="'+data.mid +'"></span></a>');
-				html.push('<a href="#comment" class="mui-card-link"><span class="mui-icon mui-icon-compose" value="'+data.mid +'" ></span></a></div>');				
-				if(data.replies.length>0){
-					html.push('<div class="mui-card-footer" style="display: block;">');
-					html.push('<div  style="margin-bottom: 10px;">');
-					html.push('<span class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" style="font-size: 15px;"></span> ');
-					html.push('<p style="display:inline" id="likersName'+data.mid +'" >');
-					for(var j=0;j<data.likes.length;j++){
-						if(j+1<data.likes.length)
-							html.push(data.likes[j].user.nickname+' ');
-						else
-							html.push(data.likes[j].user.nickname);
-					}
-					html.push('</p>');
-					html.push('</div>');
-					html.push('<div id="reply'+data.mid+'" style="margin-bottom: 5px;">');
-					for(var j=0;j<data.replies.length;j++){
-						html.push(data.replies[j].user.nickname +':'+data.replies[j].content+'<br>');
-					}
-					html.push('</div>');
-					html.push('</div>');
-				}
-				html.push('</div>');
-			} 
-			html.push('</div>');
-		 	return html.join('');
-		 	
-		}		
-			
-		function saveLike(mid){
-			   mui.ajax(PREPATH+"/addLike",{
-				type:"post",
-				async:true,
-				data:{mid:mid},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){						
-					console.log("innerText"+document.getElementById('likersName'+mid+'').innerText);
-					document.getElementById('likersName'+mid+'').innerText += ' '+data.nickname;						 
-				},
-				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
-				}
-			});			
-		};
-	 
-		function deleteLike(mid){
-			    mui.ajax(PREPATH+"/deleteLike",{
-				type:"post",
-				async:true,
-				data:{mid:mid},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					 var likerNames = document.getElementById('likersName'+mid+'').innerText;
-					 var temp = likerNames.split(nickName).join('');
-					 document.getElementById('likersName'+mid+'').innerText = temp;				 
-				},
-				error:function(xhr,type,errorThrown){
-    							//异常处理；
-    							console.log(type);
-			}
-			});			
-		}; 
-	
-		function saveComment(mid,comment){
-			console.log("xxxx");
-			   mui.ajax(PREPATH+"/addMessageReply",{
-				type:"post",
-				async:true,
-				data:{mid:mid,comment:comment},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-				},
-				error:function(xhr,type,errorThrown){
-					//异常处理；
-					console.log(type);
-				}
-			});			
-		};
-		 
-	    mui(".mui-content").on('tap','.mui-icon-extra-heart-filled',function(item){
-	    	console.log($(this).attr('value'));
-	    	mid = $(this).attr('value');
-	    	if((''+this.style.color) =="red")
-	    	{
-	    		this.style.color="";
-	    		deleteLike(mid);
-	    	}
-	    	else{
-	    		this.style.color="red";
-	    		saveLike(mid);
-	    	}
-	   
-	    });
-	    
-	    mui("#comment").on('tap','#publish',function(item){
-	    	var innerComment = $('#commentValue').val();
-	    	console.log(innerComment);	    
-	    	if(document.getElementById('reply'+mid+'')==undefined){
-	    		var html = [];
-	    		html.push('<div id="reply'+mid+'" class="mui-card-footer">');
-	    		html.push(nickName +':'+innerComment+'<br>');
-				html.push('</div>');
-				$("#card"+mid+'').append(html.join(''));
-			 	saveComment(mid,innerComment);
-	    	}else{
-	    		document.getElementById('reply'+mid+'').innerHTML += nickName+':'+innerComment;
-	    		saveComment(mid,innerComment);
-	    	}
-	    	document.getElementById("comment").style.display = 'none';	    	
-	    });	    
-	    
-		mui(".mui-content").on('tap','.mui-icon-compose',function(item){
-	    	mid = $(this).attr('value');
-	   	});
-		
+
 		/**
 		 * 下拉刷新具体业务实现
 		 */
 		function pulldownRefresh() {
 			setTimeout(function() {
-				getMessageByQidDownFresh();
+				getMessageByQidDownFresh(1);
 				mui('#content').pullRefresh().endPulldownToRefresh(); //refresh completed
-				setDisplayNone();
+
 			}, 1500);
 		}
-	
+
 		/**
 		 * 上拉加载具体业务实现
 		 */
 		function pullupRefresh() {
 			setTimeout(function() {
 				//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-				console.log("bound="+boundaryId);
-				getMessageByQid(boundaryId);
-				mui('#content').pullRefresh().endPullupToRefresh(boundaryId==-2);
-				setDisplayNone();
+				console.log("bound=" + boundaryId);
+				getMessageByQid(1, boundaryId);
+				mui('#content').pullRefresh().endPullupToRefresh(boundaryId == -2);
 			}, 1500);
 		}
-		function setDisplayNone(){
-			var bottomPocker = document.getElementsByClassName("mui-pull-bottom-pocket")[0];
-			var topPocker = document.getElementsByClassName("mui-pull-top-pocket")[0];
-		    console.log(bottomPocker);
-	        bottomPocker.style.display = 'none'; 
-	    	topPocker.style.display = 'none';
+
+		var contents = document.getElementById("messageDiv");
+		var prePend = document.getElementById("backImg");
+		getMessageByQid(1, -1);
+		getNickName();
+
+		function getNickName() {
+			mui.ajax(PREPATH + "/selectUserByUid", {
+				type: "post",
+				async: true,
+				data: {},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					nickName = data.nickname;
+					uid = data.uid;
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("用户信息获取失败");
+				}
+			});
 		}
-		
+
+		function getMessageByQidDownFresh(qid) {
+			mui.ajax(PREPATH + "/selectAllMessageByQidDownFresh", {
+				type: "post",
+				async: true,
+				data: {
+					qid: qid,
+					maxId: maxId
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					for(var i = data.length - 1; i >= 0; i--) {
+						jQuery(prePend).after(showComment(data[i]));
+					}
+					if(data.length > 0) {
+						maxId = data[0].mid;
+					}
+
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("朋友圈信息获取失败");
+				}
+			});
+		}
+
+		function getMessageByQid(qid, rowId) {
+			mui.ajax(PREPATH + "/selectAllMessageByPageAndQid", {
+				type: "post",
+				async: true,
+				data: {
+					qid: qid,
+					rowId: rowId
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					for(var i = 0; i < data.length; i++) {
+						jQuery(contents).append(showComment(data[i]));
+					}
+					if(data.length != 0)
+						boundaryId = data[data.length - 1].mid;
+					else
+						boundaryId = -2;
+					if(rowId == -1)
+						maxId = data[0].mid;
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("朋友圈信息获取失败");
+				}
+			});
+		}
+
+		function showComment(data) {
+			html = [];
+			html.push('<div class="mui-card" id="card' + data.mid + '" style="margin-bottom: 20px;">');
+			html.push('<div class="mui-card-header">');
+			html.push(data.mtitle);
+			html.push('</div><div class="mui-card-content">');
+			html.push('<div class="mui-card-content-inner">');
+			for(var j = 0; j < data.imgs.length; j++) {
+				html.push('<span class="messagelist-imgs' + data.imgs.length + '" style="background-image: url(' + 'images/' + data.imgs[j].imgurl + ');">');
+				html.push('<img src="images/' + data.imgs[j].imgurl + '" data-preview-src="" data-preview-group="1"  style="opacity: 0;width: 100%;height: 100%;"/></span>');
+			}
+			html.push('<p align="right">');
+			html.push(data.mtime);
+			html.push('</p>');
+			html.push('</div></div>');
+			if(data.likes.length > 0 && data.replies.length > 0) {
+				html.push('<div class="mui-card-footer">');
+				var redOrNot = '';
+				for(var j = 0; j < data.likes.length; j++) {
+					if(data.likes[j].user.uid == uid) {
+						redOrNot = 'red';
+					}
+
+				}
+				html.push('<a class="mui-card-link"><span style="color:' + redOrNot + '" class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" value="' + data.mid + '"></span></a>');
+				html.push('<a href="#comment" class="mui-card-link"><span class="mui-icon mui-icon-compose" value="' + data.mid + '" ></span></a></div>');
+				if(data.replies.length > 0) {
+					html.push('<div class="mui-card-footer" style="display: block;">');
+					html.push('<div  style="margin-bottom: 10px;">');
+					html.push('<span class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" style="font-size: 15px;"></span> ');
+					html.push('<p style="display:inline" id="likersName' + data.mid + '" >');
+					for(var j = 0; j < data.likes.length; j++) {
+						if(j + 1 < data.likes.length)
+							html.push(data.likes[j].user.nickname + ' ');
+						else
+							html.push(data.likes[j].user.nickname);
+					}
+					html.push('</p>');
+					html.push('</div>');
+					html.push('<div id="reply' + data.mid + '" style="margin-bottom: 5px;">');
+					for(var j = 0; j < data.replies.length; j++) {
+						html.push(data.replies[j].user.nickname + ':' + data.replies[j].content + '<br>');
+					}
+					html.push('</div>');
+					html.push('</div>');
+				}
+				html.push('</div>');
+			}
+			html.push('</div>');
+			return html.join('');
+
+		}
+
+		function saveLike(mid) {
+			mui.ajax(PREPATH + "/addLike", {
+				type: "post",
+				async: true,
+				data: {
+					mid: mid
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					if(data == 1) {
+						console.log("innerText" + document.getElementById('likersName' + mid + '').innerText);
+						document.getElementById('likersName' + mid + '').innerText += ' ' + data.nickname;
+					} else {
+						mui.toast("点赞失败");
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("点赞失败");
+				}
+			});
+		};
+		function deleteLike(mid) {
+			mui.ajax(PREPATH + "/deleteLike", {
+				type: "post",
+				async: true,
+				data: {
+					mid: mid
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					if(data == 1) {
+						var likerNames = document.getElementById('likersName' + mid + '').innerText;
+						var temp = likerNames.split(nickName).join('');
+						document.getElementById('likersName' + mid + '').innerText = temp;
+					} else {
+						mui.toast("取消点赞失败");
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("取消点赞失败");
+				}
+			});
+		};
+
+		function saveComment(mid, comment) {
+			mui.ajax(PREPATH + "/addMessageReply", {
+				type: "post",
+				async: true,
+				data: {
+					mid: mid,
+					comment: comment
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					if(data!=1){
+						mui.toast("添加评论失败");
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					mui.toast("添加评论失败");
+				}
+			});
+		};
+
+		mui(".mui-content").on('tap', '.mui-icon-extra-heart-filled', function(item) {
+			console.log($(this).attr('value'));
+			mid = $(this).attr('value');
+			if(('' + this.style.color) == "red") {
+				this.style.color = "";
+				deleteLike(mid);
+			} else {
+				this.style.color = "red";
+				saveLike(mid);
+			}
+
+		});
+
+		mui("#comment").on('tap', '#publish', function(item) {
+			var innerComment = $('#commentValue').val();
+			console.log(innerComment);
+			if(document.getElementById('reply' + mid + '') == undefined) {
+				var html = [];
+				html.push('<div id="reply' + mid + '" class="mui-card-footer">');
+				html.push(nickName + ':' + innerComment + '<br>');
+				html.push('</div>');
+				$("#card" + mid).append(html.join(''));
+				saveComment(mid, innerComment);
+			} else {
+				document.getElementById('reply' + mid + '').innerHTML += nickName + ':' + innerComment;
+			}
+			document.getElementById("comment").style.display = 'none';
+		});
+
+		mui(".mui-content").on('tap', '.mui-icon-compose', function(item) {
+			mid = $(this).attr('value');
+		});
+
 	</script>
 
 </html>

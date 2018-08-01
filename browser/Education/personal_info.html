@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html>
 
 	<head>
+		
 		<meta charset="utf-8">
 		<title>Hello MUI</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -11,6 +13,7 @@
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />
+		
 		<!--App自定义的css-->
 		<link rel="stylesheet" type="text/css" href="css/app.css"/>
 		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
@@ -18,6 +21,12 @@
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/jquery.min.js" type="text/javascript"></script>
 		<script src="js/loading.animation.js" type="text/javascript"></script>
+		
+		<style>			
+			.mui-icon-clear {
+				margin-top: 8px;
+			}			
+		</style>
 
 	</head>
 
@@ -30,7 +39,7 @@
 			<div class="mui-content-padded">
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell mui-media">
-						<a id="uploadPortrait" class="mui-navigate-right">
+						<a id="uploadUserimg" class="mui-navigate-right">
 							<img id="userimg" class="mui-media-object mui-pull-left" src="images/portrait.jpg">
 							<div class="mui-media-body" style="margin-left: 21%;">
 								<p style="font-size: 15px; margin-top: 5.5%; color: #6D6D72;">
@@ -77,7 +86,7 @@
 		
 		$(function() {
 			$.ajax({
-				url: PREPATH+"/getUser",
+				url: PREPATH + "/getUser",
 				type: "post",
 				dataType: "json",
 				xhrFields: {  
@@ -86,6 +95,9 @@
 				crossDomain: true,
 				success: function(data) {
 					if (data !== null) {
+						if (data.userimg !== null && data.userimg !== "") {
+							$("#userimg").attr("src", IMGPATH + data.userimg);
+						}
 						if (data.tel !== null && data.tel !== "") {
 							$("#phone").val(data.tel);
 						}
@@ -94,9 +106,6 @@
 						}
 						if (data.username !== null && data.username !== "") {
 							$("#username").val(data.username);
-						}
-						if (data.userimg !== null && data.userimg !== "") {
-							$("#userimg").attr("src", IMGPATH+data.userimg);
 						}
 					}
 					else {
@@ -131,8 +140,7 @@
 			var tel = $("#phone").val();
 			var nickname = $("#nickname").val();
 			var username = $("#username").val();
-			if (tel === null || tel === "" || !checkTel(tel)) {
-				mui.toast("请输入正确的手机号");
+			if (!checkTel(tel)) {
 				return;
 			}
 			if (nickname === null || nickname === "") {
@@ -168,9 +176,9 @@
             }.bind(this), 500);
 		})
 		
-		document.getElementById("uploadPortrait").addEventListener("tap", function() {
+		document.getElementById("uploadUserimg").addEventListener("tap", function() {
 			mui.openWindow({
-				url: 'upload_portrait.html#upload',
+				url: 'upload_userimg.html',
 	    	});
 		})
 		

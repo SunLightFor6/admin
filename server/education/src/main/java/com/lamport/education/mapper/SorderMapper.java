@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.lamport.education.po.Sorder;
 import com.lamport.education.vo.SorderQueryCondition;
+import com.lamport.education.vo.UIDAndStatus;
 
 public interface SorderMapper {
+	
 	/**
 	 * 创建Sorder信息
 	 * @param sorder
@@ -34,13 +36,19 @@ public interface SorderMapper {
 	 */
 	public void updateSorderStatusByOid(Sorder sorder) throws Exception;
 	
+	/**
+	 * 通过oid更新Sorder信息
+	 * @param sorder
+	 * @throws Exception
+	 */
+	public void updateSorderByOID(Sorder sorder) throws Exception;
 	
-	
-	
-	public void updatePaymentDetail(Sorder sorder) throws Exception;
-	
+	/**
+	 * 通过oid查询Sorder信息
+	 * @param oid
+	 * @return
+	 */
 	public Sorder selectSorderByOid(int oid);
-	
 	
 	/**
 	 * 通过多条件查询Sorder信息
@@ -49,4 +57,12 @@ public interface SorderMapper {
 	 * @throws Exception
 	 */
 	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
+
+	/**
+	 * 通过uid和status查询Soder的总数
+	 * @param uidAndStatus
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountSorderByUIDAndStatus(UIDAndStatus uidAndStatus) throws Exception;
 }

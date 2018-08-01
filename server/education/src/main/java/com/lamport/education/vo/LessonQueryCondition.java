@@ -9,7 +9,7 @@ import com.lamport.education.util.PageBean;
  */
 public class LessonQueryCondition {
 	private int qid;			//企业表主键
-	private String branchName;	//分部名称
+	private String branch;	//分部名称
 	private String category;	//课程类型
 	private PageBean pageBean;	//页码工具类
 	private int startId;		//每页的起始id
@@ -24,11 +24,11 @@ public class LessonQueryCondition {
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
-	public String getBranchName() {
-		return branchName;
+	public String getBranch() {
+		return branch;
 	}
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setBranch(String branch) {
+		this.branch = branch;
 	}
 	public String getCategory() {
 		return category;

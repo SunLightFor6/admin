@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.lamport.education.mapper.FreeListenBookMapper;
 import com.lamport.education.po.FreeListenBook;
-import com.lamport.education.vo.BusinessVo;
-import com.lamport.education.vo.FreeListenBookVo;
+import com.lamport.education.vo.BookQueryCondition;
+import com.lamport.education.vo.UIDAndStatus;
 import com.lamport.education.service.FreeListenBookService;
-import com.lamport.education.util.PageBean;
 
 @Service
 public class FreeListenBookServiceBean implements FreeListenBookService {
@@ -20,28 +19,39 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 	
 	@Override
 	public void saveFreeListenBook(FreeListenBook freeListenBook) throws Exception {
+		freeListenBook.setDeletekey(0);
+		freeListenBook.setUserdeletekey(0);
 		freeListenBookMapper.saveFreeListenBook(freeListenBook);
 	}
 
 	@Override
-	public List<FreeListenBookVo> selectFreeListenBookPageByUidAndStatus(PageBean page, int uid, String status)throws Exception {
-		BusinessVo  businessVo = new BusinessVo();
-		businessVo.setPage(page);
-		businessVo.setStatus(status);
-		businessVo.setUid(uid);
-		List<FreeListenBookVo> freeBooks = freeListenBookMapper.selectFreeListenBookPageByUidAndStatus(businessVo);
-		return freeBooks;
+	public void deleteFreeListenBookLogicallyById(FreeListenBook freeListenBook) throws Exception {
+		freeListenBook.setUserdeletekey(1);
+		freeListenBookMapper.deleteFreeListenBookLogicallyById(freeListenBook);
 	}
 
 	@Override
-	public void deleteBookRequestLogicallyByFbid(int fbid) throws Exception {
-		freeListenBookMapper.deleteBookRequestLogicallyByFbid(fbid);
+	public void deleteFreeListenBookPowerfullyById(FreeListenBook freeListenBook) throws Exception {
+		freeListenBook.setDeletekey(1);
+		freeListenBook.setUserdeletekey(1);
+		freeListenBookMapper.deleteFreeListenBookPowerfullyById(freeListenBook);
 	}
 
 	@Override
-	public void deleteFinalFreeListenBookLogicallyByFbid(int fbid) throws Exception {
-		freeListenBookMapper.deleteFinalFreeListenBookLogicallyByFbid(fbid);
-
+	public List<FreeListenBook> selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition) throws Exception {
+		List<FreeListenBook> freeListenBooks = null;
+		
+		freeListenBooks = freeListenBookMapper.selectFreeListenBookByBookQueryCondition(bookQueryCondition);
+		
+		return freeListenBooks;
 	}
 
+	@Override
+	public int selectCountBookByUIDAndStatus(UIDAndStatus uidAndStatus) throws Exception{
+		int countBookUnprocessed = 0;
+		
+		countBookUnprocessed = freeListenBookMapper.selectCountBookByUIDAndStatus(uidAndStatus);
+		
+		return countBookUnprocessed;
+	}
 }

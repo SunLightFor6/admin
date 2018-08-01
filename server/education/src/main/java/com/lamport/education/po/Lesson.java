@@ -1,6 +1,9 @@
 package com.lamport.education.po;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.lamport.education.po.Address;
 
 /**
  * 精品课类
@@ -20,6 +23,15 @@ public class Lesson {
 	private int deletekey;		//删除键
 	
 	private List<Address> branches;//分部
+	/**
+	 * 具体的一个分部
+	 */
+	private Address address;//某一分部
+	
+	public Lesson(){
+		branches = new ArrayList<Address>();
+		address = new Address();
+	}
 
 	public int getQid() {
 		return qid;
@@ -86,5 +98,11 @@ public class Lesson {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
