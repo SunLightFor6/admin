@@ -10,12 +10,17 @@ import java.util.List;
  */
 public class Enterprise {
 	
-	private int qid;			//企业主键
-	private String name;		//企业名称
-	private String videopath;	//企业视频存放路径
-	private String introduction;//企业简介
-	private String jczs;		//企业精彩展示
-	private int deletekey;		//删除键
+	private int qid;				//企业主键
+	private String name;			//企业名称
+	private String videopath;		//企业视频存放路径
+	private String introduction;	//企业简介
+	private String jczs;			//企业精彩展示
+	private double moneytoperpoint;	//多少钱换 1 积分
+	private double perpointtomoney;	// 1 积分换多少钱
+	private int basicsignpoint;		//基础签到所获得的积分数
+	private double discountrate;	//积分的最大折扣率
+	private int pointkey;			//积分优惠开关键, 1为开, 0为关
+	private int deletekey;			//删除键
 	
 	private Admin administer;//管理员
 	private List<Address> branches;//分部
@@ -96,5 +101,35 @@ public class Enterprise {
 	}
 	public void setDeletekey(int deletekey) {
 		this.deletekey = deletekey;
+	}
+	public double getMoneytoperpoint() {
+		return moneytoperpoint;
+	}
+	public void setMoneytoperpoint(double moneytoperpoint) {
+		this.moneytoperpoint = moneytoperpoint;
+	}
+	public double getPerpointtomoney() {
+		return perpointtomoney;
+	}
+	public void setPerpointtomoney(double perpointtomoney) {
+		this.perpointtomoney = perpointtomoney;
+	}
+	public int getBasicsignpoint() {
+		return basicsignpoint;
+	}
+	public void setBasicsignpoint(int basicsignpoint) {
+		this.basicsignpoint = basicsignpoint;
+	}
+	public double getDiscountrate() {
+		return discountrate;
+	}
+	public void setDiscountrate(double discountrate) {
+		this.discountrate = discountrate;
+	}
+	public int getPointkey() {
+		return pointkey;
+	}
+	public void setPointkey(int pointkey) {
+		this.pointkey = pointkey;
 	}
 }

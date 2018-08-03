@@ -30,6 +30,14 @@ public interface FreeListenBookService {
 	public void deleteFreeListenBookPowerfullyById(FreeListenBook freeListenBook) throws Exception; 
 	
 	/**
+	 * 通过id查询FreeListenBook信息
+	 * @param id
+	 * @return FreeListenBook
+	 * @throws Exception
+	 */
+	public FreeListenBook selectFreeListenBookByID(int id) throws Exception;
+	
+	/**
 	 * 通过多条件查询FreeListenBook信息
 	 * @param bookQueryCondition
 	 * @return List<FreeListenBook>

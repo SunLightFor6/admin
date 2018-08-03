@@ -128,7 +128,6 @@ public class EnterpriseServiceBean implements EnterpriseService {
 				updateResult *= swiperMapper.saveSwiper(swiper);
 			}
 		}
-		
 		String videoPath = null;
 		File videoFile = null;
 		if(video != null){
@@ -139,16 +138,8 @@ public class EnterpriseServiceBean implements EnterpriseService {
 			videoPath = Const.VideoPath + "/" + filename;
 		}
 		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
-		enterprise.setVideopath(videoPath);
-		
-		
-		
-		
-		System.out.println(enterprise.getVideopath());
-		
-		
-		
-		
+		enterprise.setVideopath(videoPath);		
+		System.out.println(enterprise.getVideopath());/*##################################################*/
 		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
 		if(imgurls != null){
 			for(int i=0; i<imgFiles.size(); i++){
@@ -163,11 +154,17 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 		return updateResult;
 	}
+	
+	@Override
+	public void updateEnterpriseConfigByID(Enterprise enterprise) throws Exception{
+		System.out.println("..........EnterpriseServiceBean..........updateEnterpriseConfigByID()..........");
+		
+		enterpriseMapper.updateEnterpriseConfigByID(enterprise);
+	}
 
 	@Override
 	public Enterprise selectEnterpriseByQID(int qid) throws Exception {
 		System.out.println("..........EnterpriseServiceBean..........selectEnterpriseByQID()..........");
-
 		Enterprise enterprise = null;
 
 		QIDAndCategory qidAndCategory = new QIDAndCategory();

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lamport.education.mapper.PointMapper">
+
+	<resultMap type="com.lamport.education.po.Point" id="_Point_Sorder_Lesson">
+		<id column="pid" property="pid"/>
+		<result column="uid" property="uid"/>
+		<result column="oid" property="oid"/>
+		<result column="sid" property="sid"/>
+		<result column="point" property="point"/>
+		<result column="category" property="category"/>
+		<result column="date" property="date"/>
+		<association property="sorder" javaType="com.lamport.education.po.Sorder">
+			<id column="cid" property="cid"/>
+			<association property="lesson" javaType="com.lamport.education.po.Lesson">
+				<id column="lid" property="lid"/>
+				<result column="lname" property="lname"/>
+			</association>	
+		</association>
+	</resultMap>
+
+	<!-- 创建Point信息 -->
+	<insert id="savePoint" parameterType="com.lamport.education.po.Point">
+		insert into point(uid, point, category, oid, sid, date, deletekey)
+		values(#{uid}, #{point}, #{category}, #{oid}, #{sid}, #{date}, #{deletekey})
+		<selectKey keyProperty="pid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
+	</insert>
+
+	<!-- 通过uid和页码查询Point信息 -->
+	<select id="selectPointByUIDAndPage" parameterType="com.lamport.education.vo.UIDAndPage"
+			resultMap="_Point_Sorder_Lesson">
+		select * from point p
+		left join sorder s on p.oid=s.oid
+		left join lesson l on s.lid=l.lid
+		where p.uid=#{uid} and p.deletekey=0
+		order by pid desc
+		limit #{pageBean.startId}, #{pageBean.pageSize}
+	</select>
+</mapper>

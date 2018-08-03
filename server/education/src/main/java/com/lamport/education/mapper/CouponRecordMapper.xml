@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lamport.education.mapper.CouponRecordMapper">
+
+	<resultMap type="com.lamport.education.po.CouponRecord" id="_CouponRecord">
+		<id column="id" property="id"/>
+		<result column="cid" property="cid"/>
+		<result column="uid" property="uid"/>
+		<result column="gettime" property="gettime"/>
+		<association property="coupon" javaType="com.lamport.education.po.Coupon">
+			<id column="cid" property="cid"/>
+			<result column="qid" property="qid"/>
+			<result column="category" property="category"/>
+			<result column="needmoney" property="needmoney"/>
+			<result column="money" property="money"/>
+			<result column="total" property="total"/>
+			<result column="get" property="get"/>
+			<result column="deadline" property="deadline"/>
+		</association>
+	</resultMap>
+
+	<!-- 通过id删除CouponRecord信息 -->
+	<update id="deleteCouponRecordLogicallyByID">
+		update couponrecord set deletekey=#{deletekey}
+		where id=#{id}
+	</update>
+	
+	<!-- 通过id查询CouponRecord信息 -->
+	<select id="selectCouponRecordByID" parameterType="int"
+			resultMap="_CouponRecord">
+		select * from couponrecord cr
+		left join coupon c on cr.cid=c.cid
+		where cr.id=#{id} and c.disabledkey=0 and cr.deletekey=0
+	</select>
+
+	<!-- 通过uid和页码查询CouponRecord信息 -->
+	<select id="selectCouponRecordByUIDAndPage" parameterType="com.lamport.education.vo.UIDAndPage"
+			resultMap="_CouponRecord">
+		select * from couponrecord cr
+		left join coupon c on cr.cid=c.cid
+		where cr.uid=#{uid} and c.disabledkey=0 and cr.userdeletekey=0
+		order by cr.id asc
+		limit #{pageBean.startId}, #{pageBean.pageSize}
+	</select>
+</mapper>

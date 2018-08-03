@@ -17,6 +17,13 @@
 			<id column="fid" property="id"/>
 			<result column="title" property="title"/>
 			<result column="imgurl" property="imgurl"/>
+			<association property="address" javaType="com.lamport.education.po.Address">
+				<id column="branchid" property="id"/>
+				<result column="branch" property="branch"/>
+				<result column="address" property="address"/>
+				<result column="longitude" property="longitude"/>
+				<result column="latitude" property="latitude"/>
+			</association>
 		</association>
 	</resultMap>
 	
@@ -40,15 +47,14 @@
     	where id=#{id}
 	</update>
 	
-	<!-- <select id="selectFreeListenBookPageByUid" parameterType="com.lamport.education.vo.BusinessVo" resultMap="_freeListenBookVo">
-		select * from freelistenbook, freelisten 
-		where uid = #{uid} and freelistenbook.fid = freelisten.id and userdeletekey = 0 
-		<if test='page.startRowId != -1'>
-			and #{page.startRowId} > freelistenbook.id 
-		</if>
-		order by booktime desc 
-		limit 0, #{page.pageSize}
-	</select> --> 
+	<!-- 通过id查询FreeListenBook信息 -->
+	<select id="selectFreeListenBookByID" parameterType="int" 
+			resultMap="_FreeListenBook_FreeListen">
+		select * from freelistenbook fb
+		left join freelisten f on fb.fid=f.id
+		left join address a on f.branchid=a.id
+		where fb.id=#{id} and userdeletekey=0
+	</select>
 	
 	<!-- 通过多条件查询FreeListenBook信息 -->
 	<select id="selectFreeListenBookByBookQueryCondition" parameterType="com.lamport.education.vo.BookQueryCondition" 

@@ -34,7 +34,7 @@
 
 	<!-- 创建企业 -->
 	<insert id="saveEnterprise" parameterType="com.lamport.admin.po.Enterprise">
-		insert enterprise(deletekey) value(#{deletekey})
+		insert enterprise(deletekey) values(#{deletekey})
 		<selectKey keyProperty="qid" order="AFTER" resultType="int">
             select LAST_INSERT_ID()
      	</selectKey>
@@ -57,6 +57,14 @@
 			</if>
 		</set>
 		where qid = #{qid}
+	</update>
+
+	<!-- 通过id修改企业的配置信息 -->
+	<update id="updateEnterpriseConfigByID">
+		update enterprise set pointkey=#{pointkey},
+		moneytoperpoint=#{moneytoperpoint}, perpointtomoney=#{perpointtomoney},
+		basicsignpoint=#{basicsignpoint}, discountrate=#{discountrate}
+		where qid=#{qid}
 	</update>
 
 	<!-- 通过qid查询Enterprise信息 -->

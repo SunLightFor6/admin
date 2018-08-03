@@ -146,4 +146,30 @@ public class BranchHandler {
 		
 		return result;
 	}
+	/**
+	 * 通过qid查询现在有多少个分部，以及其名字
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/admin/getBranchesName")
+	@ResponseBody
+	public String getBranchesName(HttpServletRequest request) throws Exception{
+		System.out.println("..........BranchHanler..........getBranchesName()..........");
+		String result = null;
+			
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		List<String> branches = addressService.selectBranchByQID(admin.getQid());
+		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		jsonObject.addProperty("count", branches.size());
+		if(branches!=null && !branches.isEmpty()){
+			for(String branch : branches){
+				jsonArray.add(branch);
+			}
+		}
+		jsonObject.add("values", jsonArray);
+		
+		return result;
+	}
 }

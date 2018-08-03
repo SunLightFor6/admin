@@ -16,6 +16,7 @@ public class User {
 	private String nickname;	//用户昵称
 	private String username;	//用户真实姓名
 	private String userimg;		//用户头像
+	private int totalpoint;		//用户总积分
 	private String openid;		//用户微信号唯一标识
 	private int deletekey;		//删除键
 	
@@ -56,6 +57,12 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public int getTotalpoint() {
+		return totalpoint;
+	}
+	public void setTotalpoint(int totalpoint) {
+		this.totalpoint = totalpoint;
 	}
 	public String getOpenid() {
 		return openid;

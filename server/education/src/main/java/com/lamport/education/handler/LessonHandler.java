@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lamport.education.po.Address;
 import com.lamport.education.po.Lesson;
+import com.lamport.education.po.User;
 import com.lamport.education.service.LessonService;
 import com.lamport.education.util.Config;
 import com.lamport.education.vo.LessonQueryCondition;
@@ -95,8 +96,40 @@ public class LessonHandler {
 		return result;
 	}
 	
-
-	
+	/**
+	 * 通过lid查询支付信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/selectPayInfoByLID")
+	@ResponseBody
+	public String selectPayInfoByLID(int lid, HttpServletRequest request) throws Exception{
+		System.out.println("..........LessionHandler..........selectPayInfoByLID..........");
+		String result = null;
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		Lesson lesson = lessonService.selectLessonByLid(lid);
+		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		jsonObject.addProperty("lid", lesson.getLid());
+		jsonObject.addProperty("lname", lesson.getLname());
+		jsonObject.addProperty("lprice", lesson.getLprice());
+		jsonObject.addProperty("totalpoint", user.getTotalpoint());
+		jsonObject.addProperty("username", user.getUsername());
+		jsonObject.addProperty("tel", user.getTel());
+		if(lesson!=null && lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
+			for(Address address : lesson.getBranches()){
+				JsonObject object = new JsonObject();
+				object.addProperty("branch", address.getBranch());
+				jsonArray.add(object);
+			}
+		}
+		jsonObject.add("branches", jsonArray);
+		result = jsonObject.toString();
+		
+		return result;
+	}
 
 //	/**
 //	 * 通过oid查询Lesson信息

@@ -32,6 +32,12 @@ public interface EnterpriseService {
 	 */
 	public int updateEnterpriseByID(Enterprise enterprise, MultipartFile[] imgs, MultipartFile video, String path) throws Exception;
 	/**
+	 * 通过id修改企业的配置信息
+	 * @param enterprise
+	 * @throws Exception
+	 */
+	public void updateEnterpriseConfigByID(Enterprise enterprise) throws Exception;
+	/**
 	 * 通过qid查询企业信息
 	 * @return Enterprise
 	 * @throws Exception

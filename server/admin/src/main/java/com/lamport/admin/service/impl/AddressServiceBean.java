@@ -102,4 +102,13 @@ public class AddressServiceBean implements AddressService {
 		return addresses;
 	}
 
+	@Override
+	public List<String> selectBranchByQID(int qid) throws Exception{
+		System.out.println("..........AddressServiceBean..........selectBranchByQID()..........");
+		List<String> branches = null;
+		
+		//TODO
+		
+		return branches;
+	}
 }

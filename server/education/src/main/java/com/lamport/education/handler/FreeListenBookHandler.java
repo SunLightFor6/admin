@@ -189,4 +189,36 @@ public class FreeListenBookHandler {
 		
 		return result;
 	}
+	
+/*--------------------------------------------------2018.08.02 10:50--------------------------------------------------*/
+
+	@RequestMapping(value="")
+	@ResponseBody
+	public String selectFreeListenBookById(int id) throws Exception{
+		System.out.println("..........FreeListenHandler..........selectFreeListenBookUnprocessedByBookQueryCondition..........");
+		String result = null;
+		
+		String nullString = null;
+		FreeListenBook freeListenBook = freeListenBookService.selectFreeListenBookByID(id);
+		JsonObject  jsonObject = new JsonObject();
+		jsonObject.addProperty("id", freeListenBook.getId());
+		if(freeListenBook!=null && freeListenBook.getFreeListen()!=null){
+			jsonObject.addProperty("title", freeListenBook.getFreeListen().getTitle());
+			jsonObject.addProperty("imgurl", freeListenBook.getFreeListen().getImgurl());
+			if(freeListenBook.getFreeListen().getAddress()!=null){
+				jsonObject.addProperty("branch", freeListenBook.getFreeListen().getAddress().getBranch());
+			}else{
+				jsonObject.addProperty("branch", nullString);
+			}
+		}else{
+			jsonObject.addProperty("title", nullString);
+			jsonObject.addProperty("imgurl", nullString);
+			jsonObject.addProperty("branch", nullString);
+		}
+		jsonObject.addProperty("status", freeListenBook.getStatus());
+		jsonObject.addProperty("booktime", freeListenBook.getBooktime());
+		jsonObject.addProperty("comment", freeListenBook.getComment());
+
+		return result;
+	}
 }

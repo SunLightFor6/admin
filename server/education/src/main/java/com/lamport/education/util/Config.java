@@ -22,6 +22,8 @@ public class Config {
 	public static final int MessagePageSize = 2;
 	public static final int LessonPageSize = 3;
 	public static final int FreeListenPageSize = 3;
+	public static final int CouponPageSize = 3;
+	public static final int PointPageSize = 5;
 	
 	//订单(Sorder)相关状态
 	public static final String SorderStatusUnpaid = "待付款";
@@ -41,4 +43,14 @@ public class Config {
 	//免费试听课相关状态
 	public static final String BookStatusUnprocessed = "待处理";
 	public static final String BookStatusProcessed = "已处理";
+	
+	//积分明细的类型(category)
+	public static final String PointCategorySorder = "课程订单";
+	public static final String PointCategorySign = "签到";
+	
+	//连续签到的天数限制
+	public static final int SignInDaysLimit = 7;
+	
+	//通用的优惠券的类型
+	public static final String ordinaryCouponCategory = "All";
 }

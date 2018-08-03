@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lamport.education.mapper.SignMapper">
+
+	<!-- 创建Sign信息 -->
+	<insert id="saveSign" parameterType="com.lamport.education.po.Sign">
+		insert into sign(uid, signdate, days, point, deletekey)
+		values(#{uid}, #{signdate}, #{days}, #{point}, #{deletekey})
+		<selectKey keyProperty="sid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
+	</insert>
+
+	<!-- 通过uid查询最近一次的签到 -->
+	<select id="selectLastSignByUID" parameterType="int"
+			resultType="com.lamport.education.po.Sign">
+		select * from sign
+		where uid=1 and deletekey=0
+		order by sid desc
+		limit 0, 1
+	</select>
+
+	<!-- 通过uid查询该用户连续签到的天数 -->
+	<select id="selectDaysByUID" parameterType="int"
+			resultType="int">
+		select days from sign
+		where uid=#{uid} and deletekey=0
+		order by sid desc
+		limit 0, 1
+	</select>
+</mapper>
