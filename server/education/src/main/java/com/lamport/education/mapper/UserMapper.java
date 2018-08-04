@@ -8,7 +8,16 @@ public interface UserMapper {
 	public void saveUser(User user) throws Exception;
 	public void updateUser(User user) throws Exception;
 	public void updateUserimg(User user) throws Exception;
+	
+	/**
+	 * 通过uid修改user的totalpoint信息
+	 * @param User
+	 * @return
+	 */
+	public void updateUserTotalpoint(User user) throws Exception;
+	
 	public User selectUserByUId(int uid);
+	
 	/**
 	 * 通过qid和tel查询User信息
 	 * @param qidAndTel

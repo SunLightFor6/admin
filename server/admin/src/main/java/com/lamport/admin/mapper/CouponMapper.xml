@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.CouponMapper">
+
+	<!-- 创建Coupon信息 -->
+	<insert id="saveCoupon" parameterType="com.lamport.admin.po.Coupon">
+		insert into coupon(qid, category, needmoney, money, total, coupon.get, deadline, disabledkey, deletekey)
+		values(#{qid}, #{category}, #{needmoney}, #{money}, #{total}, #{get}, #{deadline}, #{disabledkey}, #{deletekey})
+		<selectKey keyProperty="cid" order="AFTER" resultType="int">
+			select LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 通过cid逻辑删除Coupon信息 -->
+	<update id="deleteCouponLogicallyByCID" parameterType="com.lamport.admin.po.Coupon">
+		update coupon set deletekey=#{deletekey}, disabledkey=#{disabledkey}
+		where cid=#{cid}
+	</update>
+
+	<!-- 通过cid修改coupon的deadline信息 -->
+	<update id="updateCouponDeadLineByCID">
+		update coupon set deadline=#{deadline}
+		where cid=#{cid}
+	</update>
+
+	<!-- 通过cid更新coupon的get信息 -->
+	<update id="updateCouponGetByCID">
+		update coupon set get=#{get}
+		where cid=#{cid}
+	</update>
+
+	<!-- 通过多条件查询Coupon信息 -->
+	<select id="selectCouponsByCouponQueryCondition" parameterType="com.lamport.admin.vo.CouponQueryCondition"
+			resultType="com.lamport.admin.po.Coupon">
+		select * from coupon 
+		where qid=1 and deletekey=0 
+		<if test="category!=null and category!=''">
+			and category = #{category}
+		</if>
+		<if test="showDisabled=='' or showDisabled==null">
+			and disabledkey = 0
+		</if>
+		<choose>
+			<when test="queryBasis == '截止日期'">
+				order by deadline 
+			</when>
+			<when test="queryBasis == '使用门槛'">
+				order by needmoney 
+			</when>
+			<when test="queryBasis == '面额'">
+				order by money 
+			</when>
+			<when test="queryBasis == '剩余数量'">
+				order by (total-coupon.get) 
+			</when>
+			<otherwise>
+				order by cid 
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="queryOrderBasis == '升序'">
+				 asc 
+			</when>
+			<otherwise>
+				 desc 
+			</otherwise>
+		</choose>
+		order by cid asc
+		limit #{pageTool.startrow},#{pageTool.limit}
+	</select>
+
+	<!-- 通过相关条件查询User总数 -->
+	<select id="selectCountUserByMeetingCondition" parameterType="com.lamport.admin.vo.MeetingCondition"
+			resultType="int">
+		select count(*) from 
+		((select u.uid from user u 
+		  left join sorder s on s.uid=u.uid
+		  left join lesson l on s.lid=l.lid
+		  left join freelistenbook fb on fb.uid=u.uid
+		  left join freelisten f on fb.fid=f.id
+		  where u.qid=1 and u.deletekey=0
+		  and u.totalpoint>=#{su_points}
+		  <if test='su_category!=null and su_category!=""'>
+			  and (l.category=#{su_category} or f.category=#{su_category})
+		  </if>
+		  group by u.uid) m)
+	</select>
+
+	<!-- 通过相关条件查询User的uid -->
+	<select id="selectUserUIDByMeetingCondition" parameterType="com.lamport.admin.vo.MeetingCondition"
+			resultType="java.lang.Integer">
+		select u.uid from user u 
+		left join sorder s on s.uid=u.uid
+		left join lesson l on s.lid=l.lid
+		left join freelistenbook fb on fb.uid=u.uid
+		left join freelisten f on fb.fid=f.id
+		where u.qid=1 and u.deletekey=0
+		and u.totalpoint>=#{su_points}
+		<if test="su_category!=null and su_category!=''">
+			and (l.category=#{su_category} or f.category=#{su_category})
+		</if>
+		group by u.uid
+	</select>
+
+	<!-- 通过qid查询Lesson和FreeListen的category -->
+	<select id="selectCategoryByQID" parameterType="int"
+			resultType="java.lang.String">
+		select category from lesson l 
+		where l.qid=#{qid} and l.deletekey=0
+		union 
+		select category from freelisten f 
+		where f.qid=#{qid} and f.deletekey=0
+	</select>
+</mapper>

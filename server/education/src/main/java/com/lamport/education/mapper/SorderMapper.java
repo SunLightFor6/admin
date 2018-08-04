@@ -48,7 +48,15 @@ public interface SorderMapper {
 	 * @param oid
 	 * @return
 	 */
-	public Sorder selectSorderByOid(int oid);
+	public Sorder selectSorderByOid(int oid) throws Exception;
+	
+	/**
+	 * 通过rid查询Sorder和Refund信息
+	 * @param rid
+	 * @return Sorder
+	 * @throws Exception
+	 */
+	public Sorder selectRefundByRID(int rid) throws Exception;
 	
 	/**
 	 * 通过多条件查询Sorder信息

@@ -42,4 +42,11 @@ public interface AddressService {
 	 * @throws Exception
 	 */
 	public List<Address> selectAddressByQID(int qid) throws Exception;
+	/**
+	 * 通过qid查询Address的branch信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<String> selectBranchByQID(int qid) throws Exception;
 }

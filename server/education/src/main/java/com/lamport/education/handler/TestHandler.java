@@ -722,7 +722,7 @@ public class TestHandler {
 		sorder.setUid(user.getUid());
 		sorder.setStatus(Config.SorderStatusPaid);
 		//TODO 加优惠券/transactionId/		
-		sorderService.saveSorder(sorder);
+//		sorderService.saveSorder(sorder);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("state", 1);
 		result = jsonObject.toString();
@@ -747,7 +747,7 @@ public class TestHandler {
 		sorder.setUid(user.getUid());
 		sorder.setStatus(Config.SorderStatusUnpaid);
 		//TODO actual等如何设置
-		sorderService.saveSorder(sorder);
+//		sorderService.saveSorder(sorder);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("state", 1);
 		result = jsonObject.toString();
@@ -1050,7 +1050,8 @@ public class TestHandler {
 
 		int oid = 56;
 		System.out.println();/*####################*/
-		Sorder sorder = sorderService.selectSorderByOid(oid);
+//		Sorder sorder = sorderService.selectSorderByOid(oid);
+		Sorder sorder = new Sorder();
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("oid", oid);
 		jsonObject.addProperty("lname", sorder.getLesson().getLname());
@@ -1246,5 +1247,14 @@ public class TestHandler {
 	
 	/********************************LogInAndOutHandler********************************/
 	/********************************LogInAndOutHandler********************************/
-
+/*--------------------------------------------------------------------------------------------------------------*/
+	@RequestMapping(value="/test/test")
+	public String test(Sorder sorder, int recordid, int point){
+		System.out.println("sorder.getActual() = " + sorder.getActual());
+		System.out.println("sorder.getStatus() = " + sorder.getStatus());
+		System.out.println("recordid = " + recordid);
+		System.out.println("point = " + point);
+		
+		return "/test_show.jsp";
+	}
 }

@@ -48,5 +48,4 @@ public class BranchHanler {
 		
 		return result;
 	}
-
 }

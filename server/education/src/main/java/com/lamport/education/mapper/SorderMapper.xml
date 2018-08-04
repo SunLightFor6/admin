@@ -18,6 +18,7 @@
 		<result column="transactionid" property="transactionid"/>
 		<result column="username" property="username"/>
 		<result column="tel" property="tel"/>
+		<result column="branch" property="branch"/>
 		<association property="lesson" javaType="com.lamport.education.po.Lesson">
 			<id column="lid" property="lid"/>
 			<result column="lname" property="lname"/>
@@ -25,11 +26,44 @@
 			<result column="imgurl" property="imgurl"/>
 		</association>
 	</resultMap>
+	
+	<resultMap type="com.lamport.education.po.Sorder" id="_Sorder_Refund">
+		<id column="oid" property="oid"/>
+		<result column="qid" property="qid"/>
+		<result column="lid" property="lid"/>
+		<result column="branchid" property="branchid"/>
+		<result column="uid" property="uid"/>
+		<result column="cid" property="cid"/>
+		<result column="total" property="total"/>
+		<result column="actual" property="actual"/>
+		<result column="status" property="status"/>
+		<result column="ordertime" property="ordertime"/>
+		<result column="transactionid" property="transactionid"/>
+		<result column="username" property="username"/>
+		<result column="tel" property="tel"/>
+		<result column="branch" property="branch"/>
+		<association property="lesson" javaType="com.lamport.education.po.Lesson">
+			<id column="lid" property="lid"/>
+			<result column="lname" property="lname"/>
+			<result column="status" property="status"/>
+			<result column="imgurl" property="imgurl"/>
+		</association>
+		<association property="refund" javaType="com.lamport.education.po.Refund">
+			<id column="rid" property="rid"/>
+			<result column="oid" property="oid"/>
+			<result column="refundreason" property="refundreason"/>
+			<result column="refundstatus" property="status"/>
+			<result column="refundtime" property="refundtime"/>
+		</association>
+	</resultMap>
 
 	<!-- 创建Sorder信息 -->
 	<insert id="saveSorder" parameterType="com.lamport.education.po.Sorder" >
-		insert into sorder(lid, branchid, uid, total, actual, status, ordertime, qid, transactionid, username, tel, deletekey, userdeletekey) 
-		values(#{lid}, #{branchid}, #{uid}, #{total}, #{actual}, #{status}, sysdate(), #{qid}, #{transactionid}, #{username}, #{tel}, #{deletekey}, #{userdeletekey})
+		insert into sorder(lid, branchid, cid, uid, total, actual, status, ordertime, qid, transactionid, username, tel, deletekey, userdeletekey) 
+		values(#{lid}, #{branchid}, #{cid}, #{uid}, #{total}, #{actual}, #{status}, sysdate(), #{qid}, #{transactionid}, #{username}, #{tel}, #{deletekey}, #{userdeletekey})
+		<selectKey keyProperty="oid" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+     	</selectKey>
 	</insert>
 
 	<!-- 通过oid逻辑删除sorder（只更改userdeletekey） -->
@@ -47,8 +81,10 @@
 	<!-- 通过oid更新Sorder信息 -->
 	<update id="updateSorderByOID" parameterType="com.lamport.education.po.Sorder">
     	update sorder set 
-    	username = #{username}, tel = #{tel},
-    	status = #{status}, actual=#{actual}, branchid=#{branchid}
+    	branchid = #{branchid}, cid=#{cid},
+    	actual = #{actual}, status = #{status},
+    	ordertime = #{ordertime}, 
+    	username = #{username}, tel = #{tel}
     	where oid = #{oid}
 	</update>
 
@@ -60,9 +96,26 @@
 	<!-- 通过oid查询Sorder信息 -->
 	<select id="selectSorderByOid" parameterType="int" 
 			resultMap="_Sorder_Lesson">
+    	select * from sorder s
+		left join lesson l on s.lid=l.lid
+		left join address a on a.id=s.branchid
+		where s.oid=43 and s.deletekey=0
+    	<!-- 
     	select s.*, l.lname, l.imgurl, l.ldesc, l.lprice 
     	from sorder s left join lesson l on s.lid=l.lid
 		where s.oid = #{oid} and s.userdeletekey=0
+		 -->
+	</select>
+	
+	<!-- 通过rid查询Sorder和Refund信息 -->
+	<select id="selectRefundByRID" parameterType="int"
+			resultMap="_Sorder_Refund">
+		select s.*, l.*, a.*, r.rid, r.refundtime, r.refundreason, r.status as refundstatus 
+		from sorder s
+		left join refund r on s.oid=r.oid
+		left join lesson l on s.lid=l.lid
+		left join address a on a.id=s.branchid
+		where r.rid=2 and r.deletekey=0
 	</select>
 	
 	<!-- 通过多条件查询Sorder信息 -->

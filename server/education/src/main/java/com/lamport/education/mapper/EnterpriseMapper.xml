@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<select id="selectEnterpriseByQid" parameterType="int" 
-			resultMap="_Enterprise" >
+			resultMap="com.lamport.education.po.Enterprise" >
 		select * from enterprise
 		where qid = #{qid} and deletekey = 0
 	</select>

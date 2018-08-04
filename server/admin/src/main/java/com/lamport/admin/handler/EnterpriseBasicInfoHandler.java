@@ -51,6 +51,29 @@ public class EnterpriseBasicInfoHandler {
 		
 		return result;
 	}
+	
+	/**
+	 * 通过qid更新Enterprise的相关配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/admin/updateConfigByQid")
+	@ResponseBody
+	public String updateConfigByQid(Enterprise enterprise, HttpServletRequest request) throws Exception{
+		System.out.println("..........EnterpriseBasicInfoHandler..........updateConfigByQid()..........");
+		String result = null;
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		enterprise.setQid(admin.getQid());
+		enterpriseService.updateEnterpriseConfigByID(enterprise);;
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("response", 1);
+		result = jsonObject.toString();
+		
+		return result;
+	}
+	
 	/**
 	 * 根据id查询企业基本信息 
 	 * @return String
@@ -74,6 +97,24 @@ public class EnterpriseBasicInfoHandler {
 			jsonArray.add(swiper.getImgurl());
 		}
 		jsonObject.add("imgs", jsonArray);
+		result = jsonObject.toString();
+		
+		return result;
+	}
+	
+	public String selectConfigByQid(HttpServletRequest request) throws Exception{
+		System.out.println("..........EnterpriseBasicInfoHandler..........selectConfigByQid()..........");
+		String result = null;
+		
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		Enterprise enterprise = enterpriseService.selectEnterpriseByQID(admin.getQid());
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("moneytoperpoint", enterprise.getMoneytoperpoint());
+		jsonObject.addProperty("perpointtomoney", enterprise.getPerpointtomoney());
+		jsonObject.addProperty("basicsignpoint", enterprise.getBasicsignpoint());
+		jsonObject.addProperty("discountrate", enterprise.getDiscountrate());
+		jsonObject.addProperty("pointkey", enterprise.getPointkey());
 		result = jsonObject.toString();
 		
 		return result;

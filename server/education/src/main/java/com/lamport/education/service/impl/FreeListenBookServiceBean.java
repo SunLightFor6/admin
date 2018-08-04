@@ -38,6 +38,15 @@ public class FreeListenBookServiceBean implements FreeListenBookService {
 	}
 
 	@Override
+	public FreeListenBook selectFreeListenBookByID(int id) throws Exception{
+		FreeListenBook freeListenBook = null;
+		
+		freeListenBook = freeListenBookMapper.selectFreeListenBookByID(id);
+		
+		return freeListenBook;
+	}
+	
+	@Override
 	public List<FreeListenBook> selectFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition) throws Exception {
 		List<FreeListenBook> freeListenBooks = null;
 		

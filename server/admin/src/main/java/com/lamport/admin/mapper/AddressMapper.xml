@@ -67,4 +67,10 @@
 		where qid=#{qid} and branch=#{branch} and deletekey=0
 		limit 0, 1
 	</select>
+
+	<!-- 通过qid查询Address的branch信息 -->
+	<select id="selectBranchByQID" parameterType="int"
+			resultType="java.lang.String">
+		select branch from address where qid = #{qid}
+	</select>
 </mapper>

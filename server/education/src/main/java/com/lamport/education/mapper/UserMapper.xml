@@ -19,14 +19,19 @@
 		update user set userimg = #{userimg} where uid = #{uid}
 	</update>
 
+	<!-- 通过uid修改user的totalpoint信息 -->
+	<update id="updateUserTotalpoint" parameterType="com.lamport.education.po.User">
+		update user set totalpoint=#{totalpoint} where uid=#{uid}
+	</update>
+
 	<select id="selectUserByUId" parameterType="int" 
 			resultType="com.lamport.education.po.User" >
 		select * from user where uid=#{uid} and deletekey=0
 	</select>
 	
+	<!-- 通过qid和tel查询User信息 -->
 	<select id="selectUserByQidAndTel" parameterType="com.lamport.education.vo.QIDAndTel" 
 			resultType="com.lamport.education.po.User" >
 		select * from user where qid=#{qid} and tel=#{tel} and deletekey=0
 	</select>
-	
 </mapper>

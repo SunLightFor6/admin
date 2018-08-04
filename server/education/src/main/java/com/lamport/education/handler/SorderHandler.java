@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lamport.education.po.Address;
 import com.lamport.education.po.Lesson;
+import com.lamport.education.po.Point;
 import com.lamport.education.po.Refund;
 import com.lamport.education.po.Sorder;
 import com.lamport.education.po.User;
@@ -37,7 +38,7 @@ public class SorderHandler {
 	 */
 	@RequestMapping("/saveSorderPaid")
 	@ResponseBody
-	public String saveSorderPaid(Sorder sorder, HttpServletRequest request) throws Exception{
+	public String saveSorderPaid(Sorder sorder, int recordid, int point, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........saveSorderPaid..........");
 		String result = null;
 		
@@ -47,10 +48,16 @@ public class SorderHandler {
 		sorder.setQid(qid);
 		sorder.setUid(user.getUid());
 		sorder.setStatus(Config.SorderStatusPaid);
-		//TODO 加优惠券/transactionId/		
-		sorderService.saveSorder(sorder);
+		Point pointObject = new Point();
+		pointObject.setPoint(point);
+		int saveResult = sorderService.saveSorder(sorder, recordid, pointObject, user);
+		if(saveResult==1 && pointObject.getPoint()!=0){
+			//如果保存成功且用户总积分发生了变化
+			user.setTotalpoint(user.getTotalpoint()+pointObject.getPoint());
+			session.setAttribute("user", user);
+		}
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("state", 1);
+		jsonObject.addProperty("state", saveResult);
 		result = jsonObject.toString();
 		
 		return result;
@@ -73,8 +80,7 @@ public class SorderHandler {
 		sorder.setQid(qid);
 		sorder.setUid(user.getUid());
 		sorder.setStatus(Config.SorderStatusUnpaid);
-		//TODO actual等如何设置
-		sorderService.saveSorder(sorder);
+		sorderService.saveSorderUnpaid(sorder);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("state", 1);
 		result = jsonObject.toString();
@@ -193,15 +199,21 @@ public class SorderHandler {
 	 */
 	@RequestMapping("/paySorderUnpaid")
 	@ResponseBody
-	public String paySorderUnpaid(Sorder sorder, HttpServletRequest request) throws Exception{
+	public String paySorderUnpaid(Sorder sorder, int recordid, int point, HttpServletRequest request) throws Exception{
 		System.out.println("..........SorderHandler..........paySorderUnpaid..........");
 		String result = null;
 		
 		HttpSession session = request.getSession();
-		int qid = (Integer)session.getAttribute("qid");
-		sorder.setQid(qid);
+		User user = (User)session.getAttribute("user");
 		sorder.setStatus(Config.SorderStatusPaid);
-		sorderService.updateSorderByOID(sorder);
+		Point pointObject = new Point();
+		pointObject.setPoint(point);
+		int payResult = sorderService.updateSorderUnpaid(sorder, recordid, pointObject, user);
+		if(payResult==1 && pointObject.getPoint()!=0){
+			//如果保存成功且用户总积分发生了变化
+			user.setTotalpoint(user.getTotalpoint()+pointObject.getPoint());
+			session.setAttribute("user", user);
+		}
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("state", 1);
 		result = jsonObject.toString();
@@ -409,7 +421,7 @@ public class SorderHandler {
 		System.out.println("..........SorderHandler..........selectRefundBySorderQueryCondition..........");
 		String result = null;
 		
-		Sorder sorder = sorderService.selectSorderByOid(oid);
+		Sorder sorder = sorderService.selectSorderByOID(oid);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("oid", oid);
 		if(sorder!=null && sorder.getLesson()!=null){
@@ -436,11 +448,12 @@ public class SorderHandler {
 		JsonObject jsonObject = new JsonObject();
 		JsonArray jsonArray = new JsonArray();
 		jsonObject.addProperty("oid", oid);
+		jsonObject.addProperty("lid", lesson.getLid());
 		jsonObject.addProperty("lname", lesson.getLname());
 		jsonObject.addProperty("lprice", lesson.getLprice());
+		jsonObject.addProperty("totalpoint", user.getTotalpoint());
 		jsonObject.addProperty("username", user.getUsername());
 		jsonObject.addProperty("tel", user.getTel());
-		/*优惠券、积分……*/
 		if(lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
 			for(Address address : lesson.getBranches()){
 				JsonObject object = new JsonObject();
@@ -453,4 +466,87 @@ public class SorderHandler {
 
 		return result;
 	}
+	
+/*--------------------------------------------------2018.08.02 10:50--------------------------------------------------*/
+	
+	/**
+	 * 通过oid查询Sorder信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/selectSorderByOID")
+	@ResponseBody
+	public String selectSorderByOID(int oid) throws Exception{
+		System.out.println("..........SorderHandler..........selectSorderByOID..........");
+		String result = null;
+		
+		String nullString = null;
+		Sorder sorder = sorderService.selectSorderByOID(oid);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("oid", sorder.getOid());
+		if(sorder!=null && sorder.getLesson()!=null){
+			jsonObject.addProperty("lname", sorder.getLesson().getLname());
+			jsonObject.addProperty("imgurl", sorder.getLesson().getImgurl());
+		}else{
+			jsonObject.addProperty("lname", nullString);
+			jsonObject.addProperty("imgurl", nullString);
+		}
+		
+		jsonObject.addProperty("branch", sorder.getBranch());/**/
+		jsonObject.addProperty("total", sorder.getTotal());
+		jsonObject.addProperty("actual", sorder.getActual());
+		jsonObject.addProperty("status", sorder.getStatus());
+		jsonObject.addProperty("ordertime", sorder.getOrdertime());
+		jsonObject.addProperty("username", sorder.getUsername());
+		jsonObject.addProperty("tel", sorder.getTel());
+		result = jsonObject.toString();
+		
+		return result;
+	}
+	
+	/**
+	 * 通过rid查询Refud信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/selectRefundByRID")
+	@ResponseBody
+	public String selectRefundByRID(int rid) throws Exception{
+		System.out.println("..........SorderHandler..........selectRefundByRID..........");
+		String result = null;
+		
+		String nullString = null;
+		Sorder sorder = sorderService.selectRefundByRID(rid);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("oid", sorder.getOid());
+		jsonObject.addProperty("branch", sorder.getBranch());
+		jsonObject.addProperty("total", sorder.getTotal());
+		jsonObject.addProperty("actual", sorder.getActual());
+		jsonObject.addProperty("status", sorder.getStatus());
+		jsonObject.addProperty("ordertime", sorder.getOrdertime());
+		jsonObject.addProperty("username", sorder.getUsername());
+		jsonObject.addProperty("tel", sorder.getTel());
+		if(sorder!=null && sorder.getRefund()!=null){
+			jsonObject.addProperty("rid", sorder.getRefund().getRid());
+			jsonObject.addProperty("refundreason", sorder.getRefund().getRefundreason());
+			jsonObject.addProperty("refundtime", sorder.getRefund().getRefundtime());
+			jsonObject.addProperty("refundstatus", sorder.getRefund().getStatus());
+		}else{
+			jsonObject.addProperty("rid", nullString);
+			jsonObject.addProperty("refundreason", nullString);
+			jsonObject.addProperty("refundtime", nullString);
+			jsonObject.addProperty("refundstatus", nullString);
+		}
+		if(sorder!=null && sorder.getLesson()!=null){
+			jsonObject.addProperty("lname", sorder.getLesson().getLname());
+			jsonObject.addProperty("imgurl", sorder.getLesson().getImgurl());
+		}else{
+			jsonObject.addProperty("lname", nullString);
+			jsonObject.addProperty("imgurl", nullString);
+		}
+		result = jsonObject.toString();
+		
+		return result;
+	}
+	
 }

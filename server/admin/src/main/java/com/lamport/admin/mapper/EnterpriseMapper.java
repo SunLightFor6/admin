@@ -30,6 +30,12 @@ public interface EnterpriseMapper {
 	 */
 	public int updateEnterpriseByID(Enterprise enterprise) throws Exception;
 	/**
+	 * 通过id修改企业的配置信息
+	 * @param enterprise
+	 * @throws Exception
+	 */
+	public void updateEnterpriseConfigByID(Enterprise enterprise) throws Exception;
+	/**
 	 * 通过qid查询Enterprise信息
 	 * @return Enterprise
 	 * @throws Exception

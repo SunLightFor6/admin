@@ -70,4 +70,11 @@ public interface AddressMapper {
 	 * @throws Exception
 	 */
 	public Address selectAddressIDByQIDAndBranch(QIDAndBranch qidAndBranch) throws Exception;
+	/**
+	 * 通过qid查询Address的branch信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<String> selectBranchByQID(int qid) throws Exception;
 }
