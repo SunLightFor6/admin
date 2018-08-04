@@ -16,14 +16,14 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">优惠券面额</label>
 			<div class="layui-input-block">
-				<input type="text" name="money" id="money" autocomplete="off" placeholder="请输入优惠券能抵用多少钱" class="layui-input">
+				<input type="text" name="money" id="money" autocomplete="off" placeholder="请输入优惠券能抵用多少钱" class="layui-input" />
 			</div>
 		</div>
 
 		<div class="layui-form-item">
 			<label class="layui-form-label">使用门槛</label>
 			<div class="layui-input-block">
-				<input type="text" name="needmoney" id="needmoney" autocomplete="off" placeholder="请输入优惠券的使用门槛" class="layui-input">
+				<input type="text" name="needmoney" id="needmoney" autocomplete="off" placeholder="请输入优惠券的使用门槛" class="layui-input" />
 			</div>
 		</div>
 		<!--<div class="layui-form-item">
@@ -40,7 +40,7 @@
 		</div>
 
 		<div class="layui-form-item">
-			<button id="coupon_add_btn" class="layui-btn layui-btn-success">新建优惠券</button>
+			<button id="coupon_add_btn" type="button" class="layui-btn layui-btn-success">新建优惠券</button>
 		</div>
 	</form>
 </div>
@@ -57,9 +57,14 @@
 			elem: '#deadline' //指定元素
 		});
 
-		var formData = new FormData($("#coupon_add_form")[0]);
 
 		$("#coupon_add_btn").click(function() {
+			var formData = new FormData($("#coupon_add_form")[0]);
+			console.log($("#coupon_add_form")[0]);
+			console.log(formData.get("category"));
+			console.log(formData.get("money"));
+			console.log(formData.get("needmoney"));
+			console.log(formData.get("deadline"));
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/saveCoupon",
@@ -70,7 +75,7 @@
 				contentType: false,
 				success: function(data) {
 					if(data.response == 1) {
-						sessionStorage.setItem("courseCategory", $("#courseCategory").val());
+						sessionStorage.setItem("courseCategory", $("#category").val());
 						sessionStorage.setItem("money", $("#money").val());
 						sessionStorage.setItem("needmoney", $("#needmoney").val());
 						sessionStorage.setItem("deadline", $("#deadline").val());
@@ -118,20 +123,6 @@
 						time: 1500,
 						content: '服务器错误，请稍后重试或联系系统管理员'
 					});
-//					layer.open({
-//							content: '您创建了 ' + $("#total").val() + ' 张优惠券，<br>优惠券类型：' +
-//								($("#needmoney").val() == '' || $("#needmoney").val() == '0' ? "无门槛优惠券，面额" + $("#money").val() : "满减优惠券，满" + $("#needmoney").val() + "元减" + $("#money").val()) +
-//								'元<br>截止日期：' + $("#deadline").val(),
-//							time: 0,
-//							closeBtn: false,
-//							btn: ['现在就去发放优惠券', '取消'],
-//							yes: function(index, layero) {
-//								window.location.href = "#43";
-//							},
-//							btn2: function(index, layero) {
-//								window.location.href = "#41";
-//							}
-//						});
 				}
 			});
 		});
