@@ -75,18 +75,19 @@
 				contentType: false,
 				success: function(data) {
 					if(data.response == 1) {
-						sessionStorage.setItem("courseCategory", $("#category").val());
+						console.log("---------" + $("#category option:selected").val());
+						sessionStorage.setItem("category", $("#category option:selected").val());
 						sessionStorage.setItem("money", $("#money").val());
 						sessionStorage.setItem("needmoney", $("#needmoney").val());
 						sessionStorage.setItem("deadline", $("#deadline").val());
-						var amount = $("#amount").val();
-						var get = amount.split('/')[0];
-						var total = amount.split('/')[1];
-						sessionStorage.setItem("get", get);
-						sessionStorage.setItem("total", total);
+						var amount = 0;
+						sessionStorage.setItem("amount", amount);
+//						var total = amount.split('/')[1];
+//						sessionStorage.setItem("get", get);
+//						sessionStorage.setItem("total", total);
 						sessionStorage.setItem("cid", data.cid);
 						layer.open({
-							content: '您创建了 ' + $("#total").val() + ' 张优惠券，<br>优惠券类型：' +
+							content: '您成功创建了优惠券，<br>优惠券类型：' +
 								($("#needmoney").val() == '' || $("#needmoney").val() == '0' ? "无门槛优惠券，面额" + $("#money").val() : "满减优惠券，满" + $("#needmoney").val() + "元减" + $("#money").val()) +
 								'元<br>截止日期：' + $("#deadline").val(),
 							time: 0,
@@ -94,9 +95,11 @@
 							btn: ['现在就去发放优惠券', '取消'],
 							yes: function(index, layero) {
 								window.location.href = "#43";
+								layer.close(index);
 							},
 							btn2: function(index, layero) {
 								window.location.href = "#41";
+								layer.close(index);
 							}
 						});
 					} else {

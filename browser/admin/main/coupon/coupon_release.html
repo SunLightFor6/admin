@@ -64,7 +64,7 @@
 									</li>-->
 									<li class="layui-timeline-item">
 										<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-										<div class="layui-timeline-content layui-text">当前符合条件的用户数量：<button id="su_select_amount_btn" class="layui-btn layui-btn-xs">点击查看</button></div>
+										<div class="layui-timeline-content layui-text">当前符合条件的用户数量：<button type="button" id="su_select_amount_btn" class="layui-btn layui-btn-xs">点击查看</button></div>
 									</li>
 								</ul>
 							</div>
@@ -172,8 +172,9 @@
 
 		//发放优惠券
 		$("#handout_coupon_btn").click(function() {
+			console.log("handout_coupon_btn clicked");
 			var formData = new FormData($("#su_form")[0]);
-			form.setItem("cid", sessionStorage.getItem("cid"))
+			formData.append("cid", sessionStorage.getItem("cid"))
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/handoutCoupon",

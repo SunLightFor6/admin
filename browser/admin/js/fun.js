@@ -1,6 +1,6 @@
-var PREPATH = "/lamport/api/admin";
-var PRESTAPATH = "/lamport/admin/main";
-var URL = "http://localhost:8083";
+var PREPATH = "/admin";
+var PRESTAPATH = "main";
+var URL = "http://localhost:8080";
 var IMGPATH = "";
 var IMG_NUM = 4;
 
@@ -121,7 +121,7 @@ function required_verify(posi, value) {
 function getCategories(id_) {
 	jqxhr = $.ajax({
 		type:"post",
-		url:"/admin/getCategories",
+		url:PREPATH + "/admin/getCategories",
 		async:true,
 		dataType: "json",
 		success: function(data) {
@@ -136,7 +136,7 @@ function getCategories(id_) {
 function getCategories(id_, type) {
 	jqxhr = $.ajax({
 		type:"post",
-		url:"/admin/getCategories",
+		url:PREPATH + "/admin/getCategories",
 		async:true,
 		dataType: "json",
 		success: function(data) {

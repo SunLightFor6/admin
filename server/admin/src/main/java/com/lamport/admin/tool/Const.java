@@ -45,6 +45,5 @@ public class Const {
 	public static final String ImgFreeListenPath = "/img/freelisten";
 	public static final String ImgMessagePath = "/img/message";
 	
-	
-	public static final String redirectPath = "/lamport/admin";
+	public static final String redirectPath = "";
 }
