@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.service.TeacherService;
@@ -33,20 +34,20 @@ public class TeacherServiceBean implements TeacherService {
 		int saveResult = 1;
 		
 		String tphoto = null;
-		File tphotoFile = null;
+//		File tphotoFile = null;
 		if(teacher_img != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
-			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
-			tphoto = Const.ImgTeacherPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + teacher_img.getOriginalFilename();
+//			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
+			tphoto = FileManager.upload(teacher_img);
 		}
 		teacher.setTphoto(tphoto);
 		teacher.setDeletekey(0);
 		saveResult = teacherMapper.saveTeacher(teacher);
-		if(tphoto != null){
-			teacher_img.transferTo(tphotoFile);//保存文件
-		}
+//		if(tphoto != null){
+//			teacher_img.transferTo(tphotoFile);//保存文件
+//		}
 		
 		return saveResult;
 	}

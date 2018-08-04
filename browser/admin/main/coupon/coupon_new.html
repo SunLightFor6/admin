@@ -26,12 +26,12 @@
 				<input type="text" name="needmoney" id="needmoney" autocomplete="off" placeholder="请输入优惠券的使用门槛" class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<!--<div class="layui-form-item">
 			<label class="layui-form-label">优惠券数量</label>
 			<div class="layui-input-block">
 				<input type="text" name="total" id="total" autocomplete="off" placeholder="请输入此种优惠券初始数量" class="layui-input">
 			</div>
-		</div>
+		</div>-->
 		<div class="layui-form-item">
 			<label class="layui-form-label">截止日期</label>
 			<div class="layui-input-block">
@@ -79,6 +79,7 @@
 						var total = amount.split('/')[1];
 						sessionStorage.setItem("get", get);
 						sessionStorage.setItem("total", total);
+						sessionStorage.setItem("cid", data.cid);
 						layer.open({
 							content: '您创建了 ' + $("#total").val() + ' 张优惠券，<br>优惠券类型：' +
 								($("#needmoney").val() == '' || $("#needmoney").val() == '0' ? "无门槛优惠券，面额" + $("#money").val() : "满减优惠券，满" + $("#needmoney").val() + "元减" + $("#money").val()) +

@@ -1,3 +1,12 @@
+<div id="noMoreTips" style="font-size: 16px;" class="alert alert-warning alert-dismissible fade show" role="alert">
+	<strong>请注意，</strong>用户也可以通过使用积分获取优惠，关于积分优惠的具体配置，可以在页面右上角企业--<span><a href="#04"> 积分管理配置 </a></span>进行配置
+	<button id="noMore" type="button" style="right: 25px; padding: .50rem 1.25rem" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true" style="font-size: 14px; font-weight: 600;">不再提示</span>
+  </button>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <div class="body-in" id="top" style="width: 95%;">
 	<form class="layui-form" id="coupon_query_form">
 		<div class="layui-form-item" style="margin-bottom: 0px;">
@@ -57,9 +66,10 @@
 	$(function() {
 		getCategories("category");
 	});
-	layui.use(['table', 'form'], function() {
+	layui.use(['table', 'form', 'laydate'], function() {
 		var table = layui.table,
-			form = layui.form;
+			form = layui.form,
+			laydate = layui.laydate;
 
 		form.render();
 
@@ -67,8 +77,8 @@
 
 		table.render({
 			elem: '#coupon_list',
-						url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
-//			url: '../../json/coupon.json',
+			//						url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
+			url: '../../json/coupon.json',
 			dataType: 'jsonp',
 			data: formData,
 			skin: 'nob',
@@ -77,7 +87,7 @@
 			cols: [
 				[{
 					field: 'cid',
-					width: '10%',
+					width: '12%',
 					title: '优惠券id',
 					sort: true
 				}, {
@@ -86,19 +96,19 @@
 					title: '课程类别'
 				}, {
 					field: 'money',
-					width: '7%',
+					width: '10%',
 					title: '面额'
 				}, {
 					field: 'needmoney',
-					width: '8%',
+					width: '12%',
 					title: '使用门槛'
 				}, {
 					field: 'amount',
-					width: '15%',
-					title: '已发数量/总数量'
+					width: '12%',
+					title: '优惠券数量'
 				}, {
 					field: 'deadline',
-					width: '15%',
+					width: '18%',
 					title: '截止日期'
 				}, {
 					align: 'center',
@@ -116,8 +126,8 @@
 
 			table.render({
 				elem: '#coupon_list',
-							url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
-//				url: '../../json/coupon.json',
+				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
+				//				url: '../../json/coupon.json',
 				dataType: 'jsonp',
 				data: formData,
 				skin: 'nob',
@@ -126,7 +136,7 @@
 				cols: [
 					[{
 						field: 'cid',
-						width: '10%',
+						width: '12%',
 						title: '优惠券id',
 						sort: true
 					}, {
@@ -135,19 +145,19 @@
 						title: '课程类别'
 					}, {
 						field: 'money',
-						width: '7%',
+						width: '10%',
 						title: '面额'
 					}, {
 						field: 'needmoney',
-						width: '8%',
+						width: '12%',
 						title: '使用门槛'
 					}, {
 						field: 'amount',
-						width: '15%',
-						title: '已发数量/总数量'
+						width: '12%',
+						title: '优惠券数量'
 					}, {
 						field: 'deadline',
-						width: '15%',
+						width: '18%',
 						title: '截止日期'
 					}, {
 						align: 'center',
@@ -161,68 +171,61 @@
 			});
 
 		});
+		
+		//不再提示
+		if(noMore == 1 ) {
+			$("#noMoreTips").hide();
+		}
+		$("#noMore").click(function() {
+			noMore = 1;
+		});
+		
 
 		table.on('tool(coupon_list)', function(obj) {
-				var data = obj.data;
-				var amount = data.amount;
-				var get = amount.split('/')[0];
-				var total = amount.split('/')[1];
-				if(obj.event === 'process') {
-					sessionStorage.setItem("category", data.category);
-					sessionStorage.setItem("cid", data.cid);
-					sessionStorage.setItem("money", data.money);
-					sessionStorage.setItem("needmoney", data.needmoney);
-					sessionStorage.setItem("deadline", data.deadline);
-					sessionStorage.setItem("get", get);
-					sessionStorage.setItem("total", total);
-					window.location.href = "#43";
-					//跳转页面
-				} else if(obj.event === 'delete') {
-					//删除优惠券的时候，首先判断一下已经发放的数量和总数量
-					var formData = new FormData();
-					formData.append("cid", obj.cid);
+			var data = obj.data;
+			var amount = data.amount;
+			if(obj.event === 'process') {
+				sessionStorage.setItem("category", data.category);
+				sessionStorage.setItem("cid", data.cid);
+				sessionStorage.setItem("money", data.money);
+				sessionStorage.setItem("needmoney", data.needmoney);
+				sessionStorage.setItem("amount", data.amount);
+				sessionStorage.setItem("deadline", data.deadline);
+				window.location.href = "#43";
+				//跳转页面
+			} else if(obj.event === 'delete') {
+				//删除优惠券的时候，首先判断一下已经发放的数量和总数量
+				var formData = new FormData();
+				formData.append("cid", obj.cid);
 
-					layer.confirm('确认删除该优惠券?<br><b>请注意</b>优惠券删除后，所有拥有该优惠券的用户都会被收回该优惠券。', {
-						icon: 3,
-						title: '',
-						closeBtn: false
-					}, function(index) {
-						if(!((get / total) > 0.2 || get > 20)) {
-							$.ajax({
-								type: "post",
-								url: "/admin/deleteCouponByCid",
-								async: true,
-								data: formData,
-								dataType: "json",
-								processData: false,
-								contentType: false,
-								success: function(data) {
-									if(data.response == 1) {
-										layer.open({
-											type: 0,
-											btn: false,
-											title: false,
-											icon: 1,
-											closeBtn: 0,
-											shadeClose: true,
-											time: 1500,
-											content: '删除成功！'
-										});
-										obj.del();
-									} else if(data.response == 0) {
-										layer.open({
-											type: 0,
-											btn: false,
-											title: false,
-											icon: 2,
-											closeBtn: 0,
-											shadeClose: true,
-											time: 1500,
-											content: '删除失败，请稍后重试或联系系统管理员！'
-										});
-									}
-								},
-								error: function() {
+				layer.confirm('确认删除该优惠券?<br><b>请注意</b>优惠券删除后，所有拥有该优惠券的用户都会被收回该优惠券。', {
+					icon: 3,
+					title: '',
+					closeBtn: false
+				}, function(index) {
+					if(!(amount > 0)) {
+						$.ajax({
+							type: "post",
+							url: PREPATH + "/admin/deleteCouponByCid",
+							async: true,
+							data: formData,
+							dataType: "json",
+							processData: false,
+							contentType: false,
+							success: function(data) {
+								if(data.response == 1) {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 1,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 1500,
+										content: '删除成功！'
+									});
+									obj.del();
+								} else if(data.response == 0) {
 									layer.open({
 										type: 0,
 										btn: false,
@@ -231,75 +234,81 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 1500,
-										content: '服务器错误，请稍后重试或联系系统管理员！'
+										content: '删除失败，请稍后重试或联系系统管理员！'
 									});
 								}
-							});
-						} else {
-							layer.open({
-								type: 0,
-								btn: false,
-								title: false,
-								icon: 2,
-								closeBtn: 0,
-								shadeClose: true,
-								time: 1500,
-								content: '该优惠券已发出的数量过多，为了避免错误操作，请联系系统管理员删除。'
-							});
-						}
-					});
-				} else if(obj.event === 'prolong') {
-					layer.open({
-						type: 0,
-						btn: ['延长优惠券时限', '取消'],
-						title: '延长优惠券时限',
-						icon: 6,
-						closeBtn: 0,
-						shadeClose: true,
-						content: '确定延长该优惠券的截止日期<br>延长<input type="text" id="prolong_days" name="prolong_days" style="margin: 1px 2px; width: 30px;" class="form-control-sm" placeholder="1" value="0" />天',
-						yes: function() {
-							var formData = new FormData();
-							formData.append("cid", data.cid);
-							formData.append("prolong_days", $("#prolong_days").val());
-							jqxhr = $.ajax({
-								type: "post",
-								url: "/admin/prolongCouponDeadLineByCidAndProlongdays",
-								async: true,
-								data: formData,
-								dataType: "json",
-								processData: false,
-								contentType: false,
-								success: function(data) {
-									if(data.response == 1) {
-										layer.open({
-											type: 0,
-											btn: false,
-											title: false,
-											icon: 6,
-											closeBtn: 0,
-											shadeClose: true,
-											time: 2000,
-											content: '成功将优惠券截止日期延长到 ' + data.deadline
-										});
-										table.reload('coupon_list', {
-											page: {
-												curr: 1 //重新从第 1 页开始
-											}
-										});
-									} else {
-										layer.open({
-											type: 0,
-											btn: false,
-											title: false,
-											icon: 5,
-											closeBtn: 0,
-											shadeClose: true,
-											time: 1500,
-											content: '操作失败，请稍后重试或联系系统管理员'
-										});
-									}
-								},
-								error: function() {
+							},
+							error: function() {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 2,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '服务器错误，请稍后重试或联系系统管理员！'
+								});
+							}
+						});
+					} else {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 2,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '该优惠券已发出，为了避免错误操作，请联系系统管理员删除。'
+						});
+					}
+				});
+			} else if(obj.event === 'prolong') {
+				layer.open({
+					type: 0,
+					btn: ['修改优惠券时限', '取消'],
+					title: '修改优惠券时限',
+					icon: 6,
+					closeBtn: 0,
+					shadeClose: true,
+					content: '确定修改该优惠券的截止日期<br>更改为<input type="text" id="deadline" name="deadline" style="margin: 1px 2px; width: 120px;" class="form-control-sm" placeholder="' + data.deadline + '" value="' + data.deadline + '" />',
+					success: function() {
+						laydate.render({
+							elem: '#deadline'
+						});
+					},
+					yes: function() {
+						var formData = new FormData();
+						formData.append("cid", data.cid);
+						var deadline = $("#deadline").val();
+						formData.append("deadline", deadline);
+						jqxhr = $.ajax({
+							type: "post",
+							url: PREPATH + "/admin/prolongCouponDeadLineByCidAndProlongdays",
+							async: true,
+							data: formData,
+							dataType: "json",
+							processData: false,
+							contentType: false,
+							success: function(data) {
+								if(data.response == 1) {
+									layer.open({
+										type: 0,
+										btn: false,
+										title: false,
+										icon: 6,
+										closeBtn: 0,
+										shadeClose: true,
+										time: 2000,
+										content: '成功将优惠券截止日期延长到 ' + deadline
+									});
+									table.reload('coupon_list', {
+										page: {
+											curr: 1 //重新从第 1 页开始
+										}
+									});
+								} else {
 									layer.open({
 										type: 0,
 										btn: false,
@@ -308,87 +317,100 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 1500,
-										content: '服务器错误，请稍后重试或联系系统管理员'
+										content: '操作失败，请稍后重试或联系系统管理员'
 									});
 								}
-							});
-						}
-					});
-				} else if(obj.event === 'increase') {
-					layer.open({
-							type: 0,
-							btn: ['增加优惠券数量', '取消'],
-							title: '增加优惠券数量',
-							icon: 6,
-							closeBtn: 0,
-							shadeClose: true,
-							content: '确定增加该优惠券数量<br>增加<input type="text" id="num" name="num" style="margin: 1px 2px; width: 30px;" class="form-control-sm" placeholder="1" value="0" />张',
-							yes: function() {
-								var formData = new FormData();
-								var num = $("#num").val();
-								formData.append("cid", data.cid);
-								formData.append("num", num);
-								jqxhr = $.ajax({
-										type: "post",
-										url: "/admin/addCouponTotalByCidAndNum",
-										async: true,
-										data: formData,
-										dataType: "json",
-										processData: false,
-										contentType: false,
-										success: function(data) {
-											if(data.response == 1) {
-												layer.open({
-														type: 0,
-														btn: false,
-														title: false,
-														icon: 6,
-														closeBtn: 0,
-														shadeClose: true,
-														time: 2000,
-														content: '成功增加了' + num + '张优惠券，现在优惠券总数是' + (total + num)
-												});
-											table.reload('coupon_list', {
-												page: {
-													curr: 1 //重新从第 1 页开始
-												}
-											});
-										} else {
-											layer.open({
-												type: 0,
-												btn: false,
-												title: false,
-												icon: 5,
-												closeBtn: 0,
-												shadeClose: true,
-												time: 1500,
-												content: '操作失败，请稍后重试或联系系统管理员'
-											});
-										}
-									},
-									error: function() {
-										layer.open({
-											type: 0,
-											btn: false,
-											title: false,
-											icon: 5,
-											closeBtn: 0,
-											shadeClose: true,
-											time: 1500,
-											content: '服务器错误，请稍后重试或联系系统管理员'
-										});
-									}
+							},
+							error: function() {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 5,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '服务器错误，请稍后重试或联系系统管理员'
 								});
-						}
-					});
+							}
+						});
+					}
+				});
+				//				} else if(obj.event === 'increase') {
+				//					layer.open({
+				//							type: 0,
+				//							btn: ['增加优惠券数量', '取消'],
+				//							title: '增加优惠券数量',
+				//							icon: 6,
+				//							closeBtn: 0,
+				//							shadeClose: true,
+				//							content: '确定增加该优惠券数量<br>增加<input type="text" id="num" name="num" style="margin: 1px 2px; width: 30px;" class="form-control-sm" placeholder="1" value="0" />张',
+				//							yes: function() {
+				//								var formData = new FormData();
+				//								var num = $("#num").val();
+				//								formData.append("cid", data.cid);
+				//								formData.append("num", num);
+				//								jqxhr = $.ajax({
+				//										type: "post",
+				//										url: "/admin/addCouponTotalByCidAndNum",
+				//										async: true,
+				//										data: formData,
+				//										dataType: "json",
+				//										processData: false,
+				//										contentType: false,
+				//										success: function(data) {
+				//											if(data.response == 1) {
+				//												layer.open({
+				//														type: 0,
+				//														btn: false,
+				//														title: false,
+				//														icon: 6,
+				//														closeBtn: 0,
+				//														shadeClose: true,
+				//														time: 2000,
+				//														content: '成功增加了' + num + '张优惠券，现在优惠券总数是' + (total + num)
+				//												});
+				//											table.reload('coupon_list', {
+				//												page: {
+				//													curr: 1 //重新从第 1 页开始
+				//												}
+				//											});
+				//										} else {
+				//											layer.open({
+				//												type: 0,
+				//												btn: false,
+				//												title: false,
+				//												icon: 5,
+				//												closeBtn: 0,
+				//												shadeClose: true,
+				//												time: 1500,
+				//												content: '操作失败，请稍后重试或联系系统管理员'
+				//											});
+				//										}
+				//									},
+				//									error: function() {
+				//										layer.open({
+				//											type: 0,
+				//											btn: false,
+				//											title: false,
+				//											icon: 5,
+				//											closeBtn: 0,
+				//											shadeClose: true,
+				//											time: 1500,
+				//											content: '服务器错误，请稍后重试或联系系统管理员'
+				//										});
+				//									}
+				//								});
+				//						}
+				//					});
 			}
 		});
 	});
 </script>
 <script id="bar" type="text/html">
 	<a class="layui-btn layui-btn-xs" lay-event="process">发放优惠券</a>
-	<a class="layui-btn layui-btn-xs" lay-event="prolong">延长时限</a>
-	<a class="layui-btn layui-btn-xs" lay-event="increase">增加数量</a>
+	<a class="layui-btn layui-btn-xs" lay-event="prolong">修改时限</a>
+	<!--<a class="layui-btn layui-btn-xs" lay-event="increase">增加数量</a>-->
 	<a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 

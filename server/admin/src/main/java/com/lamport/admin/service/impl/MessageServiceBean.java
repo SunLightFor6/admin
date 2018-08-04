@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.EnterpriseMapper;
 import com.lamport.admin.mapper.MessageImgMapper;
 import com.lamport.admin.mapper.MessageLikeMapper;
@@ -54,14 +55,15 @@ public class MessageServiceBean implements MessageService {
 		
 		saveResult *= messageMapper.saveMessage(message);
 		List<String> imgurls = new ArrayList<String>();
-		List<File> imgFiles = new ArrayList<File>();
+//		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
 //				Creator creator = new Creator();
 //				String filename = creator.createFilename();
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(path + Const.ImgMessagePath, filename));
-				imgurls.add( Const.ImgMessagePath + "/" + filename);
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+//				imgFiles.add(new File(path + Const.ImgMessagePath, filename));
+//				imgurls.add( Const.ImgMessagePath + "/" + filename);
+				imgurls.add(FileManager.upload(imgs[i]));
 			}
 			for(int i=0; i<imgurls.size(); i++){
 				MessageImg messageImg = new MessageImg();
@@ -70,9 +72,9 @@ public class MessageServiceBean implements MessageService {
 				messageImg.setDeletekey(0);
 				saveResult *= messageImgMapper.saveMessageImg(messageImg);
 			}
-			for(int i=0; i<imgFiles.size(); i++){
-				imgs[i].transferTo(imgFiles.get(i));
-			}
+//			for(int i=0; i<imgFiles.size(); i++){
+//				imgs[i].transferTo(imgFiles.get(i));
+//			}
 		}
 		saveResult = saveResult>0 ? 1 : 0;
 

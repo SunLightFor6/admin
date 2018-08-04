@@ -1,0 +1,164 @@
+<div class="body-in" id="top">
+	<div class="alert alert-info alert-dismissible fade show" role="alert">
+		请根据企业实际需要配置积分转换规则
+		<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>-->
+	</div>
+	<div class="layui-card-body" style="margin: 8px; font-size: 16px;">
+		<form class="layui-form" id="config_form">
+			<h3 style="font-size: 20px; margin: 16px">获得积分</h3>
+			<div class="layui-form-item" style="margin-left: 24px;">
+				<label class="layui-form-label" style="width: auto; margin-left: 5px;">用户消费后获得积分：消费</label>
+				<div class="layui-input-inline" style="width: auto;">
+					<input id="moneytoperpoint" name="moneytoperpoint" type="text" style=" width: 60px;" class="layui-input" value="10" />
+				</div>
+				<label class="layui-form-mid" style="width: auto; margin-left: 5px;">元获得1积分</label>
+			</div>
+			<div class="layui-form-item" style="margin-left: 24px;">
+				<label class="layui-form-label" style="width: auto; margin-left: 5px;">用户签到获得积分：第一次签到获得</label>
+				<div class="layui-input-inline" style="width: auto;">
+					<input id="basicsignpoint" name="basicsignpoint" type="text" style=" width: 60px;" class="layui-input" value="1" />
+				</div>
+				<label class="layui-form-mid" style="width: auto; margin-left: 5px;">积分</label>
+				<label class="layui-form-label" style="width: auto; margin-left: 20px; color: #777777;">用户连续签到7天，获得积分上限为<span id="point_top" style="padding: 0px 2px; font-weight: 600; font-size: 18px;">7</span>积分</label>
+			</div>
+			<div class="row" style="margin-top: 32px;">
+				<div class="col-2">
+					<h3 style="font-size: 20px; margin: 16px;">使用积分</h3></div>
+				<div class="col-2" style="padding-left: 0px; margin-top: 8px;">
+					<div class="layui-inline">
+						<div class="layui-lz-input-inline" style="width: 160px;">
+							<input type="checkbox" name="pointkey" id="pointkey" lay-filter="pointkey" lay-skin="switch" value="1" lay-text="使用积分优惠|不使用积分优惠" checked>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="use_config" style="margin-top: 10px;">
+				<div class="layui-form-item" style="margin-left: 24px;">
+					<label class="layui-form-label" style="width: auto; margin-left: 5px;">用户消费使用积分：1 积分可抵用</label>
+					<div class="layui-input-inline" style="width: auto;">
+						<input id="perpointtomoney" name="perpointtomoney" type="text" style=" width: 60px;" class="layui-input" value="0.01" />
+					</div>
+					<label class="layui-form-mid" style="width: auto; margin-left: 5px;">元</label>
+					<!--<label class="layui-form-label" style="width: auto; margin-left: 20px; color: #777777;">用户连续签到7天，获得积分上限为<span id="point_top" style="padding: 0px 2px; font-weight: 600; font-size: 18px;">7</span>积分</label>-->
+					<label class="layui-form-label" style="width: auto; margin-left: 0px;">最多可抵用课程定价的</label>
+					<div class="layui-input-inline" style="width: auto;">
+						<input id="discountrate" name="discountrate" type="text" style=" width: 60px;" class="layui-input" value="1" />
+					</div>
+					<label class="layui-form-mid" style="width: auto; margin-left: 5px;">%</label>
+					<!--<label class="layui-form-label" style="width: auto; margin-left: 20px; color: #777777;">用户连续签到7天，获得积分上限为<span id="point_top" style="padding: 0px 2px; font-weight: 600; font-size: 18px;">7</span>积分</label>-->
+				</div>
+			</div>
+			<div id="unuse_config" style="margin-top: 10px; margin-left: 40px; display: none;">
+				<p style="color: #777777;">用户付款的时候无法使用积分优惠哦！</p>
+			</div>
+			<h3 style="font-size: 20px; margin: 16px">&nbsp;</h3>
+			<div style="margin-left: 30px;">
+			<input type="button" class="layui-btn" id="config_btn" value="保存配置" />
+			<button type="reset" class="layui-btn layui-btn-danger" id="config_btn_reset" value="重置配置">重置配置</button>
+				
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$("#basicsignpoint").blur(function() {
+		$("#point_top").text(7 * parseInt($("#basicsignpoint").val()));
+	});
+</script>
+<script>
+	layui.use(['form'], function() {
+	var form = layui.form,
+		layer = layui.layer;
+
+	form.on('switch(pointkey)', function(data) {
+		console.log(data.elem); //得到checkbox原始DOM对象
+		console.log(data.elem.checked); //开关是否开启，true或者false
+		console.log(data.value); //开关value值，也可以通过data.elem.value得到
+		console.log(data.othis); //得到美化后的DOM对象
+
+		if(data.elem.checked) {
+			$("#use_config").show();
+			$("#unuse_config").hide();
+		} else {
+			$("#unuse_config").show();
+			$("#use_config").hide();
+		}
+	});
+
+	$("#config_btn_reset").click(function() {
+		$("#use_config").show();
+		$("#unuse_config").hide();
+	});
+
+	$.ajax({
+		type: "post",
+		url: PREPATH + "/admin/selectConfigByQid",
+		async: true,
+		dataType: "json",
+		success: function(data) {
+			$("#moneytoperpoint").val(data.moneytoperpoint);
+			$("#perpointtomoney").val(data.perpointtomoney);
+			$("#basicsignpoint").val(data.basicsignpoint);
+			$("#discountrate").val(data.discountrate);
+			if(data.pointkey == 1) {
+				$("#pointkey").attr("checked", true);
+			} else {
+				$("#pointkey").attr("checked", false);
+			}
+		}
+	});
+
+	$("#config_btn").click(function() {
+		var formData = new FormData($("#config_form")[0]);
+		$.ajax({
+			type: "post",
+			url: PREPATH + "/admin/updateConfigByQid",
+			async: true,
+			data: formData,
+			dataType: "json",
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				if(data.response == 1) {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 6,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更新积分配置成功'
+					});
+				} else {
+					layer.open({
+						type: 0,
+						btn: false,
+						title: false,
+						icon: 5,
+						closeBtn: 0,
+						shadeClose: true,
+						time: 1500,
+						content: '更新失败，请稍后重试或联系系统管理员'
+					});
+				}
+			},
+			error: function() {
+				layer.open({
+					type: 0,
+					btn: false,
+					title: false,
+					icon: 5,
+					closeBtn: 0,
+					shadeClose: true,
+					time: 1500,
+					content: '服务器错误，请稍后重试或联系系统管理员'
+				});
+			}
+		});
+	});
+	});
+</script>

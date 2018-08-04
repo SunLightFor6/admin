@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.AddressMapper;
 import com.lamport.admin.mapper.AdminMapper;
 import com.lamport.admin.mapper.EnterpriseMapper;
@@ -111,9 +112,10 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		if(imgs!=null && imgs.length>0){
 			System.out.println("Now imgs is not null");
 			for(int i=0; i<imgs.length; i++){
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
-				imgurls.add(Const.ImgSwiperPath + "/" + filename);
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+//				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
+//				imgurls.add(Const.ImgSwiperPath + "/" + filename);
+				imgurls.add(FileManager.upload(imgs[i]));
 			}
 			swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){
@@ -128,43 +130,39 @@ public class EnterpriseServiceBean implements EnterpriseService {
 				updateResult *= swiperMapper.saveSwiper(swiper);
 			}
 		}
+		
 		String videoPath = null;
-		File videoFile = null;
+//		File videoFile = null;
 		if(video != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + video.getOriginalFilename();
-			videoFile = new File(path + Const.VideoPath, filename);
-			videoPath = Const.VideoPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + video.getOriginalFilename();
+//			videoFile = new File(path + Const.VideoPath, filename);
+//			videoPath = Const.VideoPath + "/" + filename;
+			videoPath = FileManager.upload(video);
 		}
-		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
-		enterprise.setVideopath(videoPath);		
-		System.out.println(enterprise.getVideopath());/*##################################################*/
+//		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
+		enterprise.setVideopath(videoPath);
+		System.out.println(enterprise.getVideopath());
 		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
-		if(imgurls != null){
-			for(int i=0; i<imgFiles.size(); i++){
-				imgs[i].transferTo(imgFiles.get(i));
-			}
-		}
-		if(videoPath != null){
-			video.transferTo(videoFile);//保存文件
-			FileTool.deleteFile(oldVideo);//删除文件？？？？？？
-		}		
+//		if(imgurls != null){
+//			for(int i=0; i<imgFiles.size(); i++){
+//				imgs[i].transferTo(imgFiles.get(i));
+//			}
+//		}
+//		if(videoPath != null){
+//			video.transferTo(videoFile);//保存文件
+//			FileTool.deleteFile(oldVideo);//删除文件？？？？？？
+//		}		
 		updateResult = (updateResult>0) ? 1 : 0;
 
 		return updateResult;
-	}
-	
-	@Override
-	public void updateEnterpriseConfigByID(Enterprise enterprise) throws Exception{
-		System.out.println("..........EnterpriseServiceBean..........updateEnterpriseConfigByID()..........");
-		
-		enterpriseMapper.updateEnterpriseConfigByID(enterprise);
 	}
 
 	@Override
 	public Enterprise selectEnterpriseByQID(int qid) throws Exception {
 		System.out.println("..........EnterpriseServiceBean..........selectEnterpriseByQID()..........");
+
 		Enterprise enterprise = null;
 
 		QIDAndCategory qidAndCategory = new QIDAndCategory();

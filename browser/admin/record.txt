@@ -1,0 +1,26 @@
+1. 服务器端ip的更改
+	. nginx
+	
+	. fastDFS服务器
+		/etc/fdfs/  tracker storage mo  三个配置的ip
+	
+2. 现在的问题是  redis有错
+
+3. 记录一下linux上改了什么
+	主要是nginx配置文件 和连接数据库的配置
+
+4. 关于文件上传
+	war包里 FileManager.class重新编译一下就好  注意ip配置
+	
+
+---------------------------后台需要配置ip的地方----
+1. java代码： FileManager类 FileManagerConfig类中的ip配置 配置完事再打war		2
+			数据库连接池的配置  配置ip											1
+			redis配置ip														1
+2. nginx的配置	配置负载均衡的ip												2
+3. fastDFS服务器的配置	tracker storage mo  三个配置的ip						3
+
+
+
+----------------------------
+对用户的价值分析
