@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.lamport.admin.po.FreeListenBook;
 import com.lamport.admin.vo.BookQueryCondition;
+import com.lamport.admin.vo.QIDAndPage;
+import com.lamport.admin.vo.StatisticsQueryResult;
 
 /**
  * Mapper, 提供FreeListenBook信息的删除、修改、查询功能
@@ -45,4 +47,11 @@ public interface FreeListenBookMapper {
 	 * @throws Exception
 	 */
 	public int selectCountFreeListenBookByBookQueryCondition(BookQueryCondition bookQueryCondition) throws Exception;
+	/**
+	 * 通过qid和条数按月查询Book总数
+	 * @param qidAndPage
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<StatisticsQueryResult> selectMonthCountBookByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
 }
