@@ -8,24 +8,40 @@
 		<title>企业管理</title>
 		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../../css/layui.css">
-		<link rel="stylesheet" href="../../umeditor/themes/default/_css/umeditor.css" />
+		<!--<link rel="stylesheet" href="../../umeditor/themes/default/_css/umeditor.css" />-->
 		<link rel="stylesheet" href="../../cropperjs-master/dist/cropper.css">
 		<link rel="stylesheet" href="../../css/style.css">
 
-		<script type="text/javascript" async="!0" charset="UTF-8" src="../../js/pp-library.min.js"></script>
+		<!--<script type="text/javascript" async="!0" charset="UTF-8" src="../../js/pp-library.min.js"></script>-->
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../js/popper.min.js" ></script>
 		<script type="text/javascript" src="../../js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript" src="../../cropperjs-master/dist/cropper.js"></script>
-		<script type="text/javascript" charset="UTF-8" src="../../umeditor/editor_api.js"></script>
-		<script type="text/javascript" charset="UTF-8" src="../../umeditor/umeditor.config.js"></script>
-		<script type="text/javascript" charset="UTF-8" src="../../umeditor/lang/zh-cn/zh-cn.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap.min.js" ></script>
+		<!--<script type="text/javascript" charset="UTF-8" src="../../umeditor/editor_api.js"></script>-->
+		<!--<script type="text/javascript" charset="UTF-8" src="../../umeditor/umeditor.config.js"></script>-->
+		<!--<script type="text/javascript" charset="UTF-8" src="../../umeditor/lang/zh-cn/zh-cn.js"></script>-->
 		<script src="../../layui.js"></script>
 		<script src="../../js/fun.js"></script>
-		<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>-->
-		<script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WB2Hj0IhBR0Enn3YRQLw1GPG8frEBsYb"></script>
+		<script type="text/javascript" src="../../js/echarts_4.1.0.rc2_echarts.min.js" ></script>
+		<!--<script>
 			window.ppSettings = {
 				app_uuid: 'b81d6202-926c-11e8-b3cf-00163e0c79f6'
 			};
+		</script>-->
+		<!--富文本编辑器的全局配置-->
+		<script>
+			layui.use('layedit', function() {
+				var layedit = layui.layedit;
+				layedit.set({
+					uploadImage: {
+						url: PREPATH + '/admin/uploadFilesInEditor', //接口url
+						type: 'post', //默认post
+					},
+					height: 666
+				});
+			});
 		</script>
 	</head>
 
@@ -67,7 +83,7 @@
 				});
 			</script>
 
-			<div class="layui-body" id="content_div" style="top: 0px; padding-top: 60px; background-color: #FFFFFF; ">
+			<div class="layui-body" id="content_div" style="overflow:auto; top: 0px; padding-top: 60px; background-color: #FFFFFF; ">
 				<p id="content_page"></p>
 			</div>
 
@@ -159,14 +175,7 @@
 						break;
 					case '#22':
 						$('#page-title').text('新建课程信息');
-						$('#content_page').load("../course/course_new.html", function() {
-							var um = UM.getEditor('myEditor');
-							um.setWidth("100%");
-							$(".edui-body-container").css("width", "98%");
-							var um_free = UM.getEditor('myEditor_free');
-							um_free.setWidth("100%");
-							$(".edui-body-container").css("width", "98%");
-						});
+						$('#content_page').load("../course/course_new.html");
 						break;
 					case '#23':
 						$('#page-title').text('修改课程信息');
@@ -255,6 +264,10 @@
 					case '#03':
 						$('#page-title').text('企业安全设置');
 						$('#content_page').load("../account/logout.html");
+						break;
+					case '#04':
+						$('#page-title').text('积分管理配置');
+						$('#content_page').load("../account/config.html");
 						break;
 					default:
 						$('#page-title').text('企业信息统计');

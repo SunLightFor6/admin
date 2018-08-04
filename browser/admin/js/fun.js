@@ -1,8 +1,10 @@
 var PREPATH = "/lamport/api/admin";
 var PRESTAPATH = "/lamport/admin/main";
 var URL = "http://localhost:8083";
-var IMGPATH = "/lamport/upload_files";
+var IMGPATH = "";
 var IMG_NUM = 4;
+
+var noMore = 0;
 
 //设置ajax请求完成后运行的函数,
 var jqxhr;
@@ -149,4 +151,236 @@ function getCategories(id_, type) {
 		}
 	});	
 }
+//图表函数
+function renderLayer04Left(data1){
+	var myChart = echarts.init(document.getElementById("layer04_left_chart"));
+	myChart.setOption(
+		{
+			title: {
+				text: ''
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:[]
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '5%',
+				top:'4%',
+				containLabel: true
+			},
+			xAxis :
+			{
+				type : 'category',
+				boundaryGap : false,
+				data : getLatestDays(31),
+				axisLabel:{
+					textStyle:{
+						color:"white", //刻度颜色
+						fontSize:8  //刻度大小
+					},
+					rotate:45,
+					interval:2
+				},
+				axisTick:{show:false},
+				axisLine:{
+					show:true,
+					lineStyle:{
+						color: '#0B3148',
+						width: 1,
+						type: 'solid'
+					}
+				}
+			},
+			yAxis : 
+			{
+				type : 'value',
+				axisTick:{show:false},
+				axisLabel:{
+					textStyle:{
+						color:"white", //刻度颜色
+						fontSize:8  //刻度大小
+						}
+				},
+				axisLine:{
+					show:true,
+					lineStyle:{
+						color: '#0B3148',
+						width: 1,
+						type: 'solid'
+					}
+				},
+				splitLine:{
+					show:false
+				}
+			},
+			tooltip:{
+				formatter:'{c}',
+				backgroundColor:'#FE8501'
+			},
+			series : [
+				{
+					name:'',
+					type:'line',
+					smooth:true,
+					areaStyle:{
+						normal:{
+							color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#026B6F'}, {offset: 1, color: '#012138' }], false),
+							opacity:0.2
+						}
+					},
+					itemStyle : {  
+                            normal : {  
+                                  color:'#009991'
+                            },
+							lineStyle:{
+								normal:{
+								color:'#009895',
+								opacity:1
+							}
+						}
+                    },
+					symbol:'none',
+					data:data1
+				}
+			]
+		}
+	
+	);
+}
 
+function renderLayer04Right(data2, data3){
+	var myChart = echarts.init(document.getElementById("layer04_right_chart"));
+	myChart.setOption({
+			title: {
+				text: ''
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			legend: {
+				top:20,
+				right:5,
+				textStyle:{
+					color:'white'
+				},
+				orient:'vertical',
+				data:[
+						{name:'订单数量',icon:'circle'},
+						{name:'预约数量',icon:'circle'}
+					]
+			},
+			grid: {
+				left: '3%',
+				right: '16%',
+				bottom: '3%',
+				top:'3%',
+				containLabel: true
+			},
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				axisTick:{show:false},
+				axisLabel:{
+					textStyle:{
+						color:"white", //刻度颜色
+						fontSize:8  //刻度大小
+						}
+				},
+				axisLine:{
+					show:true,
+					lineStyle:{
+						color: '#0B3148',
+						width: 1,
+						type: 'solid'
+					}
+				},
+				data: get10MinutesScale()
+			},
+			yAxis: {
+				type: 'value',
+				axisTick:{show:false},
+				axisLabel:{
+					textStyle:{
+						color:"white", //刻度颜色
+						fontSize:8  //刻度大小
+						}
+				},
+				axisLine:{
+					show:true,
+					lineStyle:{
+						color: '#0B3148',
+						width: 1,
+						type: 'solid'
+					}
+				},
+				splitLine:{
+					show:false
+				}
+			},
+			series: [
+						{
+							name:'订单数量',
+							type:'line',
+							itemStyle : {  
+									normal : {  
+									color:'#F3891B'
+								},
+								lineStyle:{
+									normal:{
+									color:'#F3891B',
+									opacity:1
+										}
+								}
+							},  
+							data:data2
+						},
+						{
+							name:'预约数量',
+							type:'line',
+							itemStyle : {  
+									normal : {  
+									color:'#006AD4'
+								},
+								lineStyle:{
+									normal:{
+									color:'#F3891B',
+									opacity:1
+										}
+								}
+							},
+							data:data3
+						}
+					]
+		}	
+	);
+}
+
+function get10MinutesScale()
+{
+	var currDate = new Date();
+	var odd = currDate.getMinutes()%10;
+	var returnArr = new Array();
+	currDate.setMinutes(currDate.getMinutes()-odd);
+	for(var i = 0; i <7; i++){
+		returnArr.push(currDate.getHours()+":"+(currDate.getMinutes()<10?("0"+currDate.getMinutes()):currDate.getMinutes()));
+		currDate.setMinutes(currDate.getMinutes()-10);
+	}
+	return returnArr;
+}
+
+
+function getLatestDays(num)
+{
+	var currentDay = new Date();
+	var returnDays = [];
+	for (var i = 0 ; i < num ; i++)
+	{
+		currentDay.setDate(currentDay.getDate() - 1);
+		returnDays.push((currentDay.getMonth()+1)+"/"+currentDay.getDate());
+	}
+	return returnDays;
+}

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.SwiperService;
@@ -38,15 +39,16 @@ public class SwiperServiceBean implements SwiperService {
 		int updateResult = 1;
 
 		List<String> imgurls = new ArrayList<String>();
-		List<File> imgFiles = new ArrayList<File>();
+//		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			for(int i=0; i<imgs.length; i++){
 //				Creator creator = new Creator();
 //				String filename = creator.createFilename();
-				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
-				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
-				imgurls.add(Const.ImgSwiperPath + "/" + filename);
-				System.out.println(Const.ImgSwiperPath + "/" + filename);
+//				String filename =  System.currentTimeMillis() + imgs[i].getOriginalFilename();
+//				imgFiles.add(new File(path + Const.ImgSwiperPath, filename));
+//				imgurls.add(Const.ImgSwiperPath + "/" + filename);
+//				System.out.println(Const.ImgSwiperPath + "/" + filename);
+				imgurls.add(FileManager.upload(imgs[i]));
 			}
 			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
 			for(int i=0; i<imgurls.size(); i++){
@@ -57,9 +59,9 @@ public class SwiperServiceBean implements SwiperService {
 				swiper.setDeletekey(0);
 				updateResult *= swiperMapper.saveSwiper(swiper);
 			}
-			for(int i=0; i<imgFiles.size(); i++){
-				imgs[i].transferTo(imgFiles.get(i));
-			}
+//			for(int i=0; i<imgFiles.size(); i++){
+//				imgs[i].transferTo(imgFiles.get(i));
+//			}
 		}
 		updateResult = (updateResult>0) ? 1 : 0;
 		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() --- updateResult = " + updateResult);

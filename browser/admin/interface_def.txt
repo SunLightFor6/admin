@@ -264,7 +264,8 @@
 			category
 			money		"￥10"
 			needmoney	"￥200"
-			amount		"122/322" 已发放数量/总数量
+			//amount		"122/322" 已发放数量/总数量
+			amount		122																		!
 			deadline
 		}
 	
@@ -273,35 +274,37 @@
 		{cid}
 	<-- {1, 0}	
 	
-	### 延长优惠券时限
-	--> /admin/prolongCouponDeadLineByCidAndProlongdays
+	### 修改优惠券时限
+	--> /admin/updateCouponDeadLineByCidAndDeadline
 		{
 			cid
-			prolong_days	延长多少天
+			deadline 	
 		}
 	<-- {
 			response	0 1
-			deadline	返回延长后的截止日期
 		}
 	
-	### 增加优惠券数量
-	--> /admin/addCouponTotalByCidAndNum
-		{
-			cid
-			num		优惠券总数增加多少张
-		}
-	<-- {1, 0}
+//	### 增加优惠券数量
+//	--> /admin/updateCouponTotalByCidAndNum
+//		{
+//			cid
+//			num		优惠券总数变化多少张
+//		}
+//	<-- {1, 0}
 
 ##新建优惠券
-	--> /admin/saveCoupon
+	--> /admin/saveCoupons
 		{
 			category
 			money
 			needmoney	//门槛
-			total
+//			total
 			deadline
 		}
-	<-- {0, 1}
+	<-- {
+			response:
+			cid
+		}
 
 ##发放优惠券
 ###查看符合条件的用户数量
@@ -309,26 +312,56 @@
 		{
 			su_category  用户购买过/预约过的课程类型
 			su_points	用户积分超过
-			su_amount	随机选择用户数量
+//			su_amount	随机选择用户数量
 		}
 	<-- {"amount": 66}
 
 ###发放优惠券
 	--> /admin/handoutCoupon
 		{
+			cid
 			su_category  用户购买过/预约过的课程类型
 			su_points	用户积分超过
-			su_amount	随机选择用户数量
+//			su_amount	随机选择用户数量
 			su_per		每个用户发放几张优惠券
 		}
 	<-- {1, 0}
 
+---------------------
+富文本编辑器文件上传
+	--> /admin/uploadFilesInEditor
+		file
+	<--{
+			"code": 0 //0表示成功，其它失败
+			,"msg": "" //提示信息 //一般上传失败后返回
+			,"data": {
+				 "src": "图片路径"
+				,"title": "图片名称" //可选
+			}
+		}
+     	
+--------------------------
+#配置
+##获取现有的配置项
+	--> /admin/selectConfigByQid
+	<-- {按照po返回}
+##更新配置项	
+	--> /admin/updateConfigByQid
+		{按照po传参}
+	<-- {1, 0}	
 
+------------------------------
+#统计
+## 近30天 每天的订单交易额
+	--> /admin/selectGainOfLastMonthByQid
+	<-- [48, 52, 45, 46, 89, 120, 110,100,88,96,88,78,67,89,103,104,56,45,104,112,132,120,110,89,95,90,89,102,110,110]
 
-
-
-
-
+## 近六个月 每个月的订单预约单数量
+	--> /admin/selectAmountOfLastHalfYearByQid
+	<-- {
+			"order": [120, 132, 101, 134, 90, 230],
+			"book":	[120, 132, 101, 134, 90, 230]
+		}
 
 
 

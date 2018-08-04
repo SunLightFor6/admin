@@ -1,0 +1,8 @@
+文件上传的接口:     
+    public static String upload(MultipartFile file, String filename) 
+
+使用方法：
+String filepath = FileManager.upload(file, filename);
+
+     * @param file
+     * @param filename

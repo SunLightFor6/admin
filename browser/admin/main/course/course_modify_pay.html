@@ -44,15 +44,9 @@
 				<input type="checkbox" name="fenbu3" title="大连软件园">
 			</div>
 			<p class="form-label_sm">课程描述</p>
-			<script type="text/plain" id="myEditor_pay_modify" style="height:240px;"></script>
+			<textarea id="course_mpay" style="display: none;"></textarea>
 			<p class="form-label_sm"></p>
 			<button type="button" id="modify_pay_btn" class="layui-btn">发表</button>
-			<script type="text/javascript">
-				//实例化编辑器
-				var um = UM.getEditor('myEditor');
-				um.setWidth("100%");
-				$(".edui-body-container").css("width", "98%");
-			</script>
 		</form>
 	</div>
 </div>
@@ -93,6 +87,10 @@
 			layedit = layui.layedit,
 			laydate = layui.laydate;
 
+		var course_mpay = layedit.build('course_mpay'); //建立编辑器
+		form.render();
+		
+
 		//自定义课程类型
 		form.on('select(categories-select)', function(data) {
 			console.log(data.elem); //得到select原始DOM对象
@@ -126,9 +124,8 @@
 
 		$('#pic-div').show();
 		$('#pic').attr('src', lesson.courseimg);
-		var um = UM.getEditor('myEditor_pay_modify');
-		um.setContent(lesson.ldesc, true);
-	});
+		layedit.setContent(course_mfree, lesson.ldesc, false);
+	
 
 	//点击提交
 	$(function() {
@@ -144,7 +141,7 @@
 			formData.append("lname", $('#coursename').val());
 			formData.append("imgFile", imgFile);
 			formData.append("lprice", $("#courseprice").val());
-			formData.append("ldesc", um.getContent());
+			formData.append("ldesc", layedit.getContent(course_mpay));
 			formData.append("status", $('#coursestatus option:selected'));
 			formData.append("category", $('#categories_s option:selected'));
 			formData.append("branchs", branch);
@@ -200,5 +197,5 @@
 				}
 			});
 		});
-	});
+	});});
 </script>
