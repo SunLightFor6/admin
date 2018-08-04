@@ -82,6 +82,15 @@
 			and b.booktime &lt; str_to_date(#{endTime}, '%Y-%m-%d %H:%i:%s')
 		</if>
 	</select>
-	
-	
+
+	<!-- 通过qid和条数按月查询Book总数 -->
+	<select id="selectMonthCountBookByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.vo.StatisticsQueryResult">
+		select CONCAT(YEAR(fb.booktime),'-',DATE_FORMAT(fb.booktime,'%m')) as querymonth, count(*) as countbook
+		from freelistenbook fb left join freelisten f on fb.fid=f.id
+		where f.qid=#{qid} and fb.deletekey=0
+		group by querymonth
+		order by querymonth desc
+		limit 0, #{limit}
+	</select>
 </mapper>

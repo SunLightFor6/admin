@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.lamport.admin.po.Refund;
 import com.lamport.admin.po.Sorder;
+import com.lamport.admin.vo.QIDAndPage;
 import com.lamport.admin.vo.SorderQueryCondition;
+import com.lamport.admin.vo.StatisticsQueryResult;
 
 /**
  * Mapper, 提供Sorder信息的删除、修改、查询功能
@@ -65,9 +67,24 @@ public interface SorderMapper {
 	 */
 	public int selectCountSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
 	/**
-	 * 根据qid查询Sorder的订单总额
+	 * 通过qid查询Sorder的订单总额
 	 * @return double
 	 * @throws Exception
 	 */
 	public Double selectCountSorderActualByQID(int qid) throws Exception;
+	/**
+	 * 通过qid和条数按月查询Sorder总数
+	 * @param qidAndPage
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<StatisticsQueryResult> selectMonthCountSorderByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
+	
+	/**
+	 * 通过qid和条数按天查询Sorder的订单总额
+	 * @param qidAndPage
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<StatisticsQueryResult> selectDayCountSorderActualByQIDAndPage(QIDAndPage qidAndPage) throws Exception;
 }

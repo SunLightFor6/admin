@@ -125,4 +125,28 @@
 		select ROUND(SUM(actual), 2) from sorder where qid = #{qid} and deletekey=0
 	</select>
 
+	<!-- 通过qid和条数按月查询Sorder总数 -->
+	<select id="selectMonthCountSorderByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.vo.StatisticsQueryResult">
+		select CONCAT(YEAR(ordertime),'-',DATE_FORMAT(ordertime,'%m')) as querymonth, count(*) as countsorder
+		from sorder
+		where qid=#{qid} and deletekey=0
+		and (status='已付款' or status='退款中' or status='已核销')
+		group by querymonth
+		order by querymonth desc
+		limit 0, #{limit}
+	</select>
+
+	<!-- 通过qid和条数按天查询Sorder的订单总额 -->
+	<select id="selectDayCountSorderActualByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
+			resultType="com.lamport.admin.vo.StatisticsQueryResult">
+		select CONCAT(YEAR(ordertime),'-',DATE_FORMAT(ordertime,'%m'),'-',DATE_FORMAT(ordertime,'%d')) querydate, 
+		ROUND(SUM(actual), 2) as countActual
+		from sorder
+		where qid=#{page} and deletekey=0
+		and (status='已付款' or status='退款中' or status='已核销')
+		group by querydate
+		order by querydate desc
+		limit 0, #{limit}
+	</select>
 </mapper>
