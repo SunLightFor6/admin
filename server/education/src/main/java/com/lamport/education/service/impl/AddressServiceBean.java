@@ -29,14 +29,12 @@ public class AddressServiceBean implements AddressService {
 		
 		return address;
 	}
-	
+	/*
 	@Override
-	public String selectAllCategoryByQid(int qid) throws Exception {
+	public String selectAllBranchCategoryByQid(int qid) throws Exception {
 		EnterpriseCategoryVo enterpriseCategoryVo = addressMapper.selectAllCategoryByQid(qid);
 		List<BranchCategoryVo> branchCategoryVos = enterpriseCategoryVo.getBranchCategoryVo();
-		JsonArray jsonArray = new JsonArray(); //
-		
-		
+		JsonArray jsonArray = new JsonArray(); //	
 		for(BranchCategoryVo branchCategoryVo:branchCategoryVos){
 			JsonObject branchObj = new JsonObject(); // 添加分支
 			branchObj.addProperty("text", branchCategoryVo.getBranch());	
@@ -68,6 +66,6 @@ public class AddressServiceBean implements AddressService {
 		return jsonArray.toString();
 	}
 	
-
+*/
 
 }

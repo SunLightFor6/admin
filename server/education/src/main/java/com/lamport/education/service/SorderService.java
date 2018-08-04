@@ -110,6 +110,14 @@ public interface SorderService {
 	 * @throws Exception
 	 */
 	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
+	
+	/**
+	 * 通过多条件查询Refund及其Sorder信息
+	 * @param sorderQueryCondition
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Sorder> selectRefudBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception;
 
 	/**
 	 * 通过uid和status查询Soder的总数

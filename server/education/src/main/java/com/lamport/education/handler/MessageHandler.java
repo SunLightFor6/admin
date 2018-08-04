@@ -134,6 +134,7 @@ public class MessageHandler {
 					for(MessageLike like : message.getLikes()){
 						JsonObject likeObject = new JsonObject();
 						likeObject.addProperty("nickname", like.getUser().getNickname());
+						likeObject.addProperty("uid", like.getUser().getUid());
 						likeArray.add(likeObject);
 					}
 				}

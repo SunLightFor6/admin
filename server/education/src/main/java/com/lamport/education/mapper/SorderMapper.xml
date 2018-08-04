@@ -27,7 +27,7 @@
 		</association>
 	</resultMap>
 	
-	<resultMap type="com.lamport.education.po.Sorder" id="_Sorder_Refund">
+	<resultMap type="com.lamport.education.po.Sorder" id="_Sorder_Lesson_Refund">
 		<id column="oid" property="oid"/>
 		<result column="qid" property="qid"/>
 		<result column="lid" property="lid"/>
@@ -99,7 +99,7 @@
     	select * from sorder s
 		left join lesson l on s.lid=l.lid
 		left join address a on a.id=s.branchid
-		where s.oid=43 and s.deletekey=0
+		where s.oid=#{oid} and s.deletekey=0
     	<!-- 
     	select s.*, l.lname, l.imgurl, l.ldesc, l.lprice 
     	from sorder s left join lesson l on s.lid=l.lid
@@ -109,13 +109,13 @@
 	
 	<!-- 通过rid查询Sorder和Refund信息 -->
 	<select id="selectRefundByRID" parameterType="int"
-			resultMap="_Sorder_Refund">
+			resultMap="_Sorder_Lesson_Refund">
 		select s.*, l.*, a.*, r.rid, r.refundtime, r.refundreason, r.status as refundstatus 
 		from sorder s
 		left join refund r on s.oid=r.oid
 		left join lesson l on s.lid=l.lid
 		left join address a on a.id=s.branchid
-		where r.rid=2 and r.deletekey=0
+		where r.rid=#{rid} and r.deletekey=0
 	</select>
 	
 	<!-- 通过多条件查询Sorder信息 -->
@@ -133,6 +133,25 @@
 			  </if>	
 		order by s.oid desc 
 		limit 0,#{pageBean.pageSize}   
+	</select>
+
+	<!-- 通过多条件查询Refund及其Sorder信息 -->
+	<select id="selectRefudBySorderQueryCondition" parameterType="com.lamport.education.vo.SorderQueryCondition"
+			resultMap="_Sorder_Lesson_Refund">
+		select s.*, l.*, r.rid, r.refundtime, r.refundreason, r.status as refundstatus 
+		from sorder s
+		left join refund r on s.oid=r.oid
+		left join lesson l on s.lid=l.lid
+		where s.userdeletekey = 0
+			  and s.uid = #{uid}	
+		 	  <if test='pageBean.startId != -1'>
+				  and #{pageBean.startId} > r.rid
+			  </if>
+		 	  <if test='status!=null and status!=""'>
+				  and s.status like '%${status}%'
+			  </if>	
+		order by r.rid desc 
+		limit 0,#{pageBean.pageSize}
 	</select>
 
 	<!-- 通过uid和status查询Soder的总数 -->

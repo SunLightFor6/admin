@@ -124,7 +124,9 @@ public class UserHandler {
 		
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("nickname", user.getNickname());
+		jsonObject.addProperty("uid", user.getUid());
 		jsonObject.addProperty("username", user.getUsername());
+		jsonObject.addProperty("userimg", user.getUserimg());
 		jsonObject.addProperty("countBookUnprocessed", countBookUnprocessed);
 		jsonObject.addProperty("countSorderUnpaid", countSorderUnpaid);
 		result = jsonObject.toString();

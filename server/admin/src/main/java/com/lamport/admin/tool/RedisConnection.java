@@ -12,10 +12,10 @@ import redis.clients.jedis.JedisPoolConfig;
 public class RedisConnection {
 	//要注意在Maven中配置jedis-2.9.0.jar的Maven依赖
 	public static Jedis getJedis(){
-		JedisPoolConfig config = new JedisPoolConfig();
+		JedisPoolConfig poolConfig = new JedisPoolConfig();
 		
 		//只能通过构造方法传值
-		JedisPool jedisPool = new JedisPool(config, "172.24.203.4", 6379, 60000, "123");
+		JedisPool jedisPool = new JedisPool(poolConfig, "192.168.252.7", 6379, 6000, "123");
 		return jedisPool.getResource();
 	}
 }

@@ -57,7 +57,7 @@ public class SignServiceBean implements SignService {
 		}else{
 			//如果用户曾经签到过
 			String lastSignDate = lastSign.getSigndate().substring(0, 10);	//从from位置截取到to-1的位置
-			if(currentDate.equals(lastSign)){
+			if(currentDate.equals(lastSignDate)){
 				//如果两次签到是同一天，则为重复签到
 				saveResult = 2;
 			}else{

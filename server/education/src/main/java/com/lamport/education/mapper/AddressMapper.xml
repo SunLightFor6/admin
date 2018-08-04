@@ -4,22 +4,6 @@
 
 <mapper namespace="com.lamport.education.mapper.AddressMapper">
 	
-	<resultMap type="com.lamport.education.vo.EnterpriseCategoryVo" id="_EnterpriseCategoryVo">
-	    <id column="qid" property="qid"/>
-	    <!-- column通常为 order表中的外键列 -->
-	    <collection property="branchCategoryVos" ofType="com.lamport.education.vo.BranchCategoryVo" >
-	        <id column="branchid" property="bid"/>
-	        <result column="branch" property="branch"/>
-	        <collection property="lessonCategorys" ofType="com.lamport.education.po.Lesson" >
-			        <id column="lid" property="lid"/>
-			        <result column="lessonCategory" property="category"/>
-	    	</collection>
-	    	<collection property="freeListenCategorys" ofType="com.lamport.education.po.FreeListen" >
-			        <id column="fid" property="id"/>
-			        <result column="freelistenCategory" property="category"/>
-	    	</collection>
-	    </collection>
-	</resultMap>
 	
 	<!-- 通过qid查询分部(Address)信息 -->
 	<select id="selectAddressByQid" parameterType="int" 
@@ -35,28 +19,5 @@
 		where qid=#{qid} and branch=#{branch} and deletekey=0
 		limit 0, 1
 	</select>
-	
-	
-	<select id="selectAllCategoryByQid" parameterType="int" resultMap="_EnterpriseCategoryVo" >
-		select qid, temp2.branchid, temp2.branch, temp2.category as lessonCategory, 
-			   temp2.lid, temp3.category as freelistenCategory, temp3.fid
-		from ( select * from address 
-			   left join (select lesson.lid, lessonbranch.branchid, lesson.category 
-						  from lesson, lessonbranch  
-						  where lesson.deletekey = 0 and lesson.lid = lessonbranch.lid		
-						  group by branchid, category
-			             ) temp 
-			   on temp.branchid = address.id
-			 ) temp2 
-	    	 left join (select branchid,category,freelisten.id as fid 
-	    	 			from freelisten 
-				   		where deletekey =0
-				   		group by branchid, category
-				  	    ) temp3 
-	         on temp3.branchid = temp2.branchid
-		where temp2.qid = #{qid}
-	</select>
-
-
 	
 </mapper>

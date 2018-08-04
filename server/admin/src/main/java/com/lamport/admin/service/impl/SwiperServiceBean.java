@@ -98,12 +98,13 @@ public class SwiperServiceBean implements SwiperService {
 			//将json字符串放入redis中
 			jedis.set("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory(), jsonString);
 		}else{
+			System.out.println("It's from Redis");/*########################################*/
 			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
 		}
 		/*------------------------------Redis相关------------------------------*/
 		
 		
-		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
+//		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
 		
 		return swiperImgurls;
 	}

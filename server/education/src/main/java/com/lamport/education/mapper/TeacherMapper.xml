@@ -9,7 +9,7 @@
 		select * from teacher 
 		where qid = #{qid} and deletekey = 0 
 		<if test='pageBean.startId != -1'>
-			and #{pageBean.startId} > tid
+			and tid >#{pageBean.startId}
 		</if>
 		limit 0, #{pageBean.pageSize} 
 	</select>

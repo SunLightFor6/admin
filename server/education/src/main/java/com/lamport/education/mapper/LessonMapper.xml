@@ -28,7 +28,7 @@
 		select l.*, a.*  
 		from lesson l left join lessonbranch lb on l.lid=lb.lid
 		left join address a on lb.branchid=a.id
-		where l.lid=1 and l.deletekey=0
+		where l.lid=#{lid} and l.deletekey=0
 	</select>
 
 	<!-- 通过oid查询Lesson信息 -->

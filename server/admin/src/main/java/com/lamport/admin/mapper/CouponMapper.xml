@@ -68,7 +68,6 @@
 				 desc 
 			</otherwise>
 		</choose>
-		order by cid asc
 		limit #{pageTool.startrow},#{pageTool.limit}
 	</select>
 

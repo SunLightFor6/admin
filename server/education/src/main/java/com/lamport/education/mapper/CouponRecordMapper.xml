@@ -41,7 +41,10 @@
 		select * from couponrecord cr
 		left join coupon c on cr.cid=c.cid
 		where cr.uid=#{uid} and c.disabledkey=0 and cr.userdeletekey=0
+		<if test='pageBean.startId != -1'>
+			and freelisten.id > #{pageBean.startId}
+		</if>
 		order by cr.id asc
-		limit #{pageBean.startId}, #{pageBean.pageSize}
+		limit 0, #{pageBean.pageSize}
 	</select>
 </mapper>

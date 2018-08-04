@@ -15,19 +15,17 @@ public class AddressHandler {
 	
 	@Autowired
 	AddressService addressService;
-	
+/*	
 	@RequestMapping("/selectAllCategoryByQid")
 	@ResponseBody
 	public String selectAllCategoryByQid(HttpServletRequest request) throws Exception{
 		System.out.println("..........BranchHandler..........selectAllCategoryByQid..........");
 		String result = null;
-		
 		HttpSession session = request.getSession();	
 		int qid = (Integer)session.getAttribute("qid");
-		System.out.println("qid = " + qid);					/*####################*/
-		result = addressService.selectAllCategoryByQid(qid);
-		
+		System.out.println("qid = " + qid);				
+		selectAllBranchCategoryByQid
 		return result;
 	}
-	
+	*/
 }

@@ -158,7 +158,7 @@ public class TestHandler {
 
 		int qid = 1;
 		System.out.println("qid = " + qid);					/*####################*/
-		result = addressService.selectAllCategoryByQid(qid);
+//		result = addressService.selectAllCategoryByQid(qid);
 		
 		System.out.println("\nresult:\n" + result + "\n");
 		return "/test_show.jsp";

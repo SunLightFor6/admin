@@ -388,12 +388,14 @@ public class SorderHandler {
 		sorderQueryCondition.setUid(user.getUid());
 		sorderQueryCondition.setStatus("退款");						/*####################*/
 		sorderQueryCondition.initPageBean(Config.SorderPageSize);
-		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+//		List<Sorder> sorders = sorderService.selectSorderBySorderQueryCondition(sorderQueryCondition);
+		List<Sorder> refunds = sorderService.selectRefudBySorderQueryCondition(sorderQueryCondition);
 		JsonObject jsonObject = new JsonObject();
 		JsonArray jsonArray = new JsonArray();
-		if(sorders!=null && !sorders.isEmpty()){
-			for(Sorder sorder : sorders){
+		if(refunds!=null && !refunds.isEmpty()){
+			for(Sorder sorder : refunds){
 				JsonObject object = new JsonObject();
+				object.addProperty("rid", sorder.getRefund().getRid());
 				object.addProperty("oid", sorder.getOid());
 				object.addProperty("status", sorder.getStatus());
 				object.addProperty("total", sorder.getActual());

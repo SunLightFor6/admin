@@ -7,6 +7,7 @@ import com.lamport.education.mapper.EnterpriseMapper;
 import com.lamport.education.mapper.SwiperMapper;
 import com.lamport.education.po.Enterprise;
 import com.lamport.education.service.EnterpriseService;
+import com.lamport.education.vo.EnterpriseCategoryVo;
 
 @Service
 public class EnterpriseServiceBean implements EnterpriseService {
@@ -22,5 +23,10 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		enterprise = enterpriseMapper.selectEnterpriseByQid(qid);
 		
 		return enterprise;
+	}
+
+	@Override
+	public EnterpriseCategoryVo selectAllBranchCategoryByQid(int qid) throws Exception {
+		return enterpriseMapper.selectAllBranchCategoryByQid(qid);
 	}
 }

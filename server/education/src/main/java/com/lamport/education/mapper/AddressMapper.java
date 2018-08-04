@@ -22,6 +22,6 @@ public interface AddressMapper {
 	 */
 	public Address selectAddressIDByQIDAndBranch(QIDAndBranch qidAndBranch) throws Exception;
 	
-	public EnterpriseCategoryVo selectAllCategoryByQid(int qid);
+	
 }
 

@@ -1,6 +1,7 @@
 package com.lamport.education.service;
 
 import com.lamport.education.po.Enterprise;
+import com.lamport.education.vo.EnterpriseCategoryVo;
 
 public interface EnterpriseService {
 
@@ -11,4 +12,5 @@ public interface EnterpriseService {
 	 * @throws Exception
 	 */
 	public Enterprise selectEnterpriseByQid(int qid) throws Exception;
+	public EnterpriseCategoryVo selectAllBranchCategoryByQid(int qid) throws Exception;
 }

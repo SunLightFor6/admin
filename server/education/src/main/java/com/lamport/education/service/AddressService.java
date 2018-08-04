@@ -14,5 +14,5 @@ public interface AddressService {
 	public List<Address> selectAddressByQid(int qid) throws Exception;
 	
 	
-	public String selectAllCategoryByQid(int qid) throws Exception;
+	//public String selectAllCategoryByQid(int qid) throws Exception;
 }

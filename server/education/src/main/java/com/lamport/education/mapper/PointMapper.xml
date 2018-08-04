@@ -37,7 +37,10 @@
 		left join sorder s on p.oid=s.oid
 		left join lesson l on s.lid=l.lid
 		where p.uid=#{uid} and p.deletekey=0
+		<if test='pageBean.startId != -1'>
+			and #{pageBean.startId} > p.pid
+		</if>
 		order by pid desc
-		limit #{pageBean.startId}, #{pageBean.pageSize}
+		limit 0, #{pageBean.pageSize}
 	</select>
 </mapper>

@@ -104,7 +104,7 @@ public class FreeListenBookHandler {
 				JsonObject object = new JsonObject();
 				object.addProperty("id", freeListenBook.getId());
 				object.addProperty("booktime", freeListenBook.getBooktime());
-				object.addProperty("status", freeListenBook.getBooktime());
+				object.addProperty("status", freeListenBook.getStatus());
 				object.addProperty("title", freeListenBook.getFreeListen().getTitle());
 				object.addProperty("imgurl", freeListenBook.getFreeListen().getImgurl());
 				jsonArray.add(object);
@@ -141,7 +141,7 @@ public class FreeListenBookHandler {
 				JsonObject object = new JsonObject();
 				object.addProperty("id", freeListenBook.getId());
 				object.addProperty("booktime", freeListenBook.getBooktime());
-				object.addProperty("status", freeListenBook.getBooktime());
+				object.addProperty("status", freeListenBook.getStatus());
 				object.addProperty("title", freeListenBook.getFreeListen().getTitle());
 				object.addProperty("imgurl", freeListenBook.getFreeListen().getImgurl());
 				jsonArray.add(object);
@@ -178,7 +178,7 @@ public class FreeListenBookHandler {
 				JsonObject object = new JsonObject();
 				object.addProperty("id", freeListenBook.getId());
 				object.addProperty("booktime", freeListenBook.getBooktime());
-				object.addProperty("status", freeListenBook.getBooktime());
+				object.addProperty("status", freeListenBook.getStatus());
 				object.addProperty("title", freeListenBook.getFreeListen().getTitle());
 				object.addProperty("imgurl", freeListenBook.getFreeListen().getImgurl());
 				jsonArray.add(object);

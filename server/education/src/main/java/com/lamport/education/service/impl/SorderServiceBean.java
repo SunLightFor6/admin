@@ -446,6 +446,15 @@ public class SorderServiceBean implements SorderService {
 		
 		return sorders;
 	}
+	
+	@Override
+	public List<Sorder> selectRefudBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception{
+		List<Sorder> refunds = null;
+		
+		refunds = sorderMapper.selectRefudBySorderQueryCondition(sorderQueryCondition);
+		
+		return refunds;
+	}
 
 	@Override
 	public int selectCountSorderByUIDAndStatus(UIDAndStatus uidAndStatus) throws Exception{
