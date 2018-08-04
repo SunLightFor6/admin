@@ -15,7 +15,7 @@ public class RedisConnection {
 		JedisPoolConfig config = new JedisPoolConfig();
 		
 		//只能通过构造方法传值
-		JedisPool jedisPool = new JedisPool(config, "172.16.100.7", 6379, 60000, "123");
+		JedisPool jedisPool = new JedisPool(config, "172.24.203.4", 6379, 60000, "123");
 		return jedisPool.getResource();
 	}
 }

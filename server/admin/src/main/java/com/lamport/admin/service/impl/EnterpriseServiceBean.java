@@ -158,6 +158,13 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 		return updateResult;
 	}
+	
+	@Override
+	public void updateEnterpriseConfigByID(Enterprise enterprise) throws Exception{
+		System.out.println("..........EnterpriseServiceBean..........updateEnterpriseConfigByID()..........");
+		
+		enterpriseMapper.updateEnterpriseConfigByID(enterprise);
+	}
 
 	@Override
 	public Enterprise selectEnterpriseByQID(int qid) throws Exception {

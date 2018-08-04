@@ -30,8 +30,8 @@ public class SwiperServiceBean implements SwiperService {
 	
 	@Autowired
 	private SwiperMapper swiperMapper;
-//	@Autowired
-//	private JedisPool jedisPool;
+	@Autowired
+	private JedisPool jedisPool;
 
 	@Override
 	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
@@ -85,21 +85,22 @@ public class SwiperServiceBean implements SwiperService {
 
 		List<String> swiperImgurls = null;
 		
-//		Jedis jedis = jedisPool.getResource();
-//		Gson gson = new Gson();
-//		String imgurls = jedis.get("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory());
-//		if(imgurls == null){
-//			//redis没有，从mySQL中查询
-//			swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
-//			//将取出来的对象打包成json字符串
-//			String jsonString = gson.toJson(swiperImgurls);
-//			System.out.println(jsonString);
-//			//将json字符串放入redis中
-//			jedis.set("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory(), jsonString);
-//		}else{
-//			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
-//		}
-		
+		/*------------------------------Redis相关------------------------------*/
+		Jedis jedis = jedisPool.getResource();
+		Gson gson = new Gson();
+		String imgurls = jedis.get("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory());
+		if(imgurls == null){
+			//redis没有，从mySQL中查询
+			swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
+			//将取出来的对象打包成json字符串
+			String jsonString = gson.toJson(swiperImgurls);
+			System.out.println(jsonString);
+			//将json字符串放入redis中
+			jedis.set("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory(), jsonString);
+		}else{
+			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
+		}
+		/*------------------------------Redis相关------------------------------*/
 		
 		
 		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
