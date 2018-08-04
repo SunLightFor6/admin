@@ -24,3 +24,28 @@
 
 ----------------------------
 对用户的价值分析
+
+
+-----------------------前后端合并 问题记录 周六
+
+1. index.html
+POST http://localhost:8080/admin/selectGainOfLastMonthByQid 404 (Not Found)
+POST http://localhost:8080/admin/selectAmountOfLastHalfYearByQid 404 (Not Found)
+
+2.POST http://localhost:8080/admin/getCategories 404 (Not Found)
+
+3. 查看优惠券
+严重: Servlet.service() for servlet [springmvc] in context with path [/lamport/api/admin] threw exception [Request processing failed; nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by cid asc
+		limit 0,10' at line 13
+### The error may exist in com/lamport/admin/mapper/CouponMapper.xml
+### The error may involve com.lamport.admin.mapper.CouponMapper.selectCouponsByCouponQueryCondition-Inline
+### The error occurred while setting parameters
+### SQL: select * from coupon    where qid=1 and deletekey=0             and disabledkey = 0             order by cid                desc         order by cid asc   limit ?,?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by cid asc
+		limit 0,10' at line 13
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by cid asc
+		limit 0,10' at line 13] with root cause
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by cid asc
+		limit 0,10' at line 13
+		
