@@ -87,50 +87,50 @@
 		drawLayer02Label($("#layer02_06 canvas").get(0), "教师总数", 80, 200);
 
 		//## 近30天 每天的订单交易额
-				jqxhr = $.ajax({
-					type: "post",
-					url: PREPATH + "/admin/selectGainOfLastMonthByQid",
-					async: true,
-					dataType: "json",
-					success: function(data) {
-						renderLayer04Left(data);
-					},
-					error: function() {
-						renderLayer04Left(data1);
-					}
-				});
-		
-				//## 近六个月 每个月的订单预约单数量
-		
-				jqxhr = $.ajax({
-					type: "post",
-					url: PREPATH + "/admin/selectAmountOfLastHalfYearByQid",
-					async: true,
-					dataType: "json",
-					success: function(data) {
-						renderLayer04Right(data.order, data.book);
-					},
-					error: function() {
-						renderLayer04Right(data2, data3);
-					}
-				});
-				jqxhr = $.ajax({
-					type: "post",
-					url: PREPATH + "/admin/statistics",
-					async: true,
-					dataType: "json",
-					processData: false,
-					contentType: false,
-					success: function(data) {
-						console.log("success");
-						console.log(data);
-						$('#user_total').text(data.user_total);
-						$('#course_total').text(data.course_total);
-						$('#teacher_total').text(data.teacher_total);
-						$('#order_total').text(data.order_total);
-						$('#profit_total').text(data.profit_total);
-						$('#book_total').text(data.book_total);
-					}
-				});
+		jqxhr = $.ajax({
+			type: "post",
+			url: PREPATH + "/admin/selectGainOfLastMonthByQid",
+			async: true,
+			dataType: "json",
+			success: function(data) {
+				renderLayer04Left(data);
+			},
+			error: function() {
+				renderLayer04Left(data1);
+			}
+		});
+
+		//## 近六个月 每个月的订单预约单数量
+
+		jqxhr = $.ajax({
+			type: "post",
+			url: PREPATH + "/admin/selectAmountOfLastHalfYearByQid",
+			async: true,
+			dataType: "json",
+			success: function(data) {
+				renderLayer04Right(data.order, data.book);
+			},
+			error: function() {
+				renderLayer04Right(data2, data3);
+			}
+		});
+		jqxhr = $.ajax({
+			type: "post",
+			url: PREPATH + "/admin/statistics",
+			async: true,
+			dataType: "json",
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				console.log("success");
+				console.log(data);
+				$('#user_total').text(data.user_total);
+				$('#course_total').text(data.course_total);
+				$('#teacher_total').text(data.teacher_total);
+				$('#order_total').text(data.order_total);
+				$('#book_total').text(data.book_total);
+				$('#profit_total').text(data.profit_total);
+			}
+		});
 	});
 </script>

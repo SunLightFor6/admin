@@ -14,10 +14,13 @@ import com.lamport.admin.po.Address;
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.service.FreeListenService;
 import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.FreeListenQueryCondition;
 import com.lamport.admin.vo.QIDAndBranch;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 /**
  * implements FreeListenService
@@ -31,6 +34,8 @@ public class FreeListenServiceBean implements FreeListenService {
 	private FreeListenMapper freeListenMapper;
 	@Autowired
 	private AddressMapper addressMapper;
+	@Autowired
+	private JedisPool jedisPool;
 	
 	@Override
 	public int saveFreeListen(FreeListen freeListen, MultipartFile img, String path) throws Exception {
@@ -47,25 +52,46 @@ public class FreeListenServiceBean implements FreeListenService {
 			imgFile = new File(path + Const.ImgFreeListenPath, filename);
 			imgurl = Const.ImgFreeListenPath + "/" + filename;
 		}
-		
 		freeListen.setImgurl(imgurl);
 		freeListen.setDeletekey(0);
-		
 		saveResult = freeListenMapper.saveFreeListen(freeListen);
 		if(imgurl != null) {
 			img.transferTo(imgFile);
 		}
 		
+		/*------------------------------Redis相关------------------------------*/
+		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageFreeListen" + "-" + freeListen.getQid();
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return saveResult;
 	}
 
 	@Override
-	public int deleteFreeListenLogicallyByID(int id) throws Exception {
+	public int deleteFreeListenLogicallyByID(int id, int qid) throws Exception {
 		System.out.println("..........FreeListenServiceBean..........deleteFreeListenLogicallyByID()..........");
 
 		int deleteResult = 0;
-		
 		deleteResult = freeListenMapper.deleteFreeListenLogicallyByID(id);
+		
+		/*------------------------------Redis相关------------------------------*/
+		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageFreeListen" + "-" + qid;
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
 	}
@@ -92,6 +118,19 @@ public class FreeListenServiceBean implements FreeListenService {
 			img.transferTo(imgFile);//保存文件
 			FileTool.deleteFile(oldImgurl);
 		}
+		
+		/*------------------------------Redis相关------------------------------*/
+		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageFreeListen" + "-" + freeListen.getQid();
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return updateResult;
 	}
 

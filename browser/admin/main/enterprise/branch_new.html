@@ -106,6 +106,9 @@
 		layui.use('layer', function() {
 			var layer = layui.layer;
 			$('#branch_add_submit').click(function() {
+				if(! verify_tele("联系电话", $("#tel"))) {
+					return;
+				}
 				var formData = new FormData($('#branch-info')[0]);
 				formData.append("longitude", longi);
 				formData.append("latitude", lati);

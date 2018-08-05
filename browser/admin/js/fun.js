@@ -116,21 +116,43 @@ function required_verify(posi, value) {
 	}
 	return 1;
 }
+//验证
+/**
+ * 
+ * @param {Object} posi		在哪个输入框
+ * @param {Object} value	输入框的值
+ * @param {Object} expression	正则表达式
+ * @param {Object} info 提示信息
+ */
+function verify_(posi, value, expression, info){
+	if(expression.test(value)){
+		layer_out(posi + ": " + info);
+		console.log("----------------------------------验证失败" + value);
+		return 0;
+	}
+	return 1;
+}
+/**
+ * 验证密码
+ * @param {Object} posi		哪个输入框
+ * @param {Object} value	输入框的值
+ */
+function verify_pass(posi, value) {
+	verify_(posi, value, /^[\S]{8,12}$/, '密码至少8到16位，且不能出现空格');
+}
+
+/**
+ * 验证手机号
+ * @param {Object} posi		哪个输入框
+ * @param {Object} value	输入框的值
+ */
+function verify_tele(posi, value) {
+	verify_(posi, value, /(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/, '联系电话不符合格式,请检查');
+}
 
 //从服务器请求category的方法，传入的参数是要append下拉框的select标签id
 function getCategories(id_) {
-	jqxhr = $.ajax({
-		type:"post",
-		url:PREPATH + "/admin/getCategories",
-		async:true,
-		dataType: "json",
-		success: function(data) {
-			var values = data.values;
-			$.each(values, function(index) {
-				$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
-			});
-		}
-	});	
+	getCategories(id_, 1);
 }
 
 function getCategories(id_, type) {
@@ -184,7 +206,7 @@ function renderLayer04Left(data1){
 						fontSize:8  //刻度大小
 					},
 					rotate:45,
-					interval:2
+					interval:0
 				},
 				axisTick:{show:false},
 				axisLine:{
@@ -366,7 +388,14 @@ function get6Month() {
                 //获取年  
                 var year=data.getFullYear();  
                 //获取月  
-                var mon=data.getMonth()+1;  
+                var mon=data.getMonth()+1; 
+                 if(mon<=0){  
+                        year=year-1;  
+                        mon=mon+12;  
+                    }  
+                    if(mon<10){  
+                        mon="0"+mon;  
+                    } 
                 last6Month[0]=year+"/"+mon; 
                 for(var i=1;i<6;i++){  
                     mon=mon-1;  
@@ -406,7 +435,8 @@ function getLatestDays(num)
 	var currentDay = new Date();
 	var returnDays = [];
 	currentDay.setDate(currentDay.getDate());
-	for (var i = 0 ; i < num-1 ; i++)
+	returnDays.push((currentDay.getMonth()+1)+"/"+currentDay.getDate());
+	for (var i = 0 ; i < num - 1 ; i++)
 	{
 		currentDay.setDate(currentDay.getDate() - 1);
 		returnDays.push((currentDay.getMonth()+1)+"/"+currentDay.getDate());

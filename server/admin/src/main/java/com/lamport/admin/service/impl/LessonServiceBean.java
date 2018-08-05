@@ -17,11 +17,14 @@ import com.lamport.admin.po.Lesson;
 import com.lamport.admin.po.LessonBranch;
 import com.lamport.admin.service.LessonService;
 import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.Creator;
 import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.BranchIDAndPage;
 import com.lamport.admin.vo.LessonQueryCondition;
 import com.lamport.admin.vo.QIDAndBranch;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 /**
  * implements LessonService
@@ -39,6 +42,8 @@ public class LessonServiceBean implements LessonService {
 	private SorderMapper sorderMapper;
 	@Autowired
 	private AddressMapper addressMapper;
+	@Autowired
+	private JedisPool jedisPool;
 	
 	@Override
 	public int saveLesson(Lesson lesson, MultipartFile img, String path) throws Exception {
@@ -71,11 +76,23 @@ public class LessonServiceBean implements LessonService {
 			img.transferTo(imgFile);//保存文件
 		}
 		
+		/*------------------------------Redis相关------------------------------*/
+		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageLesson" + "-" + lesson.getQid();
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return saveResult;
 	}
 
 	@Override
-	public int deleteLessonLogicallyByID(int id) throws Exception {
+	public int deleteLessonLogicallyByID(int id, int qid) throws Exception {
 		System.out.println("..........LessonServiceBean..........deleteLessonLogicallyByID()..........");
 
 		int deleteResult = 1;
@@ -84,6 +101,18 @@ public class LessonServiceBean implements LessonService {
 		lessonBranchMapper.deleteLessonBranchLogicallyByLID(id);
 		deleteResult *= lessonMapper.deleteLessonLogicallyByID(id);
 		deleteResult = deleteResult>0 ? 1 : 0;
+		
+		/*------------------------------Redis相关------------------------------*/
+		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageLesson" + "-" + qid;
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
 	}
@@ -118,6 +147,19 @@ public class LessonServiceBean implements LessonService {
 			img.transferTo(imgFile);//保存文件
 			FileTool.deleteFile(oldImgurl);
 		}
+		
+		/*------------------------------Redis相关------------------------------*/
+		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "homePageLesson" + "-" + lesson.getQid();
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return updateResult;
 	}
 

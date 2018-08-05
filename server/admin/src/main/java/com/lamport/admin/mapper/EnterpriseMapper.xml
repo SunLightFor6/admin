@@ -34,7 +34,8 @@
 
 	<!-- 创建企业 -->
 	<insert id="saveEnterprise" parameterType="com.lamport.admin.po.Enterprise">
-		insert enterprise(deletekey) values(#{deletekey})
+		insert enterprise(moneytoperpoint, perpointtomoney, basicsignpoint, discountrate, pointkey, deletekey) 
+		values(#{moneytoperpoint}, #{perpointtomoney}, #{basicsignpoint}, #{discountrate}, #{pointkey}, #{deletekey})
 		<selectKey keyProperty="qid" order="AFTER" resultType="int">
             select LAST_INSERT_ID()
      	</selectKey>

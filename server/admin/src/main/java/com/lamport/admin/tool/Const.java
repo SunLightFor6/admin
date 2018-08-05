@@ -46,4 +46,11 @@ public class Const {
 	public static final String ImgMessagePath = "/img/message";
 	
 	public static final String redirectPath = "";
+	
+	/*新建一个Enterprise时的默认配置*/
+	public static final double MoneyToPerPoint = 10.0;
+	public static final double PerPointToMoney = 0.1;
+	public static final int BasicSignPoint = 1;
+	public static final double DiscountRate = 0.1;
+	public static final int PointKey = 1;
 }

@@ -22,7 +22,7 @@ public interface AddressService {
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteAddressLogicallyByID(int id) throws Exception;
+	public int deleteAddressLogicallyByID(int id, int qid) throws Exception;
 	/**
 	 * 通过id更新Address信息
 	 * @return 1 更新成功 0 更新失败

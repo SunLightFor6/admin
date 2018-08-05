@@ -31,7 +31,7 @@
 			type:"get",
 			url: PREPATH + "/admin/selectEnterpriseBasicDataByQID",
 			async:true,
-			dataType: json,
+			dataType: "json",
 			success: function(data) {
 				$('#enterprise_name_info').text(data.enterprise_name);
 				$('#enterprise_id').text(data.enterprise_id);

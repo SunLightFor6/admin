@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lamport.education.po.Address;
+import com.lamport.education.po.Enterprise;
 import com.lamport.education.po.Lesson;
 import com.lamport.education.po.Point;
 import com.lamport.education.po.Refund;
 import com.lamport.education.po.Sorder;
 import com.lamport.education.po.User;
+import com.lamport.education.service.EnterpriseService;
 import com.lamport.education.service.LessonService;
 import com.lamport.education.service.SorderService;
 import com.lamport.education.util.Config;
@@ -30,6 +32,8 @@ public class SorderHandler {
 	SorderService sorderService;
 	@Autowired
 	LessonService lessonService;
+	@Autowired
+	EnterpriseService enterpriseService;
 	
 	/**
 	 * 创建一条已付款的Sorder信息
@@ -447,15 +451,19 @@ public class SorderHandler {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		Lesson lesson = lessonService.selectLessonByOid(oid);
+		Enterprise enterprise = enterpriseService.selectEnterpriseByQid(user.getQid());
 		JsonObject jsonObject = new JsonObject();
 		JsonArray jsonArray = new JsonArray();
 		jsonObject.addProperty("oid", oid);
 		jsonObject.addProperty("lid", lesson.getLid());
 		jsonObject.addProperty("lname", lesson.getLname());
 		jsonObject.addProperty("lprice", lesson.getLprice());
+		jsonObject.addProperty("category", lesson.getCategory());
 		jsonObject.addProperty("totalpoint", user.getTotalpoint());
 		jsonObject.addProperty("username", user.getUsername());
 		jsonObject.addProperty("tel", user.getTel());
+		jsonObject.addProperty("discountrate", enterprise.getDiscountrate());
+		jsonObject.addProperty("perpointtomoney", enterprise.getPerpointtomoney());
 		if(lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
 			for(Address address : lesson.getBranches()){
 				JsonObject object = new JsonObject();
@@ -551,4 +559,49 @@ public class SorderHandler {
 		return result;
 	}
 	
+	/**
+	 * 通过oid查询Refud信息
+	 * @param oid
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/selectRefundByOID")
+	@ResponseBody
+	public String selectRefundByOID(int oid) throws Exception{
+		System.out.println("..........SorderHandler..........selectRefundByOID..........");
+		String result = null;
+		
+		String nullString = null;
+		Sorder sorder = sorderService.selectRefundByOID(oid);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("oid", sorder.getOid());
+		jsonObject.addProperty("branch", sorder.getBranch());
+		jsonObject.addProperty("total", sorder.getTotal());
+		jsonObject.addProperty("actual", sorder.getActual());
+		jsonObject.addProperty("status", sorder.getStatus());
+		jsonObject.addProperty("ordertime", sorder.getOrdertime());
+		jsonObject.addProperty("username", sorder.getUsername());
+		jsonObject.addProperty("tel", sorder.getTel());
+		if(sorder!=null && sorder.getRefund()!=null){
+			jsonObject.addProperty("rid", sorder.getRefund().getRid());
+			jsonObject.addProperty("refundreason", sorder.getRefund().getRefundreason());
+			jsonObject.addProperty("refundtime", sorder.getRefund().getRefundtime());
+			jsonObject.addProperty("refundstatus", sorder.getRefund().getStatus());
+		}else{
+			jsonObject.addProperty("rid", nullString);
+			jsonObject.addProperty("refundreason", nullString);
+			jsonObject.addProperty("refundtime", nullString);
+			jsonObject.addProperty("refundstatus", nullString);
+		}
+		if(sorder!=null && sorder.getLesson()!=null){
+			jsonObject.addProperty("lname", sorder.getLesson().getLname());
+			jsonObject.addProperty("imgurl", sorder.getLesson().getImgurl());
+		}else{
+			jsonObject.addProperty("lname", nullString);
+			jsonObject.addProperty("imgurl", nullString);
+		}
+		result = jsonObject.toString();
+		
+		return result;
+	}
 }

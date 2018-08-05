@@ -35,7 +35,7 @@
 								</div>
 								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 									预览图：
-									<div><img id="pic" /></div>
+									<div><img id="pic" style="max-height: 100px; max-width: 125px;"  /></div>
 									<p id="demoText"></p>
 								</blockquote>
 							</div>
@@ -81,7 +81,7 @@
 								</div>
 								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 									预览图：
-									<div><img id="pic2" /></div>
+									<div><img id="pic2" style="max-height: 100px; max-width: 125px;" /></div>
 									<p id="demoText"></p>
 								</blockquote>
 							</div>
@@ -177,7 +177,7 @@
 		$(function() {
 			//获取分部信息，填充到下拉框的地方
 			$.ajax({
-				type: "get",
+				type: "post",
 				url: PREPATH + "/admin/getBranchesName",
 				async: true,
 				dataType: "json",
