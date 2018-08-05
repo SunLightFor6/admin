@@ -58,11 +58,13 @@ public class LessonHandler {
 	 */
 	@RequestMapping(value="/admin/deleteLessonByID")
 	@ResponseBody
-	public String deleteLessonLogicallyByID(int id) throws Exception{
+	public String deleteLessonLogicallyByID(int id, HttpServletRequest request) throws Exception{
 		System.out.println("..........LessonHandler..........deleteLessonLogicallyByID()..........id = " + id);
 		String result = null;
 
-		int deleteResult = lessonService.deleteLessonLogicallyByID(id);
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		int deleteResult = lessonService.deleteLessonLogicallyByID(id, admin.getQid());
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();

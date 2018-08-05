@@ -57,11 +57,13 @@ public class FreeListenHandler {
 	 */
 	@RequestMapping(value="/admin/deleteFreeListenLogicallyByID")
 	@ResponseBody
-	public String deleteFreeListenLogicallyByID(int id) throws Exception{
+	public String deleteFreeListenLogicallyByID(int id, HttpServletRequest request) throws Exception{
 		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........id = " + id);
 		String result = null;
 		
-		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id);
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id, admin.getQid());
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();

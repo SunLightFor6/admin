@@ -57,7 +57,7 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 3. 更新服务器数据库表结构
 4. 代码打包上传到服务器 重启服务器 运行
 
---------------------------记录一下错误
+--------------------------记录一下错误0805
 1. -解决		sat.html			
 - 	111行
 	页面展示 太挤了

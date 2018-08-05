@@ -14,6 +14,10 @@ import com.lamport.admin.po.Address;
 import com.lamport.admin.service.AddressService;
 import com.lamport.admin.vo.QIDAndPage;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
+
 /**
  * implements AddressService
  * @author Lin Zhao, protector of Sherry
@@ -32,6 +36,8 @@ public class AddressServiceBean implements AddressService {
 	private SorderMapper sorderMapper;
 	@Autowired
 	private LessonMapper lessonMapper;
+	@Autowired
+	private JedisPool jedisPool;
 	
 	@Override
 	public int saveAddress(Address address) throws Exception {
@@ -45,7 +51,7 @@ public class AddressServiceBean implements AddressService {
 	}
 
 	@Override
-	public int deleteAddressLogicallyByID(int id) throws Exception {
+	public int deleteAddressLogicallyByID(int id, int qid) throws Exception {
 		System.out.println("..........AddressServiceBean..........deleteAddressLogicallyByID()..........");
 
 		int deleteResult = 1;
@@ -56,13 +62,29 @@ public class AddressServiceBean implements AddressService {
 		lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
 		deleteResult *= addressMapper.deleteAddressLogicallyByID(id);
 		//校验，删除没有分部的精品课
-		for(Integer lid: lids){
-			int count = lessonBranchMapper.selectCountLessonBranchByLID(lid);
-			if(count == 0){
-				deleteResult *= lessonMapper.deleteLessonLogicallyByID(lid);
+		if(lids!=null && !lids.isEmpty()){
+			for(Integer lid: lids){
+				int count = lessonBranchMapper.selectCountLessonBranchByLID(lid);
+				if(count == 0){
+					deleteResult *= lessonMapper.deleteLessonLogicallyByID(lid);
+				}
 			}
 		}
 		deleteResult = deleteResult>0 ? 1 : 0;
+		
+		/*------------------------------Redis相关------------------------------*/
+		//删除分部后，Lesson和FreeListen已经发生了变化，将旧的HomePageLesson和HomePageFreeListen信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String lessonKey = "homePageLesson" + "-" + qid;
+		String freelistenKey = "homePageFreeListen" + "-" + qid;
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(lessonKey);
+		transaction.del(freelistenKey);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
 	}

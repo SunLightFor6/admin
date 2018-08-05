@@ -36,7 +36,10 @@
 	<select id="selectCouponsByCouponQueryCondition" parameterType="com.lamport.admin.vo.CouponQueryCondition"
 			resultType="com.lamport.admin.po.Coupon">
 		select * from coupon 
-		where qid=1 and deletekey=0 
+		where qid=#{qid} and deletekey=0 
+		<if test="cid != 0">
+			and cid = #{cid}
+		</if>
 		<if test="category!=null and category!=''">
 			and category = #{category}
 		</if>
@@ -69,6 +72,22 @@
 			</otherwise>
 		</choose>
 		limit #{pageTool.startrow},#{pageTool.limit}
+	</select>
+
+	<!-- 通过多条件查询Coupon的总数 -->
+	<select id="selectCountCouponsByCouponQueryCondition" parameterType="com.lamport.admin.vo.CouponQueryCondition"
+			resultType="int">
+		select count(*) from coupon 
+		where qid=#{qid} and deletekey=0 
+		<if test="cid != 0">
+			and cid = #{cid}
+		</if>
+		<if test="category!=null and category!=''">
+			and category = #{category}
+		</if>
+		<if test="showDisabled=='' or showDisabled==null">
+			and disabledkey = 0
+		</if>
 	</select>
 
 	<!-- 通过相关条件查询User总数 -->

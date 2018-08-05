@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,12 @@ import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.EnterpriseService;
 import com.lamport.admin.tool.Const;
 import com.lamport.admin.tool.Creator;
-import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.tool.PageTool;
 import com.lamport.admin.vo.QIDAndCategory;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 /**
  * implements EnterpriseService
@@ -57,6 +59,8 @@ public class EnterpriseServiceBean implements EnterpriseService {
 	private TeacherMapper teacherMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private JedisPool jedisPool;
 
 	@Override
 	public int saveEnterprise(Enterprise enterprise) throws Exception {
@@ -64,7 +68,14 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 		int saveResult = 1;
 		
+		//设置enterprise的剩余属性
+		enterprise.setMoneytoperpoint(Const.MoneyToPerPoint);
+		enterprise.setPerpointtomoney(Const.PerPointToMoney);
+		enterprise.setBasicsignpoint(Const.BasicSignPoint);
+		enterprise.setDiscountrate(Const.DiscountRate);
+		enterprise.setPointkey(Const.PointKey);
 		enterprise.setDeletekey(0);
+		//保存enterprise信息
 		saveResult *= enterpriseMapper.saveEnterprise(enterprise);
 		Admin admin = new Admin();
 		admin.setQid(enterprise.getQid());
@@ -96,6 +107,24 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		result *= enterpriseMapper.deleteEnterpriseLogicallyByID(id);
 		result = result > 0 ? 1 : 0;
 		
+		/*------------------------------Redis相关------------------------------*/
+		//删除分部后，Lesson和FreeListen已经没有必要保存，将HomePageLesson和HomePageFreeListen信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String lessonKey = "homePageLesson" + "-" + id;
+		String freelistenKey = "homePageFreeListen" + "-" + id;
+		String swiperEKey = "swiperImgurls" + "-" + id + "-" + Const.SwiperCategoryE;
+		String swiperTKey = "swiperImgurls" + "-" + id + "-" + Const.SwiperCategoryT;
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(lessonKey);
+		transaction.del(freelistenKey);
+		transaction.del(swiperEKey);
+		transaction.del(swiperTKey);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return result;
 	}
 
@@ -108,7 +137,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		qidAndCategory.setQid(enterprise.getQid());
 		qidAndCategory.setCategory(Const.SwiperCategoryE);
 		List<String> imgurls = new ArrayList<String>();
-		List<File> imgFiles = new ArrayList<File>();
+//		List<File> imgFiles = new ArrayList<File>();
 		if(imgs!=null && imgs.length>0){
 			System.out.println("Now imgs is not null");
 			for(int i=0; i<imgs.length; i++){

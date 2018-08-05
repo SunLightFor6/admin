@@ -117,6 +117,17 @@
 		left join address a on a.id=s.branchid
 		where r.rid=#{rid} and r.deletekey=0
 	</select>
+
+	<!-- 通过oid查询Sorder和Refund信息 -->
+	<select id="selectRefundByOID" parameterType="int"
+			resultMap="_Sorder_Lesson_Refund">
+		select s.*, l.*, a.*, r.rid, r.refundtime, r.refundreason, r.status as refundstatus 
+		from sorder s
+		left join refund r on s.oid=r.oid
+		left join lesson l on s.lid=l.lid
+		left join address a on a.id=s.branchid
+		where s.oid=#{oid} and r.deletekey=0
+	</select>
 	
 	<!-- 通过多条件查询Sorder信息 -->
 	<select id="selectSorderBySorderQueryCondition" parameterType="com.lamport.education.vo.SorderQueryCondition" 

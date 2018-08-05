@@ -44,6 +44,13 @@ public interface CouponMapper {
 	 */
 	public List<Coupon> selectCouponsByCouponQueryCondition(CouponQueryCondition couponQueryCondition) throws Exception;
 	/**
+	 * 通过多条件查询Coupon的总数
+	 * @param couponQueryCondition
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountCouponsByCouponQueryCondition(CouponQueryCondition couponQueryCondition) throws Exception;
+	/**
 	 * 通过相关条件查询User总数
 	 * @param meetingCondition
 	 * @return int

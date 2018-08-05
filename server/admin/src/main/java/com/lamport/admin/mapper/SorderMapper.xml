@@ -140,10 +140,10 @@
 	<!-- 通过qid和条数按天查询Sorder的订单总额 -->
 	<select id="selectDayCountSorderActualByQIDAndPage" parameterType="com.lamport.admin.vo.QIDAndPage"
 			resultType="com.lamport.admin.vo.StatisticsQueryResult">
-		select CONCAT(YEAR(ordertime),'-',DATE_FORMAT(ordertime,'%m'),'-',DATE_FORMAT(ordertime,'%d')) querydate, 
-		ROUND(SUM(actual), 2) as countActual
+		select CONCAT(YEAR(ordertime),'-',DATE_FORMAT(ordertime,'%m'),'-',DATE_FORMAT(ordertime,'%d')) as querydate, 
+		ROUND(SUM(actual), 2) as countactual
 		from sorder
-		where qid=#{page} and deletekey=0
+		where qid=#{qid} and deletekey=0
 		and (status='已付款' or status='退款中' or status='已核销')
 		group by querydate
 		order by querydate desc

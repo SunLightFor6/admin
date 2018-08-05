@@ -68,6 +68,7 @@ public class StatisticsHandler {
 		JsonObject jsonObject = new JsonObject();
 		JsonArray sorderArray = new JsonArray();
 		JsonArray bookArray = new JsonArray();
+//		System.out.println("\n size = " + statisticsQueryResults.size());/*##########*/
 		for(StatisticsQueryResult queryResult : statisticsQueryResults){
 			sorderArray.add(queryResult.getCountsorder());
 			bookArray.add(queryResult.getCountbook());
@@ -99,7 +100,7 @@ public class StatisticsHandler {
 		List<StatisticsQueryResult> statisticsQueryResults = statisticsService.selectDayCountSorderActualByQIDAndPage(qidAndPage);
 		JsonArray jsonArray = new JsonArray();
 		for(StatisticsQueryResult queryResult : statisticsQueryResults){
-			jsonArray.add(queryResult.getCountActual());
+			jsonArray.add(queryResult.getCountactual());
 		}
 		result = jsonArray.toString();
 

@@ -5,7 +5,7 @@ public class StatisticsQueryResult {
 	private String querydate;		//查询的日期
 	private int countsorder;		//查询到的订单总数
 	private int countbook;			//查询到的预约总数
-	private double countActual;		//查询到的订单总额
+	private double countactual;		//查询到的订单总额
 	
 	public String getQuerymonth() {
 		return querymonth;
@@ -31,10 +31,11 @@ public class StatisticsQueryResult {
 	public void setCountbook(int countbook) {
 		this.countbook = countbook;
 	}
-	public double getCountActual() {
-		return countActual;
+	public double getCountactual() {
+		return countactual;
 	}
-	public void setCountActual(double countActual) {
-		this.countActual = countActual;
+	public void setCountactual(double countactual) {
+		this.countactual = countactual;
 	}
+
 }
