@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lamport.education.po.Address;
+import com.lamport.education.po.Enterprise;
 import com.lamport.education.po.Lesson;
 import com.lamport.education.po.User;
+import com.lamport.education.service.EnterpriseService;
 import com.lamport.education.service.LessonService;
 import com.lamport.education.util.Config;
 import com.lamport.education.vo.LessonQueryCondition;
@@ -23,6 +25,8 @@ public class LessonHandler {
 	
 	@Autowired
 	LessonService lessonService;
+	@Autowired
+	EnterpriseService enterpriseService;
 	
 	/**
 	 * 通过lid查询Lesson信息
@@ -110,14 +114,18 @@ public class LessonHandler {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		Lesson lesson = lessonService.selectLessonByLid(lid);
+		Enterprise enterprise = enterpriseService.selectEnterpriseByQid(user.getQid());
 		JsonObject jsonObject = new JsonObject();
 		JsonArray jsonArray = new JsonArray();
 		jsonObject.addProperty("lid", lesson.getLid());
 		jsonObject.addProperty("lname", lesson.getLname());
 		jsonObject.addProperty("lprice", lesson.getLprice());
+		jsonObject.addProperty("category", lesson.getCategory());
 		jsonObject.addProperty("totalpoint", user.getTotalpoint());
 		jsonObject.addProperty("username", user.getUsername());
 		jsonObject.addProperty("tel", user.getTel());
+		jsonObject.addProperty("discountrate", enterprise.getDiscountrate());
+		jsonObject.addProperty("perpointtomoney", enterprise.getPerpointtomoney());
 		if(lesson!=null && lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
 			for(Address address : lesson.getBranches()){
 				JsonObject object = new JsonObject();

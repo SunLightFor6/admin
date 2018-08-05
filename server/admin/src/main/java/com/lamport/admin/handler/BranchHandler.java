@@ -55,11 +55,13 @@ public class BranchHandler {
 	 */
 	@RequestMapping(value="/admin/deleteBranchLogicallyByID")
 	@ResponseBody
-	public String deleteBranchLogicallyByID(int id) throws Exception{
+	public String deleteBranchLogicallyByID(int id, HttpServletRequest request) throws Exception{
 		System.out.println("..........BranchHandler..........deleteBranchLogicallyByID()..........id = " + id);
 		String result = null;
 		
-		int deleteResult = addressService.deleteAddressLogicallyByID(id);
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		int deleteResult = addressService.deleteAddressLogicallyByID(id, admin.getQid());
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();

@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +13,11 @@ import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.SwiperMapper;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.SwiperService;
-import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.QIDAndCategory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 /**
  * implements SwiperService
@@ -64,6 +63,19 @@ public class SwiperServiceBean implements SwiperService {
 //			}
 		}
 		updateResult = (updateResult>0) ? 1 : 0;
+		
+		/*------------------------------Redis相关------------------------------*/
+		//Swiper已经发生了变化，将旧的Swiper信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String key = "swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory();
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(key);
+		//结束事务
+		transaction.exec();
+		/*------------------------------Redis相关------------------------------*/
+		
 		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() --- updateResult = " + updateResult);
 		return updateResult;
 	}
@@ -88,22 +100,21 @@ public class SwiperServiceBean implements SwiperService {
 		/*------------------------------Redis相关------------------------------*/
 		Jedis jedis = jedisPool.getResource();
 		Gson gson = new Gson();
-		String imgurls = jedis.get("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory());
+		String key = "swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory();
+		String imgurls = jedis.get(key);
 		if(imgurls == null){
 			//redis没有，从mySQL中查询
 			swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
 			//将取出来的对象打包成json字符串
 			String jsonString = gson.toJson(swiperImgurls);
-			System.out.println(jsonString);
+			System.out.println(jsonString);/*########################################*/
 			//将json字符串放入redis中
-			jedis.set("swiperImgurls" + "-" + qidAndCategory.getQid() + "-" + qidAndCategory.getCategory(), jsonString);
+			jedis.set(key, jsonString);
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
 		}
 		/*------------------------------Redis相关------------------------------*/
-		
-		
 //		swiperImgurls = swiperMapper.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
 		
 		return swiperImgurls;

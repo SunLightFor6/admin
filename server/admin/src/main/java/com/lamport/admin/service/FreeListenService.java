@@ -26,7 +26,7 @@ public interface FreeListenService {
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteFreeListenLogicallyByID(int id) throws Exception;
+	public int deleteFreeListenLogicallyByID(int id, int qid) throws Exception;
 	/**
 	 * 通过id修改FreeListen信息
 	 * @param freeListen

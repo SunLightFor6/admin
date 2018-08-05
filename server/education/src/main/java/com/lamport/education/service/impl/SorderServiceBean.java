@@ -439,6 +439,15 @@ public class SorderServiceBean implements SorderService {
 	}
 	
 	@Override
+	public Sorder selectRefundByOID(int oid) throws Exception{
+		Sorder sorder = null;
+		
+		sorder = sorderMapper.selectRefundByOID(oid);
+		
+		return sorder;
+	}
+	
+	@Override
 	public List<Sorder> selectSorderBySorderQueryCondition(SorderQueryCondition sorderQueryCondition) throws Exception {
 		List<Sorder> sorders = null;
 		

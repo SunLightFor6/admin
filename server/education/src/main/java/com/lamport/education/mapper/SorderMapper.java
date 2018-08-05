@@ -59,6 +59,14 @@ public interface SorderMapper {
 	public Sorder selectRefundByRID(int rid) throws Exception;
 	
 	/**
+	 * 通过oid查询Sorder和Refund信息
+	 * @param oid
+	 * @return Sorder
+	 * @throws Exception
+	 */
+	public Sorder selectRefundByOID(int oid) throws Exception;
+	
+	/**
 	 * 通过多条件查询Sorder信息
 	 * @param sorderQueryCondition
 	 * @return List

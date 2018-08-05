@@ -26,7 +26,7 @@ public interface LessonService {
 	 * @return 1 删除成功 0 删除失败
 	 * @throws Exception
 	 */
-	public int deleteLessonLogicallyByID(int id) throws Exception;
+	public int deleteLessonLogicallyByID(int id, int qid) throws Exception;
 	/**
 	 * 通过id修改Lesson信息
 	 * @param lesson

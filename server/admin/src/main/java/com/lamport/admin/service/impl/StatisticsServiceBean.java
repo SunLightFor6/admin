@@ -50,13 +50,22 @@ public class StatisticsServiceBean implements StatisticsService {
 		}
 		sorderQueryResults = sorderMapper.selectMonthCountSorderByQIDAndPage(qidAndPage);
 		bookQueryResults = freeListenBookMapper.selectMonthCountBookByQIDAndPage(qidAndPage);
+		/*##########*/
+//		System.out.println("\nmonths:");
+//		for(int i=0; i<months.size(); i++){
+//			System.out.println(months.get(i));
+//		}
+//		System.out.println("\n\n");
+		/*##########*/
 		//校验月份是否匹配，并将查询到的信息放入statisticsQueryResults
+//		System.out.println("qidAndPage.getLimit() = " + qidAndPage.getLimit());/*##########*/
+//		System.out.println("months.size() = " + months.size());/*##########*/
 		for(int i=0; i<qidAndPage.getLimit(); i++){
 			StatisticsQueryResult queryResult = new StatisticsQueryResult();
 			queryResult.setQuerymonth(months.get(i));
 			int countsorder = 0;
 			int countbook = 0;
-			for(int j=0; j<sorderQueryResults.size(); i++){
+			for(int j=0; j<sorderQueryResults.size(); j++){
 				StatisticsQueryResult sorderResult = sorderQueryResults.get(j);
 				if(months.get(i).equals(sorderResult.getQuerymonth())){
 					countsorder = sorderResult.getCountsorder();
@@ -72,7 +81,7 @@ public class StatisticsServiceBean implements StatisticsService {
 			}
 			queryResult.setCountbook(countbook);
 			queryResult.setCountsorder(countsorder);
-			sorderQueryResults.add(queryResult);
+			statisticsQueryResults.add(queryResult);
 		}
 		
 		return statisticsQueryResults;
@@ -92,13 +101,20 @@ public class StatisticsServiceBean implements StatisticsService {
 		calendar.add(Calendar.DATE, 0);
 		String day = df.format(calendar.getTime());
 		days.add(day);
-		//循环获取前qidAndPage.getLimit()-1个月的月份
+		//循环获取前qidAndPage.getLimit()-1天的日期
 		for(int i=1; i<qidAndPage.getLimit(); i++){
 			calendar.add(Calendar.DATE, -1);
 			day = df.format(calendar.getTime());
 			days.add(day);
 		}
 		actualQueryResults = sorderMapper.selectDayCountSorderActualByQIDAndPage(qidAndPage);
+		/*##########*/
+//		for(int i=0; i<actualQueryResults.size(); i++){
+//			StatisticsQueryResult actualResult = actualQueryResults.get(i);
+//			System.out.println(actualResult.getQuerydate() + "\t" + actualResult.getCountactual());
+//		}
+//		System.out.println("\n\n");
+		/*##########*/
 		//校验日期是否匹配，并将查询到的信息放入statisticsQueryResults
 		for(int i=0; i<qidAndPage.getLimit(); i++){
 			StatisticsQueryResult queryResult = new StatisticsQueryResult();
@@ -107,11 +123,12 @@ public class StatisticsServiceBean implements StatisticsService {
 			for(int j=0; j<actualQueryResults.size(); j++){
 				StatisticsQueryResult actualResult = actualQueryResults.get(j);
 				if(days.get(i).equals(actualResult.getQuerydate())){
-					countactual = actualResult.getCountActual();
+					countactual = actualResult.getCountactual();
+//					System.out.println(days.get(i) + "\t" + countactual);/*##########*/
 					break;
 				}
 			}
-			queryResult.setCountActual(countactual);
+			queryResult.setCountactual(countactual);
 			statisticsQueryResults.add(queryResult);
 		}
 

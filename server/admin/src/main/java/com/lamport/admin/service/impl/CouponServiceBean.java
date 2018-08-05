@@ -80,6 +80,8 @@ public class CouponServiceBean implements CouponService {
 		System.out.println("..........CouponServiceBean..........selectCouponsByCouponQueryCondition()..........");
 		List<Coupon> coupons = null;
 		
+		int count = couponMapper.selectCountCouponsByCouponQueryCondition(couponQueryCondition);
+		couponQueryCondition.getPageTool().setCount(count);
 		coupons = couponMapper.selectCouponsByCouponQueryCondition(couponQueryCondition);
 		
 		return coupons;

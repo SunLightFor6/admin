@@ -119,6 +119,7 @@ public class CouponHandler {
 	@ResponseBody
 	public String selectCouponsByCouponQueryCondition(CouponQueryCondition couponQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........CouponHandler..........selectCouponsByCouponQueryCondition()..........");
+		System.out.println("cid = " + couponQueryCondition.getCid());
 		String result = null;
 		
 		HttpSession session = request.getSession();
@@ -130,7 +131,7 @@ public class CouponHandler {
 		JsonArray jsonArray = new JsonArray();		
 		jsonObject.addProperty("code", 0);
 		jsonObject.addProperty("msg", "");
-		jsonObject.addProperty("count", couponQueryCondition.getPageTool().getCount());
+		jsonObject.addProperty("count", couponQueryCondition.getPageTool().getCount());/*TODO*/
 		if(coupons!=null && !coupons.isEmpty()){
 			for(Coupon coupon : coupons){
 				JsonObject object = new JsonObject();
