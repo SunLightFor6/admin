@@ -73,14 +73,14 @@
 
 		form.render();
 
-		var formData = new FormData($("#coupon_query_form")[0]);
+		var formData1 = new FormData($("#coupon_query_form")[0]);
 
 		table.render({
 			elem: '#coupon_list',
 			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
 //			url: '../../json/coupon.json',
 			dataType: 'jsonp',
-			data: formData,
+			data: formData1,
 			skin: 'nob',
 			cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 				,
@@ -122,14 +122,14 @@
 		});
 
 		$("#coupon_list_btn").click(function() {
-			var formData = new FormData($("#coupon_query_form")[0]);
+			var formData2 = new FormData($("#coupon_query_form")[0]);
 
 			table.render({
 				elem: '#coupon_list',
 				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
 				//				url: '../../json/coupon.json',
 				dataType: 'jsonp',
-				data: formData,
+				data: formData2,
 				skin: 'nob',
 				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 					,
@@ -195,8 +195,8 @@
 				//跳转页面
 			} else if(obj.event === 'delete') {
 				//删除优惠券的时候，首先判断一下已经发放的数量和总数量
-				var formData = new FormData();
-				formData.append("cid", obj.cid);
+				var formData3 = new FormData();
+				formData3.append("cid", obj.cid);
 
 				layer.confirm('确认删除该优惠券?<br><b>请注意</b>优惠券删除后，所有拥有该优惠券的用户都会被收回该优惠券。', {
 					icon: 3,
@@ -208,7 +208,7 @@
 							type: "post",
 							url: PREPATH + "/admin/deleteCouponByCid",
 							async: true,
-							data: formData,
+							data: formData3,
 							dataType: "json",
 							processData: false,
 							contentType: false,
@@ -279,15 +279,15 @@
 						});
 					},
 					yes: function() {
-						var formData = new FormData();
-						formData.append("cid", data.cid);
+						var formData4 = new FormData();
+						formData4.append("cid", data.cid);
 						var deadline = $("#deadline").val();
-						formData.append("deadline", deadline);
+						formData4.append("deadline", deadline);
 						jqxhr = $.ajax({
 							type: "post",
 							url: PREPATH + "/admin/prolongCouponDeadLineByCidAndProlongdays",
 							async: true,
-							data: formData,
+							data: formData4,
 							dataType: "json",
 							processData: false,
 							contentType: false,

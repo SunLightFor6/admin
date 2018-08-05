@@ -14,12 +14,13 @@
 	
 
 ---------------------------后台需要配置ip的地方----
-1. java代码： FileManager类 FileManagerConfig类中的ip配置 配置完事再打war		2
+1. java代码：FileManagerConfig类中的ip配置 配置完事再打war		2
 			数据库连接池的配置  配置ip											1
 			redis配置ip														1
 2. nginx的配置	配置负载均衡的ip												2
-3. fastDFS服务器的配置	tracker storage mo  三个配置的ip						3
+3. fastDFS服务器的配置	storage mo  三个配置的ip						3
 
+4. PREPATH 要改
 
 
 ----------------------------
@@ -48,4 +49,30 @@ POST http://localhost:8080/admin/selectAmountOfLastHalfYearByQid 404 (Not Found)
 		limit 0,10' at line 13] with root cause
 com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by cid asc
 		limit 0,10' at line 13
+4. spring.xml文件有没有用
 		
+------------休息一会 待会放到服务器上
+1. 服务器启动  ip确定好  先只使用server1  不配置反向代理
+2. 修改服务器以及代码中所有与ip有关的内容
+3. 更新服务器数据库表结构
+4. 代码打包上传到服务器 重启服务器 运行
+
+--------------------------记录一下错误
+1. -解决		sat.html			
+- 	111行
+	页面展示 太挤了
+	坐标不正确的问题     包括今天的
+2. - 企业基本信息修改   上传视频  413 Request Entity Too Large  后端 压根没报错 应该是配置的问题
+	配置文件
+3. - 页面跳转  新增分部信息成功 跳转到#14  报错404
+		错误指向成功
+4. - #24  课程信息修改  预览图底下原本有一个img的框  应该没用
+5. - http://admin.lamport.com/admin/getBranchesName 404
+6. 新建课程的地方  jquery-3.3.1.min.js:2 Uncaught Error: Syntax error, unrecognized expression: #LAY_layedit_[object HTMLTextAreaElement]
+	编辑器这个地方还是有问题  问题可能是变量定义
+7. -	优惠券查询的button
+8. ~ 检查一下查询优惠券那里的传入的参数是不是和定义的一样
+		猜测是变量定义的问题  待测试
+9. - 后四个的页面跳转都得改
+	
+

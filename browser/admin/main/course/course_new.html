@@ -106,6 +106,8 @@
 
 	<script>
 		var imgFile = null;
+		var course_newformal; //建立编辑器
+		var course_newfree;
 		//JavaScript代码区域
 
 		//上传图片
@@ -151,8 +153,8 @@
 				layedit = layui.layedit,
 				laydate = layui.laydate;
 
-			var course_newformal = layedit.build('course_newformal'); //建立编辑器
-			var course_newfree = layedit.build('course_newfree'); //建立编辑器
+			course_newformal = layedit.build('course_newformal'); //建立编辑器
+			course_newfree = layedit.build('course_newfree'); //建立编辑器
 
 			form.render();
 
@@ -176,7 +178,7 @@
 			//获取分部信息，填充到下拉框的地方
 			$.ajax({
 				type: "get",
-				url: "/admin/getBranchesName",
+				url: PREPATH + "/admin/getBranchesName",
 				async: true,
 				dataType: "json",
 				success: function(data) {
@@ -197,6 +199,7 @@
 				var layedit = layui.layedit;
 
 				$("#submit_pay_btn").click(function() {
+					console.log("clicked "+layedit.getContent(course_newformal));
 					//验证
 					if(!/^\d+(\.\d+)?$/.test($("#courseprice").val())) {
 						layer_out("价钱格式不正确，请检查后重新输入");
@@ -212,11 +215,11 @@
 					for(var i in branchs_s) {
 						branch.push(branchs_s[i].name);
 					}
-
+					
 					formData.append("lname", $('#coursename').val());
 					formData.append("imgFile", imgFile);
 					formData.append("lprice", $("#courseprice").val());
-					formData.append("ldesc", layedit.getContent(course_newformal));
+//					formData.append("ldesc", layedit.getContent(course_newformal));
 					formData.append("status", $('#coursestatus option:selected').text());
 					formData.append("category", $('#categories_s option:selected').text());
 					formData.append("branchs", branch);

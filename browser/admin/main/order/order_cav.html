@@ -195,7 +195,7 @@
 				//按钮【按钮一】的回调
 				layer.confirm('订单编号：' + data.courseid + '\n用户：' + data.usernickname + '\n实际付款:' + data.actual + '\n交易流水号：' + data.transactionid, {
 					icon: 3,
-					title: '确认订单核销',
+					title: '确认订单核销？',
 					closeBtn: false
 				}, function(index) {
 					jqxhr = $.ajax({

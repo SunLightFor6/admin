@@ -154,6 +154,7 @@ function getCategories(id_, type) {
 //图表函数
 function renderLayer04Left(data1){
 	var myChart = echarts.init(document.getElementById("layer04_left_chart"));
+	console.log("1222");
 	myChart.setOption(
 		{
 			title: {
@@ -176,7 +177,7 @@ function renderLayer04Left(data1){
 			{
 				type : 'category',
 				boundaryGap : false,
-				data : getLatestDays(31),
+				data : getLatestDays(30),
 				axisLabel:{
 					textStyle:{
 						color:"white", //刻度颜色
@@ -298,7 +299,7 @@ function renderLayer04Right(data2, data3){
 						type: 'solid'
 					}
 				},
-				data: get10MinutesScale()
+				data: get6Month()
 			},
 			yAxis: {
 				type: 'value',
@@ -359,6 +360,33 @@ function renderLayer04Right(data2, data3){
 	);
 }
 
+function get6Month() {
+	var last6Month = new Array();
+	var data=new Date();  
+                //获取年  
+                var year=data.getFullYear();  
+                //获取月  
+                var mon=data.getMonth()+1;  
+                last6Month[0]=year+"/"+mon; 
+                for(var i=1;i<6;i++){  
+                    mon=mon-1;  
+                    if(mon<=0){  
+                        year=year-1;  
+                        mon=mon+12;  
+                    }  
+                    if(mon<10){  
+                        mon="0"+mon;  
+                    }  
+                      
+                    last6Month[i]=year+"/"+mon;  
+                }  
+                  
+                return last6Month.reverse();
+	
+	return last6Month;
+	
+}
+
 function get10MinutesScale()
 {
 	var currDate = new Date();
@@ -377,10 +405,34 @@ function getLatestDays(num)
 {
 	var currentDay = new Date();
 	var returnDays = [];
-	for (var i = 0 ; i < num ; i++)
+	currentDay.setDate(currentDay.getDate());
+	for (var i = 0 ; i < num-1 ; i++)
 	{
 		currentDay.setDate(currentDay.getDate() - 1);
 		returnDays.push((currentDay.getMonth()+1)+"/"+currentDay.getDate());
 	}
-	return returnDays;
+	return returnDays.reverse();
+}
+
+function drawLayer02Label(canvasObj,text,textBeginX,lineEndX){
+	var colorValue = '#04918B';
+
+	var ctx = canvasObj.getContext("2d");
+
+	ctx.beginPath();
+	ctx.arc(35,55,2,0,2*Math.PI);
+	ctx.closePath();
+	ctx.fillStyle = colorValue;
+	ctx.fill();
+
+	ctx.moveTo(35,55);
+	ctx.lineTo(60,80);
+	ctx.lineTo(lineEndX,80);
+	ctx.lineWidth = 1;
+	ctx.strokeStyle = colorValue;
+	ctx.stroke();
+
+	ctx.font='12px Georgia';
+	ctx.fillStyle = colorValue;
+	ctx.fillText(text,textBeginX,92);
 }

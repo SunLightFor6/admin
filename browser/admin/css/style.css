@@ -611,3 +611,18 @@ h4.layui-timeline-title {
 			width: 100%;
 			height: 100%;
 		}
+		
+		#layer02>div {
+			height: 100%;
+			float: left;
+			position: relative;
+		}
+
+		.layer02-data {
+			position: absolute;
+			width: auto;
+			height: 100px;
+			color: white;
+			top: 45px;
+			left: 65px;
+		}
