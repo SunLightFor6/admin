@@ -19,7 +19,7 @@ public interface SwiperService {
 	 * @return int 更新成功的条数
 	 * @throws Exception
 	 */
-	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception;
+	public void updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception;
 	/**
 	 * 通过qid和category查询Swiper(轮播图)信息
 	 * @param qidAndCategory

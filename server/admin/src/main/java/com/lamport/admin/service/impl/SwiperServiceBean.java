@@ -33,9 +33,8 @@ public class SwiperServiceBean implements SwiperService {
 	private JedisPool jedisPool;
 
 	@Override
-	public int updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
+	public void updateMultipleSwipersByQIDAndCategory(QIDAndCategory qidAndCategory, MultipartFile[] imgs, String path) throws Exception {
 		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() ---imgs.size = " + imgs.length + " path = " + path);
-		int updateResult = 1;
 
 		List<String> imgurls = new ArrayList<String>();
 //		List<File> imgFiles = new ArrayList<File>();
@@ -49,20 +48,19 @@ public class SwiperServiceBean implements SwiperService {
 //				System.out.println(Const.ImgSwiperPath + "/" + filename);
 				imgurls.add(FileManager.upload(imgs[i]));
 			}
-			updateResult *= swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);	
+			swiperMapper.deleteSwiperLogicallyByQIDAndCategory(qidAndCategory);
 			for(int i=0; i<imgurls.size(); i++){
 				Swiper swiper = new Swiper();
 				swiper.setCategory(qidAndCategory.getCategory());
 				swiper.setQid(qidAndCategory.getQid());
 				swiper.setImgurl(imgurls.get(i));
 				swiper.setDeletekey(0);
-				updateResult *= swiperMapper.saveSwiper(swiper);
+				swiperMapper.saveSwiper(swiper);
 			}
 //			for(int i=0; i<imgFiles.size(); i++){
 //				imgs[i].transferTo(imgFiles.get(i));
 //			}
 		}
-		updateResult = (updateResult>0) ? 1 : 0;
 		
 		/*------------------------------Redis相关------------------------------*/
 		//Swiper已经发生了变化，将旧的Swiper信息从Redis中删除
@@ -75,9 +73,6 @@ public class SwiperServiceBean implements SwiperService {
 		//结束事务
 		transaction.exec();
 		/*------------------------------Redis相关------------------------------*/
-		
-		System.out.println("--- SwiperServiceBean --- updateMultipleSwipersByQIDAndCategory() --- updateResult = " + updateResult);
-		return updateResult;
 	}
 
 	@Override
@@ -108,8 +103,12 @@ public class SwiperServiceBean implements SwiperService {
 			//将取出来的对象打包成json字符串
 			String jsonString = gson.toJson(swiperImgurls);
 			System.out.println(jsonString);/*########################################*/
+			//开启事务
+			Transaction transaction = jedis.multi();
 			//将json字符串放入redis中
 			jedis.set(key, jsonString);
+			//结束事务
+			transaction.exec();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());

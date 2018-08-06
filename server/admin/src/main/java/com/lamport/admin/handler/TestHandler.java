@@ -811,9 +811,9 @@ public class TestHandler {
 		qidAndCategory.setCategory(Const.SwiperCategoryT);
 		qidAndCategory.setQid(1);
 		String path = request.getServletContext().getRealPath("/");//得到当前工程的根路径
-		int updateResult = swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, null, path);
+		swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, null, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("reponse", updateResult);
+		jsonObject.addProperty("reponse", 1);
 		result = jsonObject.toString();
 		
 		System.out.println("\n" + result + "\n");
