@@ -260,9 +260,9 @@ public class TestHandler {
 		String result = null;
 
 		int id=2;
-		int deleteResult = addressService.deleteAddressLogicallyByID(id);
+//		int deleteResult = addressService.deleteAddressLogicallyByID(id);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", deleteResult);
+//		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();
 
 		System.out.println("\n" + result + "\n");
@@ -386,9 +386,9 @@ public class TestHandler {
 		String result = null;
 
 		int id=6;
-		int deleteResult = lessonService.deleteLessonLogicallyByID(id);
+//		int deleteResult = lessonService.deleteLessonLogicallyByID(id);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", deleteResult);
+//		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();
 
 		System.out.println("\n" + result + "\n");
@@ -500,9 +500,9 @@ public class TestHandler {
 		System.out.println("..........FreeListenHandler..........deleteFreeListenLogicallyByID()..........");
 		String result = null;
 		
-		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id);
+//		int deleteResult = freeListenService.deleteFreeListenLogicallyByID(id);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", deleteResult);
+//		jsonObject.addProperty("response", deleteResult);
 		result = jsonObject.toString();
 		
 		System.out.println("\n" + result + "\n");
