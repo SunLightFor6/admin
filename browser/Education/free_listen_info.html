@@ -47,10 +47,10 @@
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded">
-				<img id="lessonImg" src="images/php.jpg" data-preview-src="" data-preview-group="1" width="100%" height="25%"/>
+				<img id="lessonImg" src="" data-preview-src="" data-preview-group="1" width="100%" height="25%"/>
 			</div>			
 			<div id="lessonTitle" class="title">
-				PHP免费试听课
+				 
 			</div>
 			<div class="mui-card">
 				<ul class="mui-table-view">
@@ -58,21 +58,21 @@
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">
 							开课分部
-							<p id="schoolLoaction"  class='mui-ellipsis'>实训中心</p>
+							<p id="schoolLoaction"  class='mui-ellipsis'> </p>
 						</div>						
 					</li>
 					<li class="mui-table-view-cell mui-media">
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">	
 							学习方向
-							<p id="studyDirection"  class='mui-ellipsis'>Java Web 方向</p>
+							<p id="studyDirection"  class='mui-ellipsis'> </p>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media">
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">
 							课程状态
-							<p class='mui-ellipsis'>进行中</p>
+							<p id="lessonStatus" class='mui-ellipsis'> </p>
 						</div>
 					</li>
 				</ul>
@@ -80,15 +80,14 @@
 			<div class="mui-card" style="margin-top: 20px;">
 				<div class="mui-content-padded" style="background-color: #FFFFFF;">
 					<p id="lessonDesc">
-						用PHP做出的动态页面与其他的编程语言相比，PHP是将程序嵌入到HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成HTML标记的CGI要高许多；
-						PHP还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。
+						
 					</p>
 				</div>
 			</div>
 			<div class="mui-content-padded" style="float: right;">
 				<button id="reserve" type="button" class="mui-btn mui-btn-warning" style="font-size: 15px;" value="">
 					<span style="padding-right: 3px;">申请预约</span>
-					<span class="mui-icon mui-icon-extra mui-icon-extra-cate"></span>
+					<span class="mui-icon mui-icon-extra mui-icon-extra-regist"></span>
 				</button>
 			</div>
 		</div>
@@ -102,7 +101,7 @@
 			document.getElementById("reserve").addEventListener('tap', function() {
 				var fid =this.value;
 				console.log(fid);				
-				var skpiUrl = 'reserve_free_listen.html?fid='+fid+"&fname="+$("#lessonTitle").html();
+				var skpiUrl = 'reserve_free_listen.html?fid='+fid+"";
 				encodeURI(skpiUrl);
 				mui.openWindow({
 					url:skpiUrl ,
@@ -113,29 +112,34 @@
 
 	 
 		var fid = ((window.location+'').split('?')[1]).split('=')[1];
-		var requestUrl = PREPATH+"/selectFreeListenByFid";
-	    getFreeListenInfo(requestUrl,1,fid);
-		function getFreeListenInfo(url,qid,fid){
+		var requestUrl = PREPATH+"/user/selectFreeListenByID";
+	    getFreeListenInfo(requestUrl,fid);
+		function getFreeListenInfo(url,fid){
 			//获取所有订单
-			   mui.ajax(url,{
+			jqxhr=$.ajax({
 				type:"post",
 				async:true,
-				data:{fid:fid},
+				url:url,
+				data:{id:fid},
 				dataType:"json",
 				xhrFields: {  
 					withCredentials: true  
-				},  
+				}, 
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
 				crossDomain: true,
 				success:function(data){
 					$("#lessonImg").attr('src',IMGPATH +data.imgurl) ;
 					$("#studyDirection").text(data.category)
 				    $("#lessonTitle").html(data.title);
-				    $("#schoolLoaction").text(data.branch + data.address);
-				    $("#lessonDesc").text(data.lessonDesc);
+				    $("#schoolLoaction").text(data.branch);
+				    $("#lessonDesc").text(data.fdesc);
 				    $("#reserve").val(fid);
+				    $("#lessonStatus").text(data.status);
 				},
 				error:function(xhr,type,errorThrown){
-					mui.toast("信息获取失败，服务器异常");
+					mui.toast("信息获取失败");
 				}
 
 			});				

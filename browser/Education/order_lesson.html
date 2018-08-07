@@ -3,25 +3,222 @@
 
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>Education</title>
-		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/feedback.css" />
 		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/loading.css" />
-		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script src="js/ansel_select.js" type="text/javascript"></script>
 		<script src="js/loading.animation.js" type="text/javascript"></script>
 		<style>
-			.title {
-				margin: 15px 15px 0px;
-				color: #6d6d72;
-				font-size: 18px;
-				font-weight: 900;
+			/*       */
+			
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
 			}
+			
+			.mui-pages {
+				top: 46px;
+				height: auto;
+				
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			}
+			
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				height: 44px;
+				background-color: #f7f7f8;
+			}
+			
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+			}
+			
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+			}
+			
+			.mui-navbar .mui-bar .mui-title {
+				display: inline-block;
+				width: auto;
+			}
+			
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				width: 16px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			
+			.mui-page-shadow {
+				background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+			}
+			
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;
+				transition: opacity 300ms ease, transform 300ms ease;
+			}
+			
+			.mui-page {
+				display: none;
+			}
+			
+			.mui-pages .mui-page {
+				display: block;
+			}
+			
+			.mui-page .mui-table-view:first-child {
+				margin-top: 15px;
+			}
+			
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}
+			/*       */
+			/*input输入框清空图标样式*/
 			
 			.mui-icon-clear {
 				margin-top: 8px;
 			}
+			/*选择器插件自定义样式*/
+			
+			.ansel_input {
+				height: 40px;
+				line-height: 40px;
+				margin: 30px auto;
+				width: 200px;
+				padding: 0 10px;
+				background: #fff;
+				border-radius: 4px;
+			}
+			
+			.ansel_input .ansel_inputval {
+				height: 40px;
+				line-height: 40px;
+				width: 100%;
+			}
+			
+			.ansel_input {
+				float: right;
+				width: 65%;
+				height: 50px;
+				margin: 0;
+				padding: 0px;
+				border: 0
+			}
+			.point-value {
+				font-size: 30px;
+				margin-top: 10px;
+			}
+			
+			.coupon-money-style {
+				margin-top: 15%;
+				margin-left: 10px;
+				font-size: 40px;
+				color: #CF2D28;
+			}
+			.coupon-outdate-style{
+				padding-top: 10px;
+				font-size: 15px;
+				font-weight: bold;
+				padding-left: 10px;
+			}
+			.coupon-category-style{
+				color: #000000; 
+				font-size: 30px;
+				text-align: center; 
+				margin-top: 15%;
+			}
+			.coupon-limit-style{
+				font-size: 15px;
+				padding-top: 10px; 
+				text-align: center; 
+				font-weight: bold;
+				
+			}
+			.coupon-checked{
+				 font-size: 30px; 
+				 padding-top: 20px; 
+				 padding-left: 10px; 
+				 color: #CF2D28;
+			}
+			
 		</style>
 
 	</head>
@@ -40,128 +237,573 @@
 	</div>
 	<!--loading页结束-->
 
-	<body>
-
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">精品课程购买</h1>
-		</header>
-
-		<div class="mui-content">
-			<div class="mui-content-padded" style="margin: 10px;">
-				<form class="mui-input-group">
-					<div class="mui-input-row" style="height: 50px; padding: 8px;">
-						<label>课程名称</label>
-						<input id="lessonTitle" type="text" value="Java与大数据" readonly>
-					</div>
-					<div class="mui-input-row" style="height: 50px; padding: 8px;">
-						<label>应付费用</label>
-						<input id="totalPrice" type="text" value="1,000.00￥" readonly>
-					</div>
-					<div class="mui-input-row" style="height: 50px; padding: 8px;">
-						<label>真实姓名</label>
-						<input id="userName" type="text" class="mui-input-clear" placeholder="千万别输入微信昵称哟">
-					</div>
-					<div class="mui-input-row" style="height: 50px; padding: 8px;">
-						<label>联系方式</label>
-						<input id="tel" type="text" class="mui-input-clear" placeholder="最好输入手机号码">
-					</div>
-					<div class="mui-button-row" style="height: 50px; padding: 8px;">
-						<button id="pay" type="button" class="mui-btn mui-btn-primary" data-loading-text="支付中" data-loading-icon-position="right" style="width: 35%; font-size: 15px;">
+	<body class="mui-fullscreen">
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-navbar">
+				</div>
+				<div class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<div id="setting" class="mui-page">
+			<!--页面标题栏开始-->
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title">精品课程购买</h1>
+			</div>
+			<!--页面标题栏结束-->
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<div class="mui-content-padded" style="margin: 10px;">
+					<form class="mui-input-group">
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>课程名称</label>
+							<input id="lname" type="text" value="Java与大数据" readonly>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>上课分部</label>
+							<select id="branchSelect" class="select" isval="true" msg="需要选择上课分部呦，亲">
+								<option value="恒大名都">恒大名都</option>
+								<option value="实训中心">实训中心</option>
+								<option value="三好街分部">三好街分部</option>
+							</select>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>应付费用</label>
+							<input id="total" type="text" value="" style="width: 57%; float: none;" readonly>
+							<span style="width: 5%;">￥</span>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>积分优惠</label>
+							<input id="point" type="text" value="可用1420035积分" style="width: 49%; padding: 0px; float: none;" readonly>
+							<div  id="pointButton" class="mui-switch mui-switch-blue mui-switch-mini" style="margin: 3px 0px 0px; width: 14%;">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>卡券优惠</label>
+							<a href="#coupon" class="mui-navigate-right"></a>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>实付费用</label>
+							<input id="actual" type="text" value="" style="width: 57%; float: none;" readonly>
+							<span style="width: 5%;">￥</span>
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>真实姓名</label>
+							<input id="username" type="text" class="mui-input-clear" placeholder="千万别输入微信昵称哟">
+						</div>
+						<div class="mui-input-row" style="height: 50px; padding: 8px;">
+							<label>联系方式</label>
+							<input id="tel" type="text" class="mui-input-clear" placeholder="最好输入手机号码">
+						</div>
+						<div class="mui-button-row" style="height: 50px; padding: 8px;">
+							<button id="pay" type="button" class="mui-btn mui-btn-primary" data-loading-text="支付中" data-loading-icon-position="left" style="width: 35%; font-size: 15px;">
 							确认支付
 						</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+
+		<div id="coupon" class="mui-page">
+			<div  class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button   type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span id="couponBack"  class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title">优惠券</h1>
+			</div>
+			<div class="mui-page-content">
+				<div id="wrapper_content" class=" mui-scroll-wrapper">
+					<div   class="mui-scroll">
+					<form id="coupon_content" class="mui-input-group">
+						<div class="mui-input-row mui-radio mui-left" style="height: 80px;">
+							<div class="mui-card">
+								<div class="mui-card-content mui-pull-right" style="width: 90%;height: 70px;">
+									 <p class="coupon-checked">有钱任性，不使用</p>
+								</div>
+							</div>
+							<input name="checkbox" value="0" type="radio" style="padding-top: 25px;" checked>
+						</div>
+						<div id="couponExample" class="mui-input-row mui-radio mui-left" style="height: 120px; display:none;">
+							<div class="mui-card">
+								<div class="mui-card-content mui-pull-right" style="width: 90%;">
+									<div class="mui-pull-left" style="width:50%; height: 100px; ">
+										<p id="couponMoney1" class="coupon-money-style">￥100</p>
+										<p  class="coupon-outdate-style">过期时间: 2018-5-12</p>
+									</div>
+									<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+										<p  class="coupon-category-style">Java</p>
+										<p  class="coupon-limit-style">满1000元使用</p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<input name="checkbox" value="1" type="radio" style="padding-top: 40px;"/>
+							</div>
+							
+						</div>
+						
+				</form>	
+				   
+			<!--
+				
+					
+						<div class="mui-input-row mui-radio mui-left" style="height: 120px;">
+							<div class="mui-card">
+								<div class="mui-card-content mui-pull-right" style="width: 90%;">
+									<div class="mui-pull-left" style="width:50%; height: 100px; ">
+										<p id="couponMoney2" class="coupon-money-style">￥130</p>
+										<p   class="coupon-outdate-style">过期时间: 2018-5-12</p>
+									</div>
+									<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+										<p  class="coupon-category-style">Java</p>
+										<p  class="coupon-limit-style">满1000元使用</p>
+									</div>
+								</div>
+							</div>
+							<input name="checkbox" value="2" type="radio" style="padding-top: 40px;">
+						</div>
+						<div class="mui-input-row mui-radio mui-left" style="height: 120px;">
+							<div class="mui-card">
+								<div class="mui-card-content mui-pull-right" style="width: 90%;">
+									<div class="mui-pull-left" style="width:50%; height: 100px; ">
+										<p id="couponMoney3"  class="coupon-money-style">￥120</p>
+										<p   class="coupon-outdate-style">过期时间: 2018-5-12</p>
+									</div>
+									<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+										<p   class="coupon-category-style">Java</p>
+										<p   class="coupon-limit-style">满1000元使用</p>
+									</div>
+								</div>
+							</div>
+							<input name="checkbox" value="3" type="radio" style="padding-top: 40px;" disabled="disabled">
+						</div>
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label>checked：true</label>
+						<input name="checkbox" value="Item 2" type="checkbox" checked>
 					</div>
-				</form>
+					<div class="mui-input-row mui-checkbox mui-left mui-disabled">
+						<label>disabled checkbox</label>
+						<input name="checkbox" type="checkbox" disabled="disabled">
+					</div>
+				
+		
+        	作者：offline
+        	时间：2018-08-04
+        	描述：
+        
+						
+						<div class="mui-card">
+							<div class="mui-card-content">
+								<div class="mui-pull-left" style="width:50%; height: 100px; ">
+									<p id='coupon_money' class="coupon-money-style">￥100</p>
+									<p id='coupon_date' class="coupon-outdate-style">过期时间: 2018-5-12</p>
+								</div>
+								<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+									<p id='coupon_category' class="coupon-category-style">Java</p>
+									<p id='coupon_limit' class="coupon-limit-style">满1000元使用</p>
+								</div>
+							</div>
+						</div>
+						<div class="mui-card">
+							<div class="mui-card-content">
+								<div class="mui-pull-left" style="width:50%; height: 100px; ">
+									<p id='coupon_money' class="coupon-money-style">￥100</p>
+									<p id='coupon_date' class="coupon-outdate-style">过期时间: 2018-5-12</p>
+								</div>
+								<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+									<p id='coupon_category' class="coupon-category-style">Java</p>
+									<p id='coupon_limit' class="coupon-limit-style">满1000元使用</p>
+								</div>
+							</div>
+						</div>
+						<div class="mui-card">
+							<div class="mui-card-content">
+								<div class="mui-pull-left" style="width:50%; height: 100px; ">
+									<p id='coupon_money' class="coupon-money-style">￥100</p>
+									<p id='coupon_date' class="coupon-outdate-style">过期时间: 2018-5-12</p>
+								</div>
+								<div class="mui-pull-right" style="width: 50%;height: 100px;   ">
+									<p id='coupon_category' class="coupon-category-style">Java</p>
+									<p id='coupon_limit' class="coupon-limit-style">满1000元使用</p>
+								</div>
+							</div>
+						</div>
+				-->
+						
+
+					</div>
+				</div>
+
 			</div>
 		</div>
 
 		<script src="js/mui.min.js"></script>
+		<script src="js/mui.view.js "></script>
 		<script type="text/javascript" charset="utf-8">
 			//mui初始化
 			mui.init({
-				swipeBack: true //启用右滑关闭功能
+				swipeBack: true, //启用右滑关闭功能
+				pullRefresh: {
+				container: '#wrapper_content',
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				  }
+				}
 			});
-			var parameters = ((window.location + '').split('?')[1]).split('&'); // ?oid=0&lid=0
-			var lid = parameters[0].split('=')[1];
-			var oid = parameters[1].split('=')[1];
-			var requestUrl = "";
-			if(oid == '0')
-				requestUrl = PREPATH + "/selectLessonByLid";
-			else
-				requestUrl = PREPATH + "/selectLessonByOid";
-			getLesson(lid, oid, requestUrl);
+			var viewApi = mui('#app').view({
+				defaultPage: '#setting'
+			});
+			var lidSubmit = "";
+			var category = "";
+			var lessonPrice = "";
+			var couponPrice = "";
+			var couponId = 0;
+			var pointPrice = 0;
+			var rowId = -1;
+			var point = 0;
+			//选择器插件初始化配置
+			$('.select').anselcfg({});
 
-			function getLesson(lid, oid, requestUrl) {
-				mui.ajax(requestUrl, {
-					type: "post",
-					async: true,
-					data: {
-						lessonId: lid,
-						oid: oid
-					},
-					dataType: "json",
-					xhrFields: {
-						withCredentials: true
-					},
-					crossDomain: true,
-					success: function(data) {
-						$("#lessonTitle").val(data.title);
-						$("#totalPrice").val(data.price);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.toast("信息加载失败");
-					}
+			$(function() {
+				var parameters = ((window.location + '').split('?')[1]).split('&'); // ?oid=0&lid=0
+				var lid = parseInt(parameters[0].split('=')[1]);
+				var oid = parseInt(parameters[1].split('=')[1]);
+				selectPayInfo(lid, oid);
+				
+				//注册支付点击事件
+				$("#pay").click(function() {
+					var btnArray = ['是', '否'];
+					mui.confirm('您是否确认支付？', '准备支付', btnArray, function(e) {
+						if(e.index == 0) {
+							pay(lid, oid);
+						} else {
+							mui.toast('支付取消');
+						}
+					})
 				});
-			}
+			})
 
-			function saveOrder(userName, tel, oid, lid) {
-				mui.ajax(PREPATH + "/saveSorder", {
-					type: "post",
-					async: true,
-					data: {
-						lessonId: lid,
-						oid: oid,
-						tel: tel,
-						userName: userName
-					},
-					dataType: "json",
-					xhrFields: {
-						withCredentials: true
-					},
-					crossDomain: true,
-					success: function(data) {
-						if(data == 1) {
-							mui.alert('支付成功', '提示', function() {
+			//获取支付信息
+			function selectPayInfo(lid, oid) {
+				if(lid !== 0 && oid === 0) {
+					jqxhr=$.ajax( {
+						type: "post",
+						async: true,
+						url:PREPATH + "/user/selectPayInfoByLID",
+						data: {
+							lid: lid
+						},
+						headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        				},
+						dataType: "json",
+						xhrFields: {
+							withCredentials: true
+						},
+						crossDomain: true,
+						success: function(data) {
+							category = data.category;
+							lessonPrice = data.lprice;
+							alert(category);
+							alert(lessonPrice);
+							$("#lname").val(data.lname);
+							$("#total").val(data.lprice);
+							$("#actual").val(data.lprice);
+							$("#username").val(data.username);
+							lidSubmit = lid;
+							var discountrate = data.discountrate;
+							var perpointtomoney = data.perpointtomoney ;
+							var totalpoint = data.totalpoint;
+							pointPrice =  -getPointPrice(totalpoint,discountrate,perpointtomoney);
+							$("#username").val(data.username);
+							$("#tel").val(data.tel);
+							selectCouponByPage();
+						},
+						error: function() {
+							mui.toast("信息加载失败");
+						}
+					});
+				}
+				if(lid === 0 && oid !== 0) {
+					jqxhr=$.ajax( {
+						type: "post",
+						url:PREPATH + "/user/selectUnpaidSorderInfoByOID",
+						async: true,
+						data: {
+							oid: oid
+						},
+						dataType: "json",
+						xhrFields: {
+							withCredentials: true
+						},
+						headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        				},
+						crossDomain: true,
+						success: function(data) {
+							category = data.category;
+							lessonPrice = data.lprice;
+							alert(category);
+							alert(lessonPrice);
+							$("#lname").val(data.lname);
+							$("#total").val(data.lprice);
+							$("#actual").val(data.lprice);
+							lidSubmit = data.lid;
+							$("#username").val(data.username);
+							$("#tel").val(data.tel);
+							var discountrate = data.discountrate;
+							var perpointtomoney = data.perpointtomoney ;
+							var totalpoint = data.totalpoint; 
+							pointPrice =  -getPointPrice(totalpoint,discountrate,perpointtomoney);
+							selectCouponByPage();
+						},
+						error: function() {
+							mui.toast("信息加载失败");
+						}
+					});
+				}
+			}
+			function getPointPrice(totalpoint,discountrate,perpointtomoney){
+				var lessonPriceCanbeDiscount = lessonPrice * discountrate;
+				var temp = Math.ceil(lessonPriceCanbeDiscount / perpointtomoney);
+				var pointCanUse = Math.min(temp,totalpoint);
+				$("#point").val("可用"+pointCanUse+"积分");
+				point = -pointCanUse;
+				var pointMoneyCanbeUsed = pointCanUse * perpointtomoney;
+				return pointMoneyCanbeUsed;
+			}
+			//支付课程订单
+			function pay(lid, oid) {
+				var total = $("#total").val();
+				var actual = $("#actual").val();
+				var username = $("#username").val();
+				var branchName = $("#branchSelect").val()
+				var tel = $("#tel").val();
+				var pointSubmit = 0;
+				if(point>0)
+				 pointSubmit = point;
+				if(lid !== 0 && oid === 0) {
+					jqxhr=$.ajax( {
+						type: "post",
+						async: true,
+						url:PREPATH + "/user/saveSorderPaid",
+						data: {
+							lid: lid,
+							total: total,
+							actual: actual,
+							branch: branchName,
+							username: username,
+							tel: tel,
+							recordid :couponId,
+							point:pointSubmit
+						},
+						dataType: "json",
+						xhrFields: {
+							withCredentials: true
+						},
+						headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        				},
+						crossDomain: true,
+						beforeSend: function() {
+							mui($("#pay")).button('loading');
+						},
+						success: function(data) {
+							mui($("#pay")).button('reset');
+							if(data.state == 1) {
+								mui.toast('支付成功');
 								mui.openWindow({
-									url: 'my_orders.html',
-									id: 'my_orders.html'
+									url: 'my_orders.html'
 								});
-							});
-						}else{
+							} else {
+								mui.toast("支付失败");
+							}
+						},
+						error: function() {
 							mui.toast("支付失败");
 						}
-
-					},
-					error: function(xhr, type, errorThrown) {
-						//异常处理；
-						mui.toast("支付失败");
-					}
-				});
+					})
+				}
+				if(lid === 0 && oid !== 0) {
+					jqxhr=$.ajax( {
+						type: "post",
+						url:PREPATH + "/user/paySorderUnpaid",
+						async: true,
+						data: {
+							oid: oid,
+							lid: lidSubmit,
+							total: total,
+							actual: actual,
+							branch: branchName,
+							username: username,
+							tel: tel,
+							recordid :couponId,
+							point:pointSubmit
+						},
+						dataType: "json",
+						xhrFields: {
+							withCredentials: true
+						},
+						headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        				},
+						crossDomain: true,
+						beforeSend: function() {
+							mui($("#pay")).button('loading');
+						},
+						success: function(data) {
+							mui($("#pay")).button('reset');
+							if(data.state == 1) {
+								mui.toast('支付成功');
+								mui.openWindow({
+									url: 'my_orders.html'
+								});
+							} else {
+								mui.toast("支付失败");
+							}
+						},
+						error: function() {
+							mui.toast("支付失败");
+						}
+					})
+				}
 			}
-			document.getElementById("pay").addEventListener('tap', function() {
-				var btnArray = ['是', '否'];
-				mui.confirm('您是否确认支付？', '准备支付', btnArray, function(e) {
-					if(e.index == 0) {
-						var userName = jQuery("#userName").val();
-						var tel = $("#tel").val();
-						saveOrder(userName, tel, oid, lid);
-					} else {
-						mui.alert('支付失败', '提示', function() {
-							//info.innerText = '你刚关闭了警告框';
-						});
+
+			var view = viewApi.view;
+			(function($) {
+				//处理view的后退与webview后退
+				var oldBack = $.back;
+				$.back = function() {
+					if(viewApi.canBack()) { //如果view可以后退，则执行view的后退
+						viewApi.back();
+					} else { //执行webview后退
+						oldBack();
 					}
-				})
+				};
+				//监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+				//第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+				view.addEventListener('pageBeforeShow', function(e) {
+					//				console.log(e.detail.page.id + ' beforeShow');
+				});
+				view.addEventListener('pageShow', function(e) {
+					//				console.log(e.detail.page.id + ' show');
+				});
+				view.addEventListener('pageBeforeBack', function(e) {
+					//				console.log(e.detail.page.id + ' beforeBack');
+				});
+				view.addEventListener('pageBack', function(e) {
+					//				console.log(e.detail.page.id + ' back');
+				});
+			})(mui);
+		
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				selectCouponByPage();
+				mui('#wrapper_content').pullRefresh().endPullupToRefresh(rowId == -2);
+			}, 1500);
+		}	
+		function getActualMoney(){
+			var totalPrice = $("#total").val();
+			var pointValue = Number(pointPrice);
+			if(pointValue < 0 )
+				pointValue = 0;
+			var actualPrice = Number(totalPrice) - pointValue  - Number(couponPrice) ;
+			if(actualPrice<0)
+				actualPrice = 0;
+			$("#actual").val(actualPrice);
+		}
+		function setCouponModelInfo(data,couponModel) {
+			couponModel.css('display', "");
+			couponModel.attr("id","couponModel"+data.recordid);
+			var desc = "无门槛";
+			console.log(category+" --- "+data.category);
+			console.log(lessonPrice+" --- "+data.needmoney);
+			if((category ==data.category||data.category=="无类别" )&& lessonPrice>=data.needmoney)
+			{
+			}else{
+				couponModel.find("input").attr("disabled","disabled");
+				couponModel.find(".mui-card").css('background-color','#ACACB4');
+				couponModel.find(".coupon-money-style").css("color","#000000");
+			}
+			couponModel.find(".coupon-money-style").text('￥'+ data.money);
+			couponModel.find(".coupon-money-style").attr("id","couponMoney"+data.recordid);
+			couponModel.find(".coupon-outdate-style").text('过期时间: '+data.deadline);
+			couponModel.find(".coupon-category-style").text(data.category);
+			if(data.needmoney !=0)
+				desc = "满"+data.needmoney+"使用";
+			couponModel.find(".coupon-limit-style").text(desc);
+			couponModel.find("input").val(data.recordid);
+			return couponModel;
+		}
+		function selectCouponByPage() {
+			jqxhr=$.ajax({
+				type: "post",
+				async: false,
+				url:PREPATH + "/user/selectCouponByUIDAndPage", 
+				data: {
+					startId: rowId
+				},
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
+				crossDomain: true,
+				success: function(data) {
+					coupons = data.coupons;
+					for(var i = 0; i < coupons.length; i++) {
+						var cloneModel = $("#couponExample").clone(true);
+						cloneModel = setCouponModelInfo(coupons[i],cloneModel);
+						$("#coupon_content").append(cloneModel);
+					}
+					if(coupons.length != 0)
+						rowId = coupons[coupons.length - 1].recordid;
+					else
+						rowId = -2;
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("信息获取失败");
+				}
 			});
+		};
+		mui("#coupon_content").on('tap','input',function(e){
+			if($(this).attr("disabled")==undefined){
+				couponId = $(this).val();
+				if(couponId==0){
+					couponPrice = 0;
+				}else{	
+					var tempText = $("#couponMoney"+couponId).text();
+					couponPrice = tempText.substring(1);
+				}
+				alert(couponPrice);
+				viewApi.back();
+				getActualMoney();
+			}else{
+				
+				mui.toast("无法使用");
+			}
+			 
+		})
+		$("#pointButton").click(function() {
+			pointPrice = -pointPrice;
+			point = -point;
+			getActualMoney();
+		})
 		</script>
 
 	</body>

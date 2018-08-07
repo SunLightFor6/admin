@@ -33,9 +33,9 @@
 				<div class="layui-lz-input-inline" style="width: 100px;">
 					<select id="queryBasis" name="queryBasis">
 						<option value="截止日期" selected>截止日期</option>
-						<option value="使用门槛">使用门槛</option>
+						<!--<option value="使用门槛">使用门槛</option>
 						<option value="面额">面额</option>
-						<option value="剩余数量">剩余数量</option>
+						<option value="剩余数量">剩余数量</option>-->
 					</select>
 				</div>
 			</div>
@@ -63,15 +63,15 @@
 	</div>
 </div>
 <script>
-	$(function() {
-		getCategories("category");
-	});
 	layui.use(['table', 'form', 'laydate'], function() {
 		var table = layui.table,
 			form = layui.form,
 			laydate = layui.laydate;
 
 		form.render();
+		$(function() {
+			getCategories("category");
+		});
 
 		var formData1 = new FormData($("#coupon_query_form")[0]);
 		formData1.set("showDisabled", formData1.get("showDisabled")==null?"不显示":formData1.get("showDisabled"));
@@ -134,7 +134,6 @@
 			table.render({
 				elem: '#coupon_list',
 				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
-				//				url: '../../json/coupon.json',
 				dataType: 'jsonp',
 				method: "post",
 				data: formData2,
@@ -204,7 +203,7 @@
 			} else if(obj.event === 'delete') {
 				//删除优惠券的时候，首先判断一下已经发放的数量和总数量
 				var formData3 = new FormData();
-				formData3.append("cid", obj.cid);
+				formData3.append("cid", data.cid);
 
 				layer.confirm('确认删除该优惠券?<br><b>请注意</b>优惠券删除后，所有拥有该优惠券的用户都会被收回该优惠券。', {
 					icon: 3,
@@ -309,7 +308,7 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 2000,
-										content: '成功将优惠券截止日期延长到 ' + deadline
+										content: '成功将优惠券截止日期修改到 ' + deadline
 									});
 									table.reload('coupon_list', {
 										page: {

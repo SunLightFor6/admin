@@ -16,7 +16,7 @@
 		<link rel="stylesheet" type="text/css" href="fonts/mui-icons-extra.ttf" />
 		<!--App自定义的css-->
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
-		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/loading.css" />
 		<script src="js/jquery.min.js" type="text/javascript"></script>
 		<script src="js/config.js" type="text/javascript"></script>
@@ -53,43 +53,9 @@
 			<div class="mui mui-scroll">
 				<div id="tabbar" class="mui-control-content mui-active">
 					<div id="slider" class="mui-slider">
-						<div class="mui-slider-group mui-slider-loop">
+						<div id="swiperDiv"class="mui-slider-group mui-slider-loop">
 							<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-							<div class="mui-slider-item mui-slider-item-duplicate">
-								<a href="#">
-									<img src="images/IT4.jpg" width="100%" height="236px">
-								</a>
-							</div>
-							<!-- 第一张 -->
-							<div class="mui-slider-item">
-								<a href="#">
-									<img src="images/IT1.jpg" width="100%" height="236px">
-								</a>
-							</div>
-							<!-- 第二张 -->
-							<div class="mui-slider-item">
-								<a href="#">
-									<img src="images/IT2.jpg" width="100%" height="236px">
-								</a>
-							</div>
-							<!-- 第三张 -->
-							<div class="mui-slider-item">
-								<a href="#">
-									<img src="images/IT3.jpg" width="100%" height="236px">
-								</a>
-							</div>
-							<!-- 第四张 -->
-							<div class="mui-slider-item">
-								<a href="#">
-									<img src="images/IT4.jpg" width="100%" height="236px">
-								</a>
-							</div>
-							<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-							<div class="mui-slider-item mui-slider-item-duplicate">
-								<a href="#">
-									<img src="images/IT1.jpg" width="100%" height="236px">
-								</a>
-							</div>
+							 
 						</div>
 						<div class="mui-slider-indicator">
 							<div class="mui-indicator mui-active"></div>
@@ -126,36 +92,94 @@
 		});
 
 		var tid = -1;
-		selectAllTeachersByPageAndQid();
-		function selectAllTeachersByPageAndQid() {
-			mui.ajax(PREPATH + "/selectAllTeachersByPageAndQid", {
+		selectTeacherSwiperByQID();
+		selectTeacherByQIDAndPage();
+		function selectTeacherSwiperByQID() { //-------------------------------------------
+			$.ajax( {
 				type: "get",
-				async: false,
+				async: true,
 				data: {
-					tid: tid
 				},
+				url:PREPATH + "/selectTeacherSwiperByQID",
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
 				dataType: "json",
 				xhrFields: {
 					withCredentials: true
 				},
 				crossDomain: true,
 				success: function(data) {
+					var swipers = data.swipers;
+					if(swipers ==0)
+						return;
+					var fatherDiv = $('#swiperDiv');
+					var headContent = '<div class="mui-slider-item mui-slider-item-duplicate">';
+					headContent += '<a href="#">';
+					headContent += '<img src="'+IMGPATH+swipers[swipers.length-1].imgurl+'" width="100%" height="236px">';
+					headContent += '</a>';
+					headContent += '</div>';
+					fatherDiv.append(headContent);		
+					for(var i = 0; i < swipers.length; i++) {
+						var content = '<div class="mui-slider-item">';
+						content += '<a href="#">';
+						content += '<img src="'+IMGPATH+swipers[i].imgurl+'" width="100%" height="236px">';
+						content += '</a>';
+						content += '</div>';
+						fatherDiv.append(content);
+					}
+					var tailContent = '<div class="mui-slider-item mui-slider-item-duplicate">';
+					tailContent +='<a href="#">';
+					tailContent += '<img src="'+IMGPATH+swipers[0].imgurl+'" width="100%" height="236px">';
+					tailContent +='</a>';
+					tailContent +='</div>';
+					fatherDiv.append(tailContent);
+					var slider = mui("#slider");
+						slider.slider({
+						interval: 3000
+					});
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("信息加载失败");
+				}
+			});
+		}
+		
+		
+		function selectTeacherByQIDAndPage() {
+			$.ajax( {
+				type: "get",
+				async: false,
+				data: {
+					startId:tid
+				},
+				url:PREPATH + "/selectTeacherByQIDAndPage",
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
+				crossDomain: true,
+				success: function(data) {
+					var teachers = data.teachers;
 					var fatherDiv = $('#teacherDiv');
-					for(var i = 0; i < data.length; i++) {
+					for(var i = 0; i < teachers.length; i++) {
 						var content = '<div class="mui-card">';
 						content += '<div class="mui-card-header" style="font-size: 20px; align-content: center;">';
-						content += '<h3  align="center" style="font-size: 20px;"><b>' + data[i].tname + '</b></h3>';
+						content += '<h3  align="center" style="font-size: 20px;"><b>' + teachers[i].tname + '</b></h3>';
 						content += '</div>';
 						content += '<div class="mui-card-content">';
 						content += '<div class="mui-card-content-inner">';
 						content += '<table border="0">';
 						content += '<tr>';
 						content += '<td width="40%">';
-						content += '<img src="' + IMGPATH + data[i].tphoto + '" data-preview-src="" data-preview-group="1" width="100%" height="200px"/>';
+						content += '<img src="' + IMGPATH + teachers[i].tphoto + '" data-preview-src="" data-preview-group="1" width="100%" height="200px"/>';
 						content += '</td>';
 						content += '<td width="50%">'
 						content += '<p style="margin-left: 15px;">';
-						content += data[i].introduction;
+						content += teachers[i].introduction;
 						content += '</p>';
 						content += '</td>';
 						content += '</tr>';
@@ -165,8 +189,8 @@
 						content += '</div>';
 						fatherDiv.append(content);
 					}
-					if(data.length != 0) {
-						tid = data[data.length - 1].tid;
+					if(teachers.length != 0) {
+						tid = teachers[teachers.length - 1].tid;
 					} else {
 						tid = -2;
 					}
@@ -179,7 +203,7 @@
 		
 		function pullupRefresh() {
 			setTimeout(function() {	
-				selectAllTeachersByPageAndQid();
+				selectTeacherByQIDAndPage();
 				mui('#pullrefresh').pullRefresh().endPullupToRefresh(tid==-2); //参数为true代表没有更多数据了。
 			}, 1500);
 		}

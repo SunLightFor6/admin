@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 	<head>
@@ -14,11 +14,11 @@
 		<link rel="stylesheet" type="text/css" href="fonts/mui-icons-extra.ttf" />
 		<!--App自定义的css-->
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
-		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
-		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/loading.css" />
 		<script src="js/jquery.min.js" type="text/javascript"></script>
-    	<script src="js/loading.animation.js" type="text/javascript"></script>
-    	<script src="js/config.js" type="text/javascript"></script>
+		<script src="js/loading.animation.js" type="text/javascript"></script>
+		<script src="js/config.js" type="text/javascript"></script>
 		<style>
 			.title {
 				margin: 15px 15px 10px;
@@ -26,10 +26,31 @@
 				font-size: 18px;
 				font-weight: 900;
 			}
+			
 			.mui-content-padded {
 				padding: 10px;
-			}			
+			}
 		</style>
+		<script>
+			window.ppSettings = {
+				app_uuid: 'b81d6202-926c-11e8-b3cf-00163e0c79f6'
+			};
+			(function() {
+				var w = window,
+					d = document;
+
+				function l() {
+					var a = d.createElement('script');
+					a.type = 'text/javascript';
+					a.async = !0;
+					a.charset = 'utf-8';
+					a.src = 'js/pp-library.min.js';
+					var b = d.getElementsByTagName('script')[0];
+					b.parentNode.insertBefore(a, b)
+				}
+				l();
+			})();
+		</script>
 	</head>
 	<!--loading页开始-->
 	<div class="loading">
@@ -70,38 +91,39 @@
 		</nav>
 		<div class="mui-content">
 			<div id="slider" class="mui-slider">
+				
 			</div>
 			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 5px;">
 				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="padding: 5px 0px;">
-					<a href="enterprise_introduction.html" style="color: #F0AD4E;">
+					<a href="enterprise_introduction.html" style="color: #FFB400;">
 						<span class="mui-icon mui-icon-home"></span>
-						<div class="mui-media-body" style="color:#F0AD4E;">企业介绍</div>
+						<div class="mui-media-body" style="color:#FFB400;">企业介绍</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="padding: 5px 0px;">
-					<a href="teachers.html" style="color: #40CEA8;">
+					<a href="teachers.html" style="color: #F0AD4E;">
 						<span class="mui-icon mui-icon-extra mui-icon-extra-peoples"></span>
-						<div class="mui-media-body" style="color: #40CEA8;">师资力量</div>
+						<div class="mui-media-body" style="color: #F0AD4E;">师资力量</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="padding: 5px 0px;">
-					<a href="school_position.html" style="color: #CF2D28;">
+					<a href="school_position.html" style="color: #FF5053;">
 						<span class="mui-icon mui-icon-location"></span>
-						<div class="mui-media-body" style="color: #CF2D28;">学校位置</div>
+						<div class="mui-media-body" style="color: #FF5053;">学校位置</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="padding: 5px 0px;">
-					<a href="contact_us.html" style="color: #FF5053;">
+					<a id="serviceButton" style="color: #CF2D28;">
 						<span class="mui-icon mui-icon-phone"></span>
-						<div class="mui-media-body" style="color: #FF5053;">联系我们</div>
+						<div class="mui-media-body" style="color: #CF2D28;">联系我们</div>
 					</a>
 				</li>
 			</ul>
 			<hr>
-			<div id="freeListenCards">
+			<div id="lessonCards">
 				<div class="mui-row">
 					<div class="mui-col-xs-4"></div>
-					<div class="mui-col-xs-4 title" style="padding-left: 1px;">免费试听课</div>
+					<div class="mui-col-xs-4 title" style="padding-left: 10px;">精品课程</div>
 					<div class="mui-col-xs-1"></div>
 					<div id="more1" class="mui-col-xs-3;" style="padding-top: 28px; font-size: 15px;">
 						更多<span class="mui-icon mui-icon-arrowthinright" style="font-size: 15px;"></span>
@@ -109,10 +131,10 @@
 				</div>
 			</div>
 			<hr>
-			<div id="lessonCards">
+			<div id="freeListenCards">
 				<div class="mui-row">
 					<div class="mui-col-xs-4"></div>
-					<div class="mui-col-xs-4 title" style="padding-left: 10px;">精品课程</div>
+					<div class="mui-col-xs-4 title" style="padding-left: 1px;">免费试听课</div>
 					<div class="mui-col-xs-1"></div>
 					<div id="more2" class="mui-col-xs-3;" style="padding-top: 28px; font-size: 15px;">
 						更多<span class="mui-icon mui-icon-arrowthinright" style="font-size: 15px;"></span>
@@ -121,212 +143,151 @@
 			</div>
 		</div>
 	</body>
-	
+
 	<script src="js/mui.min.js"></script>
-	
+
 	<script>
 		mui.init({
 			swipeBack: true, //启用右滑关闭功能,
-			pullRefresh: {
-				container: '#pullrefresh',
-				down: {
-					callback: pulldownRefresh
-				},
-				up: {
-					contentrefresh: '正在加载...',
-					callback: pullupRefresh
-				}
-			}
 		});
 		//注册点击事件
-		document.getElementById("lesson").addEventListener("tap", function() {
+		$("#lesson").click(function() {
 			mui.openWindow({
 				url: 'lesson.html'
 			});
 		})
-		document.getElementById("moments").addEventListener("tap", function() {
+		$("#moments").click(function() {
 			mui.openWindow({
 				url: 'moments.html'
 			});
 		})
-		document.getElementById("my_own").addEventListener("tap", function() {
+		$("#my_own").click(function() {
 			mui.openWindow({
 				url: 'my_own.html'
 			});
 		})
-		document.getElementById("more1").addEventListener("tap", function() {
+		$("#more1").click(function() {
 			mui.openWindow({
-				url: 'lesson.html'
+				url: 'lesson.html?class=1'
 			});
 		})
-		document.getElementById("more2").addEventListener("tap", function() {
+		$("#more2").click(function() {
 			mui.openWindow({
-				url: 'lesson.html'
+				url: 'lesson.html?class=2'
 			});
 		})
-
-		/**
-		 * 下拉刷新具体业务实现
-		 */
-		function pulldownRefresh() {
-			setTimeout(function() {
-				var table = document.body.querySelector('.mui-table-view');
-				var cells = document.body.querySelectorAll('.mui-table-view-cell');
-				for (var i = cells.length, len = i + 3; i < len; i++) {
-					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-					//下拉刷新，新纪录插到最前面；
-					table.insertBefore(li, table.firstChild);
-				}
-				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-			}, 1500);
-		}
-		var count = 0;
-		/**
-		 * 上拉加载具体业务实现
-		 */
-		function pullupRefresh() {
-			setTimeout(function() {
-				mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-				var table = document.body.querySelector('.mui-table-view');
-				var cells = document.body.querySelectorAll('.mui-table-view-cell');
-				for (var i = cells.length, len = i + 5; i < len; i++) {
-					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-					table.appendChild(li);
-				}
-			}, 1500);
-		}
+		$("#serviceButton").click(function() {
+			var ppButton = document.getElementById("pp-launcher-button");
+			ppButton.click();
+		})
 	</script>
-	
+
 	<script>
-	
-		// 查询轮播图
-		$(function(){
-			mui.ajax(PREPATH+"/selectHomePageSwiperByQid",{
-				type:"get",
-				async:true,
-				data:{qid:1},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					selectHomePageFreeListenByQid();
-					selectHomePageLessonByQid();
-					var slider = $('#slider');
-					var content='<div class="mui-slider-group mui-slider-loop">';	
-				    content +='<div class="mui-slider-item mui-slider-item-duplicate">';
-					content +='<img src="'+IMGPATH+data[data.length-1]+'" width="100%" height="236px">';
-					content +='</div>';
-					for( var i =0 ;i< data.length;i++)
-					{   
-						content +='<div class="mui-slider-item">';
-						content +='<img src="'+IMGPATH+data[i]+'" width="100%" height="236px">';
-						content +='</div>';
-					}
-				    content +='<div class="mui-slider-item mui-slider-item-duplicate">';
-					content +='<img src="'+IMGPATH+data[0]+'" width="100%" height="236px">';
-					content +='</div>';
-					slider.append(content);
-					slider.append('</div>');		
-					var content = '<div class="mui-slider-indicator">';	
-					content += '<div class="mui-indicator mui-active"></div>';
-					for(var i=1;i<data.length;i++){
-						content += '<div class="mui-indicator"></div>' ;
-					}
-					content +='</div>';
-					slider.append(content);
-					var slider = $("#slider");
-					slider.slider({
-						interval: 3000
-					});	
-				},
-				error:function(xhr,type,errorThrown){
-					mui.toast("信息加载失败");
-				}
-			});		 	
-		})
+		function setSwipers(data) {
+			var slider = $('#slider');
+			var content = '<div class="mui-slider-group mui-slider-loop">';
+			content += '<div class="mui-slider-item mui-slider-item-duplicate">';
+			content += '<img src="' + IMGPATH + data[data.length - 1].imgurl + '" width="100%" height="236px">';
+			content += '</div>';
+			for(var i = 0; i < data.length; i++) {
+				content += '<div class="mui-slider-item">';
+				content += '<img src="' + IMGPATH + data[i].imgurl + '" width="100%" height="236px">';
+				content += '</div>';
+			}
+			content += '<div class="mui-slider-item mui-slider-item-duplicate">';
+			content += '<img src="' + IMGPATH + data[0].imgurl + '" width="100%" height="236px">';
+			content += '</div>';
+			slider.append(content);
+			slider.append('</div>');
+			var content = '<div class="mui-slider-indicator">';
+			content += '<div class="mui-indicator mui-active"></div>';
+			for(var i = 1; i < data.length; i++) {
+				content += '<div class="mui-indicator"></div>';
+			}
+			content += '</div>';
+			slider.append(content);
+			var slider = mui("#slider");
+			slider.slider({
+				interval: 3000
+			});
+		}
+		
 		//查询首页试听课
-		 function selectHomePageFreeListenByQid(){
- 		 	mui.ajax(PREPATH+"/selectHomePageFreeListenByQid",{
-				type:"get",
-				async:true,
-				data:{},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-					var fatherDiv = $("#freeListenCards");
-					for(var i = 0;i < data.length;i++){
-						var content = '<div class="mui-card" style="margin-bottom: 23px;">';
-						content += '<div class="mui-card-header mui-card-media" style="background-image: url('+IMGPATH + data[i].imgurl +'); background-size: 100% 100%; height: 200px;">'+data[i].id +'</div>';
-						content += '<div class="mui-card-content">';
-						content += '<div class="mui-card-content-inner">';
-						content += '<p style="color: #333;">' + data[i].title+ '</p>';
-						content += '<p>' +data[i].fdesc	+ '</p>';
-						content += '<p class="fid" style="display: none;">'+ data[i].id+'</p>';
-						content += '</div>';
-						content += '</div>';
-						content += '</div>';
-						fatherDiv.append(content);
-					}
-					mui('#freeListenCards').on('tap', '.mui-card', function() {
-						var url = 'free_listen_info.html?fid='+this.querySelector(".fid").innerHTML;
-						mui.openWindow({
-							url: url
-						});
-					});
+		function setFreeListen(data) {
+			var fatherDiv = $("#freeListenCards");
+			for(var i = 0; i < data.length; i++) {
+				var content = '<div class="mui-card" style="margin-bottom: 23px;">';
+				content += '<div class="mui-card-header mui-card-media" style="background-image: url(' + IMGPATH + data[i].imgurl + '); background-size: 100% 100%; height: 200px;"></div>';
+				content += '<div class="mui-card-content">';
+				content += '<div class="mui-card-content-inner">';
+				content += '<p style="color: #333;">' + data[i].title + '</p>';
+				content += '<p>' + data[i].fdesc + '</p>';
+				content += '<p class="fid" style="display: none;">' + data[i].fid + '</p>';
+				content += '</div>';
+				content += '</div>';
+				content += '</div>';
+				fatherDiv.append(content);
+			}
+			mui('#freeListenCards').on('tap', '.mui-card', function() {
+				var url = 'free_listen_info.html?fid=' + this.querySelector(".fid").innerHTML;
+				mui.openWindow({
+					url: url,
+					id: 'lesson_info.html'
+				});
+			});
+		}
+		//查询首页付费课
+		function setLesson(data) {
+			var fatherDiv = $("#lessonCards");
+			for(var i = 1; i < data.length; i++) {
+				var content = '<div class="mui-card" style="margin-bottom: 23px;">';
+				content += '<div class="mui-card-header mui-card-media" style="background-image: url(' + IMGPATH + data[i].imgurl + '); background-size: 100% 100%; height: 200px;"></div>';
+				content += '<div class="mui-card-content">';
+				content += '<div class="mui-card-content-inner">';
+				content += '<p style="color: #333;">' + data[i].lname + '</p>';
+				content += '<p>' + data[i].ldesc + '</p>';
+				content += '<p class="lid" style="display: none;">' + data[i].lid + '</p>';
+				content += '</div>';
+				content += '</div>';
+				content += '</div>';
+				fatherDiv.append(content);
+			}
+			mui('#lessonCards').on('tap', '.mui-card', function() {
+				var url = 'lesson_info.html?lid=' + this.querySelector(".lid").innerHTML;
+				mui.openWindow({
+					url: url,
+					id: 'lesson_info.html'
+				});
+			});
+		}
+		var qid = 1;
+		$(function() {
+			jqxhr=$.ajax( {
+				type: "get",
+				async: true,
+				data: {
+					qid: qid
 				},
-				error:function(xhr,type,errorThrown){
+				url:PREPATH + "/selectHomeInfoByQID",
+				headers:{
+             		"X-Requested-With":"XMLHttpRequest"
+        		},
+
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain: true,
+				success: function(data) {
+					setSwipers(data.swipers);
+					setFreeListen(data.freelistens);
+					setLesson(data.lessons);
+				},
+				error: function(xhr, type, errorThrown) {
 					mui.toast("信息加载失败");
 				}
 			});
-		 }
-		 //查询首页付费课
-		 function selectHomePageLessonByQid(){
-		 	mui.ajax(PREPATH+"/selectHomePageLessonByQid",{
-				type:"get",
-				async:true,
-				data:{},
-				dataType:"json",
-				xhrFields: {  
-					withCredentials: true  
-				},  
-				crossDomain: true,
-				success:function(data){
-				   var fatherDiv = $("#lessonCards");
-				   for(var i = 1;i < data.length;i++){
-				   		var content = '<div class="mui-card" style="margin-bottom: 23px;">';
-				   		content += '<div class="mui-card-header mui-card-media" style="background-image: url('+IMGPATH+ data[i].imgurl +'); background-size: 100% 100%; height: 200px;"></div>';
-				   		content += '<div class="mui-card-content">';
-				   		content += '<div class="mui-card-content-inner">';
-				   		content += '<p style="color: #333;">' + data[i].lname+ '</p>';
-				   		content += '<p>' +data[i].ldesc	+ '</p>';
-				   		content += '<p class="lid" style="display: none;">'+ data[i].lid+'</p>';
-				   		content += '</div>';
-				   		content += '</div>';
-				   		content += '</div>';
-				   		fatherDiv.append(content);
-				   }
-			   		mui('#lessonCards').on('tap', '.mui-card', function() {
-						var url = 'lesson_info.html?lid='+this.querySelector(".lid").innerHTML;
-							mui.openWindow({
-								url: url
-							});
-					    });
-				},
-				error:function(xhr,type,errorThrown){
-					mui.toast("信息加载失败");
-				}
-			});	 	
-		 }
-		 
+		})
 	</script>
 
 </html>

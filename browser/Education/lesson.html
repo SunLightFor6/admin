@@ -57,6 +57,11 @@
 				padding: 20px 10px;
 				font-size: 16px;
 			}
+			.picker-span{
+				font-family: '华文新魏';
+				font-size: 20px; 
+				color: #CF2D28;
+			}
 		</style>
 		
 	</head>
@@ -98,20 +103,19 @@
 				<span class="mui-tab-label">我的</span>
 			</a>
 		</nav>
-		<div class="mui-content">
-			<p style="margin-bottom: 0px;">
-				<img src="images/curriculum.png" height="10%" width="100%" />
-			</p>
-			<button id='showLessonPicker' class="mui-btn mui-btn-block" type='button'>
-				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">开课分部</span>&nbsp;-&nbsp;
-				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">课程类别</span>&nbsp;-&nbsp;
-				<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">学习方向</span>
-			</button>
-			<div id="pullrefresh" class="mui-row ">
-				<div id="segmentedControlContents" class="mui-col-xs-12" style="border-left: 1px solid #c8c7cc;">
+		<div id="courses"  class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<p style="margin-bottom: 0px;">
+					<img src="images/curriculum.png" height="10%" width="100%" />
+				</p>
+				<button id='showCoursePicker' type="button" class="mui-btn mui-btn-block">
+					<span id="branch" class="picker-span">开课分部</span>&nbsp;-&nbsp;
+					<span id="class" class="picker-span">课程类别</span>&nbsp;-&nbsp;
+					<span id="category" class="picker-span">学习方向</span>
+				</button>
+				<div id="coursePicker" class="mui-col-xs-12" style="border-left: 1px solid #c8c7cc;">						
 				</div>
 			</div>
-
 		</div>
 	</body>
 	
@@ -120,162 +124,348 @@
 	<script type="text/javascript" src="js/mui.picker.js"></script>
 
 	<script>
-
+		
+		var class_log = "精品课";
+		var branch_log = "";
+		var category_log = "";
+		var startId_log = -1;
+		
 		mui.init({
 			swipeBack: true ,//启用右滑关闭功能,
 			pullRefresh: {
-				container: '#pullrefresh',
+				container: '#courses',
 				up: {
 					contentrefresh: '正在加载...',
-					callback: pullupRefresh
+					callback: pullRefresh
 				}
 			}
 		});
 		
-		//注册点击事件
-		mui("nav").on("tap", "#home", function() {
-			mui.openWindow({
-				url: "home.html"
-			})
-		});
-		mui("nav").on("tap", "#moments", function() {
-			mui.openWindow({
-				url: "moments.html"
-			})
-		});
-		mui("nav").on("tap", "#my_own", function() {
-			mui.openWindow({
-				url: "my_own.html"
-			})
-		});
-		
-		var branchName="";
-		var freeOrNot="";
-		var category="";
-		var lessonRequestUrl="";
-		var boundaryId = -1;
 		(function($, doc) {
 			$.init();
 			$.ready(function() {
-				//级联示例
+				//创建三级联动列表对象
 				var lessonPicker = new $.PopPicker({
 					layer: 3
-				});			 
-				mui.ajax(PREPATH+"/selectAllCategoryByQid",{
-					type:"post",
-					async:true,
-					data:{},
-					dataType:"json",
-					xhrFields: {  
-						withCredentials: true  
-					},  
-					crossDomain: true,
-					success:function(data){
-						 lessonPicker.setData(data); 
-						 lessonRequestUrl= PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQidAndPage";
-						 getLessonByBranchNameCategoryAndPage(lessonRequestUrl,data[0].text,"",-1);
-					},
-					error:function(xhr,type,errorThrown){
-        				mui.toast("信息获取失败");
-    				}
 				});
-		 		var showCityPickerButton = $('#showlessonPicker');
-				var lessonResult = $('#segmentedControlContents'); 	 
-				showCityPickerButton.addEventListener('tap', function(event) {
+				$.ajax({
+					url: PREPATH + "/selectAllBranchCategoryByQid",
+					type: "post",
+					async: true,
+					headers: {
+	         			"X-Requested-With": "XMLHttpRequest"
+	    			},
+					xhrFields: {
+						withCredentials: true  
+					},				
+					crossDomain: true,
+					dataType: "json",
+					success: function(data) {
+						 lessonPicker.setData(data);
+						 var urlSplit = (window.location + '').split('?');
+						 if (urlSplit.length === 2) {
+						 	var class_arg = (urlSplit[1].split("="))[1];
+						 	if (class_arg === 1) {
+						 		selectLessonByLessonQueryCondition(data[0].text, "", -1);
+						 	}
+						 	else {
+						 		selectFreeListenByFreeListenQueryCondition(data[0].text, "", -1);
+						 	}
+						 }
+						 else {
+						 	selectLessonByLessonQueryCondition(data[0].text, "", -1);
+						 }
+					},
+					error: function() {
+						mui.toast("信息获取失败");
+					}
+				});
+				var showCoursePicker = document.getElementById("showCoursePicker");
+				var coursePicker = $('#coursePicker');
+				showCoursePicker.addEventListener('tap', function(event) {
 					lessonPicker.show(function(items) {
-						var pickResult = "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[0].text + "</span>&nbsp;-&nbsp;";
-						pickResult += "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[1].text + "</span>&nbsp;-&nbsp;";
-						pickResult += "<span style="font-family: '华文新魏'; font-size: 20px; color: #CF2D28;">" + items[2].text;
-						showCityPickerButton.text(pickResult);
-						branchName = items[0].text;
-						freeOrNot = items[1].text;
-						category = items[2].text;
-						if("精品课"==items[1].text){
-							lessonRequestUrl = PREPATH+"/selectLessonByBranchNameCategoryAndPageAndQidAndPage";
+						branch_log = items[0].text;
+						class_log = items[1].text;
+						category_log = items[2].text;
+						jQuery("#branch").text(branch_log);
+						jQuery("#class").text(class_log);
+						jQuery("#category").text(category_log);
+						if (class_log === "精品课") {
+							selectLessonByLessonQueryCondition(branch_log, category_log, -1);
 						}
-						else{
-							lessonRequestUrl = PREPATH+"/selectFreeListenByBranchNameAndCategoryAndQidAndPage";
+						else {
+							selectFreeListenByFreeListenQueryCondition(branch_log,category_log, -1);
 						}
-						boundaryId = -1;
-						getLessonByBranchNameCategoryAndPage(lessonRequestUrl,items[0].text,items[2].text,boundaryId);
 					});
-				}, false);
+				});
 			});
 		})(mui, document);
 		
-		function getLessonByBranchNameCategoryAndPage(requestUrl,branchName,category,rowId){
-	    	mui.ajax(requestUrl,{
-				type:"post",
-				async:true,
-				data:{branchName:branchName,category:category,rowId:rowId},
-				dataType:"json",
-				withCredentials:true,
-				crossDomain: true,
-				success:function(data){
-					html = [];
-					html.push('<div id="content' + '" class="mui-control-content" style="display:block;" ><ul class="mui-table-view"> ');
-					for(var j = 0; j < data.length; j++) {
-						var lid = 0;
-						var fid = 0;
-						var idstr ="";
-						if(data[j].lid !=undefined)
-							idstr ="href='lesson_info.html?lid="+data[j].lid+"'";
-						if(data[j].id !=undefined)
-							idstr ="href='free_listen_info.html?fid="+data[j].id+"'";
-						html.push('<a '+ idstr+'> <li class="mui-table-view-cell">' +
-							'<img src="images/' + data[j].imgurl  + '" data-preview-src="" data-preview-group="1" height="10%" width="100%"/>' +
-							'</a></li>');					
-					}				
-					if(data.length>0){
-						if(data[data.length-1].lid !=undefined)
-							boundaryId = data[data.length-1].lid;
-						else
-							boundaryId = data[data.length-1].fid;
-					}else{
-						boundaryId =-2;
-					}
-					html.push('</ul></div>');
-					if(rowId ==-1) {
-						$('#segmentedControlContents').empty();
-					}						
-					$('#segmentedControlContents').append(html.join(''));
+		function pullRefresh() {
+			setTimeout(function() {
+				if (class_log === "精品课") {
+					selectLessonByLessonQueryCondition(branch_log, category_log, startId_log);
+				}
+				else {
+					selectFreeListenByFreeListenQueryCondition(branch_log,category_log, startId_log);
+				}
+				mui("#courses").pullRefresh().endPullupToRefresh(startId_log == -2);
+			}, 500);
+		}
+		
+		function selectLessonByLessonQueryCondition(branch, category, startId) {
+			$.ajax({
+				url: PREPATH + "/selectLessonByLessonQueryCondition",
+				type: "post",
+				async: false,
+				data: {
+					branch: branch,
+					category: category,
+					startId: startId
 				},
-				error:function(xhr,type,errorThrown){
-					mui.toast("信息获取失败");
+				headers: {
+         			"X-Requested-With": "XMLHttpRequest"
+    			},
+				xhrFields: {
+					withCredentials: true  
+				},				
+				crossDomain: true,
+				dataType: "json",
+				success: function(data) {
+					var lessons = data.lessons;
+					for (var i = 0; i < lessons.length; i++) {
+						var html = "";
+						html += '<div class="mui-card" style="margin-bottom: 23px;">';
+						html += '	<div class="mui-card-header mui-card-media"';
+						html += '		style="background-image: url(' + IMGPATH + lessons[i].imgurl + ');';
+						html += '			background-size: 100% 100%; height: 200px;">';
+						html += '	</div>';
+						html += '	<div class="mui-card-content">';
+						html += '		<div class="mui-card-content-inner">';
+						html += '			<p class="lid" style="display: none;">' + lessons[i].lid + '</p>';
+						html += '			<p style="color: #333;">' + lessons[i].lname + '</p>';
+						html += '			<p>' + getSimpleText(lessons[i].ldesc).substring(0, 50) + '...</p>';
+						html += '		</div>';
+						html += '	</div>';
+						html += '</div>';
+						$("#coursePicker").append(html);
+					}
+					if (lessons.length > 0) {
+						startId_log = lessons[lessons.length - 1].lid;
+					}
+					else {
+						startId_log = -2;
+					}
+					mui("#courses").on("tap", ".mui-card", function() {
+						mui.openWindow({
+							url: 'lesson_info.html?lid=' + this.querySelector(".lid").innerHTML
+						});
+					});
+				},
+				error: function() {
+					mui.toast("获取精品课信息失败");
 				}
-	    	});
+			});
 		}
-
-	    /**
-		 * 下拉刷新具体业务实现
-		 */
-		function pulldownRefresh() {
-			setTimeout(function() {
-				var table = document.body.querySelector('.mui-table-view');
-				var cells = document.body.querySelectorAll('.mui-table-view-cell');
-				for (var i = cells.length, len = i + 3; i < len; i++) {
-					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-					//下拉刷新，新纪录插到最前面；
-					table.insertBefore(li, table.firstChild);
+		
+		function selectFreeListenByFreeListenQueryCondition(branch, category, startId) {
+			$.ajax({
+				url: PREPATH + "selectFreeListenByFreeListenQueryCondition",
+				type: "post",
+				async: false,
+				data: {
+					branch: branch,
+					category: category,
+					startId: startId
+				},
+				headers: {
+         			"X-Requested-With": "XMLHttpRequest"
+    			},
+				xhrFields: {
+					withCredentials: true  
+				},				
+				crossDomain: true,
+				dataType: "json",
+				success: function(data) {
+					var freelistens = data.freelistens;
+					for (var i = 0; i < freelistens.length; i++) {
+						var html = "";
+						html += '<div class="mui-card" style="margin-bottom: 23px;">';
+						html += '	<div class="mui-card-header mui-card-media"';
+						html += '		style="background-image: url(' + IMGPATH + freelistens[i].imgurl + ');';
+						html += '			background-size: 100% 100%; height: 200px;">';
+						html += '	</div>';
+						html += '	<div class="mui-card-content">';
+						html += '		<div class="mui-card-content-inner">';
+						html += '			<p class="fid" style="display: none;">' + freelistens[i].fid + '</p>';
+						html += '			<p style="color: #333;">' + freelistens[i].title + '</p>';
+						html += '			<p>' + getSimpleText(freelistens[i].fdesc).substring(0, 50) + '...</p>';
+						html += '		</div>';
+						html += '	</div>';
+						html += '</div>';
+						$("#coursePicker").append(html);
+					}
+					if (freelistens.length > 0) {
+						startId_log = freelistens[freelistens.length - 1].fid;
+					}
+					else {
+						startId_log = -2;
+					}
+					mui("#courses").on("tap", ".mui-card", function() {
+						mui.openWindow({
+							url: 'free_listen_info.html?fid=' + this.querySelector(".fid").innerHTML
+						});
+					});
+				},
+				error: function() {
+					mui.toast("获取试听课信息失败");
 				}
-				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-			}, 1500);
+			});
 		}
+		
+		function getSimpleText(text){
+			//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
+			var regExp = new RegExp("<.+?>", "g");
+			//将匹配出来的字符串替换成空字符
+			var simpleText = text.replace(regExp, '');
+			return simpleText;
+		}
+		
+		//注册选项按钮点击事件
+		$("#home").click(function() {
+			mui.openWindow({
+				url: "home.html"
+			});
+		})
+		$("#moments").click(function() {
+			mui.openWindow({
+				url: "moments.html"
+			});
+		})
+		$("#my_own").click(function() {
+			mui.openWindow({
+				url: "my_own.html"
+			});
+		})
+		
 
-		/**
-		 * 上拉加载具体业务实现
-		 */
-		function pullupRefresh() {
-			setTimeout(function() {
-				//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。				
-				console.log(lessonRequestUrl);
-				console.log("bound="+boundaryId);
-				getLessonByBranchNameCategoryAndPage(lessonRequestUrl,branchName,category,boundaryId);
-				mui('#pullrefresh').pullRefresh().endPullupToRefresh(boundaryId==-2);
-			}, 1500);
-		}
+//		var branchName="";
+//		var freeOrNot="";
+//		var category="";
+//		var lessonRequestUrl="";
+//		var rowId = -1;
+//		(function($, doc) {
+//			$.init();
+//			$.ready(function() {
+//				//级联示例
+//				var lessonPicker = new $.PopPicker({
+//					layer: 3
+//				});			 
+//				$.ajax({
+//					type:"post",
+//					async:true,
+//					url:PREPATH + "/selectAllBranchCategoryByQid",
+//					dataType:"json",
+//					xhrFields: {
+//						withCredentials: true  
+//					},
+//					headers:{
+//           				"X-Requested-With":"XMLHttpRequest"
+//      			},
+//					crossDomain: true,
+//					success:function(data){
+//						 lessonPicker.setData(data); 
+//						 lessonRequestUrl= PREPATH+"/selectLessonByLessonQueryCondition";
+//						 getLessonByBranchNameCategoryAndPage(lessonRequestUrl,data[0].text,"",-1);
+//					},
+//					error:function(xhr,type,errorThrown){
+//      				mui.toast("信息获取失败");
+//  				}
+//				});
+//		 		var showBranchCategoryPickerButton = document.getElementById('showLessonPicker');
+//				var lessionResult = $('#segmentedControlContents'); 	 
+//				showBranchCategoryPickerButton.addEventListener('tap', function(event) {
+//					lessonPicker.show(function(items) {
+//						branchName = items[0].text;
+//						freeOrNot = items[1].text;
+//						category = items[2].text;
+//						jQuery("#pickerBranchName").text(branchName);	
+//						jQuery("#pickerFreeOrNot").text(freeOrNot);		
+//						jQuery("#pickerCategory").text(category);		
+//						if ("精品课" == items[1].text) {
+//						 	lessonRequestUrl = PREPATH + "/selectLessonByLessonQueryCondition";
+//						}
+//						else {
+//							lessonRequestUrl = PREPATH + "/selectFreeListenByFreeListenQueryCondition";
+//						}
+//						rowId = -1;
+//						getLessonByBranchNameCategoryAndPage(lessonRequestUrl,items[0].text,items[2].text,rowId);
+//					});
+//				});
+//			});
+//		})(mui, document);
+//		
+//		function getLessonByBranchNameCategoryAndPage(requestUrl,branch,category,startId){
+//	    	$.ajax({
+//				type:"post",
+//				async:false,
+//				url:requestUrl,
+//				data:{branch:branch,category:category,startId:startId},
+//				dataType:"json",
+//				headers:{
+//           		"X-Requested-With":"XMLHttpRequest"
+//      		},
+//				withCredentials:true,
+//				crossDomain: true,
+//				success:function(data){
+//					var lessons = data.lessons;
+//					html = [];
+//					html.push('<div id="content' + '" class="mui-control-content" style="display:block;" ><ul class="mui-table-view">');
+//					for(var j = 0; j < lessons.length; j++) {
+//						var lid = 0;
+//						var fid = 0;
+//						var idstr ="";
+//						if(lessons[j].lid !=undefined)
+//							idstr ="href='lesson_info.html?lid="+lessons[j].lid+"'";
+//						if(lessons[j].fid !=undefined)
+//							idstr ="href='free_listen_info.html?fid="+lessons[j].fid+"'";
+//						html.push('<a '+ idstr+'> <li class="mui-table-view-cell">' +
+//							'<img src="images/' + lessons[j].imgurl  + '" data-preview-src="" data-preview-group="1" height="10%" width="100%"/>' +
+//							'</a></li>');					
+//					}				
+//					if(rowId ==-1)
+//						jQuery('#segmentedControlContents').empty();
+//					if(lessons.length>0){
+//						if(lessons[lessons.length-1].lid !=undefined)
+//							rowId = lessons[lessons.length-1].lid;
+//						else
+//							rowId = lessons[lessons.length-1].fid;
+//					}else{
+//						rowId =-2;
+//					}
+//					
+//					html.push('</ul></div>');
+//					
+//					jQuery('#segmentedControlContents').append(html.join(''));
+//					mui('#segmentedControlContents').on('tap','a',function(){document.location.href=this.href;});
+//				},
+//				error:function(xhr,type,errorThrown){
+//					mui.toast("信息获取失败");
+//				}
+//	    	});
+//		}
+//	   
+//		/**
+//		 * 上拉加载具体业务实现
+//		 */
+//		function pullupRefresh() {
+//			setTimeout(function() {			
+//				console.log(lessonRequestUrl);
+//				console.log("bound="+rowId);
+//				getLessonByBranchNameCategoryAndPage(lessonRequestUrl,branchName,category,rowId);
+//				mui('#pullrefresh').pullRefresh().endPullupToRefresh(rowId==-2);
+//			}, 1500);
+//		}
 
 	</script>
 

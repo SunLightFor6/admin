@@ -13,9 +13,9 @@
 			<p class="form-label_sm">课程类别</p>
 			<select id="categories_s" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
 				<option value="">直接选择或搜索选择</option>
-				<option value="前端">前端</option>
+				<!--<option value="前端">前端</option>
 				<option value="Java">Java</option>
-				<option value="Java Web">Java Web</option>
+				<option value="Java Web">Java Web</option>-->
 				<option value="0">自定义</option>
 			</select>
 			<p id="categories_p"></p>
@@ -34,10 +34,10 @@
 			<p class="form-label_sm">开本课程的分部</p>
 			<select id="fenbu" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
 				<option value="">直接选择或搜索选择</option>
-				<option value="实训中心">实训中心</option>
+				<!--<option value="实训中心">实训中心</option>
 				<option value="大连软件园">大连软件园</option>
 				<option value="世纪路">世纪路</option>
-				<option value="学校基地">学校基地</option>
+				<option value="学校基地">学校基地</option>-->
 			</select>
 			<p class="form-label_sm">课程描述</p>
 			<textarea id="course_mfree" style="display: none;"></textarea>
@@ -78,7 +78,13 @@
 			laydate = layui.laydate;
 
 		var course_mfree = layedit.build('course_mfree'); //建立编辑器
+		
 		form.render();
+
+		$(function() {
+			getCategories("categories_s");
+			getBranchesName("fenbu");
+		});
 
 		form.on('select(categories-select)', function(data) {
 			console.log(data.elem); //得到select原始DOM对象

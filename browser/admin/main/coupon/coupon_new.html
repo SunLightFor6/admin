@@ -51,6 +51,10 @@
 		var layer = layui.layer;
 
 		form.render();
+		
+		$(function() {
+			getCategories("category");
+		});
 
 		//执行一个laydate实例
 		laydate.render({

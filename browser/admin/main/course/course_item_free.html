@@ -30,13 +30,6 @@
 </div>
 
 <script>
-	//JavaScript代码区域
-	layui.use('element', function() {
-		var element = layui.element;
-
-	});
-</script>
-<script>
 	$(function() {
 		var data = JSON.parse(sessionStorage.getItem("freeListen"));
 		$('#coursename').text(data.coursename);
