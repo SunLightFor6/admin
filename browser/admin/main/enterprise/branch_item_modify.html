@@ -7,6 +7,10 @@
 		font-family: "微软雅黑";
 	}
 	
+	.tangram-suggestion-main {
+		z-index: 999;
+	}
+	
 	#allmap {
 		height: 500px;
 		width: 100%;
@@ -22,7 +26,7 @@
 		<form class="layui-form" name="branch-info" id="branch-info" lay-filter="branch-info" method="post">
 			<p class="form-label_sm">分部名称</p>
 			<input type="text" id="branch" name="branch" lay-verify="title required" autocomplete="off" placeholder="请输入分部名称" class="layui-input" />
-			<p class="form-label_sm">企业地址</p>
+			<p class="form-label_sm">分部地址</p>
 			<input type="text" id="address" name="address" lay-verify="title required" autocomplete="off" placeholder="请输入分部地址" class="layui-input" />
 			<p class="form-label_sm"></p>
 			<div style="position: relative;">
@@ -31,8 +35,8 @@
 					<input type="text" id="suggestId" size="24" placeholder="请输入待搜索的地点" style="width:240px;" />
 					<button type="button" id="search_button" >搜索</button>
 				</div>
+				<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 				<div id="allmap"></div>
-				<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none; z-index: 1000000;"></div>
 			</div>
 			<p class="form-label_sm">分部联系电话</p>
 			<input type="text" id="tel" name="tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
@@ -72,16 +76,16 @@
 	// 创建地理编码实例      
 	var myGeo = new BMap.Geocoder();  
 	var address;
-	// 根据坐标得到地址描述    
-	myGeo.getLocation(new BMap.Point(lng, lat), function(result){      
+	// 根据坐标得到地址描述（页面刚加载时，）
+//	myGeo.getLocation(new BMap.Point(lng, lat), function(result){
+	myGeo.getLocation(mapPointer, function(result){      
     	if (result){
     		address = result.address;
-			info = "<br><font size=\"1\">地址：" + address + "</font>";
+			var info = "<font size=\"1\">地址：" + address + "</font>";
 			var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
 			map.openInfoWindow(infoWindow, map.getCenter()); // 打开信息窗口
     	}      
 	});
-	
 	var marker = new BMap.Marker(mapPointer); // 创建点
 	map.addOverlay(marker); //增加点
 
@@ -90,7 +94,6 @@
 		height: 40, // 信息窗口高度    
 //		title: "<h5>当前位置</h5>" // 信息窗口标题   
 	}
-	var info;
 
 	function add_point(e) {
 		lng = e.point.lng;
@@ -98,17 +101,17 @@
 		var currPoint = new BMap.Point(lng, lat);
 		var point = new BMap.Marker(currPoint); // 创建点
 		map.addOverlay(point); //增加点
-		// 根据坐标得到地址描述    
+		// 根据坐标得到地址描述
 		myGeo.getLocation(currPoint, function(result){      
 	    	if (result){      
 				address = result.address;
+				$("#address").val(address);
+				var info = "<font size=\"1\">地址：" + address + "</font>";
+				var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象   
+				map.openInfoWindow(infoWindow, currPoint); // 打开信息窗口
 	    	}      
 		});
-		var info = "<br><font size=\"1\">地址：" + address + "</font>";
-		var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
-		map.openInfoWindow(infoWindow, currPoint); // 打开信息窗口
 	}
-
 	function remove_point() {
 		map.clearOverlays(); //清除覆盖物         
 	};
@@ -117,6 +120,8 @@
 	
 	$(function(){
 		$('#search_button').click(function(){
+			map.clearOverlays();
+			$("#address").val("");/*##########*/
 			var local = new BMap.LocalSearch(map, {
 			renderOptions:{map: map}
 			});
@@ -135,8 +140,9 @@
 		,"location" : map
 	});
 
+//		$("#tangram-suggestion--TANGRAM__1m-main").css("z-index", "999");
 	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-	var str = "";
+		var str = "";
 		var _value = e.fromitem.value;
 		var value = "";
 		if (e.fromitem.index > -1) {
@@ -171,11 +177,12 @@
 			myGeo.getLocation(pp, function(result){      
 		    	if (result){      
 					address = result.address;
+					$("#address").val(address);
+					var info = "<font size=\"1\">地址：" + address + "</font>";
+					var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
+					map.openInfoWindow(infoWindow, pp); // 打开信息窗口
 		    	}      
 			});
-			var info = "<br><font size=\"1\">地址：" + address + "</font>";
-			var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象    
-			map.openInfoWindow(infoWindow, pp); // 打开信息窗口
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
 		  onSearchComplete: myFun
@@ -183,6 +190,20 @@
 		local.search(myValue);
 	}
 </script>
+<script type="text/javascript">
+  // 添加带有定位的导航控件
+  var navigationControl = new BMap.NavigationControl({
+    // 靠左上角位置
+    anchor: BMAP_ANCHOR_TOP_LEFT,
+    // LARGE类型
+    type: BMAP_NAVIGATION_CONTROL_LARGE,
+    // 启用显示定位
+    enableGeolocation: true
+  });
+  map.addControl(navigationControl);
+
+</script>
+
 
 <script>
 	$(function() {

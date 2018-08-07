@@ -107,9 +107,9 @@ public class TeacherHandler {
 		qidAndCategory.setCategory(Const.SwiperCategoryT);
 		qidAndCategory.setQid(admin.getQid());
 		String path = Const.Path;
-		int updateResult = swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, imgs, path);
+		swiperService.updateMultipleSwipersByQIDAndCategory(qidAndCategory, imgs, path);
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("response", updateResult);
+		jsonObject.addProperty("response", 1);
 		result = jsonObject.toString();
 		
 		return result;

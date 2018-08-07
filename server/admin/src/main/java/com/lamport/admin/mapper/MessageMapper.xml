@@ -33,24 +33,24 @@
 	<update id="deleteMessageLogicallyByQID" parameterType="int">
 		update message m, messageimg i, messagelike l, messagereply r 
 		set m.deletekey=1, i.deletekey=1, l.deletekey=1, r.deletekey=1
-		where m.qid=6 
+		where m.qid=#{qid}
 			and i.mid in
 				(select m_i.mid from 
 					(select mi.mid from 
 					 messageimg mi left join message me on mi.mid=me.mid 
-					 where me.qid=6) m_i
+					 where me.qid=#{qid}) m_i
 				)
 			and l.mid in 
 				(select m_l.mid from 
 					(select ml.mid from 
 					 messagelike ml left join message me on ml.mid=me.mid 
-					 where me.qid=6) m_l
+					 where me.qid=#{qid}) m_l
 				)
 			and r.mid in
 				(select m_r.mid from 
 					(select mr.mid from
 					 messagereply mr left join message me on mr.mid=me.mid 
-					 where me.qid=6) m_r
+					 where me.qid=#{qid}) m_r
 				)
 	</update>
 

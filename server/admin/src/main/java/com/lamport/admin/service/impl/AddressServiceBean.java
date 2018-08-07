@@ -129,7 +129,7 @@ public class AddressServiceBean implements AddressService {
 		System.out.println("..........AddressServiceBean..........selectBranchByQID()..........");
 		List<String> branches = null;
 		
-		//TODO
+		branches = addressMapper.selectBranchByQID(qid);
 		
 		return branches;
 	}

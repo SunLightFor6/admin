@@ -96,7 +96,7 @@ public class SorderHandler {
 		JsonArray jsonArray = new JsonArray();
 		for(Sorder sorder : sorders){
 			JsonObject object = new JsonObject();
-			object.addProperty("courseid", sorder.getOid());
+			object.addProperty("courseid", sorder.getLid());
 			object.addProperty("orderid", sorder.getOid());
 			object.addProperty("usernickname", sorder.getUsername());
 			object.addProperty("usertel", sorder.getTel());

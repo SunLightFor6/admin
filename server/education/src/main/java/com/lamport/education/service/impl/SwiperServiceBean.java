@@ -13,6 +13,7 @@ import com.lamport.education.vo.QIDAndCategory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 @Service
 public class SwiperServiceBean implements SwiperService {
@@ -37,8 +38,12 @@ public class SwiperServiceBean implements SwiperService {
 			//将取出来的对象打包成json字符串
 			String jsonString = gson.toJson(swiperImgurls);
 			System.out.println(jsonString);/*########################################*/
+			//开启事务
+			Transaction transaction = jedis.multi();
 			//将json字符串放入redis中
 			jedis.set(key, jsonString);
+			//结束事务
+			transaction.exec();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());
