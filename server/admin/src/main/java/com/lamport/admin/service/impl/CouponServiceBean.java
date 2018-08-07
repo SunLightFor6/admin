@@ -43,7 +43,7 @@ public class CouponServiceBean implements CouponService {
 		
 		coupon.setDisabledkey(1);
 		coupon.setDeletekey(1);
-		couponMapper.deleteCouponLogicallyByCID(coupon);;
+		couponMapper.deleteCouponLogicallyByCID(coupon);
 	}
 	
 	@Override

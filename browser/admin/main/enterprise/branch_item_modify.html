@@ -173,6 +173,8 @@
 		function myFun(){
 			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
 			map.centerAndZoom(pp, 14);
+			lng = pp.lng;
+			lat = pp.lat;
 			map.addOverlay(new BMap.Marker(pp));    //添加标注
 			myGeo.getLocation(pp, function(result){      
 		    	if (result){      

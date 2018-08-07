@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonObject;
 import com.lamport.admin.po.Admin;
+import com.lamport.admin.po.Enterprise;
 import com.lamport.admin.service.AdminService;
+import com.lamport.admin.service.EnterpriseService;
 import com.lamport.admin.service.LoginService;
 
 /**
@@ -25,6 +27,8 @@ public class LogInAndOutHandler {
 	private LoginService loginService;
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private EnterpriseService enterpriseService;
 	
 	/**
 	 * 判断是否有用户登陆(admin/superAdmin)
@@ -54,6 +58,7 @@ public class LogInAndOutHandler {
 		System.out.println("..........LoginHandler..........adminLogin()..........admin:" + admin.getAdminname());
 		String result = null;
 		
+		Enterprise enterprise = new Enterprise();
 		JsonObject jsonObject = new JsonObject();
 		int loginResult = loginService.isAdminLoginSuccessful(admin);
 		switch(loginResult){
@@ -70,11 +75,13 @@ public class LogInAndOutHandler {
 			jsonObject.addProperty("message", "密码错误");
 			break;
 		case 1:
-			jsonObject.addProperty("status", "success");
-			jsonObject.addProperty("message", "登录成功");
 			admin = adminService.selectAdminByAdminname(admin.getAdminname());
+			enterprise = enterpriseService.selectEnterpriseByQID(admin.getQid());
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", admin);
+			jsonObject.addProperty("status", "success");
+			jsonObject.addProperty("message", "登录成功");
+			jsonObject.addProperty("enterpriseName", enterprise.getName());
 			break;
 		default:
 			jsonObject.addProperty("status", "fail");

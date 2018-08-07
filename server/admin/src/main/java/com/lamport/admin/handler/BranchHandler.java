@@ -171,6 +171,7 @@ public class BranchHandler {
 			}
 		}
 		jsonObject.add("values", jsonArray);
+		result = jsonObject.toString();
 		
 		return result;
 	}

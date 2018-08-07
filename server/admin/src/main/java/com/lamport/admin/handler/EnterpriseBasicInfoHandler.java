@@ -102,6 +102,12 @@ public class EnterpriseBasicInfoHandler {
 		return result;
 	}
 	
+	/**
+	 * 根据id查询企业有关积分的基本配置
+	 * @return String
+	 */
+	@RequestMapping(value="/admin/selectConfigByQid")
+	@ResponseBody
 	public String selectConfigByQid(HttpServletRequest request) throws Exception{
 		System.out.println("..........EnterpriseBasicInfoHandler..........selectConfigByQid()..........");
 		String result = null;

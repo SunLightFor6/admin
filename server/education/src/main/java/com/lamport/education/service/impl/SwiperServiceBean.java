@@ -38,11 +38,9 @@ public class SwiperServiceBean implements SwiperService {
 			//将取出来的对象打包成json字符串
 			String jsonString = gson.toJson(swiperImgurls);
 			System.out.println(jsonString);/*########################################*/
-			//开启事务
-			Transaction transaction = jedis.multi();
 			//将json字符串放入redis中
-			jedis.set(key, jsonString);
-			//结束事务
+			Transaction transaction = jedis.multi();
+			transaction.set(key, jsonString);
 			transaction.exec();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/

@@ -16,6 +16,7 @@ import com.lamport.education.vo.QIDAndPage;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 @Service
 public class HomeInfoServiceBean implements HomeInfoService {
@@ -43,7 +44,10 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			String jsonString = gson.toJson(homePageLesson);
 			System.out.println(jsonString);/*########################################*/
 			//将json字符串放入redis中
-			jedis.set(key, jsonString);
+			Transaction transaction = jedis.multi();
+			transaction.set(key, jsonString);
+			transaction.exec();
+			
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			lessons = gson.fromJson(homePageLesson, new TypeToken<List<Lesson>>(){}.getType());
@@ -70,7 +74,9 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			String jsonString = gson.toJson(homePageFreeListen);
 			System.out.println(jsonString);/*########################################*/
 			//将json字符串放入redis中
-			jedis.set(key, jsonString);
+			Transaction transaction = jedis.multi();
+			transaction.set(key, jsonString);
+			transaction.exec();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			freeListens = gson.fromJson(homePageFreeListen, new TypeToken<List<Lesson>>(){}.getType());

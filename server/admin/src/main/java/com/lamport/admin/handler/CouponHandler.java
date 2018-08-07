@@ -131,7 +131,7 @@ public class CouponHandler {
 		JsonArray jsonArray = new JsonArray();		
 		jsonObject.addProperty("code", 0);
 		jsonObject.addProperty("msg", "");
-		jsonObject.addProperty("count", couponQueryCondition.getPageTool().getCount());/*TODO*/
+		jsonObject.addProperty("count", couponQueryCondition.getPageTool().getCount());
 		if(coupons!=null && !coupons.isEmpty()){
 			for(Coupon coupon : coupons){
 				JsonObject object = new JsonObject();
