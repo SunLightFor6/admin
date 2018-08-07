@@ -6,9 +6,9 @@
 			<div class="layui-input-block">
 				<select name="category" id="category" lay-filter="category">
 					<option value="" selected>所有类别</option>
-					<option value="前端">前端</option>
+					<!--<option value="前端">前端</option>
 					<option value="Java">Java</option>
-					<option value="Java Web">Java Web</option>
+					<option value="Java Web">Java Web</option>-->
 				</select>
 			</div>
 		</div>
@@ -61,10 +61,13 @@
 		$("#coupon_add_btn").click(function() {
 			var formData = new FormData($("#coupon_add_form")[0]);
 			console.log($("#coupon_add_form")[0]);
+			formData.set("money", formData.get("money")==""||formData.get("money")==null?"0":formData.get("money"));
+			formData.set("needmoney", formData.get("needmoney")==""||formData.get("needmoney")==null?"0":formData.get("needmoney"));
 			console.log(formData.get("category"));
 			console.log(formData.get("money"));
 			console.log(formData.get("needmoney"));
 			console.log(formData.get("deadline"));
+			required_verify("截止日期", formData.get("deadline"))
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/saveCoupon",

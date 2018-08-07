@@ -149,6 +149,14 @@
 
 		//表单提交的方法
 		$('#enter_modify_submit').click(function() {
+			$("body").mLoading({
+				text: "正在上传，请等待", //加载文字，默认值：加载中...
+				icon: "", //加载图标，默认值：一个小型的base64的gif图片
+				html: false, //设置加载内容是否是html格式，默认值是false
+				content: "", //忽略icon和text的值，直接在加载框中显示此值
+				mask: true //是否显示遮罩效果，默认显示
+			});
+			$("body").mLoading("show");
 			var formData = new FormData();
 			formData.append("name", $('#enter-name').val());
 			formData.append("introduction", $('#enter-des').val());
@@ -168,6 +176,7 @@
 				contentType: false,
 				success: function(data) {
 					//					alert(data.response);
+					$("body").mLoading("hide");
 					if(data.response == 1) {
 						layer.open({
 							type: 0,
@@ -179,6 +188,8 @@
 							time: 1500,
 							content: '更改成功！',
 							success: function() {
+								sessionStorage.setItem("enterpriseNameG", $("#enter-name").val());
+								$('#enterprise_name').text($("#enter-name").val());
 								window.location.href = "#11";
 							}
 						});
@@ -197,6 +208,7 @@
 
 				},
 				error: function() {
+					$("body").mLoading("hide");
 					layer.open({
 						type: 0,
 						btn: false,

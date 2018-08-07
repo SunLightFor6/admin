@@ -72,6 +72,8 @@
 	layui.use(['form'], function() {
 	var form = layui.form,
 		layer = layui.layer;
+		
+		form.render();
 
 	form.on('switch(pointkey)', function(data) {
 		console.log(data.elem); //得到checkbox原始DOM对象

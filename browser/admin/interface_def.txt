@@ -199,7 +199,9 @@
 ## 管理员登录	·
 	--> /login/adminLogin
 		{adminname, password}
-	<-- {"status": "fail | success"; "message": "密码输入错误"}
+	<-- {"status": "fail | success"; 
+		"message": "密码输入错误"
+		"enterpriseName": "" | "***"}
 
 ##超级管理员	·
 ## 查看企业表

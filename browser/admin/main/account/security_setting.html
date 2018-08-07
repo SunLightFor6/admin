@@ -5,11 +5,11 @@
 			<div class="layui-field-box" id="coursestatus">
 				<form class="layui-form" name="password_modify_form" method="post">
 					<p class="form-label_sm">请输入原密码</p>
-					<input type="password" name="sourse_password" lay-verify="pass|required" autocomplete="off" placeholder="请输入原密码" class="layui-input">
+					<input type="password" name="sourse_password" id="sourse_password" lay-verify="pass|required" autocomplete="off" placeholder="请输入原密码" class="layui-input">
 					<p class="form-label_sm">请输入新密码</p>
-					<input type="password" name="new1_password" lay-verify="pass|required" autocomplete="off" placeholder="请输入新密码" class="layui-input">
+					<input type="password" name="new1_password" id="new1_password" lay-verify="pass|required" autocomplete="off" placeholder="请输入新密码" class="layui-input">
 					<p class="form-label_sm">请再次输入新密码</p>
-					<input type="password" name="new2_password" lay-verify="pass|required" autocomplete="off" placeholder="请再次输入新密码" class="layui-input">
+					<input type="password" name="new2_password" id="new2_password" lay-verify="pass|required" autocomplete="off" placeholder="请再次输入新密码" class="layui-input">
 					<p class="form-label_sm"></p>
 					<button type="button" id="password_modify_btn" class="layui-btn layui-btn-normal">提交</button>
 				</form>
@@ -28,21 +28,10 @@
 		var form = layui.form,
 			layer = layui.layer;
 
-			form.verify({
-				if(/^[\S]{8,16}$/.test($('#sourse_password').val())) {
-					return '密码至少8到16位，且不能出现空格';
-				}
-				if(/^[\S]{8,16}$/.test($('#new1_password').val())) {
-					return '密码至少8到16位，且不能出现空格';
-				}
-				if(/^[\S]{8,16}$/.test($('#new2_password').val())) {
-					return '密码至少8到16位，且不能出现空格';
-				}
-			});
-
 		$('#password_modify_btn').click(function() {
 			var formData = new FormData($('#password_modify_form')[0]);
-			if($('#new1_password').val() !== $('#new2_password')) {
+			console.log($('#new1_password').val() + " " + $('#new2_password').val());
+			if($('#new1_password').val() !== $('#new2_password').val()) {
 				layer.open({
 					type: 0,
 					btn: false,
@@ -60,12 +49,20 @@
 				});
 				return;
 			}
+			if(! (required_verify("都", $("#sourse_password").val()) && required_verify("都", $("#new2_password").val()) && required_verify("都", $("#new1_password").val()))) {
+				return ;
+			}
+			
+			if(! (verify_pass("原密码框", $("#sourse_password").val()) && verify_pass("密码框", $("#new2_password").val()) && verify_pass("密码框2", $("#new1_password").val()))){
+				return;
+			}
+			
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updatePasswordByID",
 				async: true,
 				data: formData,
-				dataType: json,
+				dataType: "json",
 				success: function(data) {
 					if(data.status == "success") {
 						layer.open({
