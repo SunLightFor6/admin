@@ -84,7 +84,23 @@
 		</header> 
 		<div class="mui-content" style="margin-top: 44px; padding-top: 0;">			
 		   	<div id="allmap" ></div>	
-			<ul class="mui-table-view"></ul>
+			<ul class="mui-table-view">
+				 <li class="mui-table-view-cell">
+					  <div class="mui-pull-left" style="width: 50%;">
+					  	<h4>branch</h4>
+						<h4>联系商户 </h4>
+						<span class="mui-icon mui-icon-phone"  style=" color:#007AFF; font-size:40px;"></span>
+						<p>18622351756</p>
+					  </div>
+					  <div class="mui-pull-rigth" style="align:right;">
+					  	<button type="button" class="mui-btn mui-btn-primary" style="height: 30%;width:20%;  font-size: 120%;" value="'+data.longitude+','+data.latitude+'" >
+						<b>导航</b>
+						</button>
+						<p>天津市</p>
+					  </div>
+				</li>
+				
+			</ul>
 		</div>
 	</body>
 	
@@ -96,20 +112,20 @@
 			swipeBack:true //启用右滑关闭功能
 		});
 
-		findSchoolPostionByQid();
+		selectBranchByQID();
 
 		function getItemStr(data){
 			html =[];
 		    html.push('<li class="mui-table-view-cell">');
 			html.push('<h4>'+data.branch +'</h4>');
 			html.push(' <h4>联系商户 </h4>');
-			html.push('<a id="icon-phone "><span class="mui-icon mui-icon-phone"  style=" color:#007AFF; font-size:40px;"></span></a>');
+			html.push('<span class="mui-icon mui-icon-phone"  style=" color:#007AFF; font-size:40px;"></span>');
 			html.push('<button type="button" class="mui-btn mui-btn-primary" style="height: 30%;width:20%;  font-size: 120%;" value="'+data.longitude+','+data.latitude+'" >');
 			html.push('<b>导航</b>');
 			html.push('</button>');
 			html.push('<table width="100%">');
 			html.push('<tr>');
-			html.push('<td style="width: 50%;">');
+			html.push('<td style="width: 50%; webkit-user-select ">');
 			html.push(data.tel);
 			html.push('</td>');
 			html.push('<td style="width: 50%;" align="right">');
@@ -121,17 +137,22 @@
 			return html.join('');
 		}
 
-		function findSchoolPostionByQid(){
-			mui.ajax(PREPATH+"/selectSchoolPostionByQidAndPage",{
+		function selectBranchByQID(){
+			$.ajax({
 				type:"post",
 				async:true,
+				url:PREPATH+"/selectBranchByQID",
 				data:{},
 				dataType:"json",
 				withCredentials:true,
 				crossDomain: true,
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
 				success:function(data){
-					for(var i=0;i<data.length;i++){
-						jQuery('.mui-table-view').append(getItemStr(data[i]));		
+					var branches = data.branches;
+					for(var i=0;i<branches.length;i++){
+						jQuery('.mui-table-view').append(getItemStr(branches[i]));		
 					}		
 					mui(".mui-table-view-cell").on('tap',"button",function(){
 						console.log(this.value);

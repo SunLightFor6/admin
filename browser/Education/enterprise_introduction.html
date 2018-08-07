@@ -13,7 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
 		<script src="js/jquery.min.js" type="text/javascript"></script>
     	<script src="js/loading.animation.js" type="text/javascript"></script>
-    	<script src="js/config.js" type="text/javascript"></script>
+    	<script src="js/config.js" type="text/javascript"></script>  
 		<!--App自定义的css-->
 		<style type="text/css">
 			.mui-preview-image.mui-fullscreen {
@@ -300,31 +300,35 @@
 		mui.previewImage();
 		var video_path="";
 		$(function(){
-			mui.ajax(PREPATH+"/selectEnterpriseByQid",{
+			$.ajax({
 				type: "get",
 				async: true,
+				url:PREPATH+"/selectEnterPriseByQid",
 				data:{qid:1},
 				dataType:"json",
 				xhrFields: {  
 					withCredentials: true  
-				},  
+				}, 
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
 				crossDomain: true,
 				success:function(data){
 					var name = data.name;
-					video_path = data.videopath;
-					var introduction = data.introduction;
+					video_path = IMGPATH +data.videopath;
+					var introduction =  data.introduction;
 					var jczs =  data.jczs;
 					$('#introduction').text(introduction);
 					$('#jczs').append(jczs);						
 					var htmlvideo = Html5video("#video_Container", {
 						title: "企业介绍", //视频标题，当全屏时会显示
 						url:  video_path, //支持本地视频和网络视频，格式MP4
-						img: "images/videoimg.png", //视频截图封面
+						//img: " ", //视频截图封面
 						time: "05:29", //视频总时间以分钟单位，当网络缓慢时，没办法及时加载出来，如已知可以填写，可不填。
 						autoplay: false, //是否自动播放视频
 						isMobile: true, //是否开启当处于移动网络时，提示用户是否继续播放视频。,不支持浏览器环境
 						isFull: false, //是否点击播放就全屏显示
-						iospay: false, //如果是IOS系统是否采用苹果系统自带播放器, 可以在浏览器或微信中，全屏观看视频
+						iosplay: false, //如果是IOS系统是否采用苹果系统自带播放器, 可以在浏览器或微信中，全屏观看视频
 						drag: true, //禁止拖动,调节,音量和亮度
 						isfull: true, //是否显示全屏按钮
 						prompt: function(video) {
@@ -336,6 +340,13 @@
 							}, "div");
 						}
 					});
+					var video = $(".mui-video-txt")[0];
+					var canvas = document.createElement("canvas");//canvas画布
+            		canvas.width = video.videoWidth * 0.9;
+            		canvas.height = video.videoHeight * 0.9;
+            		canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);//画图
+					video.setAttribute("poster", canvas.toDataURL("image/png"));
+					
 				},
 				error:function(xhr,type,errorThrown){
 					mui.toast("信息获取失败");

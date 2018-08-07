@@ -7,7 +7,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />
@@ -25,7 +24,6 @@
 				font-size: 17px;
 			}
 		</style>
-
 	</head>
 
 	<!--loading页开始-->
@@ -73,7 +71,7 @@
 						<img class="mui-media-object mui-pull-right" src="images/pretty.jpg">
 						<div class="mui-media-body">
 							课程状态
-							<p id="lessonPrice" class='mui-ellipsis'></p>
+							<p id="lessonStatus" class='mui-ellipsis'></p>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media">
@@ -92,11 +90,11 @@
 			</div>
 			<div class="mui-content-padded" style="float: right;">
 				<button id="bookOrder" type="button" class="mui-btn mui-btn-primary mui-btn-outlined" style="font-size: 15px;">
-					<span style=" padding-right: 2px;">标记为待付款</span>
+					<span>标记为待付款</span>
 					<span class="mui-icon mui-icon-extra mui-icon-extra-cart"></span>
 				</button>
 				<button id="order" type="button" class="mui-btn mui-btn-warning" style="font-size: 15px;">
-					<span style="padding-right: 2px;">购买课程</span>
+					<span>购买课程</span>
 					<span class="mui-icon mui-icon-extra mui-icon-extra-prech"></span>
 				</button>
 			</div>
@@ -104,6 +102,8 @@
 	</body>
 	<script src="js/mui.min.js"></script>
 	<script>
+		
+		var lprice = 0;
 		mui.init({
 			swipeBack: true //启用右滑关闭功能
 		});
@@ -113,73 +113,83 @@
 				url: url
 			});
 		};
-
 		var parameters = ((window.location + '').split('?')[1]).split('=');
 		var requestUrl = PREPATH + "/selectLessonByLid";
-		var lessonId = parameters[1];
-		lessonId = parameters[1];
-		console.log(lessonId);
-		$("#lessonHeader").text('精品课程')
-		getLessonInfo(requestUrl, 1, lessonId);
-
-		function getLessonInfo(url, qid, lessonId) {
-			mui.ajax(url, {
+		var lid = parameters[1];
+		$("#lessonHeader").text('精品课程');
+		getLessonInfo(requestUrl);
+		
+		function getLessonInfo(url) {
+			$.ajax( {
 				type: "post",
 				async: true,
+				url:url,
 				data: {
-					qid: 1,
-					lessonId: lessonId
+					lid: lid
 				},
 				dataType: "json",
 				xhrFields: {
 					withCredentials: true
 				},
+				headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        		},
 				crossDomain: true,
 				success: function(data) {
 					$("#lessonImg").attr('src', IMGPATH + data.imgurl);
 					$("#studyDirection").text(data.category)
-					$("#lessonTitle").html(data.title);
-					$("#schoolLoaction").text(data.branch + data.address);
-					$("#lessonPrice").text(data.price + '￥');
-					$("#lessonDesc").text(data.lessonDesc);
+					$("#lessonTitle").html(data.lname);
+					var schoolContent = data.branches[0].branch;
+					for(var i=1;i<data.branches.length;i++){
+						schoolContent +=","+data.branches[i].branch;
+					}
+					$("#schoolLoaction").text(schoolContent);
+					$("#lessonPrice").text(data.lprice + '￥');
+					lprice = data.lprice ;
+					$("#lessonDesc").text(data.ldesc);
+					$("#lessonStatus").text(data.status);
 				},
 				error: function(xhr, type, errorThrown) {
 				 	mui.toast("信息获取失败");
 				}
 			});
 		};
+		
 		document.getElementById("bookOrder").addEventListener('tap', function() {
-			mui.ajax(PREPATH + "/bookSorder", {
+			jqxhr = $.ajax( {
 				type: "post",
 				async: true,
+				url:PREPATH + "/user/saveSorderUnpaid",
 				data: {
-					lid: lessonId
+					lid: lid,
+					total:lprice,
+					actual:lprice
 				},
 				dataType: "json",
 				xhrFields: {
 					withCredentials: true
 				},
+				headers:{
+             		"X-Requested-With":"XMLHttpRequest"
+        		},
 				crossDomain: true,
 				success: function(data) {
-					if(data==1){
+					if(data.state==1){
 						mui.alert('预定成功', '提示', function() {
-							skipHtml("my_orders.html?lid=" + lessonId + "");
+							skipHtml("my_orders.html");
 						});		
 					}else{
 						mui.toast("预约失败");
-					}
-					
+					}	
 				},
 				error: function(xhr, type, errorThrown) {
 					mui.toast("预约失败");
 				}
-
 			});
 		})
-
+		
 		document.getElementById("order").addEventListener('tap', function() {
-			skipHtml("order_lesson.html?lid=" + lessonId + '&oid=0');
+			skipHtml("order_lesson.html?lid=" + lid + '&oid=0');
 		})
 	</script>
-
 </html>

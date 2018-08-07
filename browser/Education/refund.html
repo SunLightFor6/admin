@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="css/loaders.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/loading.css" />
 		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/loading.animation.js" type="text/javascript"></script>
 		<style>
 			.title {
@@ -17,7 +18,6 @@
 				font-size: 18px;
 				font-weight: 900;
 			}
-			
 			.mui-icon-clear {
 				margin-top: 8px;
 			}
@@ -56,7 +56,8 @@
 					</div>
 					<div class="mui-input-row" style="height: 50px; padding: 8px;">
 						<label>应退费用</label>
-						<input id="lprice" type="text" value="1,000.00" readonly>
+						<input id="actual" type="text" value="1,000.00" style="width: 57%; float: none;" readonly>
+						<span style="width: 5%;">￥</span>
 					</div>
 					<div class="mui-input-row" style="height: 160px; padding: 8px;">
 						<label>退款理由</label>
@@ -78,15 +79,15 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 
-			var parameters = ((window.location + '').split('?')[1]).split('='); // ?oid=0&lid=0
+			var parameters = ((window.location + '').split('?')[1]).split('='); // ?oid=0
 			var oid = parameters[1];
-			var requestUrl = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-			getLesson(lid, oid, requestUrl);
+			getLesson(oid);
 
-			function getLesson(lid, oid, requestUrl) {
-				mui.ajax(requestUrl, {
+			function getLesson(oid) {
+			  jqxhr = $.ajax( {
 					type: "post",
 					async: true,
+					url:PREPATH+"/user/selectRefundInfoByOID",
 					data: {
 						oid: oid
 					},
@@ -94,11 +95,14 @@
 					xhrFields: {
 						withCredentials: true
 					},
+					headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        			},
 					crossDomain: true,
 					success: function(data) { // lname ,lprice , refundreason
-
+						$("#lessonTitle").val(data.oid);
 						$("#lname").val(data.lname);
-						$("#lprice").val(data.lprice + '￥');
+						$("#lprice").val(data.actual + '￥');
 					},
 					error: function(xhr, type, errorThrown) {
 						//异常处理；
@@ -109,18 +113,22 @@
 				});
 			}
 
-			function saveRefund(oid, reason) {
-				mui.ajax("********************************************", {
+			function saveRefund(oid, refundreason) {
+				jqxhr=$.ajax( {
 					type: "post",
 					async: true,
+					url:PREPATH+"/user/saveRefund",
 					data: {
 						oid: oid,
-						refundreason: reason
+						refundreason: refundreason
 					},
 					dataType: "json",
 					xhrFields: {
 						withCredentials: true
 					},
+					headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        			},
 					crossDomain: true,
 					success: function(data) {
 						if(data.state == 1) {
@@ -151,7 +159,7 @@
 			}
 			document.getElementById("reserve").addEventListener('tap', function() {
 				var btnArray = ['是', '否'];
-				mui.confirm('您是否确认支付？', '准备支付', btnArray, function(e) {
+				mui.confirm('是否确定申请退款？', '提示', btnArray, function(e) {
 					if(e.index == 0) {
 						var reason = $('#refundreason').text();
 						saveRefund(oid, reason);

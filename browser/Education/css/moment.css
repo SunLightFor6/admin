@@ -1,0 +1,36 @@
+
+span.messagelist-imgs5,
+span.messagelist-imgs6,
+span.messagelist-imgs7,
+span.messagelist-imgs8,
+span.messagelist-imgs9 {
+	height: 100px;
+	width: 100px;
+	margin: 0px 2px;
+	display: inline-block;
+	overflow: hidden;
+	background-position: center;
+	background-size: cover;
+}
+
+span.messagelist-imgs2,
+span.messagelist-imgs3,
+span.messagelist-imgs4 {
+	height: 150px;
+	width: 150px;
+	margin: 0px 2px;
+	display: inline-block;
+	overflow: hidden;
+	background-position: center;
+	background-size: cover;
+}
+
+span.messagelist-imgs1 {
+	height: 200px;
+	width: 200px;
+	margin: 0px 2px;
+	display: inline-block;
+	overflow: hidden;
+	background-position: center;
+	background-size: cover;
+}

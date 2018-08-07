@@ -17,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 		<link rel="stylesheet" type="text/css" href="css/loaders.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/loading.css"/>
+		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/jquery.min.js" type="text/javascript"></script>
 		<script src="js/loading.animation.js" type="text/javascript"></script>
 		<style>
@@ -251,9 +252,10 @@
 				<center>
 					<form id="uploadForm" enctype="multipart/form-data">
 						<a class="a-upload" style="margin-right: 10px;">
-							<input name="newUserimg" type="file" accept="image/*">选择头像
+							<input id="uploadInput" type="file" accept="image/*">选择头像
 						</a>
-						<button id="uploadBtn" type="button" class="mui-btn mui-btn-primary mui-btn-outlined" 
+						<button id="uploadBtn" type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+							data-loading-text="上传中" data-loading-icon-position="left"
 							style="font-size: 15px; padding: 7px 12px; margin-left: 10px;">
 							上传头像
 						</button>
@@ -274,31 +276,57 @@
 		});		
 		
 		$(function() {
-			//注册按钮的点击事件
-			$("#uploadBtn").click(function() {
-				var formData = new FormData(document.getElementById("uploadForm"));
-				$.ajax({
-					url: "uploadUserimg",
-					data: formData,
-					type: "post",					
-					processData: false,
-					contentType: false,
-					dataType: "json",
-					xhrFields: {  
-						withCredentials: true  
-					},  
-					crossDomain: true,
-					success: function(data) {
-						if (data.userimg !== null && data.userimg !== "") {
-							$("#userimg").attr("src", data.userimg);
-						}
-					},
-					error: function() {
-						mui.toast("上传失败");
+			mui.ajax(PREPATH + "/selectUserByUID", {
+				type: "post",
+				dataType: "json",
+				xhrFields: {  
+					withCredentials: true  
+				},  
+				crossDomain: true,
+				success: function(data) {
+					if (data.userimg !== null && data.userimg !== "") {
+						$("#userimg").attr("src", IMGPATH + data.userimg);
 					}
-				});
+				},
+				error: function() {
+					mui.toast("信息获取失败");
+				}
 			});
 		})
+		
+		//注册按钮的点击事件
+		$("#uploadBtn").click(function() {
+			var formData = new FormData(document.getElementById("uploadForm"));
+			mui.ajax(PREPATH + "uploadUserimg", {
+				data: formData,
+				type: "post",					
+				processData: false,
+				contentType: false,
+				dataType: "json",
+				xhrFields: {  
+					withCredentials: true  
+				},  
+				crossDomain: true,
+				beforeSend: function() {
+					var files = $("#uploadInput").files;
+					var userimg = URL.createObjectURL(files[0]);
+					$("#userimg").attr("src", userimg);
+					mui($("#uploadBtn")).button('loading');
+				},
+				success: function(data) {
+					mui($("#uploadBtn")).button('reset');
+					if (data.state === 1) {
+						mui.toast("上传成功");
+					}
+					else {
+						mui.toast("上传失败");
+					}
+				},
+				error: function() {
+					mui.toast("上传失败");
+				}
+			});
+		});
 		
 		//图片预览
 		mui.previewImage();

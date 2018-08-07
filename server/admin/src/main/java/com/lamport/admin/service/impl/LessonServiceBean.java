@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.AddressMapper;
 import com.lamport.admin.mapper.LessonBranchMapper;
 import com.lamport.admin.mapper.LessonMapper;
@@ -52,13 +53,14 @@ public class LessonServiceBean implements LessonService {
 		int saveResult = 1;
 		
 		String imgurl = null;
-		File imgFile = null;
+//		File imgFile = null;
 		if(img != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(path + Const.ImgLessonPath, filename);
-			imgurl = Const.ImgLessonPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			imgFile = new File(path + Const.ImgLessonPath, filename);
+//			imgurl = Const.ImgLessonPath + "/" + filename;
+			imgurl = FileManager.upload(img);
 		}
 		lesson.setImgurl(imgurl);
 		lesson.setDeletekey(0);
@@ -72,9 +74,9 @@ public class LessonServiceBean implements LessonService {
 				saveResult *= lessonBranchMapper.saveLessonBranch(lessonBranch);
 			}
 		}
-		if(imgurl != null){
-			img.transferTo(imgFile);//保存文件
-		}
+//		if(imgurl != null){
+//			img.transferTo(imgFile);//保存文件
+//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除
@@ -124,13 +126,14 @@ public class LessonServiceBean implements LessonService {
 		int updateResult = 1;
 		
 		String imgurl = null;
-		File imgFile = null;
+//		File imgFile = null;
 		if(img != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(path + Const.ImgLessonPath, filename);
-			imgurl = Const.ImgLessonPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			imgFile = new File(path + Const.ImgLessonPath, filename);
+//			imgurl = Const.ImgLessonPath + "/" + filename;
+			imgurl = FileManager.upload(img);
 		}
 		String oldImgurl = path + lessonMapper.selectLessonImgurlByID(lesson.getLid());
 		updateResult *= lessonBranchMapper.deleteLessonBranchLogicallyByLID(lesson.getLid());
@@ -143,10 +146,10 @@ public class LessonServiceBean implements LessonService {
 			lessonBranch.setDeletekey(0);
 			updateResult *= lessonBranchMapper.saveLessonBranch(lessonBranch);
 		}
-		if(imgurl != null){
-			img.transferTo(imgFile);//保存文件
-			FileTool.deleteFile(oldImgurl);
-		}
+//		if(imgurl != null){
+//			img.transferTo(imgFile);//保存文件
+//			FileTool.deleteFile(oldImgurl);
+//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.AddressMapper;
 import com.lamport.admin.mapper.FreeListenMapper;
 import com.lamport.admin.po.Address;
@@ -44,20 +45,21 @@ public class FreeListenServiceBean implements FreeListenService {
 		int saveResult = 1;
 		
 		String imgurl = null;
-		File imgFile = null;
+//		File imgFile = null;
 		if(img != null) {
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(path + Const.ImgFreeListenPath, filename);
-			imgurl = Const.ImgFreeListenPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			imgFile = new File(path + Const.ImgFreeListenPath, filename);
+//			imgurl = Const.ImgFreeListenPath + "/" + filename;
+			imgurl = FileManager.upload(img);
 		}
 		freeListen.setImgurl(imgurl);
 		freeListen.setDeletekey(0);
 		saveResult = freeListenMapper.saveFreeListen(freeListen);
-		if(imgurl != null) {
-			img.transferTo(imgFile);
-		}
+//		if(imgurl != null) {
+//			img.transferTo(imgFile);
+//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
@@ -107,17 +109,18 @@ public class FreeListenServiceBean implements FreeListenService {
 		if(img != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-			imgFile = new File(path + Const.ImgFreeListenPath, filename);
-			imgurl = Const.ImgFreeListenPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
+//			imgFile = new File(path + Const.ImgFreeListenPath, filename);
+//			imgurl = Const.ImgFreeListenPath + "/" + filename;
+			imgurl = FileManager.upload(img);
 		}
-		String oldImgurl = path + freeListenMapper.selectFreeListenImgurlByID(freeListen.getId());
+//		String oldImgurl = path + freeListenMapper.selectFreeListenImgurlByID(freeListen.getId());
 		freeListen.setImgurl(imgurl);
 		updateResult = freeListenMapper.updateFreeListenByID(freeListen);
-		if(imgurl != null){
-			img.transferTo(imgFile);//保存文件
-			FileTool.deleteFile(oldImgurl);
-		}
+//		if(imgurl != null){
+//			img.transferTo(imgFile);//保存文件
+//			FileTool.deleteFile(oldImgurl);
+//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除

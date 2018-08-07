@@ -40,10 +40,6 @@
 	var course_cat = '', //当前的课程种类
 		branch_sel = ''; //当前选择的分部名称
 	var count = 0; //图片计数
-	//JavaScript代码区域
-	layui.use('element', function() {
-		var element = layui.element;
-	});
 
 	function afterload(i) {
 		//		console.log("loading ... count = " + count);
@@ -74,8 +70,13 @@
 <script>
 	layui.use(['form', 'table'], function() {
 		var form = layui.form,
-			table = layui.table;
+			table = layui.table,
+			layer = layui.layer;
 		form.render();
+
+		$(function() {
+			getBranchesName("branch_sel", 2);
+		});
 
 		//默认选中正式精品课
 		form.val('course_query_form', {

@@ -51,11 +51,15 @@
 				<form class="mui-input-group">
 					<div class="mui-input-row" style="height: 50px; padding: 8px;">
 						<label>试听课程</label>
-						<input id="lname" type="text" value="PHP项目实战" readonly>
+						<input id="title" type="text" value="PHP项目实战" readonly>
+					</div>
+					<div class="mui-input-row" style="height: 50px; padding: 8px;">
+						<label>开课分部</label>
+						<input id="branch" type="text" value="恒大名都" readonly>
 					</div>
 					<div class="mui-input-row" style="height: 50px; padding: 8px;">
 						<label>真实姓名</label>
-						<input id="userName" type="text" class="mui-input-clear" placeholder="千万别输入微信昵称哟">
+						<input id="username" type="text" class="mui-input-clear" placeholder="千万别输入微信昵称哟">
 					</div>
 					<div class="mui-input-row" style="height: 50px; padding: 8px;">
 						<label>联系方式</label>
@@ -66,7 +70,9 @@
 						<textarea id="comment" rows="5" placeholder="您有什么特殊的需求"></textarea>
 					</div>
 					<div class="mui-button-row" style="height: 60px; padding: 10px;">
-						<button id="reserve" type="button" class="mui-btn mui-btn-primary" style="width: 40%; height: 40px; font-size: 16px;">
+						<button id="book" type="button" class="mui-btn mui-btn-primary" 
+							data-loading-text="提交中" data-loading-icon-position="left" 
+							style="width: 40%; height: 40px; font-size: 16px;">
 							申请预约
 						</button>
 					</div>
@@ -79,51 +85,59 @@
 			mui.init({
 				swipeBack: true //启用右滑关闭功能
 			});
-			var nativeWebview, imm, InputMethodManager;
-			var showSoftInput = function() {
-				if(mui.os.android) {
-					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-				} else {
-					nativeWebview.plusCallMethod({
-						"setKeyboardDisplayRequiresUserAction": false
-					});
-				}
-				setTimeout(function() {
-					var inputElem = document.querySelector('input');
-					inputElem.focus();
-					inputElem.parentNode.classList.add('mui-active'); //第一个是search，加上激活样式
-				}, 200);
-			};
-
-			mui.plusReady(function() {
-				initNativeObjects();
-				showSoftInput();
-			});
-
-			var parameters = ((window.location + '').split('?')[1]).split('&'); // ?oid=0&lid=0
-			var fid = parameters[0].split('=')[1];
-			var fname = decodeURI(parameters[1].split('=')[1]);
-			$('#lname').val(fname);
-
-			document.getElementById("reserve").addEventListener('tap', function() {
-				var btnArray = ['是', '否'];
-				mui.confirm('您是否确认预约？', '准备预约', btnArray, function(e) {
-					if(e.index == 0) {
-						bookFreeListen(fid);
-					}
-				})
-			});
-
-			function bookFreeListen(fid) {
-				var userName = $('#userName').val();
-				var tel = $('#tel').val();
-				var comment = $('#comment').val();
-				mui.ajax(PREPATH + "/saveFreeListenByLid", {
+			
+			$(function() {
+				var parameters = ((window.location + '').split('?')[1]).split('&');
+				var id = parameters[0].split('=')[1];
+				jqxhr=$.ajax( {
 					type: "post",
 					async: true,
+					url:PREPATH + "/user/selectReserveInfoByID",
+					data: {id: id},
+					dataType: "json",
+					xhrFields: {
+						withCredentials: true
+					},
+					headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        			},
+					crossDomain: true,
+					success: function(data) {
+						$("#title").val(data.title);
+						$("#branch").val(data.branch);
+						$("#username").val(data.username);
+						$("#tel").val(data.tel);
+					},
+					error: function() {
+						mui.toast("信息加载失败");
+					}
+				});				
+				//注册预约点击事件
+				$("#book").click(function() {
+					var btnArray = ['是', '否'];
+					mui.confirm('您是否确认预约？', '准备预约', btnArray, function(e) {
+						if (e.index == 0) {
+							book(id);
+						}
+						else {
+							mui.toast('预约取消');
+						}
+					})
+				});
+			})
+			
+			//提交预约申请
+			function book(fid) {
+				var username = $('#username').val();
+				var tel = $('#tel').val();
+				var comment = $('#comment').val();
+				jqxhr=$.ajax( {
+					type: "post",
+					async: true,
+					url:PREPATH + "/user/saveFreeListenBook",
 					data: {
 						fid: fid,
-						userName: userName,
+						username: username,
 						tel: tel,
 						comment: comment
 					},
@@ -131,22 +145,28 @@
 					xhrFields: {
 						withCredentials: true
 					},
+					headers:{
+             				"X-Requested-With":"XMLHttpRequest"
+        			},
 					crossDomain: true,
+					beforeSend: function() {
+						mui($("#book")).button('loading');
+					},
 					success: function(data) {
-						if(data == 1) {
-							mui.alert('申请成功', '提示', function() {
-								mui.openWindow({
-									url: 'my_reservations.html',
-									id: 'my_reservations.html'
-								});
+						mui($("#book")).button('reset');
+						if(data.state == 1) {
+							mui.toast('申请成功');
+							mui.openWindow({
+								url: 'my_reservations.html#item2'
 							});
-						} else {
-							mui.toast("支付失败");
+						}
+						else {
+							mui.toast("预约失败");
 						}
 
 					},
-					error: function(xhr, type, errorThrown) {
-						mui.toast("支付失败");
+					error: function() {
+						mui.toast("预约失败");
 					}
 				});
 			}

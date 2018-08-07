@@ -178,20 +178,22 @@
 			//获取分部信息，填充到下拉框的地方
 			$.ajax({
 				type: "post",
-				url: PREPATH + "/admin/getCategories",
+				url: PREPATH + "/admin/getBranchesName",
 				async: true,
 				dataType: "json",
 				success: function(data) {
-					console.log("类别信息获取成功");
+					console.log("分部信息获取成功");
 					$.each(data.values, function(index, value) {
 						$("#fenbu_f").append('<option value="' + value + '">' + value + '</option>');
 						$("#branch_sel").append('<input type="checkbox" name="' + value + '" title="' + value + '">');
 					});
+					form.render();
 				},
 				error: function() {
-					console.log("类别信息获取失败，服务器错误");
+					console.log("分部信息获取失败，服务器错误");
 					$("#fenbu_f").append('<option value="服务器错误，请重试或联系系统管理员" disabled>服务器错误，请重试或联系系统管理员</option>');
 					$("#branch_sel").append('<input type="checkbox" name="服务器错误" title="服务器错误，请重试或联系系统管理员" disabled />');
+					form.render();
 				}
 			});
 

@@ -33,9 +33,9 @@
 				<div class="layui-lz-input-inline" style="width: 100px;">
 					<select id="queryBasis" name="queryBasis">
 						<option value="截止日期" selected>截止日期</option>
-						<option value="使用门槛">使用门槛</option>
+						<!--<option value="使用门槛">使用门槛</option>
 						<option value="面额">面额</option>
-						<option value="剩余数量">剩余数量</option>
+						<option value="剩余数量">剩余数量</option>-->
 					</select>
 				</div>
 			</div>
@@ -71,18 +71,18 @@
 		form.render();
 		$(function() {
 			getCategories("category");
-			form.render();
 		});
+
 		var formData1 = new FormData($("#coupon_query_form")[0]);
-		formData1.set("cid", formData1.get("cid")==null||formData1.get("cid")==""?"0":formData1.get("cid"));
-		formData1.set("showDisabled", formData1.get("showDisabled")==null?"":formData1.get("showDisabled"));
+		formData1.set("cid", formData1.get("cid") == null || formData1.get("cid") == "" ? "0" : formData1.get("cid"));
+		formData1.set("showDisabled", formData1.get("showDisabled") == null ? "" : formData1.get("showDisabled"));
 
 		table.render({
 			elem: '#coupon_list',
-			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData1.get("queryBasis")
-							 + '&cid=' + formData1.get("cid") + '&category=' + formData1.get("category")
-							 + '&queryOrderBasis=' + formData1.get("queryOrderBasis") + '&showDisabled=' + formData1.get("showDisabled"),
-//			url: '../../json/coupon.json',
+			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData1.get("queryBasis") +
+				'&cid=' + formData1.get("cid") + '&category=' + formData1.get("category") +
+				'&queryOrderBasis=' + formData1.get("queryOrderBasis") + '&showDisabled=' + formData1.get("showDisabled"),
+			//			url: '../../json/coupon.json',
 			dataType: 'jsonp',
 			data: formData1,
 			skin: 'nob',
@@ -127,22 +127,22 @@
 
 		$("#coupon_list_btn").click(function() {
 			var formData2 = new FormData($("#coupon_query_form")[0]);
-			formData2.set("cid", formData2.get("cid")==null||formData2.get("cid")==""?"0":formData2.get("cid"));
-			formData2.set("showDisabled", formData2.get("showDisabled")==null?"":formData2.get("showDisabled"));
+			formData2.set("cid", formData2.get("cid") == null || formData2.get("cid") == "" ? "0" : formData2.get("cid"));
+			formData2.set("showDisabled", formData2.get("showDisabled") == null ? "" : formData2.get("showDisabled"));
 			console.log(formData2.get("queryBasis"));
 			console.log(formData2.get("cid"));
 			console.log(formData2.get("category"));
 			console.log(formData2.get("queryOrderBasis"));
 			console.log(formData2.get("showDisabled"));
-			
+
 			table.render({
 				elem: '#coupon_list',
-				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData2.get("queryBasis")
-							 + '&cid=' + formData2.get("cid") + '&category=' + formData2.get("category")
-							 + '&queryOrderBasis=' + formData2.get("queryOrderBasis") + '&showDisabled=' + formData2.get("showDisabled"),
+				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData2.get("queryBasis") +
+					'&cid=' + formData2.get("cid") + '&category=' + formData2.get("category") +
+					'&queryOrderBasis=' + formData2.get("queryOrderBasis") + '&showDisabled=' + formData2.get("showDisabled"),
 				dataType: 'jsonp',
 				method: "post",
-//				data: formData2,
+				//				data: formData2,
 				skin: 'nob',
 				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 					,
@@ -184,15 +184,14 @@
 			});
 
 		});
-		
+
 		//不再提示
-		if(noMore == 1 ) {
+		if(noMore == 1) {
 			$("#noMoreTips").hide();
 		}
 		$("#noMore").click(function() {
 			noMore = 1;
 		});
-		
 
 		table.on('tool(coupon_list)', function(obj) {
 			var data = obj.data;

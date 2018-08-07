@@ -96,3 +96,13 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 	9. 加载中的展示  比如正在上传视频
 	10.所有的验证
 	12.新增正式课程  图片大小 预览的时候限制一下
+	
+
+------------------------------
+	1. 41 拒绝访问
+-	2. 视频  加载不了  video标签  尝试解决了一下
+			embed
+-	3. 课程信息表 分部  没有请求
+-	4. 分部  类别 
+		form.render();
+-	5. 文件上传没改完  8个

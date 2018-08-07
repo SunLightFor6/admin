@@ -125,6 +125,7 @@
 		form.render();
 		$(function() {
 			getCategories("su_category");
+			form.render();
 		});
 		//查看已选择的用户数量
 		$("#su_select_amount_btn").click(function() {
@@ -154,20 +155,7 @@
 
 		$("#su_per").change(function() {
 			amount = parseInt($("#su_per").val());
-//			if(amount <= remaining) {
 				enableHandleBtn();
-//			} else {
-//				layer.open({
-//					type: 0,
-//					btn: false,
-//					title: false,
-//					icon: 5,
-//					closeBtn: 0,
-//					shadeClose: true,
-//					time: 1500,
-//					content: '优惠券剩余：' + remaining + '<br>' + '即将发放的优惠券数量：' + amount,
-//				});
-//			}
 		});
 
 		//发放优惠券
