@@ -42,8 +42,8 @@
 			<div class="layui-inline">
 				<div class="layui-lz-input-inline" style="width:70px;">
 					<select id="queryOrderBasis" name="queryOrderBasis">
-						<option value="升序" selected>升序</option>
-						<option value="降序">降序</option>
+						<option value="降序" selected>降序</option>
+						<option value="升序">升序</option>
 					</select>
 				</div>
 			</div>
@@ -63,22 +63,25 @@
 	</div>
 </div>
 <script>
-	$(function() {
-		getCategories("category");
-	});
 	layui.use(['table', 'form', 'laydate'], function() {
 		var table = layui.table,
 			form = layui.form,
 			laydate = layui.laydate;
 
 		form.render();
-
+		$(function() {
+			getCategories("category");
+			form.render();
+		});
 		var formData1 = new FormData($("#coupon_query_form")[0]);
-		formData1.set("showDisabled", formData1.get("showDisabled")==null?"不显示":formData1.get("showDisabled"));
+		formData1.set("cid", formData1.get("cid")==null||formData1.get("cid")==""?"0":formData1.get("cid"));
+		formData1.set("showDisabled", formData1.get("showDisabled")==null?"":formData1.get("showDisabled"));
 
 		table.render({
 			elem: '#coupon_list',
-			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
+			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData1.get("queryBasis")
+							 + '&cid=' + formData1.get("cid") + '&category=' + formData1.get("category")
+							 + '&queryOrderBasis=' + formData1.get("queryOrderBasis") + '&showDisabled=' + formData1.get("showDisabled"),
 //			url: '../../json/coupon.json',
 			dataType: 'jsonp',
 			data: formData1,
@@ -124,7 +127,8 @@
 
 		$("#coupon_list_btn").click(function() {
 			var formData2 = new FormData($("#coupon_query_form")[0]);
-			formData2.set("showDisabled", formData2.get("showDisabled")==null?"不显示":formData2.get("showDisabled"));
+			formData2.set("cid", formData2.get("cid")==null||formData2.get("cid")==""?"0":formData2.get("cid"));
+			formData2.set("showDisabled", formData2.get("showDisabled")==null?"":formData2.get("showDisabled"));
 			console.log(formData2.get("queryBasis"));
 			console.log(formData2.get("cid"));
 			console.log(formData2.get("category"));
@@ -133,11 +137,12 @@
 			
 			table.render({
 				elem: '#coupon_list',
-				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition',
-				//				url: '../../json/coupon.json',
+				url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData2.get("queryBasis")
+							 + '&cid=' + formData2.get("cid") + '&category=' + formData2.get("category")
+							 + '&queryOrderBasis=' + formData2.get("queryOrderBasis") + '&showDisabled=' + formData2.get("showDisabled"),
 				dataType: 'jsonp',
 				method: "post",
-				data: formData2,
+//				data: formData2,
 				skin: 'nob',
 				cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 					,
@@ -204,7 +209,7 @@
 			} else if(obj.event === 'delete') {
 				//删除优惠券的时候，首先判断一下已经发放的数量和总数量
 				var formData3 = new FormData();
-				formData3.append("cid", obj.cid);
+				formData3.append("cid", data.cid);
 
 				layer.confirm('确认删除该优惠券?<br><b>请注意</b>优惠券删除后，所有拥有该优惠券的用户都会被收回该优惠券。', {
 					icon: 3,
@@ -309,7 +314,7 @@
 										closeBtn: 0,
 										shadeClose: true,
 										time: 2000,
-										content: '成功将优惠券截止日期延长到 ' + deadline
+										content: '成功将优惠券截止日期修改到 ' + deadline
 									});
 									table.reload('coupon_list', {
 										page: {

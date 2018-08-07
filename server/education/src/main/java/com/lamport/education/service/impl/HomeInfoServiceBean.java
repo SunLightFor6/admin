@@ -41,7 +41,7 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			//redis没有，从mySQL中查询
 			lessons = lessonMapper.selectLessonByQIDAndPage(qidAndPage);
 			//将取出来的对象打包成json字符串
-			String jsonString = gson.toJson(homePageLesson);
+			String jsonString = gson.toJson(lessons);
 			System.out.println(jsonString);/*########################################*/
 			//将json字符串放入redis中
 			Transaction transaction = jedis.multi();
@@ -71,7 +71,7 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			//redis没有，从mySQL中查询
 			freeListens = freeListenMapper.selectFreeListenByQIDAndPage(qidAndPage);
 			//将取出来的对象打包成json字符串
-			String jsonString = gson.toJson(homePageFreeListen);
+			String jsonString = gson.toJson(freeListens);
 			System.out.println(jsonString);/*########################################*/
 			//将json字符串放入redis中
 			Transaction transaction = jedis.multi();
