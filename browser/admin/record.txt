@@ -14,11 +14,11 @@
 	
 
 ---------------------------后台需要配置ip的地方----
-1. java代码：FileManagerConfig类中的ip配置 配置完事再打war		2
+1. java代码：FileManagerConfig类中的ip配置 配置完事再打war						2
 			数据库连接池的配置  配置ip											1
 			redis配置ip														1
 2. nginx的配置	配置负载均衡的ip												2
-3. fastDFS服务器的配置	storage mo  三个配置的ip						3
+3. fastDFS服务器的配置	storage mo  三个配置的ip								3
 
 4. PREPATH 要改
 

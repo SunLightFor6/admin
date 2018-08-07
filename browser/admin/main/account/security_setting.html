@@ -28,14 +28,6 @@
 		var form = layui.form,
 			layer = layui.layer;
 
-			form.verify({
-				pass: function(value, item) {
-					if(/^[\S]{8,12}$/.test(value)) {
-						return '密码至少8到16位，且不能出现空格';
-					}
-				}
-			});
-
 		$('#password_modify_btn').click(function() {
 			var formData = new FormData($('#password_modify_form')[0]);
 			console.log($('#new1_password').val() + " " + $('#new2_password').val());
@@ -57,9 +49,14 @@
 				});
 				return;
 			}
-			if(required_verify("都", $("#sourse_password").val()) && required_verify("都", $("#new2_password").val()) && required_verify("都", $("#new1_password").val())) {
+			if(! (required_verify("都", $("#sourse_password").val()) && required_verify("都", $("#new2_password").val()) && required_verify("都", $("#new1_password").val()))) {
 				return ;
 			}
+			
+			if(! (verify_pass("原密码框", $("#sourse_password").val()) && verify_pass("密码框", $("#new2_password").val()) && verify_pass("密码框2", $("#new1_password").val()))){
+				return;
+			}
+			
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updatePasswordByID",

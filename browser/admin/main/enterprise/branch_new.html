@@ -43,7 +43,7 @@
 			<p class="form-label_sm">分部联系电话</p>
 			<input type="text" id="tel" name="tel" lay-verify="required" autocomplete="off" placeholder="请输入分部电话" class="layui-input" />
 			<p class="form-label_sm"></p>
-			<button class="layui-btn layui-btn-primary" id="branch_add_submit">提交</button>
+			<button class="layui-btn layui-btn-primary" type="button" id="branch_add_submit">提交</button>
 		</form>
 	</div>
 </div>
@@ -223,9 +223,9 @@
 		layui.use('layer', function() {
 			var layer = layui.layer;
 			$('#branch_add_submit').click(function() {
-				if(! verify_tele("联系电话", $("#tel"))) {
-					return;
-				}
+//				if(! verify_tele("联系电话", $("#tel"))) {
+//					return;
+//				}
 				var formData = new FormData($('#branch-info')[0]);
 				formData.append("longitude", longi);
 				formData.append("latitude", lati);

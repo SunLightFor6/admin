@@ -70,21 +70,22 @@ public class TeacherServiceBean implements TeacherService {
 		int updateResult = 1;
 		
 		String tphoto = null;
-		File tphotoFile = null;
+//		File tphotoFile = null;
 		if(imgFile != null){
 //			Creator creator = new Creator();
 //			String filename = creator.createFilename();
-			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
-			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
-			tphoto = Const.ImgTeacherPath + "/" + filename;
+//			String filename = System.currentTimeMillis() + imgFile.getOriginalFilename();
+//			tphotoFile = new File(path + Const.ImgTeacherPath, filename);
+//			tphoto = Const.ImgTeacherPath + "/" + filename;
+			tphoto = FileManager.upload(imgFile);
 		}
-		String oldTphoto = path + teacherMapper.selectTeacherTphotoByID(teacher.getTid());//默认为图片存储路径没有修改过
+//		String oldTphoto = path + teacherMapper.selectTeacherTphotoByID(teacher.getTid());//默认为图片存储路径没有修改过
 		teacher.setTphoto(tphoto);
 		updateResult = teacherMapper.updateTeacherByID(teacher);
-		if(tphoto != null){
-			imgFile.transferTo(tphotoFile);//保存文件
-			FileTool.deleteFile(oldTphoto);//删除文件？？？？？？
-		}
+//		if(tphoto != null){
+//			imgFile.transferTo(tphotoFile);//保存文件
+//			FileTool.deleteFile(oldTphoto);//删除文件？？？？？？
+//		}
 		
 		return updateResult;
 	}

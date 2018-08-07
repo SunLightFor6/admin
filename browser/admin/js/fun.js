@@ -97,6 +97,7 @@ function scroll_top() {
 //表单验证弹出框的方法
 function layer_out(content) {
 	layui.use('layer', function() {
+		var layer = layui.layer;
 		layer.open({
 			title: '',
 			content: content,
@@ -125,10 +126,17 @@ function required_verify(posi, value) {
  * @param {Object} info 提示信息
  */
 function verify_(posi, value, expression, info){
-	if(expression.test(value)){
+	console.log(posi);
+	console.log(value);
+	console.log(expression);
+	console.log(info);
+	console.log(expression.test(value));
+	if(! expression.test(value)){
 		layer_out(posi + ": " + info);
 		console.log("----------------------------------验证失败" + value);
 		return 0;
+	} else {
+		console.log("----------------------------------验证成功" + value);
 	}
 	return 1;
 }
@@ -138,7 +146,7 @@ function verify_(posi, value, expression, info){
  * @param {Object} value	输入框的值
  */
 function verify_pass(posi, value) {
-	verify_(posi, value, /^[\S]{8,12}$/, '密码至少8到16位，且不能出现空格');
+	return verify_(posi, value, /^[\S]{8,12}$/, '密码至少8到16位，且不能出现空格');
 }
 
 /**
@@ -147,7 +155,7 @@ function verify_pass(posi, value) {
  * @param {Object} value	输入框的值
  */
 function verify_tele(posi, value) {
-	verify_(posi, value, /(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/, '联系电话不符合格式,请检查');
+	return verify_(posi, value, /(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/, '联系电话不符合格式,请检查');
 }
 
 //从服务器请求category的方法，传入的参数是要append下拉框的select标签id

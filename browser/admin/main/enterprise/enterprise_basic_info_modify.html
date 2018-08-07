@@ -188,6 +188,8 @@
 							time: 1500,
 							content: '更改成功！',
 							success: function() {
+								sessionStorage.setItem("enterpriseNameG", $("#enter-name").val());
+								$('#enterprise_name').text($("#enter-name").val());
 								window.location.href = "#11";
 							}
 						});

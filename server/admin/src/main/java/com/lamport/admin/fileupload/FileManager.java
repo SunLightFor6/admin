@@ -70,7 +70,8 @@ public class FileManager implements FileManagerConfig {
 		String groupName = uploadResults[0];
 		String remoteFileName = uploadResults[1];
 
-		String fileAbsolutePath = PROTOCOL + TRACKER_NGNIX_ADDR
+//		String fileAbsolutePath = PROTOCOL + TRACKER_NGNIX_ADDR
+		String fileAbsolutePath = ""
 		// + trackerServer.getInetSocketAddress().getHostName()
 		// + SEPARATOR + TRACKER_NGNIX_PORT
 				+ SEPARATOR + groupName + SEPARATOR + remoteFileName;

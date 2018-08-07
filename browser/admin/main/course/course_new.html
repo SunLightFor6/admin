@@ -21,9 +21,9 @@
 							<p class="form-label_sm">课程类别</p>
 							<select id="categories_s" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="直接选择或搜索选择">直接选择或搜索选择</option>
-								<option value="前端">前端</option>
+								<!--<option value="前端">前端</option>
 								<option value="Java">Java</option>
-								<option value="Java Web">Java Web</option>
+								<option value="Java Web">Java Web</option>-->
 								<option value="0">自定义</option>
 							</select>
 							<p id="categories_p"></p>
@@ -67,9 +67,9 @@
 							<p class="form-label_sm">课程类别</p>
 							<select id="categories_s_f" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
 								<option value="直接选择或搜索选择">直接选择或搜索选择</option>
-								<option value="前端">前端</option>
+								<!--<option value="前端">前端</option>
 								<option value="Java">Java</option>
-								<option value="Java Web">Java Web</option>
+								<option value="Java Web">Java Web</option>-->
 								<option value="0">自定义</option>
 							</select>
 							<p id="categories_p"></p>
@@ -178,18 +178,18 @@
 			//获取分部信息，填充到下拉框的地方
 			$.ajax({
 				type: "post",
-				url: PREPATH + "/admin/getBranchesName",
+				url: PREPATH + "/admin/getCategories",
 				async: true,
 				dataType: "json",
 				success: function(data) {
-					console.log("分部信息获取成功");
+					console.log("类别信息获取成功");
 					$.each(data.values, function(index, value) {
 						$("#fenbu_f").append('<option value="' + value + '">' + value + '</option>');
 						$("#branch_sel").append('<input type="checkbox" name="' + value + '" title="' + value + '">');
 					});
 				},
 				error: function() {
-					console.log("分部信息获取失败，服务器错误");
+					console.log("类别信息获取失败，服务器错误");
 					$("#fenbu_f").append('<option value="服务器错误，请重试或联系系统管理员" disabled>服务器错误，请重试或联系系统管理员</option>');
 					$("#branch_sel").append('<input type="checkbox" name="服务器错误" title="服务器错误，请重试或联系系统管理员" disabled />');
 				}

@@ -30,7 +30,7 @@
 								</div>
 								<div class="layui-form-item">
 									<div class="layui-input-block" style="margin-left: 16px; margin-right: 16px;">
-										<input name="adminname" lay-verify="required|admin" class="layui-input" type="text" placeholder="请输入账号">
+										<input name="adminname" id="adminname" lay-verify="required|admin" class="layui-input" type="text" placeholder="请输入账号">
 									</div>
 								</div>
 								<div class="layui-form-item">
@@ -158,6 +158,11 @@
 							console.log(data.status);
 							if(data.status === "success") {
 								console.log("window.location.href = 'page/index.html';");
+								var name = data.enterpriseName;
+								if(data.enterpriseName == "" || data.enterpriseName == null) {
+									name = $("#adminname").val();								
+								}
+								sessionStorage.setItem("enterpriseNameG", name);
 								window.location.href = 'page/index.html';
 							} else if(data.status === "fail") {
 								console.log("fail");

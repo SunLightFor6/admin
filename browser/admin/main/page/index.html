@@ -54,9 +54,8 @@
 			<div class="layui-header" id="header_"></div>
 			<script>
 				$('#header_').load('../header.html', function() {
-
 					$('#header_logo').attr('src', "../../img/logo.png");
-					$('#enterprise_name').text('东软睿道');
+					$('#enterprise_name').text(sessionStorage.getItem("enterpriseNameG"));
 					$('#page-title').text('我们的企业');
 				});
 			</script>
