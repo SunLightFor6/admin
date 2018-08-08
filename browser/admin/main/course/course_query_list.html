@@ -112,10 +112,10 @@
 					field: 'coursecategory',
 					width: '11%',
 					title: '课程类别'
-				}, {
-					field: 'branch',
-					width: '11%',
-					title: '所在分部'
+					//				}, {
+					//					field: 'branch',
+					//					width: '11%',
+					//					title: '所在分部'
 				}, {
 
 					align: 'center',
@@ -172,10 +172,10 @@
 							field: 'coursecategory',
 							width: '11%',
 							title: '课程类别'
-						}, {
-							field: 'branch',
-							width: '11%',
-							title: '所在分部'
+							//						}, {
+							//							field: 'branch',
+							//							width: '11%',
+							//							title: '所在分部'
 						}, {
 
 							align: 'center',
@@ -286,10 +286,10 @@
 							field: 'coursecategory',
 							width: '11%',
 							title: '课程类别'
-						}, {
-							field: 'branch',
-							width: '11%',
-							title: '所在分部'
+							//						}, {
+							//							field: 'branch',
+							//							width: '11%',
+							//							title: '所在分部'
 						}, {
 
 							align: 'center',
@@ -378,7 +378,7 @@
 						jqxhr = $.ajax({
 							type: "post",
 							url: PREPATH + "/admin/deleteFreeListenLogicallyByID?id=" + data.courseid,
-							async: false,
+							async: true,
 							dataType: "json",
 							success: function(data) {
 								if(data.response == 1) {

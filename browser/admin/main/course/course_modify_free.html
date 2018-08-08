@@ -1,6 +1,6 @@
 <div class="body-in" id="top">
 	<div class="layui-card-body">
-		<form class="layui-form" name="course_form_exp" lay-filter="course_form_exp" action="" method="post">
+		<form class="layui-form" name="course_form_exp" lay-filter="course_form_exp" method="post">
 			<p class="form-label_sm">课程名称</p>
 			<input type="text" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 			<p class="form-label_sm">课程状态</p>
@@ -27,7 +27,7 @@
 				</div>
 				<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 					预览图：
-					<div><img id="pic" /></div>
+					<div><img id="pic" style="width: 200px; height: 120px;" /></div>
 					<p id="demoText"></p>
 				</blockquote>
 			</div>
@@ -70,7 +70,7 @@
 			}
 		});
 	});
-	layui.use(['form', 'layedit', 'laydate'], function() {
+	layui.use(['form', 'layer', 'layedit', 'laydate'], function() {
 		var form = layui.form,
 			layer = layui.layer,
 			$ = layui.jquery,
@@ -103,19 +103,37 @@
 		});
 		var lesson = JSON.parse(sessionStorage.getItem("freeListen"));
 		var c_id = lesson.courseid;
-		form.val('course_form_formal', {
+		form.val('course_form_exp', {
 			'coursename': lesson.coursename,
-			'coursestatus': lesson.status,
-			'coursecategory': lesson.coursecategory,
-			'fenbu': lesson.branch
+			'coursestatus': lesson.status
 		});
+//			'coursecategory': lesson.coursecategory,
+//			'fenbu': lesson.branch
+		$("#" + lesson.coursecategory).attr("selected", "true");
+		$("#" + lesson.branch).attr("selected", "true");
+		form.render();
+		form.render();
 		$('#pic-div').show();
-		$('#pic').attr('src', courseimg);
+		$('#pic').attr('src', lesson.courseimg);
 		layedit.setContent(course_mfree, lesson.fdesc, false);
 
 		//点击提交
 		$(function() {
 			$("#modify_free_btn").click(function() {
+
+				if(!(required_verify("课程名称", $('#coursename').val()))) {
+					return;
+				}
+				if(!(required_verify("分部", $('#fenbu').val()))) {
+					return;
+				}
+				if(!(required_verify("课程状态", $('#coursestatus option:selected').val()))) {
+					return;
+				}
+				if(!(required_verify("课程类别", $('#categories_s option:selected').val()))) {
+					return;
+				}
+
 				var formData = new FormData();
 				var branch = $("#fenbu option:selected").text();
 
@@ -139,7 +157,7 @@
 					processData: false,
 					contentType: false,
 					success: function(data) {
-						if(data.response == "1") {
+						if(data.response == 1) {
 							layer.open({
 								type: 0,
 								btn: false,

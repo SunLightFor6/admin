@@ -178,15 +178,15 @@ function getCategories(id_, type) {
 				$.each(values, function(index) {
 					if(type == 1) {
 						console.log(type);
-						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
+						$("#" + id_).append('<option id="' + values[index] + '" value="' + values[index] + '">' + values[index] + '</option>');
 					} else if(type == 2) {
 						console.log(type);
-						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
+						$("#" + id_).append('<input id="' + values[index] + '" type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
 					} else if(type == 3) {
 						if(values[index] == "ALL") {
 							values[index] = "通用";
 						}
-						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
+						$("#" + id_).append('<option id="' + values[index] + '" value="' + values[index] + '">' + values[index] + '</option>');
 					}
 					form.render();
 				});
@@ -222,11 +222,11 @@ function getBranchesName(id_, type) {
 				$.each(values, function(index) {
 					console.log(type);
 					if(type == 1) {
-						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
+						$("#" + id_).append('<option id="' + values[index] + '" value="' + values[index] + '">' + values[index] + '</option>');
 					} else if(type == 2) {
-						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
+						$("#" + id_).append('<input id="' + values[index] + '" type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
 					} else if(type == 3) {
-						$("#" + id_).append('<input disabled="disabled" type="checkbox" name="' + values[index] + '" id="' + values[index] + '" title="' + values[index] + '">');
+						$("#" + id_).append('<input id="' + values[index] + '" disabled="disabled" type="checkbox" name="' + values[index] + '" id="' + values[index] + '" title="' + values[index] + '">');
 					}
 					form.render();
 				});

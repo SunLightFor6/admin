@@ -1,6 +1,6 @@
 <div class="body-in" id="top">
 	<div class="layui-card-body">
-		<form class="layui-form" lay-filter="course_form_formal" name="course_form_formal" action="" method="post">
+		<form class="layui-form" lay-filter="course_form_formal" name="course_form_formal" method="post">
 			<p class="form-label_sm">课程名称</p>
 			<input type="text" id="coursename" name="coursename" lay-verify="title required" autocomplete="off" placeholder="请输入课程名称" class="layui-input">
 			<p class="form-label_sm">课程状态</p>
@@ -27,13 +27,9 @@
 				</div>
 				<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 					预览图：
-					<div><img id="pic" /></div>
+					<div><img id="pic" style="width: 200px; height: 120px;"/></div>
 					<p id="demoText"></p>
 				</blockquote>
-				<div class="layui-upload-list" id="pic-div" style="display: none;">
-					<img class="layui-upload-img" style="height: 120px; width: 200px;" id="pic">
-					<p id="demoText"></p>
-				</div>
 			</div>
 			<p class="form-label_sm">课程定价</p>
 			<input type="text" id="courseprice" name="courseprice" lay-verify="title required" autocomplete="off" placeholder="￥" class="layui-input">
@@ -59,7 +55,7 @@
 		upload.render({
 			elem: '#uploadpic',
 			url: PREPATH + '/upload/',
-			aotu: false,
+			auto: false,
 			acceptMime: 'image/*',
 			size: 1000 //限制文件大小，单位 KB
 				,
@@ -74,7 +70,7 @@
 		});
 	});
 
-	layui.use(['form', 'layedit', 'laydate'], function() {
+	layui.use(['form', 'layer', 'layedit', 'laydate'], function() {
 		var form = layui.form,
 			layer = layui.layer,
 			layedit = layui.layedit,
@@ -120,80 +116,94 @@
 
 		$('#pic-div').show();
 		$('#pic').attr('src', lesson.courseimg);
-		layedit.setContent(course_mfree, lesson.ldesc, false);
-	
+		layedit.setContent(course_mpay, lesson.ldesc, false);
 
-	//点击提交
-	$(function() {
-		$("#modify_pay_btn").click(function() {
-			var formData = new FormData();
-			var branchs_s = $("#branch_sel input:checked").text();
-			for(var i in branchs_s) {
-				formData.append("branchs", branchs_s[i].name);
-			}
-
-			formData.append("lid", c_id);
-			formData.append("lname", $('#coursename').val());
-			formData.append("imgFile", imgFile);
-			formData.append("lprice", $("#courseprice").val());
-			formData.append("ldesc", layedit.getContent(course_mpay));
-			formData.append("status", $('#coursestatus option:selected'));
-			if($('#categories_s option:selected').text() == "自定义"){
-						formData.append("category", $("#newcategory").val());
-					} else {
-						formData.append("category", $('#categories_s option:selected').text());
-					}
-
-			jqxhr = $.ajax({
-				type: "post",
-				url: PREPATH + "/admin/updateLessonByID",
-				async: true,
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function(data) {
-					if(data.response == "1") {
-						layer.open({
-							type: 0,
-							btn: false,
-							title: false,
-							icon: 1,
-							closeBtn: 0,
-							shadeClose: true,
-							time: 1500,
-							content: '课程添加成功！',
-							cancel: function() {
-								window.location.href = "#21";
-							}
-						});
-					} else {
-						layer.open({
-							type: 0,
-							btn: false,
-							title: false,
-							icon: 2,
-							closeBtn: 0,
-							shadeClose: true,
-							time: 1500,
-							content: '课程添加失败，请稍后重试或联系系统管理员'
-							
-						});
-					}
-				},
-				error: function() {
-					layer.open({
-							type: 0,
-							btn: false,
-							title: false,
-							icon: 2,
-							closeBtn: 0,
-							shadeClose: true,
-							time: 1500,
-							content: '课程添加失败，请稍后重试或联系系统管理员'
-							
-						});
+		//点击提交
+		$(function() {
+			$("#modify_pay_btn").click(function() {
+				if(!(required_verify("课程名称", $('#coursename').val()))) {
+					return;
 				}
+				if(!(required_verify("课程状态", $('#coursestatus option:selected').val()))) {
+					return;
+				}
+				if(!(required_verify("课程类别", $('#categories_s option:selected').val()))) {
+					return;
+				}
+				if(!/^\d+(\.\d+)?$/.test($("#courseprice").val())) {
+					layer_out("价钱格式不正确，请检查后重新输入");
+					return;
+				}
+				var formData = new FormData();
+				var branchs_s = $("#branch_sel input:checked");
+				for(var i = 0; i < branchs_s.length; i++) {
+					formData.append("branchs", branchs_s[i].innerText);
+					console.log(branchs_s[i].innerText);
+				}
+
+				formData.append("lid", c_id);
+				formData.append("lname", $('#coursename').val());
+				formData.append("imgFile", imgFile);
+				formData.append("lprice", $("#courseprice").val());
+				formData.append("ldesc", layedit.getContent(course_mpay));
+				formData.append("status", $('#coursestatus option:selected').val());
+				if($('#categories_s option:selected').text() == "自定义") {
+					formData.append("category", $("#newcategory").val());
+				} else {
+					formData.append("category", $('#categories_s option:selected').text());
+				}
+
+				jqxhr = $.ajax({
+					type: "post",
+					url: PREPATH + "/admin/updateLessonByID",
+					async: true,
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(data) {
+						if(data.response == "1") {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 1,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程添加成功！',
+								cancel: function() {
+									window.location.href = "#21";
+								}
+							});
+						} else {
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 2,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '课程添加失败，请稍后重试或联系系统管理员'
+
+							});
+						}
+					},
+					error: function() {
+						layer.open({
+							type: 0,
+							btn: false,
+							title: false,
+							icon: 2,
+							closeBtn: 0,
+							shadeClose: true,
+							time: 1500,
+							content: '课程添加失败，请稍后重试或联系系统管理员'
+
+						});
+					}
+				});
 			});
 		});
-	});});
+	});
 </script>

@@ -98,7 +98,7 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 	12.新增正式课程  图片大小 预览的时候限制一下
 	
 
-------------------------------
+----------------------08082044--------
 	1. 41 拒绝访问
 -	2. 视频  加载不了  video标签  尝试解决了一下
 			embed
@@ -125,3 +125,47 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 -	1. 监听变量
 -	2. 优惠券 上面11
 -	3. 查看课程 有 分部信息 需要填充
+
+几乎是要重写课程模块的前端
+--新建课程
+	直接选择或搜索选择    
+	啥也没点  不让他提交
+--查看课程信息表
+	分部一栏不显示
+--查看预约课信息
+--查看正式课信息
+	分部 加载不正常
+--修改预约课信息
+	没有预加载的数据
+	button失效
+--修改正式课信息
+	部分数据未加载
+	button失效
+	
+"code":0,
+	"msg":"",
+	"count":100,
+	"data":
+	[
+		{
+			"courseid":1,
+			"coursename":"体验课：C语言快速入门",
+			"courseimg":"../../img/course/001.jpg",
+			"courseprice":"0.01",
+			"coursecategory":"C",
+			"branch":["恒大名都","恒大名都","恒大名都"],
+			"pubtime": ""
+			"ldesc"
+			"status"
+		},
+		
+		{
+			"courseid":1,
+			"coursename":"体验课：C语言快速入门",
+			"courseimg":"../../img/course/001.jpg",
+			"coursecategory":"C",
+			"branch":"恒大名都"
+			"fdesc"
+			status
+			pubtime
+		},
