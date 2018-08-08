@@ -33,9 +33,9 @@
 				<div class="layui-lz-input-inline" style="width: 100px;">
 					<select id="queryBasis" name="queryBasis">
 						<option value="截止日期" selected>截止日期</option>
-						<!--<option value="使用门槛">使用门槛</option>
+						<<option value="使用门槛">使用门槛</option>
 						<option value="面额">面额</option>
-						<option value="剩余数量">剩余数量</option>-->
+						<option value="剩余数量">剩余数量</option>
 					</select>
 				</div>
 			</div>
@@ -70,13 +70,13 @@
 
 		form.render();
 		$(function() {
-			getCategories("category");
+			getCategories("category", 3);
 		});
 
 		var formData1 = new FormData($("#coupon_query_form")[0]);
 		formData1.set("cid", formData1.get("cid") == null || formData1.get("cid") == "" ? "0" : formData1.get("cid"));
 		formData1.set("showDisabled", formData1.get("showDisabled") == null ? "" : formData1.get("showDisabled"));
-
+		formData1.set("category", formData1.get("category") == "通用" ? "ALL" : formData1.get("category"));
 		table.render({
 			elem: '#coupon_list',
 			url: PREPATH + '/admin/selectCouponsByCouponQueryCondition?queryBasis=' + formData1.get("queryBasis") +
@@ -129,6 +129,7 @@
 			var formData2 = new FormData($("#coupon_query_form")[0]);
 			formData2.set("cid", formData2.get("cid") == null || formData2.get("cid") == "" ? "0" : formData2.get("cid"));
 			formData2.set("showDisabled", formData2.get("showDisabled") == null ? "" : formData2.get("showDisabled"));
+			formData2.set("category", formData2.get("category") == "通用" ? "ALL" : formData2.get("category"));
 			console.log(formData2.get("queryBasis"));
 			console.log(formData2.get("cid"));
 			console.log(formData2.get("category"));
