@@ -11,6 +11,7 @@ import com.lamport.admin.mapper.CouponRecordMapper;
 import com.lamport.admin.po.Coupon;
 import com.lamport.admin.po.CouponRecord;
 import com.lamport.admin.service.CouponService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.CouponQueryCondition;
 import com.lamport.admin.vo.MeetingCondition;
 
@@ -31,6 +32,9 @@ public class CouponServiceBean implements CouponService {
 	public void saveCoupon(Coupon coupon) throws Exception {
 		System.out.println("..........CouponServiceBean..........saveCoupon()..........");
 		
+		if(coupon.getCategory()==null || coupon.getCategory()==""){
+			coupon.setCategory(Const.ordinaryCouponCategory);
+		}
 		coupon.setGet(0);
 		coupon.setDisabledkey(0);
 		coupon.setDeletekey(0);
@@ -44,6 +48,7 @@ public class CouponServiceBean implements CouponService {
 		coupon.setDisabledkey(1);
 		coupon.setDeletekey(1);
 		couponMapper.deleteCouponLogicallyByCID(coupon);
+		couponRecordMapper.deleteCouponRecordLogicallyByCID(coupon.getCid());
 	}
 	
 	@Override

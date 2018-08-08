@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,8 @@ import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.po.Address;
 import com.lamport.admin.po.Lesson;
 import com.lamport.admin.po.LessonBranch;
+import com.lamport.admin.po.Sorder;
 import com.lamport.admin.service.LessonService;
-import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.BranchIDAndPage;
 import com.lamport.admin.vo.LessonQueryCondition;
 import com.lamport.admin.vo.QIDAndBranch;
@@ -49,24 +47,21 @@ public class LessonServiceBean implements LessonService {
 	@Override
 	public int saveLesson(Lesson lesson, MultipartFile img, String path) throws Exception {
 		System.out.println("..........LessonServiceBean..........saveLesson()..........");
-
 		int saveResult = 1;
 		
 		String imgurl = null;
-//		File imgFile = null;
 		if(img != null){
-//			Creator creator = new Creator();
-//			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-//			imgFile = new File(path + Const.ImgLessonPath, filename);
-//			imgurl = Const.ImgLessonPath + "/" + filename;
 			imgurl = FileManager.upload(img);
 		}
 		lesson.setImgurl(imgurl);
 		lesson.setDeletekey(0);
 		saveResult *= lessonMapper.saveLesson(lesson);
-		if(lesson.getBranches() != null){
-			for(Address address : lesson.getBranches()){
+		if(lesson.getBranchs()!=null){
+			for(int i=0; i<lesson.getBranchs().length; i++){
+				QIDAndBranch qidAndBranch = new QIDAndBranch();
+				qidAndBranch.setQid(lesson.getQid());
+				qidAndBranch.setBranch(lesson.getBranchs()[i]);
+				Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
 				LessonBranch lessonBranch = new LessonBranch();
 				lessonBranch.setLid(lesson.getLid());
 				lessonBranch.setBranchid(address.getId());
@@ -74,9 +69,6 @@ public class LessonServiceBean implements LessonService {
 				saveResult *= lessonBranchMapper.saveLessonBranch(lessonBranch);
 			}
 		}
-//		if(imgurl != null){
-//			img.transferTo(imgFile);//保存文件
-//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除
@@ -98,7 +90,9 @@ public class LessonServiceBean implements LessonService {
 		System.out.println("..........LessonServiceBean..........deleteLessonLogicallyByID()..........");
 
 		int deleteResult = 1;
-
+		
+		List<Sorder> sorders = sorderMapper.selectSorderByLID(id);
+		sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
 		sorderMapper.deleteSorderLogicallyByLID(id);
 		lessonBranchMapper.deleteLessonBranchLogicallyByLID(id);
 		deleteResult *= lessonMapper.deleteLessonLogicallyByID(id);
@@ -126,30 +120,25 @@ public class LessonServiceBean implements LessonService {
 		int updateResult = 1;
 		
 		String imgurl = null;
-//		File imgFile = null;
 		if(img != null){
-//			Creator creator = new Creator();
-//			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-//			imgFile = new File(path + Const.ImgLessonPath, filename);
-//			imgurl = Const.ImgLessonPath + "/" + filename;
 			imgurl = FileManager.upload(img);
 		}
-		String oldImgurl = path + lessonMapper.selectLessonImgurlByID(lesson.getLid());
-		updateResult *= lessonBranchMapper.deleteLessonBranchLogicallyByLID(lesson.getLid());
+//		String oldImgurl = path + lessonMapper.selectLessonImgurlByID(lesson.getLid());
 		lesson.setImgurl(imgurl);
 		updateResult *= lessonMapper.updateLessonByID(lesson);
-		for(Address address : lesson.getBranches()){
-			LessonBranch lessonBranch = new LessonBranch();
-			lessonBranch.setLid(lesson.getLid());
-			lessonBranch.setBranchid(address.getId());
-			lessonBranch.setDeletekey(0);
-			updateResult *= lessonBranchMapper.saveLessonBranch(lessonBranch);
+		if(lesson.getBranchs()!=null){
+			for(int i=0; i<lesson.getBranchs().length; i++){
+				QIDAndBranch qidAndBranch = new QIDAndBranch();
+				qidAndBranch.setQid(lesson.getQid());
+				qidAndBranch.setBranch(lesson.getBranchs()[i]);
+				Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
+				LessonBranch lessonBranch = new LessonBranch();
+				lessonBranch.setLid(lesson.getLid());
+				lessonBranch.setBranchid(address.getId());
+				lessonBranch.setDeletekey(0);
+				updateResult *= lessonBranchMapper.saveLessonBranch(lessonBranch);
+			}
 		}
-//		if(imgurl != null){
-//			img.transferTo(imgFile);//保存文件
-//			FileTool.deleteFile(oldImgurl);
-//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//Lesson已经发生了变化，将旧的HomePageLesson信息从Redis中删除

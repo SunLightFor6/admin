@@ -32,6 +32,13 @@ public interface MessageMapper {
 	 */
 	public int deleteMessageLogicallyByQID(int qid) throws Exception;
 	/**
+	 * 通过qid查询Message信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Message> selectMessageByQID(int qid) throws Exception;
+	/**
 	 * 通过id和页码查询Message信息
 	 * @param qidAndPage
 	 * @return List

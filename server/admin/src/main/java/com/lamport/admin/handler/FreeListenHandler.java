@@ -97,9 +97,9 @@ public class FreeListenHandler {
 	public String selectFreeListenByFreeListenQueryCondition(FreeListenQueryCondition freeListenQueryCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........FreeListenHandler..........selectFreeListenByFreeListenQueryCondition()..........freeListenQueryCondition:" + freeListenQueryCondition.getBranch());
 		String result = null;
-		
+
+		String nullString = null;		
 		HttpSession session = request.getSession();
-		
 		Admin admin = (Admin)session.getAttribute("admin");
 		freeListenQueryCondition.setQid(admin.getQid());
 		freeListenQueryCondition.setPageTool();
@@ -115,7 +115,11 @@ public class FreeListenHandler {
 			object.addProperty("coursename", freeListen.getTitle());
 			object.addProperty("courseimg", freeListen.getImgurl());
 			object.addProperty("coursecategory", freeListen.getCategory());
-			object.addProperty("branch", freeListen.getBranch().getBranch());
+			if(freeListen!=null && freeListen.getBranch()!=null){
+				object.addProperty("branch", freeListen.getBranch().getBranch());
+			}else{
+				object.addProperty("branch", nullString);
+			}
 			object.addProperty("pubtime", freeListen.getPubtime());
 			object.addProperty("fdesc", freeListen.getFdesc());
 			object.addProperty("status", freeListen.getStatus());

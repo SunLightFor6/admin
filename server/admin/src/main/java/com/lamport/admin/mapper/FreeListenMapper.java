@@ -45,6 +45,20 @@ public interface FreeListenMapper {
 	 */
 	public int updateFreeListenByID(FreeListen freeListen) throws Exception;
 	/**
+	 * 通过qid查询FreeListen信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<FreeListen> selectFreeListenByQID(int qid) throws Exception;
+	/**
+	 * 通过branchid查询FreeListen信息
+	 * @param branchid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<FreeListen> selectFreeListenByBranchID(int branchid) throws Exception;
+	/**
 	 * 通过多条件查询FreeListen信息
 	 * @return
 	 * @throws Exception

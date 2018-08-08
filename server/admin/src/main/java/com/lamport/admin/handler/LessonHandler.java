@@ -117,8 +117,10 @@ public class LessonHandler {
 			object.addProperty("courseprice", lesson.getLprice());
 			object.addProperty("coursecategory", lesson.getCategory());
 			JsonArray branches = new JsonArray();
-			for(Address address : lesson.getBranches()){
-				branches.add(address.getBranch());
+			if(lesson!=null && lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
+				for(Address address : lesson.getBranches()){
+					branches.add(address.getBranch());
+				}
 			}
 			object.add("branch", branches);			
 			object.addProperty("pubtime", lesson.getPubtime());

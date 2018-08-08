@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lamport.admin.mapper.AddressMapper;
+import com.lamport.admin.mapper.FreeListenBookMapper;
 import com.lamport.admin.mapper.FreeListenMapper;
 import com.lamport.admin.mapper.LessonBranchMapper;
 import com.lamport.admin.mapper.LessonMapper;
 import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.po.Address;
+import com.lamport.admin.po.FreeListen;
+import com.lamport.admin.po.Sorder;
 import com.lamport.admin.service.AddressService;
 import com.lamport.admin.vo.QIDAndPage;
 
@@ -30,6 +33,8 @@ public class AddressServiceBean implements AddressService {
 	private AddressMapper addressMapper;
 	@Autowired
 	private FreeListenMapper freeListenMapper;
+	@Autowired
+	private FreeListenBookMapper freeListenBookMapper;
 	@Autowired
 	private LessonBranchMapper lessonBranchMapper;
 	@Autowired
@@ -57,7 +62,11 @@ public class AddressServiceBean implements AddressService {
 		int deleteResult = 1;
 
 		List<Integer> lids = lessonBranchMapper.selectLIDByBranchID(id);
+		List<Sorder> sorders = sorderMapper.selectSorderByBranchID(id);
+		List<FreeListen> freeListens = freeListenMapper.selectFreeListenByBranchID(id);
+		sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
 		sorderMapper.deleteSorderLogicallyByBranchID(id);
+		freeListenBookMapper.deleteMultiFreeListenBookLogicallyByFID(freeListens);
 		freeListenMapper.deleteFreeListenLogicallyByBranchID(id);
 		lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
 		deleteResult *= addressMapper.deleteAddressLogicallyByID(id);

@@ -16,9 +16,9 @@
 
 	<!-- 通过cid逻辑删除Coupon信息 -->
 	<update id="deleteCouponLogicallyByCID" parameterType="com.lamport.admin.po.Coupon">
-		update coupon c, couponrecord cr 
-		set c.deletekey=#{deletekey}, cr.deletekey=#{deletekey}, c.disabledkey=#{disabledkey}
-		where c.cid=#{cid} and cr.cid=#{cid}
+		update coupon 
+		set deletekey=#{deletekey}, disabledkey=#{disabledkey}
+		where cid=#{cid}
 	</update>
 
 	<!-- 通过cid修改coupon的deadline信息 -->

@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.AddressMapper;
+import com.lamport.admin.mapper.FreeListenBookMapper;
 import com.lamport.admin.mapper.FreeListenMapper;
 import com.lamport.admin.po.Address;
 import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.service.FreeListenService;
-import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.FreeListenQueryCondition;
 import com.lamport.admin.vo.QIDAndBranch;
 
@@ -34,6 +32,8 @@ public class FreeListenServiceBean implements FreeListenService {
 	@Autowired
 	private FreeListenMapper freeListenMapper;
 	@Autowired
+	private FreeListenBookMapper freeListenBookMapper;
+	@Autowired
 	private AddressMapper addressMapper;
 	@Autowired
 	private JedisPool jedisPool;
@@ -41,25 +41,20 @@ public class FreeListenServiceBean implements FreeListenService {
 	@Override
 	public int saveFreeListen(FreeListen freeListen, MultipartFile img, String path) throws Exception {
 		System.out.println("..........FreeListenServiceBean..........saveFreeListen()..........");
-
 		int saveResult = 1;
 		
+		QIDAndBranch qidAndBranch = new QIDAndBranch();
+		qidAndBranch.setQid(freeListen.getQid());
+		qidAndBranch.setBranch(freeListen.getBranchName());
+		Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);		
 		String imgurl = null;
-//		File imgFile = null;
 		if(img != null) {
-//			Creator creator = new Creator();
-//			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-//			imgFile = new File(path + Const.ImgFreeListenPath, filename);
-//			imgurl = Const.ImgFreeListenPath + "/" + filename;
 			imgurl = FileManager.upload(img);
 		}
 		freeListen.setImgurl(imgurl);
+		freeListen.setBranchid(address.getId());
 		freeListen.setDeletekey(0);
 		saveResult = freeListenMapper.saveFreeListen(freeListen);
-//		if(imgurl != null) {
-//			img.transferTo(imgFile);
-//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
@@ -79,10 +74,10 @@ public class FreeListenServiceBean implements FreeListenService {
 	@Override
 	public int deleteFreeListenLogicallyByID(int id, int qid) throws Exception {
 		System.out.println("..........FreeListenServiceBean..........deleteFreeListenLogicallyByID()..........");
-
 		int deleteResult = 0;
+
+		freeListenBookMapper.deleteFreeListenBookLogicallyByFID(id);
 		deleteResult = freeListenMapper.deleteFreeListenLogicallyByID(id);
-		
 		/*------------------------------Redis相关------------------------------*/
 		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除
 		Jedis jedis = jedisPool.getResource();
@@ -100,27 +95,20 @@ public class FreeListenServiceBean implements FreeListenService {
 
 	@Override
 	public int updateFreeListenByID(FreeListen freeListen, MultipartFile img, String path) throws Exception {
-
 		System.out.println("..........FreeListenServiceBean..........updateFreeListenByID()..........");
 		int updateResult = 1;
 	
+		QIDAndBranch qidAndBranch = new QIDAndBranch();
+		qidAndBranch.setQid(freeListen.getQid());
+		qidAndBranch.setBranch(freeListen.getBranchName());
+		Address address = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
 		String imgurl = null;
-		File imgFile = null;
 		if(img != null){
-//			Creator creator = new Creator();
-//			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + img.getOriginalFilename();
-//			imgFile = new File(path + Const.ImgFreeListenPath, filename);
-//			imgurl = Const.ImgFreeListenPath + "/" + filename;
 			imgurl = FileManager.upload(img);
 		}
-//		String oldImgurl = path + freeListenMapper.selectFreeListenImgurlByID(freeListen.getId());
 		freeListen.setImgurl(imgurl);
+		freeListen.setBranchid(address.getId());
 		updateResult = freeListenMapper.updateFreeListenByID(freeListen);
-//		if(imgurl != null){
-//			img.transferTo(imgFile);//保存文件
-//			FileTool.deleteFile(oldImgurl);
-//		}
 		
 		/*------------------------------Redis相关------------------------------*/
 		//FreeListen已经发生了变化，将旧的HomePageFreeListen信息从Redis中删除

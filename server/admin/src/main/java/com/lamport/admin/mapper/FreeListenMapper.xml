@@ -18,26 +18,12 @@
 
 	<!-- 通过branchid逻辑删除FreeListen的信息 -->
 	<update id="deleteFreeListenLogicallyByBranchID" parameterType="int">
-		update freelisten fl, freelistenbook flb set fl.deletekey=1, flb.deletekey=1
-		where fl.branchid=#{branchid} and flb.fid in
-		(select f_fb.fid from 
-			(select fid from 
-			 freelistenbook fb left join freelisten f on fb.fid=f.id 
-			 where f.branchid=#{branchid}
-			) f_fb
-		)
+		update freelisten set deletekey=1 where branchid=#{branchid}
 	</update>
 
 	<!-- 通过qid逻辑删除FreeListen的信息 -->
 	<update id="deleteFreeListenLogicallyByQID" parameterType="int">
-		update freelisten fl, freelistenbook flb set fl.deletekey=1, flb.deletekey=1
-		where fl.qid=#{qid} and flb.fid in
-		(select f_fb.fid from 
-			(select fid from 
-			 freelistenbook fb left join freelisten f on fb.fid=f.id 
-			 where f.qid=#{qid}
-			) f_fb
-		)
+		update freelisten set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id修改FreeListen信息 -->
@@ -55,6 +41,18 @@
 		</set>
 		where id = #{id}
 	</update>
+
+	<!-- 通过qid查询FreeListen信息 -->
+	<select id="selectFreeListenByQID" parameterType="int"
+			resultType="com.lamport.admin.po.FreeListen">
+		select * from freelisten where qid=#{qid} and deletekey=0
+	</select>
+	
+	<!-- 通过branchid查询FreeListen信息 -->
+	<select id="selectFreeListenByBranchID" parameterType="int"
+			resultType="com.lamport.admin.po.FreeListen">
+		select * from freelisten where branchid=#{branchid} and deletekey=0
+	</select>
 
 	<!-- 通过多条件查询FreeListen信息 -->
 	<select id="selectFreeListenByFreeListenQueryCondition" parameterType="com.lamport.admin.vo.FreeListenQueryCondition"

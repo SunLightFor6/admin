@@ -17,4 +17,11 @@ public interface CouponRecordMapper {
 	 * @throws Exception
 	 */
 	public void saveMultiCouponRecord(List<CouponRecord> couponRecords) throws Exception;
+	
+	/**
+	 * 通过cid逻辑删除CouponRecord信息
+	 * @param cid
+	 * @throws Exception
+	 */
+	public void deleteCouponRecordLogicallyByCID(int cid) throws Exception;
 }

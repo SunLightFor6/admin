@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import com.lamport.admin.po.MessageReply;
 import com.lamport.admin.po.Swiper;
 import com.lamport.admin.service.MessageService;
 import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.Creator;
 import com.lamport.admin.vo.QIDAndCategory;
 import com.lamport.admin.vo.QIDAndPage;
 

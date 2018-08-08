@@ -33,6 +33,12 @@ public interface SorderMapper {
 	 */
 	public int deleteSorderLogicallyByQID(int qid) throws Exception;
 	/**
+	 * 通过oid批量逻辑删除Refund信息
+	 * @param sorders
+	 * @throws Exception
+	 */
+	public void deleteMultiRefundLogicallyByOID(List<Sorder> sorders) throws Exception;
+	/**
 	 * 通过id修改Sorder信息
 	 * @param sorder
 	 * @return 1 更新成功 0 更新失败
@@ -46,6 +52,27 @@ public interface SorderMapper {
 	 * @throws Exception
 	 */
 	public int updateRefundByID(Refund refund) throws Exception;
+	/**
+	 * 通过qid查询Sorder信息
+	 * @param qid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Sorder> selectSorderByQID(int qid) throws Exception;
+	/**
+	 * 通过branchid查询Sorder信息
+	 * @param branchid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Sorder> selectSorderByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过lid查询Sorder信息
+	 * @param lid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Sorder> selectSorderByLID(int lid) throws Exception;
 	/**
 	 * 通过SorderQueryCondition查询Sorder信息
 	 * @param sorderQueryCondition

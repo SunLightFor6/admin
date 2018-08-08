@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lamport.admin.mapper.SignMapper">
+
+	<!-- 通过uid批量逻辑删除Sign信息 -->
+	<update id="deleteMultiSignLogicallyByUID" parameterType="java.util.List">
+		update sign set deletekey=1 
+		where uid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.uid}
+    	</foreach>	
+	</update>
+</mapper>

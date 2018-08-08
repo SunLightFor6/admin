@@ -1,5 +1,9 @@
 package com.lamport.admin.mapper;
 
+import java.util.List;
+
+import com.lamport.admin.po.User;
+
 /**
  * Mapper, 提供User信息的删除、查询功能
  * @author Lin Zhao， protector of Sherry
@@ -12,6 +16,13 @@ public interface UserMapper {
 	 * @throws Exception
 	 */
 	public int deleteUserLogicallyByQID(int qid) throws Exception;
+	/**
+	 * 通过qid查询User信息
+	 * @param qid
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> selectUserByQID(int qid) throws Exception;
 	/**
 	 * 根据qid查询User的总数
 	 * @return int

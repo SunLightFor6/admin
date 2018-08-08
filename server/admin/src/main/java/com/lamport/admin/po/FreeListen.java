@@ -21,6 +21,7 @@ public class FreeListen {
 	
 	private List<FreeListenBook> freeListenBooks;//试听课预约
 	private Address branch;//所在分部
+	private String branchName;//分部名称
 	
 	public int getQid() {
 		return qid;
@@ -93,5 +94,11 @@ public class FreeListen {
 	}
 	public void setBranch(Address branch) {
 		this.branch = branch;
+	}
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 }

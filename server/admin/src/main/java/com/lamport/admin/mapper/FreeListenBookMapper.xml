@@ -23,6 +23,16 @@
 
 	<!-- 通过fid逻辑删除FreeListenBook信息 -->
 	<update id="deleteFreeListenBookLogicallyByFID" parameterType="int">
+		update freelistenbook set deletekey=1 where fid=#{fid}
+	</update>
+
+	<!-- 通过fid批量逻辑删除FreeListenBook信息 -->
+	<update id="deleteMultiFreeListenBookLogicallyByFID" parameterType="java.util.List">
+		update freelistenbook set deletekey=1 
+		where fid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.fid}
+    	</foreach>	
 	</update>
 
 	<!-- 通过id修改FreeListenBook信息 -->

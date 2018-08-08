@@ -52,5 +52,5 @@ public class Config {
 	public static final int SignInDaysLimit = 7;
 	
 	//通用的优惠券的类型
-	public static final String ordinaryCouponCategory = "All";
+	public static final String ordinaryCouponCategory = "ALL";
 }

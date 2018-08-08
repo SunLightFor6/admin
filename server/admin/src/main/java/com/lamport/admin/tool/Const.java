@@ -53,4 +53,7 @@ public class Const {
 	public static final int BasicSignPoint = 1;
 	public static final double DiscountRate = 0.1;
 	public static final int PointKey = 1;
+	
+	//通用的优惠券的类型
+	public static final String ordinaryCouponCategory = "ALL";
 }

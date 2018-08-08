@@ -163,7 +163,6 @@ public class TeacherHandler {
 		qidAndCategory.setQid(admin.getQid());
 		qidAndCategory.setCategory(Const.SwiperCategoryT);
 		List<String> swiperImgruls = swiperService.selectSwiperImgurlByQIDAndCategory(qidAndCategory);
-		
 		JsonObject jsonObject = new JsonObject();
 		for(String swiperImgrul : swiperImgruls){
 			jsonObject.addProperty(swiperImgrul, swiperImgrul);

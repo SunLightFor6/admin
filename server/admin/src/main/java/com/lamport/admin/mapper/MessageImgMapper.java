@@ -2,6 +2,7 @@ package com.lamport.admin.mapper;
 
 import java.util.List;
 
+import com.lamport.admin.po.Message;
 import com.lamport.admin.po.MessageImg;
 
 /**
@@ -24,6 +25,12 @@ public interface MessageImgMapper {
 	 * @throws Exception
 	 */
 	public int deleteMessageImgLogicallyByMID(int mid) throws Exception;
+	/**
+	 * 通过mid批量逻辑删除MessageImg信息
+	 * @param messages
+	 * @throws Exception
+	 */
+	public void deleteMultiMessageImgLogicallyByMID(List<Message> messages) throws Exception;
 	/**
 	 * 通过mid查询MessageImg信息
 	 * @param mid

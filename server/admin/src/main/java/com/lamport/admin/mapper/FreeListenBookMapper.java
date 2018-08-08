@@ -2,6 +2,7 @@ package com.lamport.admin.mapper;
 
 import java.util.List;
 
+import com.lamport.admin.po.FreeListen;
 import com.lamport.admin.po.FreeListenBook;
 import com.lamport.admin.vo.BookQueryCondition;
 import com.lamport.admin.vo.QIDAndPage;
@@ -20,6 +21,12 @@ public interface FreeListenBookMapper {
 	 * @throws Exception
 	 */
 	public int deleteFreeListenBookLogicallyByFID(int fid) throws Exception;
+	/**
+	 * 通过fid批量逻辑删除FreeListenBook信息
+	 * @param freeListens
+	 * @throws Exception
+	 */
+	public void deleteMultiFreeListenBookLogicallyByFID(List<FreeListen> freeListens) throws Exception;
 	/**
 	 * 通过id修改FreeListenBook信息
 	 * @param freeListenBook
