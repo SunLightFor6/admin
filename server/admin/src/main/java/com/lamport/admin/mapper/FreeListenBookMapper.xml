@@ -31,7 +31,7 @@
 		update freelistenbook set deletekey=1 
 		where fid in 
 		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
-        	#{item.fid}
+        	#{item.id}
     	</foreach>	
 	</update>
 

@@ -164,38 +164,19 @@ public class LessonServiceBean implements LessonService {
 		List<Lesson> lessons = null;
 		
 		if(lessonQueryCondition.getBranch() == null || lessonQueryCondition.getBranch().equals("")){
-			//如果没有给出分部名称，则查找所有分部
-			lessonQueryCondition.setBranch(null);
-			
-			int count = lessonBranchMapper.selectCountLessonBranchByQID(lessonQueryCondition.getQid());
+			//如果没有给出分部名称，则查找该企业下的所有精品课
+			lessonQueryCondition.setBranch(null);			
+			//先查询该企业下Lesson的总数
+			int count = lessonMapper.selectCountLessonByLessonQueryCondition(lessonQueryCondition);
 			lessonQueryCondition.getPageTool().setCount(count);
-			List<LessonBranch> lessonBranchs = lessonBranchMapper.selectLessonBranchByQID(lessonQueryCondition.getQid());
-			lessons = new ArrayList<Lesson>();
-			for(LessonBranch lessonBranch : lessonBranchs){
-				Lesson lesson = lessonBranch.getLesson();
-				Address address = addressMapper.selectAddressByID(lessonBranch.getBranchid());
-				List<Address> addresses = new ArrayList<Address>();
-				addresses.add(address);
-				lesson.setBranches(addresses);
-				lessons.add(lesson);
-			}			
-//			int count = lessonMapper.selectCountLessonByQID(lessonQueryCondition.getQid());//？？
-//			lessonQueryCondition.getPageTool().setCount(count);
-//			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
-//			for(Lesson lesson : lessons){
-//				List<Integer> branchids = lessonBranchMapper.selectBranchIDByLID(lesson.getLid());
-//				List<Address> addresses = new ArrayList<Address>();
-//				for(Integer branchid : branchids){
-//					Address address = addressMapper.selectAddressByID(branchid);
-//					addresses.add(address);
-//				}
-//				lesson.setBranches(addresses);
-//			}
+			//查询带有Address信息的Lesson信息
+			lessons = lessonMapper.selectLessonWithBranchesByLessonQueryCondition(lessonQueryCondition);
 		}else{
 			//如果给出分部名称，则查找在该分部下的课程
 			QIDAndBranch qidAndBranch = new QIDAndBranch();
 			qidAndBranch.setQid(lessonQueryCondition.getQid());
 			qidAndBranch.setBranch(lessonQueryCondition.getBranch());
+			//根据qid和分部名称获取分部信息(主要为分部id)
 			Address branch = addressMapper.selectAddressIDByQIDAndBranch(qidAndBranch);
 			BranchIDAndPage branchIDAndPage = new BranchIDAndPage();
 			if(branch == null){
@@ -204,16 +185,17 @@ public class LessonServiceBean implements LessonService {
 				branchIDAndPage.setBranchid(branch.getId());
 			}
 			branchIDAndPage.setPageTool(lessonQueryCondition.getPageTool());
+			//查询在该分部下有多少个Lesson(即查询branchid为目标id的LessonBranch记录有多少条)
 			int count = lessonBranchMapper.selectCountLessonBranchByBranchID(branchIDAndPage.getBranchid());
 			lessonQueryCondition.getPageTool().setCount(count);
-			List<Integer> lids = lessonBranchMapper.selectLIDByBranchIDAndPage(branchIDAndPage);
+			//根据branchid和Page查询LessonBranch信息
+			List<LessonBranch> lessonBranchs = lessonBranchMapper.selectLessonBranchByBranchIDAndPage(branchIDAndPage);
 			lessons = new ArrayList<Lesson>();
-			for(Integer lid : lids){
-				Lesson lesson = lessonMapper.selectLessonByLID(lid);
-				List<Address> branches = new ArrayList<Address>();
-				branches.add(branch);
-				lesson.setBranches(branches);
-				lessons.add(lesson);
+			if(lessonBranchs!=null && !lessonBranchs.isEmpty()){
+				for(LessonBranch lessonBranch : lessonBranchs){
+					Lesson lesson = lessonMapper.selectLessonWithBranchesByLID(lessonBranch.getLid());
+					lessons.add(lesson);
+				}
 			}
 		}
 		
