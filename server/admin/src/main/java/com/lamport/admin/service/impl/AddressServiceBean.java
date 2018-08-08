@@ -64,9 +64,13 @@ public class AddressServiceBean implements AddressService {
 		List<Integer> lids = lessonBranchMapper.selectLIDByBranchID(id);
 		List<Sorder> sorders = sorderMapper.selectSorderByBranchID(id);
 		List<FreeListen> freeListens = freeListenMapper.selectFreeListenByBranchID(id);
-		sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
+		if(sorders!=null && !sorders.isEmpty()){
+			sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
+		}
 		sorderMapper.deleteSorderLogicallyByBranchID(id);
-		freeListenBookMapper.deleteMultiFreeListenBookLogicallyByFID(freeListens);
+		if(freeListens!=null && !freeListens.isEmpty()){
+			freeListenBookMapper.deleteMultiFreeListenBookLogicallyByFID(freeListens);
+		}
 		freeListenMapper.deleteFreeListenLogicallyByBranchID(id);
 		lessonBranchMapper.deleteLessonBranchLogicallyByBranchID(id);
 		deleteResult *= addressMapper.deleteAddressLogicallyByID(id);

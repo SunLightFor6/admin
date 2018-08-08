@@ -92,7 +92,9 @@ public class LessonServiceBean implements LessonService {
 		int deleteResult = 1;
 		
 		List<Sorder> sorders = sorderMapper.selectSorderByLID(id);
-		sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
+		if(sorders!=null && !sorders.isEmpty()){
+			sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
+		}
 		sorderMapper.deleteSorderLogicallyByLID(id);
 		lessonBranchMapper.deleteLessonBranchLogicallyByLID(id);
 		deleteResult *= lessonMapper.deleteLessonLogicallyByID(id);

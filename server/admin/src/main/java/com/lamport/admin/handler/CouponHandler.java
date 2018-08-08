@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Coupon;
 import com.lamport.admin.service.CouponService;
+import com.lamport.admin.tool.Const;
 import com.lamport.admin.vo.CouponQueryCondition;
 import com.lamport.admin.vo.MeetingCondition;
 
@@ -141,7 +142,11 @@ public class CouponHandler {
 			for(Coupon coupon : coupons){
 				JsonObject object = new JsonObject();
 				object.addProperty("cid", coupon.getCid());
-				object.addProperty("category", coupon.getCategory());
+				if(coupon.getCategory()==null || coupon.getCategory()=="" || coupon.getCategory().equals(Const.ordinaryCouponCategory)){
+					object.addProperty("category", "通用");
+				}else{
+					object.addProperty("category", coupon.getCategory());
+				}
 				object.addProperty("money", "￥"+coupon.getMoney());
 				object.addProperty("needmoney", "￥"+coupon.getNeedmoney());
 				object.addProperty("amount", coupon.getGet());
