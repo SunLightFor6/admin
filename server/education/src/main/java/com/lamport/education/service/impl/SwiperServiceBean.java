@@ -42,6 +42,7 @@ public class SwiperServiceBean implements SwiperService {
 			Transaction transaction = jedis.multi();
 			transaction.set(key, jsonString);
 			transaction.exec();
+			jedisPool.close();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			swiperImgurls = gson.fromJson(imgurls, new TypeToken<List<String>>(){}.getType());

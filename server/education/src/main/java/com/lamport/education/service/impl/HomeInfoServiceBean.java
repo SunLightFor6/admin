@@ -47,7 +47,7 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			Transaction transaction = jedis.multi();
 			transaction.set(key, jsonString);
 			transaction.exec();
-			
+			jedisPool.close();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			lessons = gson.fromJson(homePageLesson, new TypeToken<List<Lesson>>(){}.getType());
@@ -77,6 +77,7 @@ public class HomeInfoServiceBean implements HomeInfoService {
 			Transaction transaction = jedis.multi();
 			transaction.set(key, jsonString);
 			transaction.exec();
+			jedisPool.close();
 		}else{
 			System.out.println("It's from Redis");/*########################################*/
 			freeListens = gson.fromJson(homePageFreeListen, new TypeToken<List<Lesson>>(){}.getType());
