@@ -144,6 +144,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		transaction.del(swiperTKey);
 		//结束事务
 		transaction.exec();
+		jedisPool.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return result;

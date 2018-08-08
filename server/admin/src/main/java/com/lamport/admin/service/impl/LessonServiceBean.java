@@ -80,6 +80,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
+		jedisPool.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return saveResult;
@@ -110,6 +111,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
+		jedisPool.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
@@ -152,6 +154,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
+		jedisPool.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return updateResult;

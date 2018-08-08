@@ -100,6 +100,7 @@ public class AddressServiceBean implements AddressService {
 		transaction.del(freelistenKey);
 		//结束事务
 		transaction.exec();
+		jedisPool.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
