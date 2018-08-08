@@ -17,6 +17,19 @@ public interface UserMapper {
 	 */
 	public int deleteUserLogicallyByQID(int qid) throws Exception;
 	/**
+	 * 通过uid更新User的totalpoint信息
+	 * @param user
+	 * @throws Exception
+	 */
+	public void updateUserTotalpointByUID(User user) throws Exception;
+	/**
+	 * 通过uid查询User信息
+	 * @param uid
+	 * @return 
+	 * @throws Exception
+	 */
+	public User selectUserByUID(int uid) throws Exception;
+	/**
 	 * 通过qid查询User信息
 	 * @param qid
 	 * @return

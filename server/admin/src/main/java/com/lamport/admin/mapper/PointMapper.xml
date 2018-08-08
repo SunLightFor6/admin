@@ -5,6 +5,11 @@
     
 <mapper namespace="com.lamport.admin.mapper.PointMapper">
 
+	<!-- 通过pid逻辑删除Point信息 -->
+	<update id="deletePointLogicallyByPID" parameterType="int">
+		update point set deletekey=1 where pid=#{pid}
+	</update>
+
 	<!-- 通过uid批量逻辑删除Point信息 -->
 	<update id="deleteMultiPointLogicallyByUID" parameterType="java.util.List">
 		update point set deletekey=1 
@@ -13,4 +18,10 @@
         	#{item.uid}
     	</foreach>	
 	</update>
+
+	<!-- 通过oid查询Point信息 -->
+	<select id="selectPointLogicallyByOID" parameterType="int"
+			resultType="com.lamport.admin.po.Point">
+		select * from point where oid=#{oid} and deletekey=0
+	</select>
 </mapper>
