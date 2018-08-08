@@ -59,8 +59,10 @@
 			$('#courseprice').text(data.courseprice);
 			//这里注意多选框的处理
 			$.each(data.branch, function(index, value) {
-				$('#' + value).next('div').attr("class", "layui-unselect layui-form-checkbox layui-checkbox-check layui-form-checked layui-disabled");
+				//				$('#' + value).next('div').attr("class", "layui-unselect layui-form-checkbox layui-checkbox-check layui-form-checked layui-disabled");
+				$("#" + value).attr("disabled", "false");
 			});
+			form.render();
 			$('#pic').html('<img src="' + data.courseimg + '" style="height: 120px; width: 200px;" />')
 			$('#coursedescription').html(data.ldesc);
 		});
