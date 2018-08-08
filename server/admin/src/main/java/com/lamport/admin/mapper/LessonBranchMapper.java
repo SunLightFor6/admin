@@ -41,12 +41,26 @@ public interface LessonBranchMapper {
 	 */
 	public void deleteMultiLessonBranchLogicallyByBranchID(List<Address> addresses) throws Exception;
 	/**
-	 * 通过qid查询LessonBranch的信息
+	 * 通过branchid查询LessonBranch信息
+	 * @param branchid
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<LessonBranch> selectLessonBranchByBranchID(int branchid) throws Exception;
+	/**
+	 * 通过qid查询LessonBranch信息
 	 * @param qid
 	 * @return List
 	 * @throws Exception
 	 */
 	public List<LessonBranch> selectLessonBranchByQID(int qid) throws Exception;
+	/**
+	 * 通过branchid和页码查询LessonBranch信息
+	 * @param branchIDAndPage
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<LessonBranch> selectLessonBranchByBranchIDAndPage(BranchIDAndPage branchIDAndPage) throws Exception;
 	/**
 	 * 通过branchid查询lid
 	 * @param branchid

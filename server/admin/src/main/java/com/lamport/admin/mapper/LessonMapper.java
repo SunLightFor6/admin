@@ -46,11 +46,31 @@ public interface LessonMapper {
 	 */
 	public Lesson selectLessonByLID(int lid) throws Exception;
 	/**
+	 * 通过lid查询含有Address信息的Lesson信息
+	 * @param lid
+	 * @return Lesson
+	 * @throws Exception
+	 */
+	public Lesson selectLessonWithBranchesByLID(int lid) throws Exception;
+	/**
+	 * 通过多条件查询含有Address信息的Lesson信息
+	 * @param lessonQueryCondition
+	 * @return List
+	 * @throws Exception
+	 */
+	public List<Lesson> selectLessonWithBranchesByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception;
+	/**
 	 * 通过多条件查询Lesson信息
 	 * @return List
 	 * @throws Exception
 	 */
 	public List<Lesson> selectLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception;
+	/**
+	 * 通过多条件查询Lesson的总数
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectCountLessonByLessonQueryCondition(LessonQueryCondition lessonQueryCondition) throws Exception;
 	/**
 	 * 通过qid查询Lesson的总数
 	 * @return int

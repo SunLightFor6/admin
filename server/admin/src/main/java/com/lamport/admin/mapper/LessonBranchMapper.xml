@@ -45,12 +45,25 @@
     	</foreach>
 	</update>
 
+	<!-- 通过branchid查询LessonBranch的信息 -->
+	<select id="selectLessonBranchByBranchID" parameterType="int"
+			resultType="com.lamport.admin.po.LessonBranch">
+		select * from lessonbranch where branchid=#{branchid} and deletekey=0
+	</select>
+
 	<!-- 通过qid查询LessonBranch的信息 -->
 	<select id="selectLessonBranchByQID" parameterType="int"
 			resultMap="_LessonBranch">
 		select lb.id, lb.branchid, l.* from 
 		lessonbranch lb left join lesson l on lb.lid=l.lid
 		where l.qid=#{qid} and lb.deletekey=0
+	</select>
+
+	<!-- 通过branchid和页码查询LessonBranch信息 -->
+	<select id="selectLessonBranchByBranchIDAndPage" parameterType="com.lamport.admin.vo.BranchIDAndPage"
+			resultType="com.lamport.admin.po.LessonBranch">
+		select * from lessonbranch where branchid=#{branchid} and deletekey=0
+		limit #{pageTool.startrow}, #{pageTool.limit}
 	</select>
 
 	<!-- 通过branchid查询lid -->

@@ -5,7 +5,7 @@
     
 <mapper namespace="com.lamport.admin.mapper.LessonMapper">
 	
-	<resultMap type="com.lamport.admin.po.Lesson" id="_Lesson_Address">
+	<resultMap type="com.lamport.admin.po.Lesson" id="_Lesson_Branches">
 		<id column="lid" property="lid"/>
 		<result column="qid" property="qid"/>
 		<result column="lname" property="lname"/>
@@ -16,7 +16,7 @@
 		<result column="category" property="category"/>
 		<result column="pubtime" property="pubtime"/>
 		<collection property="branches" ofType="com.lamport.admin.po.Address">
-			<id column="id" property="id"/>
+			<id column="branchid" property="id"/>
 			<result column="branch" property="branch"/>
 		</collection>
 		
@@ -63,12 +63,41 @@
 		select * from lesson where lid=#{lid} and deletekey=0
 	</select>
 
+	<!-- 通过lid查询含有Address信息的Lesson信息 -->
+	<select id="selectLessonWithBranchesByLID" parameterType="int"
+			resultMap="_Lesson_Branches">
+		select * from lesson l
+		left join lessonbranch lb on l.lid=lb.lid
+		left join address a on lb.branchid=a.id
+		where l.lid=#{lid} and l.deletekey=0 and lb.deletekey=0 and a.deletekey=0
+	</select>
+
+	<!-- 通过多条件查询含有Address信息的Lesson信息 -->
+	<select id="selectLessonWithBranchesByLessonQueryCondition" parameterType="com.lamport.admin.vo.LessonQueryCondition"
+			resultMap="_Lesson_Branches">
+		select * from lesson l
+		left join lessonbranch lb on l.lid=lb.lid
+		left join address a on lb.branchid=a.id
+		where l.qid=#{qid} and l.deletekey=0 and lb.deletekey=0 and a.deletekey=0
+		<if test="branch!=null and branch!=''">
+			and a.branch=#{branch}
+		</if>
+		limit #{pageTool.startrow}, #{pageTool.limit}
+	</select>
+	
 	<!-- 通过多条件查询Lesson信息 -->
 	<select id="selectLessonByLessonQueryCondition" parameterType="com.lamport.admin.vo.LessonQueryCondition"
 			resultType="com.lamport.admin.po.Lesson">
 		select * from lesson 
 		where qid=#{qid} and deletekey=0
 		limit #{pageTool.startrow}, #{pageTool.limit}
+	</select>
+
+	<!-- 通过多条件查询Lesson的总数 -->
+	<select id="selectCountLessonByLessonQueryCondition" parameterType="com.lamport.admin.vo.LessonQueryCondition"
+			resultType="int">
+		select count(*) from lesson 
+		where qid=#{qid} and deletekey=0
 	</select>
 
 	<!-- 通过qid查询Lesson的总数 -->

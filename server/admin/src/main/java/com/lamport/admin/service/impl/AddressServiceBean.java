@@ -77,9 +77,12 @@ public class AddressServiceBean implements AddressService {
 		//校验，删除没有分部的精品课
 		if(lids!=null && !lids.isEmpty()){
 			for(Integer lid: lids){
-				int count = lessonBranchMapper.selectCountLessonBranchByLID(lid);
+				int count = 0;
+				if(lid != null){
+					count = lessonBranchMapper.selectCountLessonBranchByLID(lid.intValue());
+				}
 				if(count == 0){
-					deleteResult *= lessonMapper.deleteLessonLogicallyByID(lid);
+					deleteResult *= lessonMapper.deleteLessonLogicallyByID(lid.intValue());
 				}
 			}
 		}
