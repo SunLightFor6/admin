@@ -217,11 +217,15 @@
 					}
 
 					var formData = new FormData();
-					var branchs_s = $("#branch_sel input:checked").text();
-					for(var i in branchs_s) {
-						formData.append("branchs", branchs_s[i].name);
+//					var branchs_s = $("#branch_sel input:checked").text();
+					var branchs_s = $("div.layui-form-checked span");
+					console.log(branchs_s);
+					console.log(branchs_s.length);
+					for(var i=0; i<branchs_s.length; i++) {
+						formData.append("branchs", branchs_s[i].innerText);
+						console.log(branchs_s[i].innerText);
 					}
-					
+					console.log(formData.get("branchs"));
 					formData.append("lname", $('#coursename').val());
 					formData.append("imgFile", imgFile);
 					formData.append("lprice", $("#courseprice").val());
@@ -290,6 +294,9 @@
 				$("#submit_free_btn").click(function() {
 
 					if(!(required_verify("课程名称", $('#coursename_f').val()))) {
+						return;
+					}
+					if(!(required_verify("分部", $('#fenbu_f').val()))) {
 						return;
 					}
 

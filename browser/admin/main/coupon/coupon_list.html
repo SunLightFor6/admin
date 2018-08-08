@@ -22,6 +22,7 @@
 					<!--<input name="courseCategory" id="courseCategory" class="layui-input" type="text" autocomplete="off" placeholder="请输入用户昵称">-->
 					<select id="category" name="category" class="layui-input" lay-filter="categories-select">
 						<option value="" selected>所有类别</option>
+						<option value="通用" selected>通用</option>
 						<!--<option value="前端">前端</option>
 						<option value="Java">Java</option>
 						<option value="Java Web">Java Web</option>-->
@@ -70,7 +71,7 @@
 
 		form.render();
 		$(function() {
-			getCategories("category", 3);
+			getCategories("category");
 		});
 
 		var formData1 = new FormData($("#coupon_query_form")[0]);
