@@ -127,10 +127,9 @@
 	$(function() {
 		$("#modify_pay_btn").click(function() {
 			var formData = new FormData();
-			var branchs_s = $("#branch_sel input:checked");
-			var branch = new Array();
+			var branchs_s = $("#branch_sel input:checked").text();
 			for(var i in branchs_s) {
-				branch.push(branchs_s[i].name);
+				formData.append("branchs", branchs_s[i].name);
 			}
 
 			formData.append("lid", c_id);
@@ -139,8 +138,11 @@
 			formData.append("lprice", $("#courseprice").val());
 			formData.append("ldesc", layedit.getContent(course_mpay));
 			formData.append("status", $('#coursestatus option:selected'));
-			formData.append("category", $('#categories_s option:selected'));
-			formData.append("branchs", branch);
+			if($('#categories_s option:selected').text() == "自定义"){
+						formData.append("category", $("#newcategory").val());
+					} else {
+						formData.append("category", $('#categories_s option:selected').text());
+					}
 
 			jqxhr = $.ajax({
 				type: "post",

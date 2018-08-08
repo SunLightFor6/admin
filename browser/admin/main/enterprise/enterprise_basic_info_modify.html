@@ -140,87 +140,97 @@
 					"</div>";
 					$('#preview_video_info').append(html);
 				});
-
-			},
-			done: function(res) {
-
 			}
 		});
 
 		//表单提交的方法
 		$('#enter_modify_submit').click(function() {
-			$("body").mLoading({
-				text: "正在上传，请等待", //加载文字，默认值：加载中...
-				icon: "", //加载图标，默认值：一个小型的base64的gif图片
-				html: false, //设置加载内容是否是html格式，默认值是false
-				content: "", //忽略icon和text的值，直接在加载框中显示此值
-				mask: true //是否显示遮罩效果，默认显示
-			});
-			$("body").mLoading("show");
-			var formData = new FormData();
-			formData.append("name", $('#enter-name').val());
-			formData.append("introduction", $('#enter-des').val());
-			for(var i in message_pics) {
-				formData.append("message_pics", message_pics[i]);
-			}
-			formData.append("video", video);
-			formData.append("jczs", layedit.getContent(enterprise_bim));
-			//			alert("即将ajax");
-			jqxhr = $.ajax({
-				type: "post",
-				url: PREPATH + "/admin/updateEnterpriseBasicInfoByID",
-				async: false,
-				data: formData,
-				dataType: "json",
-				processData: false,
-				contentType: false,
-				success: function(data) {
-					//					alert(data.response);
-					$("body").mLoading("hide");
-					if(data.response == 1) {
-						layer.open({
-							type: 0,
-							btn: false,
-							title: false,
-							icon: 6,
-							closeBtn: 0,
-							shadeClose: true,
-							time: 1500,
-							content: '更改成功！',
-							success: function() {
-								sessionStorage.setItem("enterpriseNameG", $("#enter-name").val());
-								$('#enterprise_name').text($("#enter-name").val());
-								window.location.href = "#11";
-							}
-						});
-					} else {
-						layer.open({
-							type: 0,
-							btn: false,
-							title: false,
-							icon: 6,
-							closeBtn: 0,
-							shadeClose: true,
-							time: 1500,
-							content: '更改失败，请重试或联系系统管理员！',
-						});
-					}
-
+			var v = {
+				a: 0
+			};
+			Object.defineProperty(v, 'a', {
+				get: function() {
+					return a;
 				},
-				error: function() {
-					$("body").mLoading("hide");
-					layer.open({
-						type: 0,
-						btn: false,
-						title: false,
-						icon: 5,
-						closeBtn: 0,
-						shadeClose: true,
-						time: 1500,
-						content: '服务器错误，请稍后重试'
+				set: function(value) {
+					a = value;
+					console.log("a = value = " + value);
+					//说明加载完毕了
+					var formData = new FormData();
+					formData.append("name", $('#enter-name').val());
+					formData.append("introduction", $('#enter-des').val());
+					for(var i in message_pics) {
+						formData.append("message_pics", message_pics[i]);
+					}
+					formData.append("video", video);
+					formData.append("jczs", layedit.getContent(enterprise_bim));
+
+					jqxhr = $.ajax({
+						type: "post",
+						url: PREPATH + "/admin/updateEnterpriseBasicInfoByID",
+						async: true,
+						data: formData,
+						dataType: "json",
+						processData: false,
+						contentType: false,
+						success: function(data) {
+							$("body").mLoading("hide");
+							if(data.response == 1) {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 6,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '更改成功！',
+									success: function() {
+										sessionStorage.setItem("enterpriseNameG", $("#enter-name").val());
+										$('#enterprise_name').text($("#enter-name").val());
+										window.location.href = "#11";
+									}
+								});
+							} else {
+								layer.open({
+									type: 0,
+									btn: false,
+									title: false,
+									icon: 6,
+									closeBtn: 0,
+									shadeClose: true,
+									time: 1500,
+									content: '更改失败，请重试或联系系统管理员！',
+								});
+							}
+
+						},
+						error: function() {
+//							for(var i = 0; i < 10000; i++) {
+//								console.log(i);
+//							}
+							$("body").mLoading("hide");
+							layer.open({
+								type: 0,
+								btn: false,
+								title: false,
+								icon: 5,
+								closeBtn: 0,
+								shadeClose: true,
+								time: 1500,
+								content: '服务器错误，请稍后重试',
+								success: function() {
+									//							$("body").mLoading("hide");
+								}
+							});
+						}
 					});
 				}
+			})
+			v.a = $("body").mLoading({
+				text: "正在上传，请等待" //加载文字，默认值：加载中...
 			});
+			console.log(a);
 		});
 	});
 </script>

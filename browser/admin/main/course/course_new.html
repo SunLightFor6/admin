@@ -3,8 +3,8 @@
 		<div id="alternative">
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 				<ul class="layui-tab-title">
-					<li class="layui-this">新增正式课程</li>
-					<li>新增免费课程</li>
+					<li id="_1" class="layui-this">新增正式课程</li>
+					<li id="_2">新增免费课程</li>
 				</ul>
 				<div class="layui-tab-content" style="height: 100px;">
 					<div class="layui-tab-item layui-show">
@@ -65,14 +65,14 @@
 								<option value="即将开始">即将开始</option>
 							</select>
 							<p class="form-label_sm">课程类别</p>
-							<select id="categories_s_f" name="coursecategory" lay-filter="categories-select" lay-verify="required" lay-search="">
+							<select id="categories_s_f" name="coursecategory" lay-filter="categories-select_f" lay-verify="required" lay-search="">
 								<option value="直接选择或搜索选择">直接选择或搜索选择</option>
 								<!--<option value="前端">前端</option>
 								<option value="Java">Java</option>
 								<option value="Java Web">Java Web</option>-->
 								<option value="0">自定义</option>
 							</select>
-							<p id="categories_p"></p>
+							<p id="categories_p_f"></p>
 							<p class="form-label_sm">课程图片</p>
 							<div class="layui-upload">
 								<div class="layui-upload-drag" id="uploadpic2">
@@ -86,7 +86,7 @@
 								</blockquote>
 							</div>
 							<p class="form-label_sm">开本课程的分部</p>
-							<select id="fenbu_f" name="fenbu" lay-filter="categories-select" lay-verify="required" lay-search="">
+							<select id="fenbu_f" name="fenbu" lay-verify="required" lay-search="">
 								<option value="">直接选择或搜索选择</option>
 								<!--<option value="实训中心">实训中心</option>
 								<option value="大连软件园">大连软件园</option>
@@ -164,38 +164,43 @@
 				console.log(data.othis); //得到美化后的DOM对象
 				if(data.value == 0) {
 					console.log(data.value); //得到被选中的值
-					//							var categories = $('#categoriess_s');
 					var categories_p = $('#categories_p');
 					categories_p.show();
-					//							categories.hide();
-					categories_p.html('<input type="text" name="lebie" autocomplete="off" placeholder="请输入自定义类别名称" class="layui-input">');
-				} else if(data.value > 0) {
+					categories_p.html('<input type="text" id="newcategory" name="lebie" autocomplete="off" placeholder="请输入自定义类别名称" class="layui-input">');
+				} else if(data.value != 0) {
 					$('#categories_p').hide();
+				}
+			});
+			form.on('select(categories-select_f)', function(data) {
+				console.log(data.elem); //得到select原始DOM对象
+				console.log(data.value); //得到被选中的值
+				console.log(data.othis); //得到美化后的DOM对象
+				if(data.value == 0) {
+					console.log(data.value); //得到被选中的值
+					var categories_p = $('#categories_p_f');
+					categories_p.show();
+					categories_p.html('<input type="text" id="newcategory" name="lebie" autocomplete="off" placeholder="请输入自定义类别名称" class="layui-input">');
+				} else if(data.value != 0) {
+					$('#categories_p_f').hide();
 				}
 			});
 		});
 		$(function() {
 			//获取分部信息，填充到下拉框的地方
-			$.ajax({
-				type: "post",
-				url: PREPATH + "/admin/getBranchesName",
-				async: true,
-				dataType: "json",
-				success: function(data) {
-					console.log("分部信息获取成功");
-					$.each(data.values, function(index, value) {
-						$("#fenbu_f").append('<option value="' + value + '">' + value + '</option>');
-						$("#branch_sel").append('<input type="checkbox" name="' + value + '" title="' + value + '">');
-					});
-					form.render();
-				},
-				error: function() {
-					console.log("分部信息获取失败，服务器错误");
-					$("#fenbu_f").append('<option value="服务器错误，请重试或联系系统管理员" disabled>服务器错误，请重试或联系系统管理员</option>');
-					$("#branch_sel").append('<input type="checkbox" name="服务器错误" title="服务器错误，请重试或联系系统管理员" disabled />');
-					form.render();
-				}
-			});
+			getCategories("categories_s");
+			getBranchesName("branch_sel", 2);
+			getCategories("categories_s_f");
+			getBranchesName("fenbu_f");
+		});
+		
+//		$("#_1").click(function() {
+//			getCategories("categories_s");
+//			getBranchesName("branch_sel", 2);
+//		});
+//		$("#_2").click(function() {
+//			getCategories("categories_s_f");
+//			getBranchesName("fenbu_f");
+//		});
 
 			layui.use('layedit', function() {
 				var layedit = layui.layedit;
@@ -212,19 +217,21 @@
 					}
 
 					var formData = new FormData();
-					var branchs_s = $("#branch_sel input:checked");
-					var branch = new Array();
+					var branchs_s = $("#branch_sel input:checked").text();
 					for(var i in branchs_s) {
-						branch.push(branchs_s[i].name);
+						formData.append("branchs", branchs_s[i].name);
 					}
 					
 					formData.append("lname", $('#coursename').val());
 					formData.append("imgFile", imgFile);
 					formData.append("lprice", $("#courseprice").val());
-//					formData.append("ldesc", layedit.getContent(course_newformal));
+					formData.append("ldesc", layedit.getContent(course_newformal));
 					formData.append("status", $('#coursestatus option:selected').text());
-					formData.append("category", $('#categories_s option:selected').text());
-					formData.append("branchs", branch);
+					if($('#categories_s option:selected').text() == "自定义"){
+						formData.append("category", $("#newcategory").val());
+					} else {
+						formData.append("category", $('#categories_s option:selected').text());
+					}
 
 					jqxhr = $.ajax({
 						type: "post",
@@ -287,13 +294,17 @@
 					}
 
 					var formData = new FormData();
-					var branch = $("#fenbu_f input:selected").text();
+					var branch = $("#fenbu_f option:selected").text();
 
 					formData.append("title", $('#coursename_f').val());
 					formData.append("imgFile", imgFile);
-					formData.append("ldesc", layedit.getContent(course_newfree));
+					formData.append("fdesc", layedit.getContent(course_newfree));
 					formData.append("status", $('#coursestatus_f option:selected').text());
-					formData.append("category", $('#categories_s_f option:selected').text());
+					if($('#categories_s_f option:selected').text() == "自定义"){
+						formData.append("category", $("#newcategory").val());
+					} else {
+						formData.append("category", $('#categories_s_f option:selected').text());
+					}
 					formData.append("branchName", branch);
 
 					jqxhr = $.ajax({
@@ -350,5 +361,4 @@
 					});
 				});
 			});
-		});
 	</script>

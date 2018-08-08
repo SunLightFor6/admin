@@ -106,3 +106,22 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 -	4. 分部  类别 
 		form.render();
 -	5. 文件上传没改完  8个
+-	6. 密码	
+-	7. 分部 类别				我输出了接收到的数据  form.render()   js函数重载
+
+	8. 查询课程信息
+		免费课	空指针异常
+			http://admin.lamport.com/admin/admin/selectFreeListenByFreeListenQueryCondition?branch=
+			<p><b>root cause</b></p><pre>java.lang.NullPointerException
+			com.lamport.admin.handler.FreeListenHandler.selectFreeListenByFreeListenQueryCondition(FreeListenHandler.java:118)
+		正式课 	无数据
+			{"code":0,"msg":"","count":0,"data":[]}
+			
+	9. 正在加载中   监听变量
+	10. 视频 想办法解决一下
+	11. 通用  优惠券类别 通用  后端处理数据都是“ALL”  前端转成“通用”
+	
+晚上:
+-	1. 监听变量
+-	2. 优惠券 上面11
+-	3. 查看课程 有 分部信息 需要填充

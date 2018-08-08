@@ -156,11 +156,14 @@ function verify_tele(posi, value) {
 }
 
 //从服务器请求category的方法，传入的参数是要append下拉框的select标签id
-function getCategories(id_) {
-	getCategories(id_, 1);
-}
+//function getCategories(id_) {
+//	getCategories(id_, 1);
+//}
 
 function getCategories(id_, type) {
+	if(type==null){
+		type = 1;
+	}
 	layui.use("form", function() {
 		var form = layui.form;
 
@@ -171,14 +174,22 @@ function getCategories(id_, type) {
 			dataType: "json",
 			success: function(data) {
 				var values = data.values;
+				console.log("getCategories values:" + values);
 				$.each(values, function(index) {
 					if(type == 1) {
+						console.log(type);
 						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
 					} else if(type == 2) {
-						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">"');
+						console.log(type);
+						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
+					} else if(type == 3) {
+						if(values[index] == "ALL") {
+							values[index] = "通用";
+						}
+						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
 					}
+					form.render();
 				});
-				form.render();
 			},
 			error: function() {
 				$("#" + id_).append('<option value="课程类别信息获取失败，请重试或联系系统管理员" disabled>课程类别信息获取失败，请重试或联系系统管理员</option>');
@@ -188,11 +199,15 @@ function getCategories(id_, type) {
 	});
 }
 //获取分部信息，填充到下拉框的地方
-function getBranchesName(id_) {
-	getBranchesName(id_, 1);
-}
+//function getBranchesName(id_) {
+//	getBranchesName(id_, 1);
+//}
+//js 的重载  因为js函数参数长度可变 所以其实是没必要用重载的
 
 function getBranchesName(id_, type) {
+	if(type==null) {
+		type = 1;
+	}
 	layui.use("form", function() {
 		var form = layui.form;
 		console.log(type);
@@ -203,15 +218,18 @@ function getBranchesName(id_, type) {
 			dataType: "json",
 			success: function(data) {
 				var values = data.values;
+				console.log("getCategories values:" + values);
 				$.each(values, function(index) {
 					console.log(type);
 					if(type == 1) {
 						$("#" + id_).append('<option value="' + values[index] + '">' + values[index] + '</option>');
 					} else if(type == 2) {
-						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">"');
+						$("#" + id_).append('<input type="checkbox" name="' + values[index] + '" title="' + values[index] + '">');
+					} else if(type == 3) {
+						$("#" + id_).append('<input disabled="disabled" type="checkbox" name="' + values[index] + '" id="' + values[index] + '" title="' + values[index] + '">');
 					}
+					form.render();
 				});
-				form.render();
 			},
 			error: function() {
 				$("#" + id_).append('<option value="分部信息获取失败，请重试或联系系统管理员" disabled>分部信息获取失败，请重试或联系系统管理员</option>');

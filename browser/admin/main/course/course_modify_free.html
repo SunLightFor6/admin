@@ -78,7 +78,7 @@
 			laydate = layui.laydate;
 
 		var course_mfree = layedit.build('course_mfree'); //建立编辑器
-		
+
 		form.render();
 
 		$(function() {
@@ -117,14 +117,18 @@
 		$(function() {
 			$("#modify_free_btn").click(function() {
 				var formData = new FormData();
-				var branch = $("#fenbu input:selected");
+				var branch = $("#fenbu option:selected").text();
 
 				formData.append("id", c_id);
 				formData.append("title", $('#coursename').val());
 				formData.append("imgFile", imgFile);
 				formData.append("ldesc", layedit.getContent(course_mfree));
 				formData.append("status", $('#coursestatus option:selected'));
-				formData.append("category", $('#categories_s option:selected'));
+				if($('#categories_s_f option:selected').text() == "自定义") {
+					formData.append("category", $("#newcategory").val());
+				} else {
+					formData.append("category", $('#categories_s_f option:selected').text());
+				}
 				formData.append("branchName", branch);
 
 				jqxhr = $.ajax({

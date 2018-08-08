@@ -29,7 +29,7 @@
 			layer = layui.layer;
 
 		$('#password_modify_btn').click(function() {
-			
+
 			console.log($('#new1_password').val() + " " + $('#new2_password').val());
 			if($('#new1_password').val() !== $('#new2_password').val()) {
 				layer.open({
@@ -49,24 +49,29 @@
 				});
 				return;
 			}
-			if(! (required_verify("都", $("#sourse_password").val()) && required_verify("都", $("#new2_password").val()) && required_verify("都", $("#new1_password").val()))) {
-				console.log("return");
-				return ;
-			}
-			
-			if(! (verify_pass("原密码框", $("#sourse_password").val()) && verify_pass("密码框", $("#new2_password").val()) && verify_pass("密码框2", $("#new1_password").val()))){
+			if(!(required_verify("都", $("#sourse_password").val()) && required_verify("都", $("#new2_password").val()) && required_verify("都", $("#new1_password").val()))) {
 				console.log("return");
 				return;
 			}
-			
-			var formData = new FormData();
-			formData.append("sourse_password", $("#sourse_password").val());
-			formData.append("new_password", $("#new_password").val());
-			jqxhr = $.ajax({
+
+			if(!(verify_pass("原密码框", $("#sourse_password").val()) && verify_pass("密码框", $("#new2_password").val()) && verify_pass("密码框2", $("#new1_password").val()))) {
+				console.log("return");
+				return;
+			}
+
+			//			var formData = new FormData();
+			//			formData.append("sourse_password", $("#sourse_password").val());
+			//			formData.append("new_password", $("#new1_password").val());
+//			console.log(formData.get("sourse_password"));
+//			console.log(formData.get("new_password"));
+			$.ajax({
 				type: "post",
 				url: PREPATH + "/admin/updatePasswordByID",
 				async: true,
-				data: formData,
+				data: {
+					"sourse_password": $("#sourse_password").val(),
+					"new_password": $("#new1_password").val()
+				},
 				dataType: "json",
 				success: function(data) {
 					if(data.status == "success") {
