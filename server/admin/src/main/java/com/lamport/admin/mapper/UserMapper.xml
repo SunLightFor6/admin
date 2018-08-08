@@ -10,6 +10,12 @@
 		update user set deletekey=1 where qid=#{qid}
 	</update>
 
+	<!-- 通过qid查询User信息 -->
+	<select id="selectUserByQID" parameterType="int"
+			resultType="com.lamport.admin.po.User">
+		select * from user where qid=#{qid} and deletekey=0
+	</select>
+
 	<!-- 根据qid查询User的总数 -->
 	<select id="selectCountUserByQID" parameterType="int"
 			resultType="int">

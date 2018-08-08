@@ -18,14 +18,7 @@
 
 	<!-- 通过qid逻辑删除Address信息 -->
 	<update id="deleteAddressLogicallyByQID" parameterType="int">
-		update address a, lessonbranch lb set a.deletekey=1, lb.deletekey=1
-		where a.qid=#{qid} and lb.branchid in
-		(select a_lb.branchid from 
-			(select b.branchid from 
-			 lessonbranch b left join address ad on b.branchid=ad.id 
-			 where ad.qid=#{qid}
-			) a_lb
-		)
+		update address set deletekey=1 where qid=#{qid}
 	</update>
 
 	<!-- 通过id修改Address信息 -->

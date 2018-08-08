@@ -12,4 +12,9 @@
             (#{item.cid}, #{item.uid}, sysdate(), #{item.deletekey})
         </foreach>
 	</insert>
+
+	<!-- 通过cid逻辑删除CouponRecord信息 -->
+	<update id="deleteCouponRecordLogicallyByCID" parameterType="int">
+		update couponrecord set deletekey=1 where cid=#{cid}
+	</update>
 </mapper>

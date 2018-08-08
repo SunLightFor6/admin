@@ -14,6 +14,15 @@
 	<update id="deleteMessageImgLogicallyByMID" parameterType="int">
 		update messageimg set deletekey=1 where mid=#{mid}
 	</update>
+
+	<!-- 通过mid批量逻辑删除MessageImg信息 -->
+	<update id="deleteMultiMessageImgLogicallyByMID" parameterType="java.util.List">
+		update messageimg set deletekey=1 
+		where mid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.mid}
+    	</foreach>	
+	</update>
 	
 	<!-- 通过mid查询MessageImg信息 -->
 	<select id="selectMessageImgByMID" parameterType="int"

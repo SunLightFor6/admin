@@ -8,15 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lamport.admin.fileupload.FileManager;
-import com.lamport.admin.mapper.AddressMapper;
 import com.lamport.admin.mapper.AdminMapper;
 import com.lamport.admin.mapper.EnterpriseMapper;
-import com.lamport.admin.mapper.FreeListenMapper;
-import com.lamport.admin.mapper.LessonMapper;
-import com.lamport.admin.mapper.MessageMapper;
-import com.lamport.admin.mapper.SorderMapper;
 import com.lamport.admin.mapper.SwiperMapper;
-import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.mapper.UserMapper;
 import com.lamport.admin.po.Admin;
 import com.lamport.admin.po.Enterprise;
@@ -42,23 +36,37 @@ public class EnterpriseServiceBean implements EnterpriseService {
 	@Autowired
 	private AdminMapper adminMapper;
 	@Autowired
-	private AddressMapper addressMapper;
+	private UserMapper userMapper;
 	@Autowired
 	private EnterpriseMapper enterpriseMapper;
 	@Autowired
-	private FreeListenMapper freeListenMapper;
-	@Autowired
-	private LessonMapper lessonMapper;
-	@Autowired
-	private MessageMapper messageMapper;
-	@Autowired
-	private SorderMapper sorderMapper;
-	@Autowired
 	private SwiperMapper swiperMapper;
-	@Autowired
-	private TeacherMapper teacherMapper;
-	@Autowired
-	private UserMapper userMapper;
+//	@Autowired
+//	private AddressMapper addressMapper;
+//	@Autowired
+//	private FreeListenMapper freeListenMapper;
+//	@Autowired
+//	private LessonMapper lessonMapper;
+//	@Autowired
+//	private LessonBranchMapper lessonBranchMapper;
+//	@Autowired
+//	private MessageMapper messageMapper;
+//	@Autowired
+//	private FreeListenBookMapper freeListenBookMapper;
+//	@Autowired
+//	private SorderMapper sorderMapper;
+//	@Autowired
+//	private TeacherMapper teacherMapper;
+//	@Autowired
+//	private SignMapper signMapper;
+//	@Autowired
+//	private PointMapper pointMapper;
+//	@Autowired
+//	private MessageImgMapper messageImgMapper;
+//	@Autowired
+//	private MessageLikeMapper messageLikeMapper;
+//	@Autowired
+//	private MessageReplyMapper messageReplyMapper;
 	@Autowired
 	private JedisPool jedisPool;
 
@@ -95,15 +103,28 @@ public class EnterpriseServiceBean implements EnterpriseService {
 
 		int result = 1;
 		
+//		List<Sorder> sorders = sorderMapper.selectSorderByQID(id);
+//		List<FreeListen> freeListens = freeListenMapper.selectFreeListenByQID(id);
+//		List<Address> addresses = addressMapper.selectAddressByQID(id);
+//		List<User> users = userMapper.selectUserByQID(id);
+//		List<Message> messages = messageMapper.selectMessageByQID(id);
 		result *= adminMapper.deleteAdminLogicallyByQID(id);
-		sorderMapper.deleteSorderLogicallyByQID(id);
-		lessonMapper.deleteLessonLogicallyByQID(id);
-		freeListenMapper.deleteFreeListenLogicallyByQID(id);
-		addressMapper.deleteAddressLogicallyByQID(id);
-		swiperMapper.deleteSwiperLogicallyByQID(id);
-		teacherMapper.deleteTeacherLogicallyByQID(id);
+//		sorderMapper.deleteMultiRefundLogicallyByOID(sorders);
+//		sorderMapper.deleteSorderLogicallyByQID(id);
+//		lessonMapper.deleteLessonLogicallyByQID(id);
+//		freeListenBookMapper.deleteMultiFreeListenBookLogicallyByFID(freeListens);
+//		freeListenMapper.deleteFreeListenLogicallyByQID(id);
+//		lessonBranchMapper.deleteMultiLessonBranchLogicallyByBranchID(addresses);
+//		addressMapper.deleteAddressLogicallyByQID(id);
+//		swiperMapper.deleteSwiperLogicallyByQID(id);
+//		teacherMapper.deleteTeacherLogicallyByQID(id);
+//		signMapper.deleteMultiSignLogicallyByUID(users);
+//		pointMapper.deleteMultiPointLogicallyByUID(users);
 		userMapper.deleteUserLogicallyByQID(id);
-		messageMapper.deleteMessageLogicallyByQID(id);
+//		messageImgMapper.deleteMultiMessageImgLogicallyByMID(messages);
+//		messageLikeMapper.deleteMultiMessageLikeLogicallyByMID(messages);
+//		messageReplyMapper.deleteMultiMessageReplyLogicallyByMID(messages);
+//		messageMapper.deleteMessageLogicallyByQID(id);
 		result *= enterpriseMapper.deleteEnterpriseLogicallyByID(id);
 		result = result > 0 ? 1 : 0;
 		

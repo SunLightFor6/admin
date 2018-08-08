@@ -72,6 +72,7 @@ public class SuperAdminHandler {
 		System.out.println("..........SuperAdminHandler..........selectEnterpriseByPage()..........pageTool:" + pageTool.getPage() + " " + pageTool.getLimit());
 		String result = null;
 		
+		String nullString = null;
 		pageTool.init();
 		List<Enterprise> enterprises = enterpriseService.selectEnterpriseByPage(pageTool);
 		JsonObject jsonObject = new JsonObject();
@@ -82,7 +83,11 @@ public class SuperAdminHandler {
 		for(Enterprise enterprise : enterprises){
 			JsonObject object = new JsonObject();
 			object.addProperty("id", enterprise.getQid());
-			object.addProperty("admin", enterprise.getAdminister().getAdminname());
+			if(enterprise!=null && enterprise.getAdminister()!=null){
+				object.addProperty("admin", enterprise.getAdminister().getAdminname());
+			}else{
+				object.addProperty("admin", nullString);
+			}
 			object.addProperty("enterprise", enterprise.getName());
 			jsonArray.add(object);
 		}

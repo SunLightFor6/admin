@@ -36,6 +36,15 @@
 		update lessonbranch set deletekey=1 where branchid=#{branchid}
 	</update>
 
+	<!-- 通过branchid批量逻辑删除LessonBranch信息 -->
+	<update id="deleteMultiLessonBranchLogicallyByBranchID" parameterType="java.util.List">
+		update lessonbranch set deletekey=1 
+		where branchid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.id}
+    	</foreach>
+	</update>
+
 	<!-- 通过qid查询LessonBranch的信息 -->
 	<select id="selectLessonBranchByQID" parameterType="int"
 			resultMap="_LessonBranch">

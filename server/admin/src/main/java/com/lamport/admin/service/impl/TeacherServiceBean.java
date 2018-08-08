@@ -1,6 +1,5 @@
 package com.lamport.admin.service.impl;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,6 @@ import com.lamport.admin.fileupload.FileManager;
 import com.lamport.admin.mapper.TeacherMapper;
 import com.lamport.admin.po.Teacher;
 import com.lamport.admin.service.TeacherService;
-import com.lamport.admin.tool.Const;
-import com.lamport.admin.tool.Creator;
-import com.lamport.admin.tool.FileTool;
 import com.lamport.admin.vo.QIDAndPage;
 
 /**

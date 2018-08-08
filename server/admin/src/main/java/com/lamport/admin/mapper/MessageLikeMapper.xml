@@ -10,4 +10,12 @@
 		update messagelike set deletekey=1 where mid=#{mid}
 	</update>
 
+	<!-- 通过mid批量逻辑删除MessageLike信息 -->
+	<update id="deleteMultiMessageLikeLogicallyByMID" parameterType="java.util.List">
+		update messagelike set deletekey=1 
+		where mid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.mid}
+    	</foreach>	
+	</update>
 </mapper>

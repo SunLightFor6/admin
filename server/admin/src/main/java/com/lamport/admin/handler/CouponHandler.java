@@ -118,15 +118,7 @@ public class CouponHandler {
 	@RequestMapping(value="/admin/selectCouponsByCouponQueryCondition")
 	@ResponseBody
 	public String selectCouponsByCouponQueryCondition(CouponQueryCondition couponQueryCondition, HttpServletRequest request) throws Exception{
-//	public String selectCouponsByCouponQueryCondition(String queryBasis, HttpServletRequest request) throws Exception{
 		System.out.println("..........CouponHandler..........selectCouponsByCouponQueryCondition()..........");
-		
-//		CouponQueryCondition couponQueryCondition = new CouponQueryCondition();
-//		couponQueryCondition.setCid(0);
-//		couponQueryCondition.setLimit(10);
-//		couponQueryCondition.setPage(1);
-//		System.out.println("queryBasis = " + queryBasis);
-		
 		System.out.println("cid = " + couponQueryCondition.getCid());
 		System.out.println("category = " + couponQueryCondition.getCategory());
 		System.out.println("queryBasis = " + couponQueryCondition.getQueryBasis());

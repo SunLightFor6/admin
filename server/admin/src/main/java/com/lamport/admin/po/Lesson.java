@@ -24,6 +24,7 @@ public class Lesson {
 	 * 具体的一个分部
 	 */
 	private Address address;//某一分部
+	private String[] branchs;//分部名称数组
 
 	public int getQid() {
 		return qid;
@@ -100,5 +101,11 @@ public class Lesson {
 	}
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	public String[] getBranchs() {
+		return branchs;
+	}
+	public void setBranchs(String[] branchs) {
+		this.branchs = branchs;
 	}
 }

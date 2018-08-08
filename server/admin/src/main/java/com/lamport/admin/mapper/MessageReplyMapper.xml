@@ -26,6 +26,15 @@
 		update messagereply set deletekey=1 where mid=#{mid}
 	</update>
 
+	<!-- 通过mid批量逻辑删除MessageReply信息 -->
+	<update id="deleteMultiMessageReplyLogicallyByMID" parameterType="java.util.List">
+		update messagereply set deletekey=1 
+		where mid in 
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        	#{item.mid}
+    	</foreach>	
+	</update>
+
 	<!-- 通过mid查询MessageReply信息 -->
 	<select id="selectMessageReplyByMID" parameterType="int"
 			resultMap="_MessageReply">

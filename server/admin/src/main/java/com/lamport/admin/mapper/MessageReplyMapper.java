@@ -2,6 +2,7 @@ package com.lamport.admin.mapper;
 
 import java.util.List;
 
+import com.lamport.admin.po.Message;
 import com.lamport.admin.po.MessageReply;
 
 /**
@@ -24,6 +25,12 @@ public interface MessageReplyMapper {
 	 * @throws Exception
 	 */
 	public int deleteMessageReplyLogicallyByMID(int mid) throws Exception;
+	/**
+	 * 通过mid批量逻辑删除MessageReply信息
+	 * @param messages
+	 * @throws Exception
+	 */
+	public void deleteMultiMessageReplyLogicallyByMID(List<Message> messages) throws Exception;
 	/**
 	 * 通过mid查询MessageReply信息
 	 * @param mid

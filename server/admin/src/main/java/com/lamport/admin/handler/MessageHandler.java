@@ -101,6 +101,7 @@ public class MessageHandler {
 		System.out.println("..........MessageHandler..........selectMessageByQIDAndPage()..........qidAndPage:" + qidAndPage.getPage() + "\t" + qidAndPage.getLimit());
 		String result = null;
 
+		String nullString = null;
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		qidAndPage.setQid(admin.getQid());
@@ -116,22 +117,38 @@ public class MessageHandler {
 		for(Message message : messages){
 			JsonObject object = new JsonObject();
 			object.addProperty("id", message.getMid());
-			object.addProperty("name", message.getEnterprise().getName());
-			object.addProperty("logo", message.getSwiper().getImgurl());
+			if(message!=null && message.getEnterprise()!=null){
+				object.addProperty("name", message.getEnterprise().getName());
+			}else{
+				object.addProperty("name", nullString);
+			}
+			if(message!=null && message.getSwiper()!=null){
+				object.addProperty("logo", message.getSwiper().getImgurl());
+			}else{
+				object.addProperty("logo", nullString);
+			}
 			object.addProperty("content", message.getMtitle());
 			JsonArray imgurls = new JsonArray();
-			for(MessageImg img: message.getImgs()){
-				imgurls.add(img.getImgurl());
+			if(message!=null && message.getImgs()!=null && !message.getImgs().isEmpty()){
+				for(MessageImg img: message.getImgs()){
+					imgurls.add(img.getImgurl());
+				}
 			}
 			object.add("imgurls", imgurls);
 			object.addProperty("stime", message.getMtime());
 			JsonArray comments = new JsonArray();
-			for(MessageReply reply: message.getReplies()){
-				JsonObject comment = new JsonObject();
-				comment.addProperty("id", reply.getId());
-				comment.addProperty("name", reply.getUser().getNickname());
-				comment.addProperty("comment", reply.getContent());
-				comments.add(comment);
+			if(message!=null && message.getReplies()!=null && !message.getReplies().isEmpty()){
+				for(MessageReply reply: message.getReplies()){
+					JsonObject comment = new JsonObject();
+					comment.addProperty("id", reply.getId());
+					if(reply!=null && reply.getUser()!=null){
+						comment.addProperty("name", reply.getUser().getNickname());
+					}else{
+						comment.addProperty("name", nullString);
+					}
+					comment.addProperty("comment", reply.getContent());
+					comments.add(comment);
+				}
 			}
 			object.add("comments", comments);
 			jsonArray.add(object);

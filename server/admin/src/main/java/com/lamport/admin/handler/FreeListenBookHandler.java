@@ -59,6 +59,7 @@ public class FreeListenBookHandler {
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookByBookQueryCondition()..........bookQueryCondition: " + bookQueryCondition.getNickname() + " " + bookQueryCondition.getStatus() + " " + bookQueryCondition.getBeginTime() + " " + bookQueryCondition.getEndTime() + " " + bookQueryCondition.getFid());
 		String result = null;
 		
+		String nullString = null;
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		bookQueryCondition.setQid(admin.getQid());
@@ -73,7 +74,11 @@ public class FreeListenBookHandler {
 			JsonObject object = new JsonObject();
 			object.addProperty("bookcourseid", freeListenBook.getId());
 			object.addProperty("freelistenid", freeListenBook.getFid());
-			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			if(freeListenBook!=null && freeListenBook.getFreeListen()!=null){
+				object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			}else{
+				object.addProperty("bookcoursename", nullString);
+			}
 			object.addProperty("usernickname", freeListenBook.getUsername());
 			object.addProperty("usertel", freeListenBook.getTel());
 			object.addProperty("bookstatus", freeListenBook.getStatus());
@@ -96,6 +101,7 @@ public class FreeListenBookHandler {
 		System.out.println("..........FreeListenBookHandler..........selectFreeListenBookUnprocessedByBookQueryCondition()..........bookQueryCondition: " + bookQueryCondition.getNickname() + " " + bookQueryCondition.getStatus() + " " + bookQueryCondition.getBeginTime() + " " + bookQueryCondition.getEndTime() + " " + bookQueryCondition.getFid());
 		String result = null;
 		
+		String nullString = null;
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		bookQueryCondition.setQid(admin.getQid());
@@ -111,7 +117,11 @@ public class FreeListenBookHandler {
 			JsonObject object = new JsonObject();
 			object.addProperty("bookcourseid", freeListenBook.getId());
 			object.addProperty("freelistenid", freeListenBook.getFid());
-			object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			if(freeListenBook!=null && freeListenBook.getFreeListen()!=null){
+				object.addProperty("bookcoursename", freeListenBook.getFreeListen().getTitle());
+			}else{
+				object.addProperty("bookcoursename", nullString);
+			}
 			object.addProperty("usernickname", freeListenBook.getUsername());
 			object.addProperty("usertel", freeListenBook.getTel());
 			object.addProperty("bookstatus", freeListenBook.getStatus());
