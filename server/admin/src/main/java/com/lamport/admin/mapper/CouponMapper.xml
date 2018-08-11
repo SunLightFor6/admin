@@ -29,9 +29,15 @@
 
 	<!-- 通过cid更新coupon的get信息 -->
 	<update id="updateCouponGetByCID">
-		update coupon set get=#{get}
+		update coupon set coupon.get=#{get}
 		where cid=#{cid}
 	</update>
+
+	<!-- 通过cid查询Coupon信息 -->
+	<select id="selectCouponByCID" parameterType="int"
+			resultType="com.lamport.admin.po.Coupon">
+		select * from coupon where cid=#{cid} and deletekey=0
+	</select>
 
 	<!-- 通过多条件查询Coupon信息 -->
 	<select id="selectCouponsByCouponQueryCondition" parameterType="com.lamport.admin.vo.CouponQueryCondition"

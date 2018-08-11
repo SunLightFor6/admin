@@ -54,8 +54,8 @@ public class SorderServiceBean implements SorderService {
 				if(point.getPoint()>0){
 					uid = point.getUid();
 					reducePoint = reducePoint + point.getPoint();
+					pointMapper.deletePointLogicallyByPID(point.getPid());
 				}
-				pointMapper.deletePointLogicallyByPID(point.getPid());
 			}
 		}
 		updateResult *= sorderMapper.updateSorderByID(sorder);
@@ -64,6 +64,7 @@ public class SorderServiceBean implements SorderService {
 		User user  = userMapper.selectUserByUID(uid);
 		if(user!=null && reducePoint!=0){
 			int totalpoint = user.getTotalpoint() - reducePoint;
+			totalpoint = totalpoint>0 ? totalpoint : 0;
 			user.setTotalpoint(totalpoint);
 			userMapper.updateUserTotalpointByUID(user);
 		}

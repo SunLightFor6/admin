@@ -17,6 +17,7 @@ import com.lamport.admin.vo.MeetingCondition;
 
 /**
  * implements CouponService
+ * 
  * @author Lin Zhao, protector of Sherry
  *
  */
@@ -27,12 +28,12 @@ public class CouponServiceBean implements CouponService {
 	CouponMapper couponMapper;
 	@Autowired
 	CouponRecordMapper couponRecordMapper;
-	
+
 	@Override
 	public void saveCoupon(Coupon coupon) throws Exception {
 		System.out.println("..........CouponServiceBean..........saveCoupon()..........");
-		
-		if(coupon.getCategory()==null || coupon.getCategory()==""){
+
+		if (coupon.getCategory() == null || coupon.getCategory() == "") {
 			coupon.setCategory(Const.ordinaryCouponCategory);
 		}
 		coupon.setGet(0);
@@ -44,38 +45,45 @@ public class CouponServiceBean implements CouponService {
 	@Override
 	public void deleteCouponLogicallyByCID(Coupon coupon) throws Exception {
 		System.out.println("..........CouponServiceBean..........deleteCouponLogicallyByCID()..........");
-		
+
 		coupon.setDisabledkey(1);
 		coupon.setDeletekey(1);
 		couponMapper.deleteCouponLogicallyByCID(coupon);
 		couponRecordMapper.deleteCouponRecordLogicallyByCID(coupon.getCid());
 	}
-	
+
 	@Override
-	public void updateCouponDeadLineByCID(Coupon coupon) throws Exception{
+	public void updateCouponDeadLineByCID(Coupon coupon) throws Exception {
 		System.out.println("..........CouponServiceBean..........updateCouponDeadLineByCID()..........");
-		
+
 		couponMapper.updateCouponDeadLineByCID(coupon);
 	}
 
 	@Override
 	public void updateCouponByMeetingCondition(MeetingCondition meetingCondition) throws Exception {
 		System.out.println("..........CouponServiceBean..........updateCouponByMeetingCondition()..........");
-		
+
 		List<Integer> uids = couponMapper.selectUserUIDByMeetingCondition(meetingCondition);
-		Coupon coupon = new Coupon();
-		coupon.setCid(meetingCondition.getCid());
-		coupon.setGet(uids.size());
 		List<CouponRecord> couponRecords = new ArrayList<CouponRecord>();
-		if(uids!=null && !uids.isEmpty()){
-			for(Integer uid : uids){
-				CouponRecord couponRecord = new CouponRecord();
-				couponRecord.setCid(meetingCondition.getCid());
-				couponRecord.setUid(uid.intValue());
-				couponRecord.setDeletekey(0);
-				couponRecords.add(couponRecord);
+		if (uids != null && !uids.isEmpty() && meetingCondition.getSu_per()>0) {
+			for (Integer uid : uids) {
+				for (int i = 0; i < meetingCondition.getSu_per(); i++) {
+					CouponRecord couponRecord = new CouponRecord();
+					couponRecord.setCid(meetingCondition.getCid());
+					couponRecord.setUid(uid.intValue());
+					couponRecord.setDeletekey(0);
+					couponRecords.add(couponRecord);
+				}
 			}
 			couponRecordMapper.saveMultiCouponRecord(couponRecords);
+		}
+		Coupon coupon = new Coupon();
+		int get = uids.size() * meetingCondition.getSu_per();
+		if(get > 0){
+			get = coupon.getGet() + get;
+			coupon.setCid(meetingCondition.getCid());
+			coupon.setGet(get);
+			couponMapper.updateCouponGetByCID(coupon);
 		}
 	}
 
@@ -84,11 +92,11 @@ public class CouponServiceBean implements CouponService {
 			throws Exception {
 		System.out.println("..........CouponServiceBean..........selectCouponsByCouponQueryCondition()..........");
 		List<Coupon> coupons = null;
-		
+
 		int count = couponMapper.selectCountCouponsByCouponQueryCondition(couponQueryCondition);
 		couponQueryCondition.getPageTool().setCount(count);
 		coupons = couponMapper.selectCouponsByCouponQueryCondition(couponQueryCondition);
-		
+
 		return coupons;
 	}
 
@@ -96,9 +104,9 @@ public class CouponServiceBean implements CouponService {
 	public int selectCountUserByMeetingCondition(MeetingCondition meetingCondition) throws Exception {
 		System.out.println("..........CouponServiceBean..........selectCountUserByMeetingCondition()..........");
 		int count = 0;
-		
+
 		count = couponMapper.selectCountUserByMeetingCondition(meetingCondition);
-		
+
 		return count;
 	}
 
@@ -106,9 +114,9 @@ public class CouponServiceBean implements CouponService {
 	public List<String> selectCategoryByQID(int qid) throws Exception {
 		System.out.println("..........CouponServiceBean..........selectCategoryByQID()..........");
 		List<String> categories = null;
-		
+
 		categories = couponMapper.selectCategoryByQID(qid);
-		
+
 		return categories;
 	}
 

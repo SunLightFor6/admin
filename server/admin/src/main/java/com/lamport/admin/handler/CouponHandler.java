@@ -100,6 +100,7 @@ public class CouponHandler {
 	@ResponseBody
 	public String handoutCoupon(MeetingCondition meetingCondition, HttpServletRequest request) throws Exception{
 		System.out.println("..........CouponHandler..........handoutCoupon()..........");
+		System.out.println("------------------------\tsu_per = " + meetingCondition.getSu_per() + "\tcid = " + meetingCondition.getCid());
 		String result = null;
 		
 		HttpSession session = request.getSession();

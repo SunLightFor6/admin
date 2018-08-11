@@ -4,12 +4,6 @@
 			<div class="layui-card-body">
 				<form class="layui-form" id="su_form">
 					<ul class="layui-timeline">
-						<!--<li class="layui-timeline-item">
-							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-							<div class="layui-timeline-content layui-text">
-								<h3 class="layui-timeline-title">此优惠券所剩数量：<span id="remaining">22</span></h3>
-							</div>
-						</li>-->
 						<li class="layui-timeline-item">
 							<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 							<div class="layui-timeline-content layui-text">
@@ -82,8 +76,9 @@
 							</div>
 						</li>
 					</ul>
-					<button type="button" id="handout_coupon_btn" style="color: #009688;" class="layui-btn layui-btn-disabled" disabled="disabled">发放优惠券</button>
 				</form>
+				<button type="button" id="handout_coupon_btn_" style="color: #009688;" class="layui-btn layui-btn-disabled">发放优惠券</button>
+				<!--<button type="button" id="handout_coupon_btn_" class="layui-btn">发放优惠券</button>-->
 			</div>
 		</div>
 		<div class="layui-col-lg5">
@@ -112,9 +107,9 @@
 		$("#needmoney").text(sessionStorage.getItem("needmoney"));
 		$("#deadline").attr("placeholder", sessionStorage.getItem("deadline"));
 		$("#deadline").val(sessionStorage.getItem("deadline"));
-//		var remaining = parseInt(sessionStorage.getItem("total")) - parseInt(sessionStorage.getItem("get"));
+		//		var remaining = parseInt(sessionStorage.getItem("total")) - parseInt(sessionStorage.getItem("get"));
 		$("#amount").text(sessionStorage.getItem("amount"));
-//		$("#remaining").text(remaining);
+		//		$("#remaining").text(remaining);
 		var amount = 0;
 	})
 </script>
@@ -141,28 +136,27 @@
 				success: function(data) {
 					$("#su_select_amount_btn").text(data.amount);
 					amount = data.amount;
-//					if(data.amount <= remaining) {
-						enableHandleBtn();
-//					}
+					enableHandleBtn();
 				},
 				error: function() {
 					$("#su_select_amount_btn").text("点击重试");
-					//						enableHandleBtn();
-
 				}
 			});
 		});
 
 		$("#su_per").change(function() {
-			amount = parseInt($("#su_per").val());
-				enableHandleBtn();
+			amount *= parseInt($("#su_per").val());
+			enableHandleBtn();
 		});
 
 		//发放优惠券
-		$("#handout_coupon_btn").click(function() {
-			console.log("handout_coupon_btn clicked");
+//		$(".body-in").on('click', "#handout_coupon_btn_", function() {
+			
+//		})
+		$("#handout_coupon_btn_").click(function() {
+			console.log("handout_coupon_btn_ clicked");
 			var formData = new FormData($("#su_form")[0]);
-			formData.append("cid", sessionStorage.getItem("cid"))
+			formData.append("cid", sessionStorage.getItem("cid"));
 			jqxhr = $.ajax({
 				type: "post",
 				url: PREPATH + "/admin/handoutCoupon",
@@ -181,7 +175,7 @@
 							closeBtn: 0,
 							shadeClose: true,
 							time: 1500,
-							content: '发放成功，共计发放张优惠券'
+							content: '发放成功，共计发放' + amount + '张优惠券'
 						});
 					} else {
 						layer.open({
@@ -214,8 +208,7 @@
 	});
 
 	function enableHandleBtn() {
-		$("#handout_coupon_btn").attr("class", "layui-btn");
-		$("#handout_coupon_btn").attr("disabled", "false");
-		$("#handout_coupon_btn").attr("style", "");
+		$("#handout_coupon_btn_").attr("class", "layui-btn");
+		$("#handout_coupon_btn_").attr("style", "");
 	}
 </script>

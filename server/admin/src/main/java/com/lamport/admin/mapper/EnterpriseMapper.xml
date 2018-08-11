@@ -61,7 +61,7 @@
 	</update>
 
 	<!-- 通过id修改企业的配置信息 -->
-	<update id="updateEnterpriseConfigByID">
+	<update id="updateEnterpriseConfigByID"  parameterType="com.lamport.admin.po.Enterprise">
 		update enterprise set pointkey=#{pointkey},
 		moneytoperpoint=#{moneytoperpoint}, perpointtomoney=#{perpointtomoney},
 		basicsignpoint=#{basicsignpoint}, discountrate=#{discountrate}

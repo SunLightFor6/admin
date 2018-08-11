@@ -626,3 +626,13 @@ h4.layui-timeline-title {
 			top: 45px;
 			left: 65px;
 		}
+
+/*关于二维码的样式设置*/
+#qrcode-dl {
+	left: auto;
+	right: 0px;
+	padding: 5px;
+}
+#qrcode-ico+span {
+	display: none;
+}

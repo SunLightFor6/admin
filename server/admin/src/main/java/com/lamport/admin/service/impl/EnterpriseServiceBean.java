@@ -144,7 +144,7 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		transaction.del(swiperTKey);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return result;
@@ -185,28 +185,27 @@ public class EnterpriseServiceBean implements EnterpriseService {
 		String videoPath = null;
 //		File videoFile = null;
 		if(video != null){
-//			Creator creator = new Creator();
-//			String filename = creator.createFilename();
-//			String filename = System.currentTimeMillis() + video.getOriginalFilename();
-//			videoFile = new File(path + Const.VideoPath, filename);
-//			videoPath = Const.VideoPath + "/" + filename;
 			videoPath = FileManager.upload(video);
 		}
 //		String oldVideo = path + enterpriseMapper.selectEnterpriseVideopathByQID(enterprise.getQid());
 		enterprise.setVideopath(videoPath);
 		System.out.println(enterprise.getVideopath());
-		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);
-//		if(imgurls != null){
-//			for(int i=0; i<imgFiles.size(); i++){
-//				imgs[i].transferTo(imgFiles.get(i));
-//			}
-//		}
-//		if(videoPath != null){
-//			video.transferTo(videoFile);//保存文件
-//			FileTool.deleteFile(oldVideo);//删除文件？？？？？？
-//		}		
+		updateResult = enterpriseMapper.updateEnterpriseByID(enterprise);		
 		updateResult = (updateResult>0) ? 1 : 0;
 
+		/*------------------------------Redis相关------------------------------*/
+		//修改企业后，Swiper已经发生了变化，将Swiper信息从Redis中删除
+		Jedis jedis = jedisPool.getResource();
+		String swiperEKey = "swiperImgurls" + "-" + enterprise.getQid() + "-" + Const.SwiperCategoryE;
+		//开启事务
+		Transaction transaction = jedis.multi();
+		//删除
+		transaction.del(swiperEKey);
+		//结束事务
+		transaction.exec();
+		jedis.close();
+		/*------------------------------Redis相关------------------------------*/
+		
 		return updateResult;
 	}
 	

@@ -7,7 +7,7 @@
 
 	<!-- 批量创建CouponRecord信息 -->
 	<insert id="saveMultiCouponRecord" parameterType="java.util.List">
-		insert into couponrecord(cid, uid, gettime, deletekey)
+		insert into couponrecord(cid, uid, gettime, deletekey) values
 		<foreach collection="list" item="item" index="index" separator=",">
             (#{item.cid}, #{item.uid}, sysdate(), #{item.deletekey})
         </foreach>

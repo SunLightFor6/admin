@@ -28,5 +28,27 @@
 		<li class="layui-nav-item">
 			<a href="#03">安全退出</a>
 		</li>
+		<li class="layui-nav-item">
+			<a href="javascript: void(0)">
+				<img id="qrcode-ico" src="../../img/Qrcode_font_awesome.svg.png" style="height: 24px;" />
+			</a>
+			<dl class="layui-nav-child" id="qrcode-dl">
+				<dd id="qrcode-dd">
+					<!--<img id="qrcode" src="../../img/Qrcode_font_awesome.svg.png" />-->
+				</dd>
+			</dl>
+		</li>
 	</ul>
 </div>
+<script>
+	//生成二维码
+	var qid = sessionStorage.getItem("login_qid");
+//	new QRCode($("#qrcode-dd")[0], "http://education.lamport.com/home.html?qid=" + qid); 
+	var qrcode = new QRCode("qrcode-dd", {
+    text: "http://education.lamport.com/home.html?qid=" + qid,
+    width: 100,
+    height: 100,
+    correctLevel : QRCode.CorrectLevel.L//容错级别
+});
+
+</script>

@@ -38,6 +38,13 @@ public interface CouponMapper {
 	 */
 	public void updateCouponGetByCID(Coupon coupon) throws Exception;
 	/**
+	 * 通过cid查询Coupon信息
+	 * @param cid
+	 * @return Coupon
+	 * @throws Exception
+	 */
+	public Coupon selectCouponByCID(int cid) throws Exception;
+	/**
 	 * 通过多条件查询Coupon信息
 	 * @return List
 	 * @throws Exception

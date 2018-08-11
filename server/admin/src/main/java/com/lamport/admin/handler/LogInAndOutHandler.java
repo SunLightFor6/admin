@@ -82,6 +82,7 @@ public class LogInAndOutHandler {
 			jsonObject.addProperty("status", "success");
 			jsonObject.addProperty("message", "登录成功");
 			jsonObject.addProperty("enterpriseName", enterprise.getName());
+			jsonObject.addProperty("qid", admin.getQid());
 			break;
 		default:
 			jsonObject.addProperty("status", "fail");

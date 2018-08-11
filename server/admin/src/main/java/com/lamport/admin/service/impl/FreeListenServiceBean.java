@@ -66,7 +66,7 @@ public class FreeListenServiceBean implements FreeListenService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return saveResult;
@@ -89,7 +89,7 @@ public class FreeListenServiceBean implements FreeListenService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
@@ -122,7 +122,7 @@ public class FreeListenServiceBean implements FreeListenService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return updateResult;

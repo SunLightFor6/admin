@@ -80,7 +80,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return saveResult;
@@ -111,7 +111,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return deleteResult;
@@ -154,7 +154,7 @@ public class LessonServiceBean implements LessonService {
 		transaction.del(key);
 		//结束事务
 		transaction.exec();
-		jedisPool.close();
+		jedis.close();
 		/*------------------------------Redis相关------------------------------*/
 		
 		return updateResult;
@@ -168,12 +168,23 @@ public class LessonServiceBean implements LessonService {
 		
 		if(lessonQueryCondition.getBranch() == null || lessonQueryCondition.getBranch().equals("")){
 			//如果没有给出分部名称，则查找该企业下的所有精品课
-			lessonQueryCondition.setBranch(null);			
+			lessonQueryCondition.setBranch(null);
 			//先查询该企业下Lesson的总数
 			int count = lessonMapper.selectCountLessonByLessonQueryCondition(lessonQueryCondition);
 			lessonQueryCondition.getPageTool().setCount(count);
-			//查询带有Address信息的Lesson信息
-			lessons = lessonMapper.selectLessonWithBranchesByLessonQueryCondition(lessonQueryCondition);
+			//查询不带有Address信息的Lesson信息
+			lessons = lessonMapper.selectLessonByLessonQueryCondition(lessonQueryCondition);
+			//依次为lesson放入Address信息
+			List<Lesson> temp_lessons = new ArrayList<Lesson>();
+			if(lessons!=null && !lessons.isEmpty()){
+				for(Lesson lesson : lessons){
+					Lesson temp_lesson = lessonMapper.selectLessonWithBranchesByLID(lesson.getLid());
+					temp_lessons.add(temp_lesson);
+				}
+			}
+			//将带有Address信息的Lesson信息赋给lessons
+			lessons = temp_lessons;
+//			lessons = lessonMapper.selectLessonWithBranchesByLessonQueryCondition(lessonQueryCondition);
 		}else{
 			//如果给出分部名称，则查找在该分部下的课程
 			QIDAndBranch qidAndBranch = new QIDAndBranch();

@@ -109,24 +109,26 @@ public class LessonHandler {
 		jsonObject.addProperty("msg", "");
 		jsonObject.addProperty("count", lessonQueryCondition.getPageTool().getCount());
 		JsonArray jsonArray = new JsonArray();
-		for(Lesson lesson : lessons){
-			JsonObject object = new JsonObject();
-			object.addProperty("courseid", lesson.getLid());
-			object.addProperty("coursename", lesson.getLname());
-			object.addProperty("courseimg", lesson.getImgurl());
-			object.addProperty("courseprice", lesson.getLprice());
-			object.addProperty("coursecategory", lesson.getCategory());
-			JsonArray branches = new JsonArray();
-			if(lesson!=null && lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
-				for(Address address : lesson.getBranches()){
-					branches.add(address.getBranch());
+		if(lessons!=null && !lessons.isEmpty()){
+			for(Lesson lesson : lessons){
+				JsonObject object = new JsonObject();
+				object.addProperty("courseid", lesson.getLid());
+				object.addProperty("coursename", lesson.getLname());
+				object.addProperty("courseimg", lesson.getImgurl());
+				object.addProperty("courseprice", lesson.getLprice());
+				object.addProperty("coursecategory", lesson.getCategory());
+				JsonArray branches = new JsonArray();
+				if(lesson!=null && lesson.getBranches()!=null && !lesson.getBranches().isEmpty()){
+					for(Address address : lesson.getBranches()){
+						branches.add(address.getBranch());
+					}
 				}
+				object.add("branch", branches);			
+				object.addProperty("pubtime", lesson.getPubtime());
+				object.addProperty("ldesc", lesson.getLdesc());
+				object.addProperty("status", lesson.getStatus());
+				jsonArray.add(object);
 			}
-			object.add("branch", branches);			
-			object.addProperty("pubtime", lesson.getPubtime());
-			object.addProperty("ldesc", lesson.getLdesc());
-			object.addProperty("status", lesson.getStatus());
-			jsonArray.add(object);
 		}
 		jsonObject.add("data", jsonArray);
 		result = jsonObject.toString();

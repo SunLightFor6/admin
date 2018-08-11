@@ -115,6 +115,11 @@
 
 	$("#config_btn").click(function() {
 		var formData = new FormData($("#config_form")[0]);
+		formData.set("discountrate", (parseFloat($("#discountrate").val()))/100.0);
+		console.log("moneytoperpoint = " + formData.get("moneytoperpoint"));
+		console.log("basicsignpoint = " + formData.get("basicsignpoint"));
+		console.log("discountrate = " + formData.get("discountrate"));
+		console.log("pointkey = " + formData.get("pointkey"));
 		$.ajax({
 			type: "post",
 			url: PREPATH + "/admin/updateConfigByQid",
